@@ -12,12 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, 'Name:' %>
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :brewery_id %><br />
-    <%= f.collection_select :brewery_id, Brewery.all, :id, :name %>
+    <%= f.label :brewery_id, 'Brewery:' %>
+    <%= f.collection_select :brewery_id, Brewery.all, :id, :name %> <span class="note">Don't see the brewery? <%= link_to 'Add a Brewery', new_brewery_path %></span>
   </div>
   <div class="actions">
     <%= f.submit %>

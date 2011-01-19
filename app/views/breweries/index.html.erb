@@ -1,4 +1,10 @@
-<h1>Listing breweries</h1>
+<h1>Breweries</h1>
+
+<%= link_to 'Add a Brewery', new_brewery_path %>
+
+<% unless notice.nil? %>
+  <p id="notice"><%= notice %></p>
+<% end %>
 
 <table>
   <tr>
@@ -7,23 +13,21 @@
     <th>State</th>
     <th>City</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
-<% @breweries.each do |brewery| %>
+<% if @breweries.empty? %>
+  <tr>
+    <td colspan="5" class="empty">Fuck! No breweries have been added!</td>
+  </tr>
+<% else %>
+	<% @breweries.each do |brewery| %>
   <tr>
     <td><%= brewery.name %></td>
     <td><%= brewery.country %></td>
     <td><%= brewery.state %></td>
     <td><%= brewery.city %></td>
-    <td><%= link_to 'Show', brewery %></td>
     <td><%= link_to 'Edit', edit_brewery_path(brewery) %></td>
-    <td><%= link_to 'Destroy', brewery, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+	<% end %>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Brewery', new_brewery_path %>

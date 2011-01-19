@@ -15,7 +15,11 @@ class CellarsController < ApplicationController
   # GET /cellars/1
   # GET /cellars/1.xml
   def show
-    @cellar = Cellar.find(params[:id])
+    if params[:id].nil?
+      @cellar = Cellar.find_by_user(@user)
+    else 
+      @cellar = Cellar.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb

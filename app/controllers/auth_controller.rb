@@ -19,6 +19,10 @@ class AuthController < ApplicationController
 
 			if @user.valid? and @user.save
 				session[:user_id] = @user.id
+				
+				# Also create a cellar for this user.
+				cellar = Cellar.new(:user => @user)
+				cellar.save
 
 				redirect_to root_path
 			end

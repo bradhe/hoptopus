@@ -46,7 +46,7 @@ class BreweriesController < ApplicationController
 
     respond_to do |format|
       if @brewery.save
-        format.html { redirect_to(@brewery, :notice => 'Brewery was successfully created.') }
+        format.html { redirect_to(breweries_url, :notice => 'Brewery was successfully created.') }
         format.xml  { render :xml => @brewery, :status => :created, :location => @brewery }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class BreweriesController < ApplicationController
 
     respond_to do |format|
       if @brewery.update_attributes(params[:brewery])
-        format.html { redirect_to(@brewery, :notice => 'Brewery was successfully updated.') }
+        format.html { redirect_to(breweries_url, :notice => 'Brewery was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

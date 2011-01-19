@@ -1,25 +1,28 @@
-<h1>Listing brews</h1>
+<h1>Brews Wiki</h1>
 
-<table>
+<p>All of the brews and shit go here!</p>
+
+<%= link_to 'Add a Beer', new_brew_path %> <%= link_to 'Add a Brewery', new_brewery_path %>
+
+<h3>All Beers</h3>
+
+<table class="list">
   <tr>
     <th>Brewery</th>
     <th>Beer</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
-
-<% @brews.each do |brew| %>
+<% if @brews.empty? %>
+  <tr>
+    <td colspan="3" class="empty">Oh god! No beers have been added!</td>
+  </tr>
+<% else %>
+	<% @brews.each do |brew| %>
   <tr>
     <td><%= brew.brewery.name %></td>
     <td><%= brew.name %></td>
-    <td><%= link_to 'Show', brew %></td>
     <td><%= link_to 'Edit', edit_brew_path(brew) %></td>
-    <td><%= link_to 'Destroy', brew, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
+	<% end %>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Brew', new_brew_path %>
