@@ -17,11 +17,11 @@ class CellarsController < ApplicationController
   def show
     if params[:id].nil?
       @cellar = Cellar.find_by_user(@user)
-      
-      # Only allow a new beer.
-      @new_beer = Beer.new(:cellar => @cellar)
+      @tastings = @user.tastings
     else 
-      @cellar = Cellar.find(params[:id])
+	  user = User.find_by_username(params[:id])
+      @cellar = Cellar.find_by_user(user)
+	  @tastings = @cellar.user.tastings
     end
 
     respond_to do |format|

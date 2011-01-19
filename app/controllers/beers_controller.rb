@@ -33,10 +33,12 @@ class BeersController < ApplicationController
   def create
 	cellar = Cellar.find(params[:cellar_id])
     @beer = cellar.beers.new(params[:beer])
-
+	
+	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
+	
     respond_to do |format|
       if @beer.save
-        format.html { redirect_to(beers_url, :notice => 'Beer was successfully created.') }
+        format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
       else
         format.html { render :action => "new" }
@@ -48,11 +50,26 @@ class BeersController < ApplicationController
   # PUT /beers/1
   # PUT /beers/1.xml
   def update
+	cellar = Cellar.find(params[:cellar_id])
     @beer = Beer.find(params[:id])
-
+	
+	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
+	
+	# We need to keep track of this for a bit...
+	quantity = @beer.quantity
+	
     respond_to do |format|
+	  
+	  
       if @beer.update_attributes(params[:beer])
-        format.html { redirect_to(beers_url, :notice => 'Beer was successfully updated.') }
+	  
+	    # Check the quantity -- if it's changing we need to create a tasting record.
+		if quantity != @beer.quantity
+			tasting = Tasting.new :user => @user, :beer => @beer
+			tasting.save
+		end
+		
+        format.html { redirect_to(return_to, :notice => 'Beer was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

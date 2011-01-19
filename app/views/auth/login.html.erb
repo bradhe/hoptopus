@@ -1,3 +1,7 @@
+<% content_for :title do %>
+	login
+<% end %>
+
 <% if request.post? and @user.nil? %>
 	<ul class="errors">
 		<li>Invalid username or password.</li>
@@ -5,10 +9,10 @@
 <% end %>
 
 <% form_tag('/login', :method => 'post') do %>
-	<div class="email"><%= label_tag :username, "Email:" %> <%= email_field_tag :username %></div>
+	<div class="username"><%= label_tag :username, "Username:" %> <%= text_field_tag :username %></div>
 	<div class="password"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 
 	<div class="buttons">
-		<%= submit_tag 'Login' %> <%= link_to 'Register', '/register' %>
+		Not account? <%= link_to 'Register', '/register' %> <%= submit_tag 'Login' %>
 	</div>
 <% end %>

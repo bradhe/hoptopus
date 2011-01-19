@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	has_one :cellar
+	has_many :tastings
 	
 	validates_presence_of :email, :message => 'Please provide an email address.'
 	validates_presence_of :username, :message => 'Please provide a username.'

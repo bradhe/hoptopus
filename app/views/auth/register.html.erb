@@ -1,4 +1,9 @@
-<h1>Register</h1>
+<% content_for :title do %>
+	register
+<% end %>
+
+
+<h2>Register</h2>
 
 <% if request.post? and not @user.errors.empty? %>
 <ul class="errors">
@@ -9,7 +14,7 @@
 <% end %>
 
 <% form_tag('/register', :method => 'post') do %>
-	<div class="email"><%= label_tag :email, "Email:" %> <%= email_field_tag :email, params[:email] %></div>
+	<div class="email"><%= label_tag :email, "Email Address:" %> <%= email_field_tag :email, params[:email] %></div>
 	<div class="username"><%= label_tag :username, "Username:" %> <%= email_field_tag :username, params[:username] %></div>
 	<div class="password"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 	<div class="confirm-password"><%= label_tag :password_confirmation, "Confirm Password:" %> <%= password_field_tag :password_confirmation %></div>
