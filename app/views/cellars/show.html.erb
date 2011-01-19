@@ -38,10 +38,13 @@
 </table>
 
 <% unless @new_beer.nil? %>
-	<% form_for(@new_beer) do |f| %>
-<div class="field">
+	<% form_for(@cellar.beers.new, :url => cellar_beer_path(@cellar.id, 'new')) do |f| %>
 	
-	<%= f.options_from_collection Brewery.all, :id, :name %>
+<div class="field">	
+	<%= label_tag "brewery", "Brew:" %>
+	<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => '' } %>
+	<%= f.select :brew, [], { :include_blank => 'Select a Brewery' } %>
 </div>
+
 	<% end %>
 <% end %>

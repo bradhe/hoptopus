@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   def index
     unless @user.nil?
       @cellar = Cellar.find_by_user(@user)
-      @new_beer = Beer.new(:cellar => @cellar)
+      @new_beer = @cellar.beers.new
       
       render :template => 'cellars/show'
     end

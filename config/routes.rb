@@ -1,13 +1,12 @@
 Hoptopus::Application.routes.draw do
   resources :cellars, :only => [:index, :show] do
-	resources :beers
+    resources :beers
   end
 
-  resources :beers
   resources :brews, :except => :show
 
   resources :breweries, :except => :show do
-	resources :brews
+    resources :brews
   end
 
   # The priority is based upon order of creation:
