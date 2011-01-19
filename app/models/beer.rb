@@ -1,4 +1,4 @@
 class Beer < ActiveRecord::Base
-	has_one :brew
+  belongs_to :brew
   has_one :cellar
 end

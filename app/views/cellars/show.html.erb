@@ -12,7 +12,7 @@
 			<th>Beer</th>
 			<th>ABV</th>
 			<th>Quantity</th>
-			<th>Cellared On</th>
+			<th>Cellared</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -25,8 +25,8 @@
 <% else %>
 	<% @cellar.beers.each do |b| %>
 		<tr>
-			<td><%= b.brewery.name %></td>
-			<td><%= b.name %></td>
+			<td><%= b.brew.brewery.name %></td>
+			<td><%= b.brew.name %></td>
 			<td><%= b.abv %></td>
 			<td><%= b.quantity %></td>
 			<td><%= b.cellared_at %></td>
@@ -37,14 +37,102 @@
 	</tbody>
 </table>
 
-<% unless @new_beer.nil? %>
-	<% form_for(@cellar.beers.new, :url => cellar_beer_path(@cellar.id, 'new')) do |f| %>
+<% unless @cellar.user != @user %>
+<h2 data-hideable="true">Add a Beer to your Cellar</h2>
+
+	<% form_for(@cellar.beers.new, :url => cellar_beers_path(@cellar)) do |f| %>
 	
-<div class="field">	
-	<%= label_tag "brewery", "Brew:" %>
-	<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => '' } %>
-	<%= f.select :brew, [], { :include_blank => 'Select a Brewery' } %>
-</div>
+	<div class="field">	
+		<%= label_tag "brewery", "Beer:" %>
+		<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => '' } %>
+		<%= f.select :brew_id, [], { :include_blank => 'Select a Brewery' }, :disabled => true %>
+	</div>
+
+	<div class="field">
+		<%= f.label :quantity, "Quantity:" %>
+		<%= f.text_field :quantity %>
+	</div>
+
+	<div class="field">
+		<%= f.label :abv, "ABV:" %>
+		<%= f.text_field :abv %>
+	</div>
+
+	<div class="field">
+		<%= f.label :size, "Bottle Size:" %>
+		<%= f.text_field :size %>
+	</div>
+
+	<div class="field">
+		<%= f.label :price, "Price:" %>
+		<%= f.text_field :price %>
+	</div>
+
+	<div class="field">
+		<%= f.label :cellared_at, "Cellared Date:" %>
+		<%= f.text_field :cellared_at, :value => Date.today.to_s %>
+	</div>
+
+	<div class="buttons">
+		<button type="submit">Add Beer to Cellar</button>
+	</div>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+var brews = {};
+<% Brewery.all.each do |b| %>
+brews[<%= b.id %>] = <%== b.brews.to_json %>;
+<% end %>
+
+$('select#brewery').live('change', function() {
+	var selectBrews = $('select#beer_brew_id');
+	
+	if(!selectBrews) {
+		throw "Couldn't find brews list. Ass.";
+	}
+	
+	if($(this).val() == '') {
+		// TODO: Add more stuff here. Disable selectBrews, add first element, etc.
+		selectBrews.empty();
+		selectBrews.attr('disabled', true);
+		selectBrews.append($('<option/>').val('').text('Select a Brewery'));
+		
+		return;
+	}
+	
+	var breweryBrews = brews[$(this).val()];
+	if(!breweryBrews) {
+		throw "No brews for this brewery.";
+	}
+	
+	// Populate the other drop down
+	selectBrews.empty();
+	
+	// If this brewery doesn't have any brews then...boned.
+	if (breweryBrews.length < 1) {
+		selectBrews.attr('disabled', true);
+		selectBrews.append($('<option/>').val('').text('No beers in the wiki for this brewery.'));
+		
+		return;
+	}	
+	else {
+		selectBrews.removeAttr('disabled');
+	}
+	
+	selectBrews.append($('<option/>').val('').text('Select a Beer'));
+	
+	for(var i in breweryBrews) {
+		var brew = breweryBrews[i];
+		
+		if(typeof(brew) != 'object') {
+			continue;
+		}
+		
+		selectBrews.append($('<option/>').val(brew.brew.id).text(brew.brew.name));
+	}
+});
+</script>
+<% end %>
 
 	<% end %>
 <% end %>

@@ -31,7 +31,8 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.xml
   def create
-    @beer = Beer.new(params[:beer])
+	cellar = Cellar.find(params[:cellar_id])
+    @beer = cellar.beers.new(params[:beer])
 
     respond_to do |format|
       if @beer.save
