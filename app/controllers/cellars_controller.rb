@@ -17,6 +17,9 @@ class CellarsController < ApplicationController
   def show
     if params[:id].nil?
       @cellar = Cellar.find_by_user(@user)
+      
+      # Only allow a new beer.
+      @new_beer = Beer.new(:cellar => @cellar)
     else 
       @cellar = Cellar.find(params[:id])
     end

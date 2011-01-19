@@ -1,1 +1,47 @@
+<% if @cellar.user == @user %>
+	<p>This is your cellar!</p>
+<% end %>
+
 <p id="notice"><%= notice %></p>
+
+
+<table class="list">
+	<thead>
+		<tr>
+			<th>Brewery</th>
+			<th>Beer</th>
+			<th>ABV</th>
+			<th>Quantity</th>
+			<th>Cellared On</th>
+			<th></th>
+		</tr>
+	</thead>
+	
+	<tbody>
+<% if @cellar.beers.empty? %>
+		<tr>
+			<td colspan="5" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
+		</tr>
+<% else %>
+	<% @cellar.beers.each do |b| %>
+		<tr>
+			<td><%= b.brewery.name %></td>
+			<td><%= b.name %></td>
+			<td><%= b.abv %></td>
+			<td><%= b.quantity %></td>
+			<td><%= b.cellared_at %></td>
+			<td></td>
+		</tr>
+	<% end %>
+<% end %>
+	</tbody>
+</table>
+
+<% unless @new_beer.nil? %>
+	<% form_for(@new_beer) do |f| %>
+<div class="field">
+	
+	<%= f.options_from_collection Brewery.all, :id, :name %>
+</div>
+	<% end %>
+<% end %>
