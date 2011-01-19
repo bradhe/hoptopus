@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  brew_id: 1
+  abv: 1.5
+  price: 1.5
+  size: MyString
+  quantity: 1
+
+two:
+  brew_id: 1
+  abv: 1.5
+  price: 1.5
+  size: MyString
+  quantity: 1

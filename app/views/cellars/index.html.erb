@@ -1,0 +1,21 @@
+<h1>Listing cellars</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @cellars.each do |cellar| %>
+  <tr>
+    <td><%= link_to 'Show', cellar %></td>
+    <td><%= link_to 'Edit', edit_cellar_path(cellar) %></td>
+    <td><%= link_to 'Destroy', cellar, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Cellar', new_cellar_path %>
