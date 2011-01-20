@@ -1,5 +1,4 @@
 class CellarsController < ApplicationController
-  before_filter :ensure_login, :except => :show
   
   # GET /cellars
   # GET /cellars.xml
