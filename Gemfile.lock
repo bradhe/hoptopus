@@ -74,5 +74,4 @@ PLATFORMS
 DEPENDENCIES
   rack-rewrite
   rails (= 3.0.3)
-  sqlite3
   sqlite3-ruby
