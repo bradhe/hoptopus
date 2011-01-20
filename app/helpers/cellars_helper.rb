@@ -4,6 +4,10 @@ module CellarsHelper
 	end
 	
 	def cellar_url
+		if full_host.nil?
+			return ""
+		end
+		
 		return "http://" + full_host + "/cellars/" + @cellar.user.username
 	end
 end
