@@ -6,7 +6,7 @@ module ApplicationHelper
 	def full_host
 		host = self.request.host
 		
-		if self.request.port != 80
+		if (not self.request.port.nil?) and self.request.port != 80
 			host += ':' + self.request.port.to_s
 		end
 	end
