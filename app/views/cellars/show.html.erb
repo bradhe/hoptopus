@@ -35,7 +35,7 @@
 	<tbody>
 <% if @cellar.beers.empty? %>
 		<tr>
-			<td colspan="<%= is_user_cellar? ? '8' : '7' %>" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
+			<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
 		</tr>
 <% else %>
 	<% @cellar.beers.each do |b| %>
