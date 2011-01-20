@@ -1,6 +1,10 @@
-<h1>Brews Wiki</h1>
+<% content_for :title do %>
+	brews wiki
+<% end %>
 
-<p>All of the brews and shit go here!</p>
+<h2>Brews Wiki</h2>
+
+<p class="empty">All of the brews and shit go here!</p>
 
 <%= link_to 'Add a Beer', new_brew_path %> <%= link_to 'Add a Brewery', new_brewery_path %>
 
@@ -21,7 +25,7 @@
   <tr>
     <td><%= brew.brewery.name %></td>
     <td><%= brew.name %></td>
-    <td><%= link_to 'Edit', edit_brew_path(brew) %></td>
+    <td align="right"><%= link_to 'Edit', edit_brew_path(brew) %></td>
   </tr>
 	<% end %>
 <% end %>

@@ -5,7 +5,11 @@ class ApplicationController < ActionController::Base
   
   def restore_session
 	unless session[:user_id].nil?
-		@user = User.find(session[:user_id])
+		begin
+			@user = User.find(session[:user_id])
+		rescue
+			session[:user_id] = nil
+		end
 	end
   end
   

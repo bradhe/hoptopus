@@ -2,4 +2,20 @@
 	the easy way to share your beer cellar and tasting notes
 <% end %>
 
-<h1>Hello!</h1>
+<div class="login">
+	<p class="note">Please login to continue.</p>
+	<% if request.post? and @user.nil? %>
+		<ul class="errors">
+			<li>Invalid username or password.</li>
+		</ul>
+	<% end %>
+
+	<% form_tag('/login', :method => 'post') do %>
+		<div class="field"><%= label_tag :username, "Username:" %> <%= text_field_tag :username %></div>
+		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
+
+		<div class="buttons">
+			<span class="note">No account? <%= link_to 'Register', '/register' %></span> <%= submit_tag 'Login' %>
+		</div>
+	<% end %>
+</div>

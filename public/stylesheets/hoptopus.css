@@ -1,118 +1,276 @@
 body { background-color: #fff; color: #333; }
 
+body, body * {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-image: url('/images/stripe.png');
+	background-repeat: repeat-x;
+}
+
 body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size:	 13px;
+	line-height: 18px;
 }
 
 pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px;
+	background-color: #eee;
+	padding: 10px;
+	font-size: 11px;
 }
 
 a { color: #000; }
 a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
+a:hover { color: #85af22; }
 
 div.field, div.actions, div.buttons {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 /*
 div.buttons {
-  text-align: right;
+	text-align: right;
 }
 */
 
 #notice {
-  color: green;
+	color: green;
 }
 
 .field_with_errors {
-  padding: 2px;
-  background-color: red;
-  display: table;
+	padding: 2px;
+	background-color: red;
+	display: table;
 }
 
 #error_explanation {
-  width: 450px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
+	width: 450px;
+	border: 2px solid red;
+	padding: 7px;
+	padding-bottom: 0;
+	margin-bottom: 20px;
+	background-color: #f0f0f0;
+}
+
+h2.tastings {
+	margin-top: 10pt;
 }
 
 #error_explanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  margin-bottom: 0px;
-  background-color: #c00;
-  color: #fff;
+	text-align: left;
+	font-weight: bold;
+	padding: 5px 5px 5px 15px;
+	font-size: 12px;
+	margin: -7px;
+	margin-bottom: 0px;
+	background-color: #c00;
+	color: #fff;
 }
 
 #error_explanation ul li {
-  font-size: 12px;
-  list-style: square;
+	font-size: 12px;
+	list-style: square;
 }
 
-#top, #content, #bottom {
-  width: 920px;
-  margin-left: auto;
-  margin-right: auto;
+#top, #bottom {
+	width: 920px;
+}
+
+#content {
+	width: 900px;
+}
+ 
+#content, #top, #bottom {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #navigation {
-  float: right;
+	float: right;
+	margin-top: 5pt;
+	margin-right: 5pt;
 }
 
 #navigation ul, #navigation li {
-  display: inline;
+	display: inline;
 }
 
 #navigation li {
-  margin-left: 5pt;
+	margin-left: 5pt;
 }
 
 #navigation a {
-  display: inline-block;
-  padding: 5pt;
-  border-radius: 5pt;
-  -moz-border-radius: 5pt;
-  -webkit-border-radius: 5pt;
+	color: #333;
+	display: inline-block;
+	padding: 3pt;
+	padding-left: 7pt;
+	padding-right: 7pt;
+	border-radius: 5pt;
+	-moz-border-radius: 5pt;
+	-webkit-border-radius: 5pt;
+	background-color: #fff;
+	text-decoration: none;
+}
+
+#navigation a:hover, #navigation a:focus {
+	background-color: #ffe9a8;
+	color: #85af22;
 }
 
 label {
-  display: inline-block;
-  width: 125px;
+	display: inline-block;
+	width: 125px;
 }
 
-#navigation a:hover {
-
+#top h1, h1 a {
+    color: #86673F;
+    display: inline-block;
+    margin-left: 5pt;
+    margin-top: 2pt;
+    padding-bottom: 3pt;
+    text-decoration: none;
+    text-shadow: -1px -1px 1px #FFF5D7;
 }
 
-#top h1 {
-  display: inline-block;
+h1 img {
+	position: relative;
+	top: 5px;
+}
+
+.content-wrapper {
+	background-image: url('/images/faded-top.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding-top: 15px;
+	
+	min-height: 200px;
 }
 
 #bottom {
-  color: #ccc;
-  border-top: 1px #ccc solid;
-  padding-top: 5pt;
-  margin-top: 5pt;
-  text-align: center;
+	color: #ccc;
+	border-top: 1px dashed #EBEBEB;
+	padding-top: 5pt;
+	margin-top: 5pt;
+	text-align: center;
+}
+
+div.info {
+	background-color: #ffe9a8;
+	padding: 5pt;
+		
+	border-radius: 5pt;
+	-moz-border-radius: 5pt;
+	-webkit-border-radius: 5pt;
+	
+	font-style: italic;
+	
+	margin-bottom: 5pt;
+	color: #666;
+}
+
+h3 {
+	margin-top: 5pt;
+	margin-bottom: 5pt;
+	color: #666;
 }
 
 table.list {
-  width: 100%;
+	width: 100%;
+}
+
+h3 a {
+	text-decoration: none;
+	color: #666;
+}
+
+#add-beer-form span.note {
+	display: block;
+	margin-bottom: 5pt;
+}
+
+h3 img {
+	position: relative;
+	top: 2px;
+	margin-right: 2pt;
+}
+
+h3 a, #navigation a {
+	outline: none;
+}
+
+h3 a:hover {
+	background-color: transparent;
+	color: #666;
+}
+
+table.list th {
+	background-color: #ccc;
+}
+
+table.list td {
+	padding-left: 2pt;
+	padding-right: 2pt;
 }
 
 .empty, .note{
-  color: #666;
-  font-style: italic;
+	color: #666;
+	font-style: italic;
+}
+
+h2 {
+	margin-bottom: 5pt;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5pt;
+	color: #85af22;
+}
+
+div.login {
+	margin-top: 15pt;
+	width: 275px;
+	background-color: #ffe9a8;
+	
+	border-radius: 5pt;
+	-moz-border-radius: 5pt;
+	-webkit-border-radius: 5pt;
+	
+	padding: 5pt;
+	
+	border: 1px #ffbf00 solid;
+	
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.login p {
+	margin-bottom: 10pt;
+}
+
+button, input[type="submit"] {
+	padding-left: 10pt;
+	padding-right: 10pt;
+}
+
+div.login .buttons {
+	text-align: right;
+}
+
+ul.errors {
+	margin-left: 15pt;
+	margin-bottom: 5pt;
+	color: #f00;
+}
+
+#beer_year, #beer_quantity, #beer_abv, #beer_price, #beer_size {
+	width: 72px;
+}
+
+#beer_quantity, #beer_abv, #beer_price {
+	text-align: right;
+}
+
+#beer_cellared_at {
+	width: 125px;
 }

@@ -1,5 +1,39 @@
-<h1>Add a Brewery</h1>
+<% content_for :title do %>
+	add a brewery
+<% end %>
 
-<%= render 'form' %>
+<h2>Add a Brewery</h2>
 
-<%= link_to 'Back', breweries_path %>
+<%= form_for(@brewery) do |f| %>
+  <% if @brewery.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@brewery.errors.count, "error") %> prohibited this brewery from being saved:</h2>
+
+      <ul>
+      <% @brewery.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name, 'Name:' %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :country, 'Country:' %>
+    <%= f.text_field :country %>
+  </div>
+  <div class="field">
+    <%= f.label :state, 'State:' %>
+    <%= f.text_field :state %>
+  </div>
+  <div class="field">
+    <%= f.label :city, 'City:' %>
+    <%= f.text_field :city %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Add Brewery' %> <%= link_to 'Back', brews_path %>
+  </div>
+<% end %>
