@@ -9,5 +9,7 @@ module ApplicationHelper
 		if (not self.request.port.nil?) and self.request.port != 80
 			host += ':' + self.request.port.to_s
 		end
+		
+		return host
 	end
 end
