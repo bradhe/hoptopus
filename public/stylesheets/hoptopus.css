@@ -273,10 +273,33 @@ ul.errors {
 	width: 72px;
 }
 
+.timestamp.note {
+	float: right;
+	color: #bbb;
+}
+
 #beer_quantity, #beer_abv, #beer_price {
 	text-align: right;
 }
 
 #beer_cellared_at {
 	width: 125px;
+}
+
+.recent-events li {
+	display: block;
+	padding: 5pt;
+	border-bottom: 1px #85af22 solid;
+	border-right: 1px #85af22 solid;
+	border-top: 1px #F6FFE0 solid;
+	border-left: 1px #F6FFE0 solid;
+	background-color: #DFF2B3;
+}
+
+h2.cellars {
+	margin-top: 10pt;
+}
+
+ul.all-cellars {
+	margin-left: 15pt;
 }

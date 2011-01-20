@@ -1,21 +1,19 @@
-<h1>Listing cellars</h1>
+<h2>News</h2>
 
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @cellars.each do |cellar| %>
-  <tr>
-    <td><%= link_to 'Show', cellar %></td>
-    <td><%= link_to 'Edit', edit_cellar_path(cellar) %></td>
-    <td><%= link_to 'Destroy', cellar, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<ul class="recent-events">
+<% if @recent_events.nil? or @recent_events.empty? %>
+	<li class="empty">How sad, no one is doing ANYTHING on this site :(</li>
+<% else %>
+	<% @recent_events.each do |event| %>
+	<li><%== event.text %> <span class="timestamp note">(<%= distance_of_time_in_words(event.created_at, Time.now) %> ago)</span></li>
+	<% end %>
 <% end %>
-</table>
+</ul>
 
-<br />
+<h2 class="cellars">Cellars</h2>
 
-<%= link_to 'New Cellar', new_cellar_path %>
+<ul class="all-cellars">
+<% @cellars.each do |cellar| %>
+	<li><a href="/cellars/<%= cellar.user.username %>"><%= cellar.user.username %></a></li>
+<% end %>
+</ul>
