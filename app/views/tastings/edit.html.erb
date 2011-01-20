@@ -1,0 +1,27 @@
+<% content_for :title do %>
+	edit <%= @tasting.brew.name %> tasting notes
+<% end %>
+
+<h2>Edit Tasting Notes for <%= @tasting.brew.name %></h2>
+
+<%= form_for([@tasting.brew, @tasting]) do |f| %>
+
+	<div class="field">
+		<span class="label">Tasted On:</span>
+		<span calss="value"><%= @tasting.created_at.strftime "%A %B %d, %Y" %></span>
+	</div>
+
+	<div class="field">
+		<span class="label">Aged:</span>
+		<span calss="value"><%= distance_of_time_in_words(@tasting.beer.cellared_at, @tasting.created_at) %></span>
+	</div>
+
+	<div class="field">
+		<%= f.label :notes, 'Tasting Notes:' %>
+		<%= f.text_area :notes %>
+	</div>
+	
+	<div class="buttons">
+		<button type="submit">Save Tasting Notes</button>
+	</div>
+<% end %>

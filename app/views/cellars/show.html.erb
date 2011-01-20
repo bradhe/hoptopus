@@ -12,7 +12,7 @@
 	</div>
 <% end %>
 
-<h2>What's in the Cellar?</h2>
+<h2>Cellar Contents</h2>
 
 <p id="notice"><%= notice %></p>
 
@@ -27,7 +27,7 @@
 			<th>Quantity</th>
 			<th>Cellared</th>
 		<% if is_users_cellar? %>
-			<th width="145">&nbsp;</th>
+			<th width="75">&nbsp;</th>
 		<% end %>
 		</tr>
 	</thead>
@@ -46,9 +46,9 @@
 			<td><%= b.abv %></td>
 			<td><%= b.size %></td>
 			<td class="quantity"><%= b.quantity %></td>
-			<td><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) %></td>
+			<td align="center"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 		<% if is_users_cellar? %>
-			<td align="right"><a href="javascript:void(0);" class="one">Drank one!</a> <a href="javascript:void(0);" class="all">Drank all!</a></td>
+			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
 		<% end %>
 		</tr>
 	<% end %>
@@ -65,6 +65,7 @@
 		<th>Beer</th>
 		<th>Tasted</th>
 		<th>Aged</th>
+		<th></th>
 	</tr>
 <% if @tastings.empty? %>
 	<tr>
@@ -75,8 +76,15 @@
 	<tr>
 		<td><%= t.beer.brew.brewery.name %></td>
 		<td><%= t.beer.brew.name %></td>
-		<td><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
-		<td><%= distance_of_time_in_words(t.beer.cellared_at, t.created_at) %></td>
+		<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
+		<td align="center"><%= distance_of_time_in_words(t.beer.cellared_at, t.created_at) %></td>
+		<td align="center">
+			<%= link_to 'Notes', brew_tasting_path(t.beer.brew, t) %>
+			
+			<% if is_users_cellar? %>
+			<%= link_to 'Edit Notes', edit_brew_tasting_path(t.beer.brew, t) %>
+			<% end %>
+		</td>
 	</tr>
 	<% end %>
 <% end %>
@@ -87,12 +95,12 @@
 	<div id="add-beer-form">
 		<% form_for(@cellar.beers.new, :url => cellar_beers_path(@cellar)) do |f| %>
 		
-		<span class="note">Don't see the brewery or beer you need? <%= link_to 'Add a Brewery', new_brewery_path %> <%= link_to 'Add a Beer', new_brew_path %> </span>
+		<div class="info">Don't see the brewery or beer you need? <%= link_to 'Add a Brewery', new_brewery_path %> <%= link_to 'Add a Beer', new_brew_path %></div>
 		
 		<div class="field">	
 			<%= label_tag "brewery", "Beer:" %>
-			<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => '' } %>
-			<%= f.select :brew_id, [], { :include_blank => 'Select a Brewery' }, :disabled => true %>
+			<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => 'Brewery' } %>
+			<%= f.select :brew_id, [], { :include_blank => 'Beer' }, :disabled => true %>
 		</div>
 		
 		<div class="field">
