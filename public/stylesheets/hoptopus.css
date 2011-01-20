@@ -16,9 +16,15 @@ a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
 
-div.field, div.actions {
+div.field, div.actions, div.buttons {
   margin-bottom: 10px;
 }
+
+/*
+div.buttons {
+  text-align: right;
+}
+*/
 
 #notice {
   color: green;
@@ -53,4 +59,60 @@ div.field, div.actions {
 #error_explanation ul li {
   font-size: 12px;
   list-style: square;
+}
+
+#top, #content, #bottom {
+  width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#navigation {
+  float: right;
+}
+
+#navigation ul, #navigation li {
+  display: inline;
+}
+
+#navigation li {
+  margin-left: 5pt;
+}
+
+#navigation a {
+  display: inline-block;
+  padding: 5pt;
+  border-radius: 5pt;
+  -moz-border-radius: 5pt;
+  -webkit-border-radius: 5pt;
+}
+
+label {
+  display: inline-block;
+  width: 125px;
+}
+
+#navigation a:hover {
+
+}
+
+#top h1 {
+  display: inline-block;
+}
+
+#bottom {
+  color: #ccc;
+  border-top: 1px #ccc solid;
+  padding-top: 5pt;
+  margin-top: 5pt;
+  text-align: center;
+}
+
+table.list {
+  width: 100%;
+}
+
+.empty, .note{
+  color: #666;
+  font-style: italic;
 }

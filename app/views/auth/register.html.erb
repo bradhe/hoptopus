@@ -14,12 +14,12 @@
 <% end %>
 
 <% form_tag('/register', :method => 'post') do %>
-	<div class="email"><%= label_tag :email, "Email Address:" %> <%= email_field_tag :email, params[:email] %></div>
-	<div class="username"><%= label_tag :username, "Username:" %> <%= email_field_tag :username, params[:username] %></div>
-	<div class="password"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
-	<div class="confirm-password"><%= label_tag :password_confirmation, "Confirm Password:" %> <%= password_field_tag :password_confirmation %></div>
+	<div class="field"><%= label_tag :email, "Email Address:" %> <%= email_field_tag :email, params[:email] %></div>
+	<div class="field"><%= label_tag :username, "Username:" %> <%= email_field_tag :username, params[:username] %></div>
+	<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
+	<div class="field"><%= label_tag :password_confirmation, "Confirm Password:" %> <%= password_field_tag :password_confirmation %></div>
 
 	<div class="buttons">
-		<%= submit_tag 'Register' %> <%= link_to 'Cancel', root_path %>
+		<%= submit_tag 'Register' %> 
 	</div>
 <% end %>
