@@ -1,6 +1,6 @@
 class RemoveBeerFromTasting < ActiveRecord::Migration
   def self.up
-    remove_column :tastings, :beer_id, :integer
+    remove_column :tastings, :beer_id
     add_column :tastings, :brew_id, :integer
     add_column :tastings, :cellared_at, :datetime
   end
