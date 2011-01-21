@@ -1,4 +1,8 @@
 
+$.fn.showLoading = function() {
+	var div = $('<div/>').addClass('loading-modal');
+	$('<span/>').addClass('note').appendTo(div);
+}
 
 $(document).ready(function() {
 	$('h3[data-hideable]').each(function() {

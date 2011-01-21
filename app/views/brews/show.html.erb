@@ -23,10 +23,25 @@
 
 <h3>Recent Tastings</h3>
 
-<table>
+<table class="list">
 	<tr>
 		<th>User</th>
 		<th>Aged</th>
 		<th>Tasted On</th>
 		<th></th>
 	</tr>
+<% if @brew.tastings.empty? %>
+	<tr>
+		<td colspan="4" class="empty">This beer hasn't been tasted yet.</td>
+	</tr>
+<% else %>
+	<% @brew.tastings.each do |t %>
+	<tr>
+		<td><%= t.user.username %></td>
+		<td><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+		<td><%= t.created_date %></td>
+		<td></td>
+	</tr>
+	<% end %>
+<% end %>
+</table>

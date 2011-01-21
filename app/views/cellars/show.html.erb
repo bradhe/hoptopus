@@ -27,7 +27,7 @@
 			<th>Quantity</th>
 			<th>Cellared</th>
 		<% if is_users_cellar? %>
-			<th width="75">&nbsp;</th>
+			<th width="125">&nbsp;</th>
 		<% end %>
 		</tr>
 	</thead>
@@ -42,13 +42,13 @@
 		<tr data-beer-id="<%= b.id %>">
 			<td><%= b.year %></td>
 			<td><%= b.brew.brewery.name %></td>
-			<td><%= b.brew.name %></td>
+			<td data-brew-id="<%= b.brew.id %>"><%= b.brew.name %></td>
 			<td><%= b.abv %></td>
 			<td><%= b.size %></td>
 			<td class="quantity"><%= b.quantity %></td>
-			<td align="center"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
+			<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 		<% if is_users_cellar? %>
-			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
+			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a> <%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
 		<% end %>
 		</tr>
 	<% end %>
@@ -66,6 +66,10 @@
 		<th>Tasted</th>
 		<th>Aged</th>
 		<th></th>
+	<% if is_users_cellar? %>
+		<th></th>
+		<th></th>
+	<% end %>
 	</tr>
 <% if @tastings.empty? %>
 	<tr>
@@ -74,17 +78,15 @@
 <% else %>
 	<% @tastings.each do |t| %>
 	<tr>
-		<td><%= t.beer.brew.brewery.name %></td>
-		<td><%= t.beer.brew.name %></td>
+		<td><%= t.brew.brewery.name %></td>
+		<td><%= t.brew.name %></td>
 		<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
-		<td align="center"><%= distance_of_time_in_words(t.beer.cellared_at, t.created_at) %></td>
-		<td align="center">
-			<%= link_to 'Notes', brew_tasting_path(t.beer.brew, t) %>
-			
-			<% if is_users_cellar? %>
-			<%= link_to 'Edit Notes', edit_brew_tasting_path(t.beer.brew, t) %>
-			<% end %>
-		</td>
+		<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+		<td align="center"><%= link_to 'View Notes', brew_tasting_path(t.brew, t) %></td>
+	<% if is_users_cellar? %>
+		<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
+		<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete %></td>
+	<% end %>
 	</tr>
 	<% end %>
 <% end %>
@@ -145,79 +147,41 @@ var brews = {};
 brews[<%= b.id %>] = <%== b.brews.to_json %>;
 <% end %>
 
-$('select#brewery').live('change', function() {
-	var selectBrews = $('select#beer_brew_id');
-	var button = $('#add-beer');
-	
-	if(!selectBrews) {
-		throw "Couldn't find brews list. Ass.";
-	}
-	
-	if($(this).val() == '') {
-		// TODO: Add more stuff here. Disable selectBrews, add first element, etc.
-		selectBrews.empty();
-		selectBrews.attr('disabled', true);
-		button.attr('disabled', true);
-		selectBrews.append($('<option/>').val('').text('Select a Brewery'));
-		
-		return;
-	}
-	
-	var breweryBrews = brews[$(this).val()];
-	if(!breweryBrews) {
-		throw "No brews for this brewery.";
-	}
-	
-	// Populate the other drop down
-	selectBrews.empty();
-	
-	// If this brewery doesn't have any brews then...boned.
-	if (breweryBrews.length < 1) {
-		selectBrews.attr('disabled', true);
-		button.attr('disabled', true);
-		selectBrews.append($('<option/>').val('').text('No beers in the wiki for this brewery.'));
-		
-		return;
-	}	
-	else {
-		selectBrews.removeAttr('disabled');
-		
-		// Set up this thing so the button gets disabled.
-		selectBrews.change(function() {
-			if($(this).val() != '') {
-				button.removeAttr('disabled');
-			}
-			else {
-				button.attr('disabled', true);
-			}
-		});
-	}
-	
-	selectBrews.append($('<option/>').val('').text('Select a Beer'));
-	
-	for(var i in breweryBrews) {
-		var brew = breweryBrews[i];
-		
-		if(typeof(brew) != 'object') {
-			continue;
-		}
-		
-		selectBrews.append($('<option/>').val(brew.brew.id).text(brew.brew.name));
-	}
-});
-
 $('a.one').live('click', function() {
 	// Force the browser to post over to the other page
-	var beerId = $(this).parents('tr[data-beer-id]').attr('data-beer-id');
+	var brewId = $(this).parent().siblings('td[data-brew-id]').attr('data-brew-id');
+	var cellaredAt = $(this).parent().siblings('td[data-cellared-at]').attr('data-cellared-at');
+	
 	var quantity = parseInt($(this).parent().siblings('td.quantity').text());
 	
-	var form = $('<form/>').attr('action', '/cellars/<%= @cellar.id %>/beers/' + beerId).attr('method', 'post');
-	form.append($('<input/>').attr('name', 'authenticity_token').val($('meta[name="csrf-token"]').attr('content')));
-	form.append($('<input/>').attr('name', '_method').val('put'));
-	form.append($('<input/>').attr('name', 'beer[quantity]').val(quantity - 1));
-	form.submit();
+	var url = '/brews/'+brewId+'/tastings';
+	
+	var data = { 
+		'authenticity_token': $('meta[name="csrf-token"]').attr('content'),
+		'_method': 'post',
+		'tasting': {
+			'cellared_at': cellaredAt,
+			'brew_id': brewId,
+			'user_id': <%= @cellar.user.id %>
+		}
+	};
+	
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: data,
+		success: function(data) {
+			window.location.reload();
+		},
+		error: function() {
+			alert('failwhale');
+		}
+	});
 });
 </script>
+
+<script src="/javascripts/brewery-helper.js" type="text/javascript"></script>
+
 <% end %>
 
 	<% end %>

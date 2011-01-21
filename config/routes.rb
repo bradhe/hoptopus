@@ -4,7 +4,7 @@ Hoptopus::Application.routes.draw do
   end
 
   resources :brews do
-	resources :tastings, :only => [:show, :edit, :update]
+    resources :tastings
   end
 
   resources :breweries, :except => :show do
