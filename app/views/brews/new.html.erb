@@ -27,7 +27,7 @@
   </div>
   <div class="field">
     <%= f.label :brewery_id, 'Brewery:' %>
-    <%= f.collection_select :brewery_id, Brewery.all, :id, :name %> <span class="note">Don't see the brewery? <%= link_to 'Add a Brewery', new_brewery_path %></span>
+    <%= f.collection_select :brewery_id, Brewery.order('name').all, :id, :name %> <span class="note">Don't see the brewery? <%= link_to 'Add a Brewery', new_brewery_path %></span>
   </div>
   <div class="actions">
     <button type="submit">Add Beer</button>

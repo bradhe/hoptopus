@@ -111,7 +111,7 @@
 		
 		<div class="field">	
 			<%= label_tag "brewery", "Beer:" %>
-			<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name'), { :include_blank => 'Brewery' } %>
+			<%= select_tag "brewery", options_from_collection_for_select(Brewery.order('name').all, 'id', 'name'), { :include_blank => 'Brewery' } %>
 			<%= f.select :brew_id, [], { :include_blank => 'Beer' }, :disabled => true %>
 		</div>
 		
