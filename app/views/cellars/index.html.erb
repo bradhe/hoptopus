@@ -1,4 +1,8 @@
-<h2>News</h2>
+<% content_for :title do %>
+	all cellars
+<% end %>
+
+<h2>Flash! News! OMG!</h2>
 
 <ul class="recent-events">
 <% if @recent_events.nil? or @recent_events.empty? %>
@@ -10,7 +14,7 @@
 <% end %>
 </ul>
 
-<h2 class="cellars">Cellars</h2>
+<h2 class="cellars">Browse Cellars</h2>
 
 <ul class="all-cellars">
 <% @cellars.each do |cellar| %>

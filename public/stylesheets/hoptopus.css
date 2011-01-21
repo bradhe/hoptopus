@@ -303,3 +303,33 @@ h2.cellars {
 ul.all-cellars {
 	margin-left: 15pt;
 }
+
+.color1 {
+	background-color: #dff2b3;
+}
+
+.color2 {
+	background-color: #f2e4b3;
+}
+
+.more-info, .more-info p.note{
+	font-size: 16pt;
+	line-height: 24pt;
+	font-style: normal;
+}
+
+.more-info ul {
+	margin-left: 25pt;
+}
+
+.more-info li {
+	margin-top: 10pt;
+	font-size: 14pt;
+	line-height: 16pt;
+	font-style: italic;
+	color: #85af22;
+}
+
+.second {
+	margin-top: 20pt;
+}

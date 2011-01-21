@@ -25,8 +25,8 @@
 </div>
 
 <div class="field">
-	<%= f.label :size, "Bottle Size:" %>
-	<%= f.text_field :size %>
+	<%= f.label :bottle_size_id, "Bottle Size:" %>
+	<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
 </div>
 
 <div class="field">

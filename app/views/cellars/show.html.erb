@@ -27,7 +27,8 @@
 			<th>Quantity</th>
 			<th>Cellared</th>
 		<% if is_users_cellar? %>
-			<th width="125">&nbsp;</th>
+			<th></th>
+			<th></th>
 		<% end %>
 		</tr>
 	</thead>
@@ -38,17 +39,21 @@
 			<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
 		</tr>
 <% else %>
+	<% c = 'color2' %>
 	<% @cellar.beers.each do |b| %>
-		<tr data-beer-id="<%= b.id %>">
-			<td><%= b.year %></td>
+		<% c = (c == 'color2' ? 'color1' : 'color2') %>
+		
+		<tr data-beer-id="<%= b.id %>" class="<%= c %>">
+			<td align="right" class="year"><%= b.year %></td>
 			<td><%= b.brew.brewery.name %></td>
 			<td data-brew-id="<%= b.brew.id %>"><%= b.brew.name %></td>
-			<td><%= b.abv %></td>
-			<td><%= b.size %></td>
-			<td class="quantity"><%= b.quantity %></td>
+			<td align="center"><%= b.abv %></td>
+			<td align="center"><%= b.bottle_size.name %></td>
+			<td class="quantity" align="center"><%= b.quantity %></td>
 			<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 		<% if is_users_cellar? %>
-			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a> <%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
+			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
+			<td align="center"><%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
 		<% end %>
 		</tr>
 	<% end %>
@@ -76,8 +81,11 @@
 		<td colspan="3" class="empty">No tastings have been recorded. How sad.</td>
 	</tr>
 <% else %>
+	<% c = 'color2' %>
 	<% @tastings.each do |t| %>
-	<tr>
+		<% c = (c == 'color2' ? 'color1' : 'color2') %>
+		
+	<tr class="<%= c %>">
 		<td><%= t.brew.brewery.name %></td>
 		<td><%= t.brew.name %></td>
 		<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
@@ -121,8 +129,8 @@
 		</div>
 
 		<div class="field">
-			<%= f.label :size, "Bottle Size:" %>
-			<%= f.text_field :size %>
+			<%= f.label :bottle_size_id, "Bottle Size:" %>
+			<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
 		</div>
 
 		<div class="field">
@@ -151,18 +159,19 @@ $('a.one').live('click', function() {
 	// Force the browser to post over to the other page
 	var brewId = $(this).parent().siblings('td[data-brew-id]').attr('data-brew-id');
 	var cellaredAt = $(this).parent().siblings('td[data-cellared-at]').attr('data-cellared-at');
-	
+	var year = $(this).parent().siblings('td.year').text();
+
 	var quantity = parseInt($(this).parent().siblings('td.quantity').text());
 	
-	var url = '/brews/'+brewId+'/tastings';
+	var url = '/brews/'+brewId+'/tastings.json';
 	
 	var data = { 
 		'authenticity_token': $('meta[name="csrf-token"]').attr('content'),
-		'_method': 'post',
 		'tasting': {
 			'cellared_at': cellaredAt,
 			'brew_id': brewId,
-			'user_id': <%= @cellar.user.id %>
+			'user_id': <%= @cellar.user.id %>,
+			'year': year
 		}
 	};
 	

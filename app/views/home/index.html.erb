@@ -2,8 +2,21 @@
 	the easy way to share your beer cellar and tasting notes
 <% end %>
 
+<div class="description clearfix">
+	<h2>The easiest way to track and share whats in your beer cellar!</h2>
+	
+	<div class="more-info">
+		<p class="note">Hoptopus makes it easy for you to track the contents of your beer cellar and share what you're currently cellaring with your friends!</p>
+		
+		<ul>
+			<li>Track the contents of your cellar and where your beers are in the aging process.</li>
+			<li>See what other people are storing in their cellars.</li>
+			<li>Keep notes to share with others on different beers and their flavors during and after the aging process.</li>
+		</ul>
+	</div>
+</div>
+
 <div class="login">
-	<p class="note">Please login to continue.</p>
 	<% if request.post? and @user.nil? %>
 		<ul class="errors">
 			<li>Invalid username or password.</li>

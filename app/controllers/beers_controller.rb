@@ -1,5 +1,4 @@
 class BeersController < ApplicationController
-  include ActionView::Helpers::DateHelper
   before_filter :ensure_login, :except => :index
   
   # GET /beers
@@ -40,7 +39,7 @@ class BeersController < ApplicationController
 	username = cellar.user.username
 	
 	event = Event.new :user => cellar.user, :event_type => Event::UPDATED_CELLAR
-	event.text = "#{username} added <a href=\"/brews/#{@beer.brew.id}\">#{beer_name}</a> to <a href=\"/cellars/#{username}\">their cellar</a>"
+	event.text = "<a href=\"/cellars/#{username}\">#{username}</a> added <a href=\"/brews/#{@beer.brew.id}\">#{beer_name}</a> to <a href=\"/cellars/#{username}\">their cellar</a>"
 	event.save
 	
 	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
@@ -69,25 +68,7 @@ class BeersController < ApplicationController
 	
     respond_to do |format|
       if @beer.update_attributes(params[:beer])
-	    # Check the quantity -- if it's changing we need to create a tasting record.
-		if quantity != @beer.quantity
-			tasting = Tasting.new :user => @user, :beer => @beer
-			tasting.save
-			
-			# Record this tasting event
-			beer_name = (@beer.year ? @beer.year + " " : "") + @beer.brew.name
-			aged = distance_of_time_in_words(@beer.cellared_at, tasting.created_at)
-			
-			event = Event.new :event_type => Event::TASTED, :user => @user
-			event.text = "<a href=\"/cellars/#{@user.username}\">#{@user.username}</a> <a href=\"#{brew_tasting_path(tasting)}\">tasted</a> a <a href=\"#{brew_path(@beer.brew)}\">#{beer_name}</a> (aged #{aged})"
-			event.save
-			
-			update_type = 'Tasting has been recorded! Add notes below.'
-		else 
-			update_type = 'Beer was successfully updated.'
-		end
-		
-        format.html { redirect_to(return_to, :notice => update_type) }
+        format.html { redirect_to(return_to, :notice => "#{@beer.brew.name} has been updated!") }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -27,20 +27,22 @@
 	<tr>
 		<th>User</th>
 		<th>Aged</th>
-		<th>Tasted On</th>
-		<th></th>
+		<th width="180">Tasted On</th>
+		<th width="50"></th>
 	</tr>
 <% if @brew.tastings.empty? %>
 	<tr>
 		<td colspan="4" class="empty">This beer hasn't been tasted yet.</td>
 	</tr>
 <% else %>
-	<% @brew.tastings.each do |t %>
-	<tr>
-		<td><%= t.user.username %></td>
-		<td><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-		<td><%= t.created_date %></td>
-		<td></td>
+	<% c = 'color2' %>
+	<% @brew.tastings.each do |t| %>
+		<% c = (c == 'color2' ? 'color1' : 'color2') %>
+	<tr class="<%= c %>">
+		<td><a href="/cellars/<%= t.user.username %>"><%= t.user.username %></a></td>
+		<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+		<td align="center"><%= t.created_at.strftime "%A %B %d, %Y" %></td>
+		<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
 	</tr>
 	<% end %>
 <% end %>
