@@ -6,8 +6,8 @@ class RemoveBeerFromTasting < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :tastings, :cellared_at, :datetime
-    remove_column :tastings, :brew_id, :integer
+    remove_column :tastings, :cellared_at
+    remove_column :tastings, :brew_id
     add_column :tastings, :beer_id
   end
 end
