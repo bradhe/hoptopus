@@ -31,6 +31,7 @@ div.field, div.actions, div.buttons {
 }
 
 .homepage-register {
+	font-size: 14pt;
 	margin-top: 15pt;
 	color: #85af22;
 	background-color: #ffe9a8;
