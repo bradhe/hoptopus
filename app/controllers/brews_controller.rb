@@ -4,7 +4,7 @@ class BrewsController < ApplicationController
   # GET /brews
   # GET /brews.xml
   def index
-    @brews = Brew.all
+    @brews = Brew.order('name').all
 
     respond_to do |format|
       format.html # index.html.erb

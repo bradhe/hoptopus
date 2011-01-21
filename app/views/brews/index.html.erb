@@ -10,9 +10,9 @@
 
 <table class="list">
   <tr>
-    <th>Brewery</th>
     <th>Beer</th>
 	<th>Type</th>
+    <th>Brewery</th>
     <th></th>
   </tr>
 <% if @brews.empty? %>
@@ -23,11 +23,11 @@
 	<% c = 'color2' %>
 	<% @brews.each do |brew| %>
 		<% c = (c == 'color2' ? 'color1' : 'color2') %>
-	<tr class="<%= c %>">
-    <td><%= brew.brewery.name %></td>
-    <td><%= link_to brew.name, brew_path(brew) %></td>
-	<td><%= brew.brew_type.name %></td>
-    <td align="center"><%= link_to 'Edit', edit_brew_path(brew) %></td>
+  <tr class="<%= c %>">
+		<td><%= link_to brew.name, brew_path(brew) %></td>
+		<td><%= brew.brew_type.name %></td>
+		<td><%= brew.brewery.name %></td>
+		<td align="center"><%= link_to 'Edit', edit_brew_path(brew) %></td>
   </tr>
 	<% end %>
 <% end %>
