@@ -12,6 +12,7 @@
   <tr>
     <th>Brewery</th>
     <th>Beer</th>
+	<th>Type</th>
     <th></th>
   </tr>
 <% if @brews.empty? %>
@@ -25,6 +26,7 @@
 	<tr class="<%= c %>">
     <td><%= brew.brewery.name %></td>
     <td><%= link_to brew.name, brew_path(brew) %></td>
+	<td><%= brew.brew_type.name %></td>
     <td align="center"><%= link_to 'Edit', edit_brew_path(brew) %></td>
   </tr>
 	<% end %>

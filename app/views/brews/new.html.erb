@@ -22,6 +22,10 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :brew_type_id, 'Type:' %>
+    <%= f.collection_select :brew_type_id, BrewType.order('name').all, :id, :name %>
+  </div>
+  <div class="field">
     <%= f.label :brewery_id, 'Brewery:' %>
     <%= f.collection_select :brewery_id, Brewery.all, :id, :name %> <span class="note">Don't see the brewery? <%= link_to 'Add a Brewery', new_brewery_path %></span>
   </div>

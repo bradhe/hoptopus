@@ -29,6 +29,7 @@
 		<% if is_users_cellar? %>
 			<th></th>
 			<th></th>
+			<th></th>
 		<% end %>
 		</tr>
 	</thead>
@@ -46,14 +47,15 @@
 		<tr data-beer-id="<%= b.id %>" class="<%= c %>">
 			<td align="right" class="year"><%= b.year %></td>
 			<td><%= b.brew.brewery.name %></td>
-			<td data-brew-id="<%= b.brew.id %>"><%= b.brew.name %></td>
+			<td data-brew-id="<%= b.brew.id %>"><%= link_to b.brew.name, brew_path(b.brew) %></td>
 			<td align="center"><%= b.abv %></td>
 			<td align="center"><%= b.bottle_size.name %></td>
 			<td class="quantity" align="center"><%= b.quantity %></td>
 			<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 		<% if is_users_cellar? %>
 			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
-			<td align="center"><%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
+			<td align="center"><%= link_to 'Edit Beer', edit_cellar_beer_path(@cellar, b) %></td>
+			<td align="center"><%= button_to 'Delete', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'You sure?' %></td>
 		<% end %>
 		</tr>
 	<% end %>

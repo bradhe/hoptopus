@@ -23,6 +23,10 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :brew_type_id, 'Type:' %>
+    <%= f.collection_select :brew_type_id, BrewType.order('name').all, :id, :name %>
+  </div>
+  <div class="field">
     <%= f.label :brewery_id, 'Brewery:' %>
     <span id="brewer_id"><%= @brew.brewery.name %></span>
   </div>

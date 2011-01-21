@@ -1,5 +1,68 @@
-<h1>New beer</h1>
+<h2>Add a Beer to your Cellar</h2>
 
-<%= render 'form' %>
+<div class="info">Don't see the brewery or beer you need? <%= link_to 'Add a Brewery', new_brewery_path %> <%= link_to 'Add a Beer', new_brew_path %></div>
 
-<%= link_to 'Back', beers_path %>
+<% unless @beer.errors.empty? %>
+<ul class="errors">
+	<% @beer.errors.each do |element,msg| %>
+		<li><%= msg %></li>
+	<% end %>
+</ul>
+<% end %>
+
+<%= form_for(@beer, :url => cellar_beers_path(@cellar)) do |f| %>
+
+	<div class="field">	
+		<%= label_tag "brewery", "Beer:" %>
+		<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name', @beer.brew.brewery.id), :include_blank => 'Brewery' %>
+		<%= f.collection_select :brew_id, Brew.find(:all, "brewery_id='#{@beer.brew.brewery.id}'"), :id, :name, :disabled => true %>
+	</div>
+
+	<div class="field">
+		<%= f.label :year, "Year:" %>
+		<%= f.text_field :year %>
+	</div>
+
+	<div class="field">
+		<%= f.label :quantity, "Quantity:" %>
+		<%= f.text_field :quantity %>
+	</div>
+
+	<div class="field">
+		<%= f.label :abv, "ABV:" %>
+		<%= f.text_field :abv %>
+	</div>
+
+	<div class="field">
+		<%= f.label :bottle_size_id, "Bottle Size:" %>
+		<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
+	</div>
+
+	<div class="field">
+		<%= f.label :price, "Price:" %>
+		<%= f.text_field :price %>
+	</div>
+
+	<div class="field">
+		<%= f.label :cellared_at, "Cellared Date:" %>
+		<%= f.text_field :cellared_at %>
+	</div>
+
+	<div class="buttons">
+		<button type="submit" id="add-beer">Add Beer to Cellar</button>
+		<%= link_to 'Cancel', root_url %>
+	</div>
+
+<% end %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+var brews = {};
+	<% Brewery.all.each do |b| %>
+brews[<%= b.id %>] = <%== b.brews.to_json %>;
+	<% end %>
+	
+<script src="/javascripts/brewery-helper.js" type="text/javascript"></script>
+
+</script>
+<% end %>

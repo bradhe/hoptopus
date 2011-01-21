@@ -31,21 +31,28 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.xml
   def create
-	cellar = Cellar.find(params[:cellar_id])
-    @beer = cellar.beers.new(params[:beer])
+	@cellar = Cellar.find(params[:cellar_id])
 	
-	# Record this momentous event.
-	beer_name = (@beer.year ? @beer.year + " " : "") + @beer.brew.name
-	username = cellar.user.username
+	# This is kind of gross, but cleans up nicely.
+	if params[:beer][:price] =~ /^\$/
+		params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
+	end
 	
-	event = Event.new :user => cellar.user, :event_type => Event::UPDATED_CELLAR
-	event.text = "<a href=\"/cellars/#{username}\">#{username}</a> added <a href=\"/brews/#{@beer.brew.id}\">#{beer_name}</a> to <a href=\"/cellars/#{username}\">their cellar</a>"
-	event.save
+    @beer = @cellar.beers.new(params[:beer])
 	
-	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
+	return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
 	
     respond_to do |format|
-      if @beer.save
+      if @beer.valid? and @beer.save
+	  	# Record this momentous event.
+		beer_name = (@beer.year ? @beer.year + " " : "") + @beer.brew.name
+		username = @cellar.user.username
+		
+		event = Event.new :user => @cellar.user, :event_type => Event::UPDATED_CELLAR
+		event.text = "<a href=\"/cellars/#{username}\">#{username}</a> added <a href=\"/brews/#{@beer.brew.id}\">#{beer_name}</a> to <a href=\"/cellars/#{username}\">their cellar</a>"
+		event.save
+
+		# Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
       else
@@ -59,6 +66,12 @@ class BeersController < ApplicationController
   # PUT /beers/1.xml
   def update
 	cellar = Cellar.find(params[:cellar_id])
+	
+	# This is kind of gross, but cleans up nicely.
+	if params[:beer][:price] =~ /^\$/
+		params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
+	end
+	
     @beer = Beer.find(params[:id])
 	
 	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
@@ -84,7 +97,7 @@ class BeersController < ApplicationController
     @beer.destroy
 
     respond_to do |format|
-      format.html { redirect_to(beers_url) }
+      format.html { redirect_to(root_url) }
       format.xml  { head :ok }
     end
   end
