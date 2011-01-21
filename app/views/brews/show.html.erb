@@ -1,15 +1,32 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>
+	<%= @brew.brewery.name %>'s <%= @brew.name %>
+<% end %>
 
-<p>
-  <b>Name:</b>
-  <%= @brew.name %>
-</p>
+<h2><%= @brew.brewery.name %>'s <%= @brew.name %></h2>
 
-<p>
-  <b>Brewery:</b>
-  <%= @brew.brewery_id %>
-</p>
+<div class="brief">
+	<div class="field">
+		<span class="label">Name:</span>
+		<span class="value"><%= @brew.name %></span>
+	</div>
 
+	<div class="field">
+		<span class="label">Brewery:</span>
+		<span class="value"><%= @brew.brewery.name %></span>
+	</div>
+		
+	<div class="field">
+		<span class="label">Location:</span>
+		<span class="value"><%= @brew.brewery.city ? @brew.brewery.city : "" %>, <%= @brew.brewery.state %>
+	</div>
+</div>
 
-<%= link_to 'Edit', edit_brew_path(@brew) %> |
-<%= link_to 'Back', brews_path %>
+<h3>Recent Tastings</h3>
+
+<table>
+	<tr>
+		<th>User</th>
+		<th>Aged</th>
+		<th>Tasted On</th>
+		<th></th>
+	</tr>

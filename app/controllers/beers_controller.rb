@@ -79,7 +79,7 @@ class BeersController < ApplicationController
 			aged = distance_of_time_in_words(@beer.cellared_at, tasting.created_at)
 			
 			event = Event.new :event_type => Event::TASTED, :user => @user
-			event.text = "<a href=\"/cellars/#{@user.username}\">#{@user.username}</a> <a href=\"#{brew_tasting_path(tasting)}\">tasted</a> a <a href=\"#{brews_path(@beer.brew)}\">#{beer_name}</a> (aged #{aged})"
+			event.text = "<a href=\"/cellars/#{@user.username}\">#{@user.username}</a> <a href=\"#{brew_tasting_path(tasting)}\">tasted</a> a <a href=\"#{brew_path(@beer.brew)}\">#{beer_name}</a> (aged #{aged})"
 			event.save
 			
 			update_type = 'Tasting has been recorded! Add notes below.'
