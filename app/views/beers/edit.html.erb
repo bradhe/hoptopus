@@ -11,7 +11,7 @@
 
 <div class="field">
 	<%= f.label :year, "Year:" %>
-	<%= f.text_field :year, :value => Date.today.year %>
+	<%= f.text_field :year %>
 </div>
 
 <div class="field">
@@ -36,7 +36,7 @@
 
 <div class="field">
 	<%= f.label :cellared_at, "Cellared Date:" %>
-	<%= f.text_field :cellared_at, :value => Date.today.to_s %>
+	<%= f.text_field :cellared_at %>
 </div>
 
 <div class="buttons">
