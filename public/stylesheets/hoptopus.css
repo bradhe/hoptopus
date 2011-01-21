@@ -30,6 +30,21 @@ div.field, div.actions, div.buttons {
 	margin-bottom: 10px;
 }
 
+.homepage-register {
+	margin-top: 15pt;
+	color: #85af22;
+	background-color: #ffe9a8;
+	padding: 20pt;
+	padding-left: 40pt;
+	padding-right: 40pt;
+	
+	display: inline-block;
+	
+	border-radius: 5pt;
+	-moz-border-radius: 5pt;
+	-webkit-border-radius: 5pt;
+}
+
 /*
 div.buttons {
 	text-align: right;

@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(:version => 20110121044202) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cellar_id"
   end
 
   create_table "cellars", :force => true do |t|

@@ -16,6 +16,12 @@
 	</div>
 </div>
 
+<table width="100%">
+	<tr>
+		<td width="50%" align="center" valign="top">
+			<%= link_to 'Create an Account!', register_path, :class => 'homepage-register' %>
+		</td>
+		<td width="50%" align="center" valign="top">
 <div class="login">
 	<% if request.post? and @user.nil? %>
 		<ul class="errors">
@@ -32,3 +38,6 @@
 		</div>
 	<% end %>
 </div>
+		</td>
+	</tr>
+</table>
