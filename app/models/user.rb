@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!'
 	validates_format_of :username, :with => /^\S+$/, :message => 'no spaces allowed in username!'
 	validates_uniqueness_of :email, :case_sensitive => false, :message => 'There is already an account with that email address.'
-
+	validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 	
 	before_save do
 		self.password_hash = Digest::SHA256.hexdigest(password_hash)
