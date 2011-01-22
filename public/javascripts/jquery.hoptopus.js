@@ -4,6 +4,10 @@ $.fn.showLoading = function() {
 	$('<span/>').addClass('note').appendTo(div);
 }
 
+$("button[data-confirm], input[data-confirm]").live('click', function(e) {
+	return confirm($(this).attr('data-confirm'));
+});
+
 $(document).ready(function() {
 	$('h3[data-hideable]').each(function() {
 		var div = $('div#'+$(this).attr('data-hideable'));

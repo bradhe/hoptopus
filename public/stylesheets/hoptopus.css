@@ -349,3 +349,22 @@ ul.all-cellars {
 .second {
 	margin-top: 20pt;
 }
+
+button, input[type="submit"] {
+	background-image: url('/images/button.png');
+	background-repeat: repeat-x;
+	border: 1px #ccc solid;
+	
+	color: #333;
+	
+	outline: none;
+}
+
+button:focus, input[type="submit"]:focus {
+	outline: none;
+	border: 1px #85af22 solid;
+}
+
+button:active, input[type="submit"]:active {
+	background-image: url('/images/button-down.png');
+}
