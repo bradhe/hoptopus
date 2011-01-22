@@ -18,7 +18,7 @@
 	<div class="field"><%= label_tag :username, "Username:" %> <%= email_field_tag :username, params[:username] %></div>
 	<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 	<div class="field"><%= label_tag :password_confirmation, "Confirm Password:" %> <%= password_field_tag :password_confirmation %></div>
-
+	<div class="field"><%= check_box_tag :email_consent, 1, true %> <%= label_tag :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'email-consent' %></div>
 	<div class="buttons">
 		<%= submit_tag 'Register' %> 
 	</div>

@@ -285,8 +285,16 @@ ul.errors {
 	color: #f00;
 }
 
+#email_consent {
+	margin-left: 2px;
+}
+
 #beer_year, #beer_quantity, #beer_abv, #beer_price, #beer_size {
 	width: 72px;
+}
+
+label.email-consent {
+	width: auto;
 }
 
 .timestamp.note {
@@ -300,6 +308,10 @@ ul.errors {
 
 #beer_cellared_at {
 	width: 125px;
+}
+
+label, span.label {
+	text-align: left;
 }
 
 .recent-events li {
