@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 	validates_uniqueness_of :email, :case_sensitive => false, :message => 'There is already an account with that email address.'
 	validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 	
-	before_save do
+	before_create do
 		self.password_hash = Digest::SHA256.hexdigest(password_hash)
 	end
 	
