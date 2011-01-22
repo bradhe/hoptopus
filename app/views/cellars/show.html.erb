@@ -166,7 +166,7 @@ $('a.one').live('click', function() {
 		type: 'POST',
 		data: data,
 		success: function(data) {
-			alert(data);
+			window.location = '/brews/'+data.tasting.brew_id+'/tastings/'+data.tasting.id+'/edit';
 		},
 		error: function() {
 			alert('failwhale');
