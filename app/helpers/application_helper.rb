@@ -12,4 +12,12 @@ module ApplicationHelper
 		
 		return host
 	end
+	
+	def is_table_sortable?(collection) 
+		if collection.nil?
+			return nil
+		end
+		
+		return collection.empty? ? "" : 'data-sortable="true"'
+	end
 end

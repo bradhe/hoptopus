@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 	validates_presence_of :username, :message => 'Please provide a username.'
 	validates_presence_of :password_hash, :message => 'Please provide a password.'
 	validates_confirmation_of :password_hash, :message => 'Passwords do not match.'
+	validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be atleast 4 characters long.'
 	validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!'
 	validates_format_of :username, :with => /^\S+$/, :message => 'no spaces allowed in username!'
 	validates_uniqueness_of :email, :case_sensitive => false, :message => 'There is already an account with that email address.'

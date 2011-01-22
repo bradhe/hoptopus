@@ -368,3 +368,29 @@ button:focus, input[type="submit"]:focus {
 button:active, input[type="submit"]:active {
 	background-image: url('/images/button-down.png');
 }
+
+table[data-sortable] th {
+	background-image: url('/images/unsorted.png');
+	background-position: right center;
+	background-repeat: no-repeat;
+	padding-right: 10pt;
+}
+
+table[data-sortable] th.unsortable {
+	background-image: none;
+	padding-right: 0;
+}
+
+table[data-sortable] th.headerSortDown {
+	background-image: url('/images/sort-down.png');
+	background-color: #FFE9A8;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+
+table[data-sortable] th.headerSortUp {
+	background-image: url('/images/sort-up.png');
+	background-color: #FFE9A8;
+	background-repeat: no-repeat;
+	background-position: right center;
+}

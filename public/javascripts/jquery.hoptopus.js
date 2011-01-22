@@ -35,4 +35,15 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("table[data-sortable]").each(function(i) {
+		var headers = {};
+		$(this).find('th').each(function(i) {
+			if($(this).hasClass('unsortable')) {
+				headers[i] = { sorter: false };
+			}
+		});
+		
+		$(this).tablesorter({headers: headers});
+	});
 });

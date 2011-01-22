@@ -7,14 +7,18 @@
 <%= link_to 'Add a Beer', new_brew_path %> <%= link_to 'Add a Brewery', new_brewery_path %>
 
 <h3>All Beers</h3>
-
-<table class="list">
-  <tr>
-    <th>Beer</th>
-	<th>Type</th>
-    <th>Brewery</th>
-    <th></th>
-  </tr>
+<div class="info"><strong>Note:</strong> Sort multiple columns by holding the "shift" key while selecting the columns to sort by.</div>
+<table class="list" data-sortable="true">
+	<thead>
+	  <tr>
+		<th>Beer</th>
+		<th>Type</th>
+		<th>Brewery</th>
+		<th class="unsortable"></th>
+	  </tr>
+	</thead>
+	
+	<tbody>
 <% if @brews.empty? %>
   <tr>
     <td colspan="3" class="empty">Oh god! No beers have been added!</td>
@@ -31,4 +35,5 @@
   </tr>
 	<% end %>
 <% end %>
+	</tbody>
 </table>

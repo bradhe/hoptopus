@@ -16,21 +16,20 @@
 
 <p id="notice"><%= notice %></p>
 
-<table class="list">
+<table class="list" <%= is_table_sortable? @cellar.beers %>>
 	<thead>
 		<tr>
 			<th width="40"></th>
 			<th>Brewery</th>
 			<th>Beer</th>
-			<th>ABV</th>
 			<th>Size</th>
 			<th>Quantity</th>
 			<th>Cellared</th>
-			<th></th>
+			<th class="unsortable"></th>
 		<% if is_users_cellar? %>
-			<th></th>
-			<th></th>
-			<th></th>
+			<th class="unsortable"></th>
+			<th class="unsortable"></th>
+			<th class="unsortable"></th>
 		<% end %>
 		</tr>
 	</thead>
@@ -49,7 +48,6 @@
 			<td align="right" class="year"><%= b.year %></td>
 			<td><%= b.brew.brewery.name %></td>
 			<td data-brew-id="<%= b.brew.id %>"><%= link_to b.brew.name, brew_path(b.brew) %></td>
-			<td align="center"><%= b.abv %></td>
 			<td align="center"><%= b.bottle_size.name %></td>
 			<td class="quantity" align="center"><%= b.quantity %></td>
 			<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
@@ -68,39 +66,44 @@
 
 <h2 class="tastings">Recent Tastings</h2>
 
-<table class="list">
-	<tr>
-		<th>Brewery</th>
-		<th>Beer</th>
-		<th>Tasted</th>
-		<th>Aged</th>
-		<th></th>
-	<% if is_users_cellar? %>
-		<th></th>
-		<th></th>
-	<% end %>
-	</tr>
+<table class="list" <%= is_table_sortable? @tastings %>>
+	<thead>
+		<tr>
+			<th>Brewery</th>
+			<th>Beer</th>
+			<th>Tasted</th>
+			<th>Aged</th>
+			<th class="unsortable"></th>
+		<% if is_users_cellar? %>
+			<th class="unsortable"></th>
+			<th class="unsortable"></th>
+		<% end %>
+		</tr>
+	</thead>
+	
+	<tbody>
 <% if @tastings.empty? %>
-	<tr>
-		<td colspan="3" class="empty">No tastings have been recorded. How sad.</td>
-	</tr>
+		<tr>
+			<td colspan="3" class="empty">No tastings have been recorded. How sad.</td>
+		</tr>
 <% else %>
 	<% c = 'color2' %>
 	<% @tastings.each do |t| %>
 		<% c = (c == 'color2' ? 'color1' : 'color2') %>
 		
-	<tr class="<%= c %>">
-		<td><%= t.brew.brewery.name %></td>
-		<td><%= t.brew.name %></td>
-		<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
-		<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-		<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
-	<% if is_users_cellar? %>
-		<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
-		<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
+		<tr class="<%= c %>">
+			<td><%= t.brew.brewery.name %></td>
+			<td><%= t.brew.name %></td>
+			<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
+			<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+			<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
+		<% if is_users_cellar? %>
+			<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
+			<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
 	<% end %>
-	</tr>
+		</tr>
 	<% end %>
+	</tbody>
 <% end %>
 </table>
 
