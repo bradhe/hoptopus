@@ -6,6 +6,8 @@ Hoptopus::Application.routes.draw do
   resources :brews do
     resources :tastings
   end
+  
+  resources :users, :only => :update
 
   resources :breweries, :except => :show do
     resources :brews

@@ -5,9 +5,9 @@
 
 <h2>Register</h2>
 
-<% if request.post? and not @user.errors.empty? %>
+<% if request.post? and not @new_user.errors.empty? %>
 <ul class="errors">
-	<% @user.errors.each do |element,msg| %>
+	<% @new_user.errors.each do |element,msg| %>
 		<li><%= msg %></li>
 	<% end %>
 </ul>

@@ -15,13 +15,13 @@ class AuthController < ApplicationController
 	
 	def register
 		if request.post?
-			@user = User.new(:username => params[:username], :email => params[:email], :password_hash => params[:password], :password_hash_confirmation => params[:password_confirmation])
+			@new_user = User.new(:username => params[:username], :email => params[:email], :password_hash => params[:password], :password_hash_confirmation => params[:password_confirmation])
 
-			if @user.valid? and @user.save
-				session[:user_id] = @user.id
+			if @new_user.valid? and @new_user.save
+				session[:user_id] = @new_user.id
 				
 				# Also create a cellar for this user.
-				cellar = Cellar.new(:user => @user)
+				cellar = Cellar.new(:user => @new_user)
 				cellar.save
 
 				redirect_to root_path
