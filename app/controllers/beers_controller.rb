@@ -1,5 +1,5 @@
 class BeersController < ApplicationController
-  before_filter :ensure_login, :except => :index
+  before_filter :ensure_login, :except => [:index, :show]
   
   # GET /beers
   # GET /beers.xml
@@ -47,21 +47,22 @@ class BeersController < ApplicationController
 		params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
 	end
 	
-    @beer = @cellar.beers.new(params[:beer])
+  @beer = @cellar.beers.new(params[:beer])
+  @beer.name = @beer.brew.name
+  @beer.brewery_name = @beer.brew.brewery.name
 	
 	return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
 	
     respond_to do |format|
       if @beer.valid? and @beer.save
-	  	# Record this momentous event.
-		beer_name = (@beer.year ? @beer.year + " " : "") + @beer.brew.name
-		username = @cellar.user.username
-		
-		event = Event.new :user => @cellar.user, :event_type => Event::UPDATED_CELLAR
-		event.text = "<a href=\"/cellars/#{username}\">#{username}</a> added <a href=\"/brews/#{@beer.brew.id}\">#{beer_name}</a> to <a href=\"/cellars/#{username}\">their cellar</a>"
-		event.save
+        # Record this momentous event.
+        event = Event.new :user => @cellar.user
+        event.save
+        
+        beerAddedEvent = BeerAddedEvent.new :event => event, :beer => @beer
+        beerAddedEvent.save
 
-		# Now respond, boy!
+        # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
       else

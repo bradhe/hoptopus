@@ -1,8 +1,7 @@
 class Event < ActiveRecord::Base
 	belongs_to :user
-	
-	UPDATED_CELLAR = 1
-	ADDED_BREW = 2
-	ADDED_BREWERY = 3
-	TASTED = 4
+  has_many :beer_added_events
+  has_many :brew_edited_events
+  has_many :brew_added_events
+  has_many :brew_tasted_events
 end

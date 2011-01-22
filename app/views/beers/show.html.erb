@@ -4,6 +4,10 @@
 
 <div class="navigation">
 	<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a> <%= link_to 'See in Brew Wiki', brew_path(@beer.brew) %>
+	
+	<% if @beer.cellar.user == @user %>
+		<%= link_to 'Edit Beer', edit_cellar_beer_path(@beer) %>
+	<% end %>
 </div>
 
 <h2><%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %></h2>

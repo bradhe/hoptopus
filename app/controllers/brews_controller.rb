@@ -46,6 +46,13 @@ class BrewsController < ApplicationController
 
     respond_to do |format|
       if @brew.save
+        # Record this momentous event.
+        event = Event.new :user => @user
+        event.save
+        
+        brew_added_event = BrewAddedEvent.new :event => event, :brew => @brew 
+        brew_added_event.save
+        
         format.html { redirect_to(brews_url, :notice => 'Brew was successfully created.') }
         format.xml  { render :xml => @brew, :status => :created, :location => @brew }
       else
@@ -62,6 +69,13 @@ class BrewsController < ApplicationController
 
     respond_to do |format|
       if @brew.update_attributes(params[:brew])
+        # Record this momentous event.
+        event = Event.new :user => @user
+        event.save
+        
+        brew_edited_event = BrewEditedEvent.new :event => event, :brew => @brew 
+        brew_edited_event.save
+        
         format.html { redirect_to(brews_url, :notice => 'Brew was successfully updated.') }
         format.xml  { head :ok }
       else

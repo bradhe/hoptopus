@@ -1,9 +1,13 @@
 class CellarsController < ApplicationController
-  
   # GET /cellars
   # GET /cellars.xml
   def index
-	@recent_events = Event.find(:all, :conditions => "event_type='#{Event::UPDATED_CELLAR}' OR event_type='#{Event::TASTED}'", :order => 'created_at DESC', :limit => 15)
+    unless @user.nil?
+      @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
+    else 
+      @recent_events = Event.order('created_at DESC').limit(15).all
+    end
+    
     @cellars = Cellar.all
 
     respond_to do |format|

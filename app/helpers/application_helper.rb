@@ -20,4 +20,38 @@ module ApplicationHelper
 		
 		return collection.empty? ? "" : 'data-sortable="true"'
 	end
+  
+  def render_event(event)
+    li = '<li class="'
+      
+    if not event.beer_added_events.empty?
+      msg = "<a href=\"/cellars/#{event.user.username}\">#{event.user.username}</a> added "
+      
+      beers = event.beer_added_events.map { |e| link_to (e.beer.year ? e.beer.year + ' ' : '') + e.beer.name, cellar_beer_path(e.beer.cellar, e.beer) }.join(', ')
+      msg += "#{beers} to this cellar."
+      
+      li += "beer-added\">#{msg}"
+    elsif not event.brew_edited_events.empty?
+      brews = event.brew_edited_events.map { |e| link_to e.brew.name, brew_path(e.brew) }.join(', ')
+      msg = "<a href=\"/cellars/#{event.user.username}\">#{event.user.username}</a> edited #{brews} in the #{ link_to 'Brew Wiki', brews_path }"
+      
+      li += "brew-edited\">#{msg}"
+    elsif not event.brew_added_events.empty?
+      brews = event.brew_edited_events.map { |e| link_to e.brew.name, brew_path(e.brew) }.join(', ')
+      msg = "<a href=\"/cellars/#{event.user.username}\">#{event.user.username}</a> added #{brews} to the #{ link_to 'Brew Wiki', brews_path }"
+      
+      li += "brew-added\">#{msg}"
+    elsif not event.brew_tasted_events.empty?
+      brews = event.brew_tasted_events.map { |e| link_to (e.year ? e.year.to_s + ' ' : '' ) + e.brew.name, brew_tasting_path(e.brew, e.tasting) }.join(', ')
+      msg = "<a href=\"/cellars/#{event.user.username}\">#{event.user.username}</a> tasted #{brews}."
+      
+      li += "brew-tasted\">#{msg}"
+    else
+      li += 'empty">Something happened but not sure what...'
+    end
+    
+    li += '<span class="timestamp note">(' + distance_of_time_in_words(event.created_at, Time.now) + ' ago)</span>'
+    
+    return li
+  end
 end

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110122193351) do
+ActiveRecord::Schema.define(:version => 20110122214012) do
+
+  create_table "beer_added_events", :force => true do |t|
+    t.integer  "beer_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "beers", :force => true do |t|
     t.integer  "brew_id"
@@ -30,6 +37,29 @@ ActiveRecord::Schema.define(:version => 20110122193351) do
 
   create_table "bottle_sizes", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "brew_added_events", :force => true do |t|
+    t.integer  "brew_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "brew_edited_events", :force => true do |t|
+    t.integer  "brew_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "brew_tasted_events", :force => true do |t|
+    t.integer  "year"
+    t.integer  "tasting_id"
+    t.integer  "brew_id"
+    t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -68,8 +98,6 @@ ActiveRecord::Schema.define(:version => 20110122193351) do
   end
 
   create_table "events", :force => true do |t|
-    t.integer  "event_type"
-    t.string   "text"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

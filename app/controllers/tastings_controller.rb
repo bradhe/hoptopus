@@ -20,22 +20,19 @@ class TastingsController < ApplicationController
 	end
 	  
   def create
-	year = params[:tasting][:year]
-	params[:tasting].delete(:year)
-	
+    year = params[:tasting][:year]
+    params[:tasting].delete(:year)
+    
     @tasting = Tasting.new(params[:tasting])
-	@tasting.save
-	
-	# Record this tasting event
-	beer_name = (year + " " || "") + @tasting.brew.name
-	aged = distance_of_time_in_words(@tasting.cellared_at, @tasting.created_at)
-	tasting_path = brew_tasting_path(@tasting.brew, @tasting)
-	brew_path = brew_path(@tasting.brew)
-	
-	event = Event.new :event_type => Event::TASTED, :user => @user
-	event.text = "<a href=\"/cellars/#{@user.username}\">#{@user.username}</a> <a href=\"#{tasting_path}\">tasted</a> a <a href=\"#{brew_path}\">#{beer_name}</a> (aged #{aged})"
-	event.save
-	
+    @tasting.save
+    
+    # Record this tasting event
+    event = Event.new :user => @user
+    event.save
+    
+    beer_tasted_event = BrewTastedEvent.new :event => event, :brew => @tasting.brew, :tasting => @tasting
+    beer_tasted_event.save
+    
     respond_to do |format|
       if @tasting.save
         format.json { render :json => @tasting.to_json }

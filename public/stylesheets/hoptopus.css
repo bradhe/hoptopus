@@ -336,14 +336,25 @@ label, span.label {
 	text-align: left;
 }
 
-.recent-events li {
-	display: block;
+.events li {
 	padding: 5pt;
-	border-bottom: 1px #85af22 solid;
-	border-right: 1px #85af22 solid;
-	border-top: 1px #F6FFE0 solid;
-	border-left: 1px #F6FFE0 solid;
-	background-color: #DFF2B3;
+	list-style-position: inside;
+}
+
+.events li.brew-tasted {
+	list-style-image: url('/images/beer.png');
+}
+
+.events li.brew-added, .events li.beer-added {
+	list-style-image: url('/images/bullet_add.png');
+}
+
+.events li.brew-edited {
+	list-style-image: url('/images/edited.png');
+}
+
+.events li.empty {
+	list-style-type: none;
 }
 
 h2.cellars {

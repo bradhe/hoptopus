@@ -4,12 +4,12 @@
 
 <h2>Flash! News! OMG!</h2>
 
-<ul class="recent-events">
+<ul class="events">
 <% if @recent_events.nil? or @recent_events.empty? %>
 	<li class="empty">How sad, no one is doing ANYTHING on this site :(</li>
 <% else %>
 	<% @recent_events.each do |event| %>
-	<li><%== event.text %> <span class="timestamp note">(<%= distance_of_time_in_words(event.created_at, Time.now) %> ago)</span></li>
+		<%== render_event event %>
 	<% end %>
 <% end %>
 </ul>
