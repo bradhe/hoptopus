@@ -29,6 +29,14 @@
     <%= f.label :brewery_id, 'Brewery:' %>
     <%= f.collection_select :brewery_id, Brewery.order('name').all, :id, :name %> <span class="note">Don't see the brewery? <%= link_to 'Add a Brewery', new_brewery_path %></span>
   </div>
+  <div class="field">
+	<%= f.label :abv, 'ABV:' %>
+	<%= f.text_field :abv %>
+  </div>
+  <div class="field">
+	<%= f.label :ibus, 'IBUs:' %>
+	<%= f.text_field :ibus %>
+  </div>
   <div class="actions">
     <button type="submit">Add Beer</button>
 	<%= link_to 'Back', brews_path %>

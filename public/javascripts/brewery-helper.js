@@ -1,3 +1,17 @@
+function findBrew(brewId) {
+	var currentBrewery = brews[$('select#brewery').val()];
+	for(var i in currentBrewery) {
+		var obj = currentBrewery[i];
+		if(typeof(obj) != 'object') {
+			continue;
+		}
+		
+		if(obj.brew.id == brewId) {
+			return obj.brew;
+		}	
+	}
+}
+
 $('select#brewery').live('change', function() {
 	var selectBrews = $('select#beer_brew_id');
 	var button = $('#add-beer');
@@ -39,6 +53,16 @@ $('select#brewery').live('change', function() {
 		selectBrews.change(function() {
 			if($(this).val() != '') {
 				button.removeAttr('disabled');
+								
+				// Get the current brew
+				var brew = findBrew($(this).val());
+				
+				// Also populate the ABV and IBU fields if they exist.
+				var abv = $('#beer_abv');
+				if(abv) {
+					// Find the beer for this thing.
+					abv.val(brew.abv.toFixed(2));
+				}
 			}
 			else {
 				button.attr('disabled', true);

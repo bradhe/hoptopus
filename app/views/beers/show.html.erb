@@ -2,17 +2,19 @@
 	<%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %>
 <% end %>
 
+<div class="navigation">
+	<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a> <%= link_to 'See in Brew Wiki', brew_path(@beer.brew) %>
+</div>
+
 <h2><%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %></h2>
 
-<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a>
-
-<div class="brief">
+<div class="brief info">
 	<div class="field">
-		<span class="label">Name:</span> <span class="value"><%= @beer.brew.name %></span>
+		<span class="label">Name:</span> <span class="value"><%= @beer.name %></span>
 	</div>
 	
 	<div class="field">
-		<span class="label">Brewery:</span> <span class="value"><%= @beer.brew.brewery.name %></span>
+		<span class="label">Brewery:</span> <span class="value"><%= @beer.brewery_name %></span>
 	</div>
 	
 	<div class="field">
@@ -21,15 +23,15 @@
 	
 	<div class="field">
 		<span class="label">Location:</span>
-		<span class="value"><%= @beer.brew.brewery.city ? @beer.brew.brewery.city : "" %>, <%= @beer.brew.brewery.state %>
+		<span class="value"><%= brew_location @beer.brew %></span>
 	</div>
 	
 	<div class="field">
-	  <span class="label">ABV:</span> <span class="value"><%= @beer.abv %></span>
+	  <span class="label">ABV:</span> <span class="value"><%= @beer.abv || 'Unknown' %></span>
 	</div>
 
 	<div class="field">
-	  <span class="label">Price:</span> <span class="value"><%= @beer.price %></span>
+	  <span class="label">Price:</span> <span class="value"><%= @beer.price || 'Unknown' %></span>
 	</div>
 
 	<div class="field">
@@ -41,7 +43,6 @@
 	</div>
 </div>
 
-<div class="field">
-	<span class="label">Notes:</span>
-	<div class="note"><%= @beer.notes || "No notes have been added for this beer." %></div>
+<div class="description">
+	<%= (@beer.notes.nil? or @beer.notes.empty?) ? "No notes have been added for this beer." : @beer.notes %>
 </div>

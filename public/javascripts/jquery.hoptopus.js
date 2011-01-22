@@ -46,4 +46,31 @@ $(document).ready(function() {
 		
 		$(this).tablesorter({headers: headers});
 	});
+	
+	// Set up and tabs on the page.
+	var firstTab = $('h2[data-tab-handle]').first();
+	var tabs = $('<div/>').addClass('tabs');
+	
+	firstTab.before(tabs);
+	tabs.append($('h2[data-tab-handle]'));
+
+	$('h2[data-tab-handle]').each(function() {
+		var tab = $('#' + $(this).attr('data-tab-handle'));
+		tab.addClass('tab');
+		tab.hide();
+		
+		$(this).click(function() {
+			if(tab.is(':hidden')) {
+				$('.tabs .open').removeClass('open');
+				$(this).addClass('open');
+				$('.tab').hide();
+				tab.show();
+			}
+		});
+	});
+	
+	// Make sure the first tab is open
+	var tabContents = $('#' + firstTab.attr('data-tab-handle'));
+	firstTab.addClass('open');
+	tabContents.show();
 });

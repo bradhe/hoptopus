@@ -2,9 +2,13 @@
 	<%= @brew.brewery.name %>'s <%= @brew.name %>
 <% end %>
 
+<div class="navigation">
+	<%= link_to 'Back to Brew Wiki', brews_path %>
+</div>
+
 <h2><%= @brew.brewery.name %>'s <%= @brew.name %></h2>
 
-<div class="brief">
+<div class="brief info">
 	<div class="field">
 		<span class="label">Name:</span>
 		<span class="value"><%= @brew.name %></span>
@@ -22,33 +26,51 @@
 		
 	<div class="field">
 		<span class="label">Location:</span>
-		<span class="value"><%= @brew.brewery.city ? @brew.brewery.city : "" %>, <%= @brew.brewery.state %>
+		<span class="value"><%= brew_location @brew %></span>
+	</div>
+	<div class="field">
+		<span class="label">ABV:</span>
+		<span class="value"><%= @brew.abv || 'Unknown' %></span>
+	</div>
+	<div class="field">
+		<span class="label">IBUs:</span>
+		<span class="value"><%= @brew.ibus || 'Unknown' %></span>
 	</div>
 </div>
 
-<h3>Recent Tastings</h3>
+<div class="description">
+	<%= @brew.description || 'No description has been provided.' %>
+</div>
 
-<table class="list">
-	<tr>
-		<th>User</th>
-		<th>Aged</th>
-		<th width="180">Tasted On</th>
-		<th width="50"></th>
-	</tr>
-<% if @brew.tastings.empty? %>
-	<tr>
-		<td colspan="4" class="empty">This beer hasn't been tasted yet.</td>
-	</tr>
-<% else %>
-	<% c = 'color2' %>
-	<% @brew.tastings.each do |t| %>
-		<% c = (c == 'color2' ? 'color1' : 'color2') %>
-	<tr class="<%= c %>">
-		<td><a href="/cellars/<%= t.user.username %>"><%= t.user.username %></a></td>
-		<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-		<td align="center"><%= t.created_at.strftime "%A %B %d, %Y" %></td>
-		<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
-	</tr>
+<div class="recent-tastings">
+	<h3>Recent Tastings</h3>
+
+	<table class="list" <%= is_table_sortable? @brew.tastings %>>
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Aged</th>
+				<th width="180">Tasted On</th>
+				<th width="50" class="unsortable"></th>
+			</tr>
+		</thead>
+		<tbody>
+	<% if @brew.tastings.empty? %>
+			<tr>
+				<td colspan="4" class="empty">This beer hasn't been tasted yet.</td>
+			</tr>
+	<% else %>
+		<% c = 'color2' %>
+		<% @brew.tastings.each do |t| %>
+			<% c = (c == 'color2' ? 'color1' : 'color2') %>
+			<tr class="<%= c %>">
+				<td><a href="/cellars/<%= t.user.username %>"><%= t.user.username %></a></td>
+				<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+				<td align="center"><%= t.created_at.strftime "%A %B %d, %Y" %></td>
+				<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
+			</tr>
+		<% end %>
 	<% end %>
-<% end %>
+		</tbody>
+	</table>
 </table>

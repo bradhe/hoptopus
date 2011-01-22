@@ -30,6 +30,18 @@
     <%= f.label :brewery_id, 'Brewery:' %>
     <span id="brewer_id"><%= @brew.brewery.name %></span>
   </div>
+  <div class="field">
+	<%= f.label :abv, 'ABV:' %>
+	<%= f.text_field :abv %>
+  </div>
+  <div class="field">
+	<%= f.label :ibus, 'IBUs:' %>
+	<%= f.text_field :ibus %>
+  </div>
+  <div class="field">
+	<%= f.label :description, 'Description:' %>
+	<%= f.text_area :description %>
+  </div>
   <div class="actions">
     <%= f.submit 'Save Beer' %> <%= link_to 'Back', brews_path %>
   </div>
