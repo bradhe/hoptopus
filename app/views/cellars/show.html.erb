@@ -81,6 +81,53 @@
 	</table>
 </div>
 
+<h2 data-tab-handle="tastings">Recent Tastings</h2>
+<div id="tastings">
+
+	<table class="list" <%= is_table_sortable? @tastings %>>
+		<thead>
+			<tr>
+				<th>Brewery</th>
+				<th>Beer</th>
+				<th>Tasted</th>
+				<th>Aged</th>
+				<th class="unsortable"></th>
+			<% if is_users_cellar? %>
+				<th class="unsortable"></th>
+				<th class="unsortable"></th>
+			<% end %>
+			</tr>
+		</thead>
+		
+		<tbody>
+	<% if @tastings.empty? %>
+			<tr>
+				<td colspan="3" class="empty">No tastings have been recorded. How sad.</td>
+			</tr>
+	<% else %>
+		<% c = 'color2' %>
+		<% @tastings.each do |t| %>
+			<% c = (c == 'color2' ? 'color1' : 'color2') %>
+			
+			<tr class="<%= c %>">
+				<td><%= t.brew.brewery.name %></td>
+				<td><%= t.brew.name %></td>
+				<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
+				<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
+				<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
+			<% if is_users_cellar? %>
+				<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
+				<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
+		<% end %>
+			</tr>
+		<% end %>
+		</tbody>
+	<% end %>
+	</table>
+	
+</div>
+
+
 <% if is_users_cellar? %>
 <h2 data-tab-handle="add-beer-form">Add Beer to your Cellar</h2>
 <div id="add-beer-form">
@@ -195,50 +242,3 @@ $('a.one').live('click', function() {
 
 <% end %>
 <% end %>
-
-<h2 data-tab-handle="tastings">Recent Tastings</h2>
-
-<div id="tastings">
-
-	<table class="list" <%= is_table_sortable? @tastings %>>
-		<thead>
-			<tr>
-				<th>Brewery</th>
-				<th>Beer</th>
-				<th>Tasted</th>
-				<th>Aged</th>
-				<th class="unsortable"></th>
-			<% if is_users_cellar? %>
-				<th class="unsortable"></th>
-				<th class="unsortable"></th>
-			<% end %>
-			</tr>
-		</thead>
-		
-		<tbody>
-	<% if @tastings.empty? %>
-			<tr>
-				<td colspan="3" class="empty">No tastings have been recorded. How sad.</td>
-			</tr>
-	<% else %>
-		<% c = 'color2' %>
-		<% @tastings.each do |t| %>
-			<% c = (c == 'color2' ? 'color1' : 'color2') %>
-			
-			<tr class="<%= c %>">
-				<td><%= t.brew.brewery.name %></td>
-				<td><%= t.brew.name %></td>
-				<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
-				<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-				<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
-			<% if is_users_cellar? %>
-				<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
-				<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
-		<% end %>
-			</tr>
-		<% end %>
-		</tbody>
-	<% end %>
-	</table>
-	
-</div>
