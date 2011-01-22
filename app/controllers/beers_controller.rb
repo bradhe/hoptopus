@@ -11,6 +11,15 @@ class BeersController < ApplicationController
       format.xml  { render :xml => @beers }
     end
   end
+  
+  def show
+	@beer = Beer.find(params[:id])
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @beers }
+    end
+  end
 
   # GET /beers/new
   # GET /beers/new.xml

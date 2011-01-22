@@ -1,30 +1,47 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title do %>
+	<%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %>
+<% end %>
 
-<p>
-  <b>Brew:</b>
-  <%= @beer.brew_id %>
-</p>
+<h2><%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %></h2>
 
-<p>
-  <b>Abv:</b>
-  <%= @beer.abv %>
-</p>
+<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a>
 
-<p>
-  <b>Price:</b>
-  <%= @beer.price %>
-</p>
+<div class="brief">
+	<div class="field">
+		<span class="label">Name:</span> <span class="value"><%= @beer.brew.name %></span>
+	</div>
+	
+	<div class="field">
+		<span class="label">Brewery:</span> <span class="value"><%= @beer.brew.brewery.name %></span>
+	</div>
+	
+	<div class="field">
+		<span class="label">Type:</span> <span class="value"><%= @beer.brew.brew_type.name %></span>
+	</div>
+	
+	<div class="field">
+		<span class="label">Location:</span>
+		<span class="value"><%= @beer.brew.brewery.city ? @beer.brew.brewery.city : "" %>, <%= @beer.brew.brewery.state %>
+	</div>
+	
+	<div class="field">
+	  <span class="label">ABV:</span> <span class="value"><%= @beer.abv %></span>
+	</div>
 
-<p>
-  <b>Size:</b>
-  <%= @beer.size %>
-</p>
+	<div class="field">
+	  <span class="label">Price:</span> <span class="value"><%= @beer.price %></span>
+	</div>
 
-<p>
-  <b>Quantity:</b>
-  <%= @beer.quantity %>
-</p>
+	<div class="field">
+	  <span class="label">Size:</span> <span class="value"><%= @beer.bottle_size.name %></span>
+	</div>
 
+	<div class="field">
+	  <span class="label">Quantity in Cellar:</span> <span class="value"><%= @beer.quantity %></span>
+	</div>
+</div>
 
-<%= link_to 'Edit', edit_beer_path(@beer) %> |
-<%= link_to 'Back', beers_path %>
+<div class="field">
+	<span class="label">Notes:</span>
+	<div class="note"><%= @beer.notes || "No notes have been added for this beer." %></div>
+</div>

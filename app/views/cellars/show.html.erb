@@ -26,6 +26,7 @@
 			<th>Size</th>
 			<th>Quantity</th>
 			<th>Cellared</th>
+			<th></th>
 		<% if is_users_cellar? %>
 			<th></th>
 			<th></th>
@@ -52,6 +53,7 @@
 			<td align="center"><%= b.bottle_size.name %></td>
 			<td class="quantity" align="center"><%= b.quantity %></td>
 			<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
+			<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
 		<% if is_users_cellar? %>
 			<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
 			<td align="center"><%= link_to 'Edit Beer', edit_cellar_beer_path(@cellar, b) %></td>
@@ -143,6 +145,11 @@
 		<div class="field">
 			<%= f.label :cellared_at, "Cellared Date:" %>
 			<%= f.text_field :cellared_at, :value => Date.today.to_s %>
+		</div>
+		
+		<div class="field">
+			<%= f.label :notes, "Notes:" %>
+			<%= f.text_area :notes %>
 		</div>
 
 		<div class="buttons">
