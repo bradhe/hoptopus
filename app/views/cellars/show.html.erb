@@ -94,7 +94,7 @@
 		<td><%= t.brew.name %></td>
 		<td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
 		<td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-		<td align="center"><%= link_to 'View Notes', brew_tasting_path(t.brew, t) %></td>
+		<td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
 	<% if is_users_cellar? %>
 		<td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
 		<td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
