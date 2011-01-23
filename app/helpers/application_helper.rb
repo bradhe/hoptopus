@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'maruku'
+
 module ApplicationHelper
 	def is_logged_in?
 		not @user.nil?
@@ -20,6 +23,10 @@ module ApplicationHelper
 		
 		return collection.empty? ? "" : 'data-sortable="true"'
 	end
+  
+  def m(str)
+    str.blank? ? "" : Maruku.new(str).to_html
+  end
   
   def render_event(event)
     li = '<li class="'

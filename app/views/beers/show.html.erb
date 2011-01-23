@@ -6,7 +6,7 @@
 	<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a> <%= link_to 'See in Brew Wiki', brew_path(@beer.brew) %>
 	
 	<% if @beer.cellar.user == @user %>
-		<%= link_to 'Edit Beer', edit_cellar_beer_path(@beer) %>
+		<%= link_to 'Edit Beer', edit_cellar_beer_path(@beer.cellar, @beer) %>
 	<% end %>
 </div>
 
@@ -48,5 +48,5 @@
 </div>
 
 <div class="description">
-	<%= (@beer.notes.nil? or @beer.notes.empty?) ? "No notes have been added for this beer." : @beer.notes %>
+	<%== (@beer.notes.nil? or @beer.notes.empty?) ? "No notes have been added for this beer." : m(@beer.notes) %>
 </div>

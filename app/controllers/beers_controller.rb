@@ -40,19 +40,19 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.xml
   def create
-	@cellar = Cellar.find(params[:cellar_id])
-	
-	# This is kind of gross, but cleans up nicely.
-	if params[:beer][:price] =~ /^\$/
-		params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
-	end
-	
-  @beer = @cellar.beers.new(params[:beer])
-  @beer.name = @beer.brew.name
-  @beer.brewery_name = @beer.brew.brewery.name
-	
-	return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
-	
+    @cellar = Cellar.find(params[:cellar_id])
+    
+    # This is kind of gross, but cleans up nicely.
+    if params[:beer][:price] =~ /^\$/
+      params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
+    end
+    
+    @beer = @cellar.beers.new(params[:beer])
+    @beer.name = @beer.brew.name
+    @beer.brewery_name = @beer.brew.brewery.name
+    
+    return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
+    
     respond_to do |format|
       if @beer.valid? and @beer.save
         # Record this momentous event.
@@ -75,23 +75,21 @@ class BeersController < ApplicationController
   # PUT /beers/1
   # PUT /beers/1.xml
   def update
-	cellar = Cellar.find(params[:cellar_id])
-	
-	# This is kind of gross, but cleans up nicely.
-	if params[:beer][:price] =~ /^\$/
-		params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
-	end
-	
+    cellar = Cellar.find(params[:cellar_id])
+    
+    # This is kind of gross, but cleans up nicely.
+    if params[:beer][:price] =~ /^\$/
+      params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
+    end
+    
     @beer = Beer.find(params[:id])
-	
-	return_to = cellar.user == @user ? root_url : cellars_path(cellar)
-	
-	# We need to keep track of this for a bit...
-	quantity = @beer.quantity
-	
+
+    # We need to keep track of this for a bit...
+    quantity = @beer.quantity
+    
     respond_to do |format|
       if @beer.update_attributes(params[:beer])
-        format.html { redirect_to(return_to, :notice => "#{@beer.brew.name} has been updated!") }
+        format.html { redirect_to(cellar_beer_path(cellar, @beer), :notice => "#{@beer.brew.name} has been updated!") }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

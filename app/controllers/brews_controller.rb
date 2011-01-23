@@ -89,11 +89,16 @@ class BrewsController < ApplicationController
   # DELETE /brews/1.xml
   def destroy
     @brew = Brew.find(params[:id])
-    @brew.destroy
 
     respond_to do |format|
-      format.html { redirect_to(brews_url) }
-      format.xml  { head :ok }
+      if not @brew.beers.empty? or not @brew.tastings.empty?
+        format.html { redirect_to(brews_url, :notice => "Brew cannot be deleted. #{@brew.beers.count} cellared beers and #{@brew.tastings.count} tastings associated with this brew still.") }
+        format.xml  { head :ok }
+      else 
+        @brew.destroy
+        format.html { redirect_to(brews_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 end

@@ -52,8 +52,20 @@ div.buttons {
 }
 */
 
-#notice {
+.notice {
 	color: green;
+	background-color: #DFF2B3;
+	padding: 5pt;
+		
+	border-radius: 5pt;
+	-moz-border-radius: 5pt;
+	-webkit-border-radius: 5pt;
+	
+	font-weight: bold;
+}
+
+.description p {
+	margin-bottom: 10pt;
 }
 
 .brief {
