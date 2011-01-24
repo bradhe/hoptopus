@@ -245,8 +245,13 @@
 <div id="update-preferences">
 	<%= form_for(@user) do |f| %>
 	<div class="field">
+		<%= f.check_box :should_show_own_events %>
+		<%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
+	</div>	
+	
+	<div class="field">
 		<%= f.check_box :email_consent %>
-		<%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'email-consent' %>
+		<%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'checkbox-label' %>
 	</div>	
 	
 	<h3>Location</h3>	

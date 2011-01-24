@@ -2,10 +2,10 @@ class CellarsController < ApplicationController
   # GET /cellars
   # GET /cellars.xml
   def index
-    unless @user.nil?
-      @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
-    else 
+    if @user.nil? or @user.should_show_own_events
       @recent_events = Event.order('created_at DESC').limit(15).all
+    else 
+      @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
     end
     
     @cellars = Cellar.all
