@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
-    @user.email_consent = params[:user][:email_consent]
+    
+    if params[:user][:state].nil?
+      @user.state = nil
+    end
     
     respond_to do |format|
-      if @user.save
+      if @user.update_attributes(params[:user])
         format.html { redirect_to(root_url, :notice => 'Your preferences have been saved!') }
         format.xml  { head :ok }
       else

@@ -14,8 +14,10 @@ class AuthController < ApplicationController
 	end
 	
 	def register
+    @new_user = User.new 
+    
 		if request.post?
-			@new_user = User.new(:username => params[:username], :email => params[:email], :password_hash => params[:password], :password_hash_confirmation => params[:password_confirmation])
+			@new_user = User.new(params[:user])
 
 			if @new_user.valid? and @new_user.save
 				session[:user_id] = @new_user.id
