@@ -15,14 +15,22 @@
     <%= f.label :name, 'Name:' %>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :country, 'Country:' %>
-    <%= f.text_field :country %>
-  </div>
-  <div class="field">
-    <%= f.label :state, 'State:' %>
-    <%= f.text_field :state %>
-  </div>
+  	<% Carmen.excluded_states = { 'US' => ['AE'] } %>
+	<div class="field">
+		<%= f.label :country, 'Country:' %>
+		<%= f.select :country, countries_list %>
+	</div>
+	
+	<div class="field">
+	  <%= f.label :state, 'State/Province:' %>
+		
+	  <% unless @user.state.nil? %>
+	    <%= f.select :state, Carmen.states %>
+	  <% else %>
+	    <%= f.select :state, [], { :include_blank => 'No states available for this country.' }, :disabled => true %>
+	  <% end %>
+	</div>
+
   <div class="field">
     <%= f.label :city, 'City:' %>
     <%= f.text_field :city %>

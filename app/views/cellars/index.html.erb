@@ -2,7 +2,7 @@
 	all cellars
 <% end %>
 
-<h2 data-hideable="news">Flash! News! OMG!</h2>
+<h2>Flash! News! OMG!</h2>
 
 <div id="news">
 	<ul class="events">
@@ -16,10 +16,12 @@
 	</ul>
 </div>
 
-<h2 class="cellars">Browse Cellars</h2>
+<h2 class="cellars" data-hideable="cellars">Browse Cellars</h2>
 
-<ul class="all-cellars">
-<% @cellars.each do |cellar| %>
-	<li><a href="/cellars/<%= cellar.user.username %>"><%= cellar.user.username %></a></li>
-<% end %>
-</ul>
+<div id="cellars">
+	<ul class="all-cellars">
+	<% @cellars.each do |cellar| %>
+		<li><%= link_to cellar.user.username, cellar_path(cellar.user.username) %> (<%= cellar.beers.count %> beers, <%= cellar.user.tastings.count %> tasting notes)</a></li>
+	<% end %>
+	</ul>
+</div>

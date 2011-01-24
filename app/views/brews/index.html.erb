@@ -2,8 +2,6 @@
 	brews wiki
 <% end %>
 
-<h2>Brews Wiki</h2>
-
 <% if is_logged_in? %>
 	<div class="navigation"><%= link_to 'Add a Beer', new_brew_path %> <%= link_to 'Add a Brewery', new_brewery_path %></div>
 <% end %>
@@ -12,7 +10,9 @@
 	<div class="notice"><%= notice %></div>
 <% end %>
 
-<h3>Beers</h3>
+
+<h2>Brews Wiki</h2>
+
 <table class="list" <%= is_table_sortable? @brews %>>
 	<thead>
 	  <tr>

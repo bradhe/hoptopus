@@ -73,4 +73,6 @@ $(document).ready(function() {
 	var tabContents = $('#' + firstTab.attr('data-tab-handle'));
 	firstTab.addClass('open');
 	tabContents.show();
+	
+	window.setTimeout(function() { $('div.notice').fadeOut(2000, function() { $(this).remove(); }); }, 1000);
 });
