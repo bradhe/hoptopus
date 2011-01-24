@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20110124062636) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
