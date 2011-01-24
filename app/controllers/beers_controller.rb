@@ -108,7 +108,7 @@ class BeersController < ApplicationController
     @beer.save
 
     respond_to do |format|
-      format.html { redirect_to(root_url) }
+      format.html { redirect_to(cellar_path(@user.username)) }
       format.xml  { head :ok }
     end
   end
