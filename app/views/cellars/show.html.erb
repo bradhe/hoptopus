@@ -250,6 +250,7 @@
 	</div>	
 	
 	<h3>Location</h3>	
+	<% Carmen.excluded_states = { 'US' => ['AE'] } %>
 	<div class="field">
 		<%= f.label :country, 'Country:' %>
 		<%= f.select :country, countries_list %>
