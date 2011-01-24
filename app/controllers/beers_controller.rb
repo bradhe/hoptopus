@@ -102,7 +102,10 @@ class BeersController < ApplicationController
   # DELETE /beers/1.xml
   def destroy
     @beer = Beer.find(params[:id])
-    @beer.destroy
+    
+    # Beers don't get deleted, they just get removed from the cellar.
+    @beer.removed_at = Time.now
+    @beer.save
 
     respond_to do |format|
       format.html { redirect_to(root_url) }

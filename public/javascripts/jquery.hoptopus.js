@@ -9,7 +9,7 @@ $("button[data-confirm], input[data-confirm]").live('click', function(e) {
 });
 
 $(document).ready(function() {
-	$('h3[data-hideable]').each(function() {
+	$('h3[data-hideable], h2[data-hideable]').each(function() {
 		var div = $('div#'+$(this).attr('data-hideable'));
 		div.hide();
 		

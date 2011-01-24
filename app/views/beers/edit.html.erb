@@ -1,3 +1,7 @@
+<div class="navigation">
+	<%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) %>
+</div>
+
 <h2>Editing Cellared Beer</h2>
 <% form_for(@beer, :url => cellar_beer_path(@cellar)) do |f| %>
 		
@@ -5,38 +9,73 @@
 
 <div class="field">	
 	<%= label_tag "brewery", "Beer:" %>
-	<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name', @beer.brew.brewery.id), :include_blank => 'Brewery' %>
-	<%= f.collection_select :brew_id, Brew.find(:all, "brewery_id='#{@beer.brew.brewery.id}'"), :id, :name, :disabled => true %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.brew.brewery.name %> <%= @beer.brew.name %></span>
+	<% else %>
+		<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name', @beer.brew.brewery.id), :include_blank => 'Brewery' %>
+		<%= f.collection_select :brew_id, Brew.find(:all, "brewery_id='#{@beer.brew.brewery.id}'"), :id, :name, :disabled => true %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :year, "Year:" %>
-	<%= f.text_field :year %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.year || 'Unknown' %></span>
+	<% else %>
+		<%= f.text_field :year %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :quantity, "Quantity:" %>
-	<%= f.text_field :quantity %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.quantity || 'Unknown' %></span>
+	<% else %>
+		<%= f.text_field :quantity %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :abv, "ABV:" %>
-	<%= f.text_field :abv %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.abv  || 'Unknown' %></span>
+	<% else %>
+		<%= f.text_field :abv %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :bottle_size_id, "Bottle Size:" %>
-	<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.bottle_size.name %></span>
+	<% else %>
+		<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :price, "Price:" %>
-	<%= f.text_field :price %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.price || 'Unknown' %></span>
+	<% else %>
+		<%= f.text_field :price %>
+	<% end %>
 </div>
 
 <div class="field">
 	<%= f.label :cellared_at, "Cellared Date:" %>
-	<%= f.text_field :cellared_at %>
+	
+	<% if @beer.removed_at %>
+		<span class="value"><%= @beer.cellared_at %></span>
+	<% else %>
+		<%= f.text_field :cellared_at %>
+	<% end %>
 </div>
 
 <div class="field">

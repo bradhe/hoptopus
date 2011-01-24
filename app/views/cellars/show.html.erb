@@ -11,7 +11,9 @@
 		This is your cellar! Share it with others: <a href="<%= cellar_url %>"><%= cellar_url %></a> 
 	</div>
 	
-	<p id="notice"><%= notice %></p>
+	<% if notice %>
+		<div class="notice"><%= notice %></div>
+	<% end %>
 <% end %>
 
 <h2 data-tab-handle="cellar">
@@ -23,7 +25,7 @@
 </h2>
 
 <div id="cellar">
-	<table class="list" <%= is_table_sortable? @cellar.beers %>>
+	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| b.removed_at.nil? } %>>
 		<thead>
 			<tr>
 				<th width="40"></th>
@@ -43,7 +45,7 @@
 		
 		<tbody>
 		
-	<% if @cellar.beers.empty? %>
+	<% if @cellar.beers.select { |b| b.removed_at.nil? }.empty? %>
 	
 			<tr>
 				<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
@@ -52,7 +54,7 @@
 	<% else %>
 	
 		<% c = 'color2' %>
-		<% @cellar.beers.each do |b| %>
+		<% @cellar.beers.select { |b| b.removed_at.nil? }.each do |b| %>
 			<% c = (c == 'color2' ? 'color1' : 'color2') %>
 			
 			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
@@ -68,8 +70,64 @@
 			
 				<td align="center"><a href="javascript:void(0);" class="one">Tasted!</a></td>
 				<td align="center"><%= link_to 'Edit Beer', edit_cellar_beer_path(@cellar, b) %></td>
-				<td align="center"><%= button_to 'Delete', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'You sure?' %></td>
+				<td align="center"><%= button_to 'Remove', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
 				
+			<% end %>
+			
+			</tr>
+			
+		<% end %>
+		
+	<% end %>
+		</tbody>
+	</table>
+</div>
+
+<h2 data-tab-handle="cellar-history">Cellar History</h2>
+<div id="cellar-history">
+	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| not b.removed_at.nil? } %>>
+		<thead>
+			<tr>
+				<th width="40"></th>
+				<th>Brewery</th>
+				<th>Beer</th>
+				<th>Size</th>
+				<th>Quantity</th>
+				<th>Cellared</th>
+				<th>Removed On</th>
+				<th class="unsortable"></th>
+			<% if is_users_cellar? %>
+				<th class="unsortable"></th>
+			<% end %>
+			</tr>
+		</thead>
+		
+		<tbody>
+		
+	<% if @cellar.beers.select { |b| not b.removed_at.nil? }.empty? %>
+	
+			<tr>
+				<td colspan="<%= is_users_cellar? ? '10' : '9' %>" class="empty">Hmm looks like no beers have been removed from the cellar yet!</td>
+			</tr>
+			
+	<% else %>
+	
+		<% c = 'color2' %>
+		<% @cellar.beers.select { |b| not b.removed_at.nil? }.each do |b| %>
+			<% c = (c == 'color2' ? 'color1' : 'color2') %>
+			
+			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
+				<td align="right" class="year"><%= b.year %></td>
+				<td><%= b.brewery_name || b.brew.brewery.name %></td>
+				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name, brew_path(b.brew) %></td>
+				<td align="center"><%= b.bottle_size.name %></td>
+				<td class="quantity" align="center"><%= b.quantity %></td>
+				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
+				<td align="center"><%= b.removed_at.strftime "%A %B %d, %Y" %></td>
+				<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
+				
+			<% if is_users_cellar? %>
+				<td align="center"><%= link_to 'Edit Notes', edit_cellar_beer_path(@cellar, b) %></td>
 			<% end %>
 			
 			</tr>

@@ -2,17 +2,19 @@
 	all cellars
 <% end %>
 
-<h2>Flash! News! OMG!</h2>
+<h2 data-hideable="news">Flash! News! OMG!</h2>
 
-<ul class="events">
-<% if @recent_events.nil? or @recent_events.empty? %>
-	<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', brews_path %></li>
-<% else %>
-	<% @recent_events.each do |event| %>
-		<%== render_event event %>
+<div id="news">
+	<ul class="events">
+	<% if @recent_events.nil? or @recent_events.empty? %>
+		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', brews_path %></li>
+	<% else %>
+		<% @recent_events.each do |event| %>
+			<%== render_event event %>
+		<% end %>
 	<% end %>
-<% end %>
-</ul>
+	</ul>
+</div>
 
 <h2 class="cellars">Browse Cellars</h2>
 
