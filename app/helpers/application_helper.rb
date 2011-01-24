@@ -44,7 +44,7 @@ module ApplicationHelper
       
       li += "brew-edited\">#{msg}"
     elsif not event.brew_added_events.empty?
-      brews = event.brew_edited_events.map { |e| link_to e.brew.name, brew_path(e.brew) }.join(', ')
+      brews = event.brew_added_events.map { |e| link_to e.brew.name, brew_path(e.brew) }.join(', ')
       msg = "<a href=\"/cellars/#{event.user.username}\">#{event.user.username}</a> added #{brews} to the #{ link_to 'Brew Wiki', brews_path }"
       
       li += "brew-added\">#{msg}"
