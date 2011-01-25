@@ -9,6 +9,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3', :group => :development
 gem 'rack-rewrite'
 gem 'maruku'
 gem 'carmen'
+gem 'ym4r'
 
 # Use unicorn as the web server
 # gem 'unicorn'

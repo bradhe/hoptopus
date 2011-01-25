@@ -71,6 +71,7 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
+    ym4r (0.6.1)
 
 PLATFORMS
   x86-mingw32
@@ -81,3 +82,4 @@ DEPENDENCIES
   rack-rewrite
   rails (= 3.0.3)
   sqlite3-ruby
+  ym4r
