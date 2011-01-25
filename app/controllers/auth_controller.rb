@@ -68,7 +68,7 @@ class AuthController < ApplicationController
         redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
       end
 
-      if @reset_request.update_attributes
+      if @reset_request.update_attributes(params[:password_reset_attempt])
         @reset_request.user.password_hash = Digest::SHA256.hexdigest(@reset_request.password)
         @reset_request.user.save
       
