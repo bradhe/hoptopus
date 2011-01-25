@@ -1,11 +1,12 @@
 class PasswordReset < ActionMailer::Base
   default :from => "thehoptopus@hoptopus.com"
   
-  def reset_mail(email, security_token, full_host)    
+  def reset_mail(user, security_token, full_host)    
     @security_token = security_token
     @host = full_host
+    @receiving_user = user
     
-    mail(:subject => 'Password Reset Request', :to => email) do |format|
+    mail(:subject => 'Password Reset Request', :to => user.email) do |format|
       format.html
     end
   end

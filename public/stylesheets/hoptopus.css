@@ -306,7 +306,6 @@ h2 a {
 
 div.login, div.reset-password {
 	margin-top: 15pt;
-	width: 295px;
 	background-color: #ffe9a8;
 	
 	border-radius: 5pt;
@@ -319,6 +318,7 @@ div.login, div.reset-password {
 	
 	margin-left: auto;
 	margin-right: auto;
+	display: table;
 }
 
 div.login p {

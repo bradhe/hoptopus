@@ -72,8 +72,10 @@ Hoptopus::Application.routes.draw do
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
   match 'logout' => 'auth#logout'
-  match 'reset-password/sent' => 'auth#password_reset_sent', :as => 'password_reset_sent'
-  match 'reset-password(/:id)' => 'auth#reset_password', :as => 'reset_password'
+  match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'
+  match 'reset-password/sent' => 'auth#password_reset_confirmation_sent', :as => 'password_reset_confirmation_sent'
+  match 'reset-password/:id' => 'auth#confirm_password_reset', :as => 'confirm_password_reset'
+  
   
   root :to => "home#index"
 end

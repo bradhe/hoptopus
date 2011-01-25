@@ -3,7 +3,8 @@
 <% end %>
 
 <div class="login">
-	<p class="note">Please login to continue.</p>
+	<p class="note">No account? <%= link_to 'Register', '/register' %></p>
+
 	<% if request.post? and @user.nil? %>
 		<ul class="errors">
 			<li>Invalid username or password.</li>
@@ -15,7 +16,7 @@
 		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 
 		<div class="buttons">
-			<span class="note">No account? <%= link_to 'Register', '/register' %></span> <%= submit_tag 'Login' %>
+			<span class="note"><%= link_to 'Reset Password', request_password_reset_path %></span> <%= submit_tag 'Login' %>
 		</div>
 	<% end %>
 </div>
