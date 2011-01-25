@@ -4,6 +4,10 @@
 
 <div class="navigation">
 	<%= link_to 'Back to Brew Wiki', brews_path %>
+	
+	<% if is_logged_in? %>
+	<%= link_to 'Edit Beer', edit_brew_path(@brew) %>
+	<% end %>
 </div>
 
 <h2><%= @brew.brewery.name %>'s <%= @brew.name %></h2>
