@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110124174508) do
+ActiveRecord::Schema.define(:version => 20110125072803) do
 
   create_table "beer_added_events", :force => true do |t|
     t.integer  "beer_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20110124174508) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
@@ -101,6 +102,14 @@ ActiveRecord::Schema.define(:version => 20110124174508) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "password_reset_attempts", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "security_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "confirmed",      :default => false
   end
 
   create_table "tastings", :force => true do |t|

@@ -7,7 +7,7 @@ module ApplicationHelper
 	end
 	
 	def full_host
-		host = self.request.host || "young-journey-427.heroku.com"
+		host = self.request.host || "hoptopus.com"
 		
 		if (not self.request.port.nil?) and self.request.port != 80
 			host += ':' + self.request.port.to_s
