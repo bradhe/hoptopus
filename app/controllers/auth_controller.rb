@@ -33,6 +33,7 @@ class AuthController < ApplicationController
 		end
 	end
   
+<<<<<<< HEAD
   def reset_password
     if request.put? and params[:id]
       # This is a post back with a thinger. Lets set the password for this guys.
@@ -70,6 +71,10 @@ class AuthController < ApplicationController
         redirect_to root_path
       end
     elsif request.post? 
+=======
+  def request_password_reset
+    if request.post? 
+>>>>>>> 8fe8d7948cb03c085bf6fdef8a2336e66d6be628
       @reset_request = PasswordResetAttempt.new(params[:password_reset_attempt])
       
       if @reset_request.valid?
@@ -81,7 +86,7 @@ class AuthController < ApplicationController
         
         if @reset_request.save 
           # Send out the email and show the "it's on its way" email.
-          PasswordReset.reset_mail(user.email, @reset_request.security_token, full_host).deliver
+          PasswordReset.reset_mail(user, @reset_request.security_token, full_host).deliver
           
           # Delete all the other attempts
           PasswordResetAttempt.where("user_id='#{@reset_request.user.id}'").all.each do |p|
@@ -91,29 +96,53 @@ class AuthController < ApplicationController
           end
           
           # TODO: Implement that here
-          redirect_to password_reset_sent_path
+          redirect_to password_reset_confirmation_sent_path
         end
       end
-      
-      # Not valid.
-    elsif params[:id] 
-      # Make sure we're within the bounds of the request. If it's older than two days
-      # then we need to have them make another request.
-      @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
-      
-      # They have a two-day window to reclaim their thing.
-      if not @reset_request or (@reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
-        # TODO: Figure out what to do here
-        redirect_to reset_password_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
-      end
-
-      # Show the form that takes a password and a confirmed password.
     else
       # just display like normal
-      @reset_request = PasswordResetAttempt.new :user => User.new
+      @reset_request = PasswordResetAttempt.new
     end
   end
   
-  def password_reset_sent
+  def confirm_password_reset
+    if request.put?
+      # This is a post back with a thinger. Lets set the password for this guys.
+      @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
+
+      if (@reset_request and @reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
+        # TODO: Figure out what to do here
+        redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
+      end
+
+      if @reset_request.update_attributes(params[:password_reset_attempt])
+        @reset_request.user.password_hash = Digest::SHA256.hexdigest(@reset_request.password)
+        @reset_request.user.save
+      
+        # Login this user
+        session[:user_id] = @reset_request.user.id
+      
+        # Also set the request to confirmed.
+        @reset_request.confirmed = true
+        @reset_request.save
+      
+        redirect_to root_path
+      end      
+    else
+      # Make sure we're within the bounds of the request. If it's older than two days
+      # then we need to have them make another request.
+      @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
+        
+      # They have a two-day window to reclaim their thing.
+      if not @reset_request or (@reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
+        # TODO: Figure out what to do here
+        redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
+      end
+
+      # Show the form that takes a password and a confirmed password.
+    end
+  end
+
+  def password_reset_confirmation_sent
   end
 end 

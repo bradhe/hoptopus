@@ -53,7 +53,7 @@ class BrewsController < ApplicationController
         brew_added_event = BrewAddedEvent.new :event => event, :brew => @brew 
         brew_added_event.save
         
-        format.html { redirect_to(brews_url, :notice => 'Brew was successfully created.') }
+        format.html { redirect_to(@brew, :notice => 'Brew was successfully created.') }
         format.xml  { render :xml => @brew, :status => :created, :location => @brew }
       else
         format.html { render :action => "new" }
@@ -76,7 +76,7 @@ class BrewsController < ApplicationController
         brew_edited_event = BrewEditedEvent.new :event => event, :brew => @brew 
         brew_edited_event.save
         
-        format.html { redirect_to(brews_url, :notice => 'Brew was successfully updated.') }
+        format.html { redirect_to(@brew, :notice => 'Brew was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
