@@ -6,10 +6,10 @@ class PasswordResetAttempt < ActiveRecord::Base
   validates_format_of :user_email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!', :on => :create
   
   # This is only important after the initial save.
+  validates_length_of :password, :minimum => 4, :message => 'Passwords must be atleast 4 characters long.', :on => :update
   validates_presence_of :password, :message => 'Please provide a password.', :on => :update
 	validates_confirmation_of :password, :message => 'Passwords do not match.', :on => :update
-	validates_length_of :password, :minimum => 4, :message => 'Passwords must be atleast 4 characters long.', :on => :update
-  
+
   def validate_email
     unless User.find(:first, :select => :id, :conditions => ["email = '#{user_email}'"])
       errors.add(:user_email, 'No user with that email address was found.')
