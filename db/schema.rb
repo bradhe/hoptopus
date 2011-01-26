@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126004751) do
+ActiveRecord::Schema.define(:version => 20110126190705) do
 
   create_table "beer_added_events", :force => true do |t|
     t.integer  "beer_id"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20110126004751) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
@@ -96,7 +95,6 @@ ActiveRecord::Schema.define(:version => 20110126004751) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.text     "description"
   end
 
   create_table "comments", :force => true do |t|
@@ -142,11 +140,12 @@ ActiveRecord::Schema.define(:version => 20110126004751) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "username"
-    t.boolean  "email_consent",          :default => false
+    t.boolean  "email_consent",                      :default => false
     t.string   "country"
     t.string   "state"
     t.string   "city"
-    t.boolean  "should_show_own_events", :default => true
+    t.boolean  "should_show_own_events",             :default => true
+    t.boolean  "should_receive_email_notifications", :default => true
   end
 
 end

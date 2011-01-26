@@ -9,6 +9,11 @@ class CommentsController < ApplicationController
       comment.user = @user # Mark as the current user, of course
       
       if comment.save
+        # Send an email if it's warranted
+        if cellar.user.should_receive_email_notifications
+          Notifications.cellar_comment(cellar, comment).deliver
+        end
+        
         redirect_to cellar_path(cellar.user.username)
       else
         redirect_to cellar_path(cellar.user.username), :notice => "Hmmm, looks like you're trying to leave a blank comment. That sucks man, why would you do that?"

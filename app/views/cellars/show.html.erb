@@ -266,6 +266,12 @@
 		<%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'checkbox-label' %>
 	</div>	
 	
+	<div class="field">
+		<%= f.check_box :should_receive_email_notifications %>
+		<%= f.label :should_receive_email_notifications, "Receive notifications about comments and stuff via email?", :class => 'checkbox-label' %>
+	</div>	
+	
+	
 	<h3>Location</h3>	
 	<% Carmen.excluded_states = { 'US' => ['AE'] } %>
 	<div class="field">
