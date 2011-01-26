@@ -3,7 +3,7 @@ class Notifications < ActionMailer::Base
   
   def cellar_comment(cellar, comment)
     @cellar = cellar
-    @commenter = user.comment
+    @commenter = comment.user
     @comment = comment
     
     mail(:subject => 'New comment on your cellar!', :to => cellar.user.email) do |format|
