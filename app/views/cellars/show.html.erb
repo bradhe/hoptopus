@@ -25,6 +25,7 @@
 </h2>
 
 <div id="cellar">
+    <h3>Currently in Cellar</h3>
 	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| b.removed_at.nil? } %>>
 		<thead>
 			<tr>
@@ -81,6 +82,17 @@
 	<% end %>
 		</tbody>
 	</table>
+    
+    <h3>Recent Activity</h3>
+    <ul class="events">
+    <% if @cellar.user.events.empty? %>
+        <li class="empty"><%= is_users_cellar? ? "You haven't": @cellar.user.username + " hasn't"%> done anything recently.</li>
+    <% else %>
+        <% @cellar.user.events.each do |e| %>
+            <%== render_event e  %>
+        <% end %>
+    <% end %>
+    </ul>
 </div>
 
 <h2 data-tab-handle="cellar-history">Cellar History</h2>

@@ -32,49 +32,9 @@ class AuthController < ApplicationController
 			end
 		end
 	end
-  
-<<<<<<< HEAD
-  def reset_password
-    if request.put? and params[:id]
-      # This is a post back with a thinger. Lets set the password for this guys.
-      @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
-      @reset_request.update_attributes(params[:password_reset_attempt])
-      
-      if not @reset_request or (@reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
-        # TODO: Figure out what to do here
-        redirect_to reset_password_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
-      end
-      
-      # Save this for later so that we don't kill the app
-      @reset_request.user_email = @reset_request.user.email
-      
-      if @reset_request.valid? and @reset_request.save
-        @reset_request.user.password_hash = Digest::SHA256.hexdigest(@reset_request.password)
-        @reset_request.user.save
-      
-        # Login this user
-        session[:user_id] = @reset_request.user.id
-      
-        # Also set the request to confirmed.
-        @reset_request.confirmed = true
-        @reset_request.save
-        
-        # Invalidate all of this user's password reset requests
-        PasswordResetAttempt.where("user_id='#{@reset_request.user.id}'").all.each do |p|
-          # This is fucking retarded...
-          p.user_email = p.user.email
-          
-          p.confirmed = true
-          p.save
-        end
-      
-        redirect_to root_path
-      end
-    elsif request.post? 
-=======
+
   def request_password_reset
     if request.post? 
->>>>>>> 8fe8d7948cb03c085bf6fdef8a2336e66d6be628
       @reset_request = PasswordResetAttempt.new(params[:password_reset_attempt])
       
       if @reset_request.valid?
