@@ -15,10 +15,6 @@ module ApplicationHelper
 		
 		return host
 	end
-  
-  def absolute_url(url)
-    "http://#{full_host}#{url[0] == '/' ? '' : '/' + url}"
-  end
 	
 	def is_table_sortable?(collection) 
 		if collection.nil?
