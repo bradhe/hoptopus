@@ -7,9 +7,12 @@ class CommentsController < ApplicationController
       cellar = Cellar.find(params[:cellar_id])
       comment = cellar.comments.new params[:comment]
       comment.user = @user # Mark as the current user, of course
-      comment.save
       
-      redirect_to cellar_path(cellar.user.username)
+      if comment.save
+        redirect_to cellar_path(cellar.user.username)
+      else
+        redirect_to cellar_path(cellar.user.username), :notice => "Hmmm, looks like you're trying to leave a blank comment. That sucks man, why would you do that?"
+      end
     elsif params[:tasting_id]
       # Comment is for a tasting.
       tasting = Tasting.find(params[:tasting_id])

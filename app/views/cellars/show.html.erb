@@ -380,7 +380,7 @@ $('select#user_country').live('change', function() {
     <% unless @cellar.comments.empty? %>
         <% @cellar.comments.each do |c| %>
     <div class="comment">
-        <span class="biline"><%= c.user.username %> | <%= c.created_at %></span>
+        <span class="byline"><%= link_to c.user.username, cellar_path(c.user.username) %> (<%= c.created_at.strftime "%A %B %d, %Y" %>)</span>
         <%== m c.comment %>
     </div>
         <% end %>
@@ -396,7 +396,7 @@ $('select#user_country').live('change', function() {
     </div>
     
     <div class="buttons">
-        <button type="submit" id="leave-comment">Leave Comment</button>
+        <button type="submit" class="leave-comment" data-comment-box="comment_comment">Leave Comment</button>
     </div>
         <% end %>
     <% end %>

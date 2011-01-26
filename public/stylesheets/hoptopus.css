@@ -228,6 +228,28 @@ h1 img {
 	text-align: center;
 }
 
+.byline {
+    display: block;
+    text-align: right;
+    color: #666;
+    font-style: italic;
+    border-bottom: 1px solid #ccc;
+}
+
+#comments .comment {
+
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+}
+
+#comments h2 {
+    border-bottom: 0;
+}
+
+#comments h1, #comments h2, #comments h3, #comments h4 {
+    margin-bottom: 5pt;
+}
+
 div.info, div.navigation {
 	background-color: #ffe9a8;
 	padding: 5pt;

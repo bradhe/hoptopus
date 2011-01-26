@@ -4,6 +4,10 @@ $.fn.showLoading = function() {
 	$('<span/>').addClass('note').appendTo(div);
 }
 
+$.fn.isEmpty = function() {
+    return this.val && (this.val() == '' || this.val().match(/^\s+$/));
+}
+
 $("button[data-confirm], input[data-confirm]").live('click', function(e) {
 	return confirm($(this).attr('data-confirm'));
 });
@@ -75,4 +79,27 @@ $(document).ready(function() {
 	tabContents.show();
 	
 	window.setTimeout(function() { $('div.notice').fadeOut(2000, function() { $(this).remove(); }); }, 1000);
+    
+    // Set up comment stuff
+    $('button.leave-comment[data-comment-box]').each(function() {
+        var button = $(this);
+        var commentBox = $('#' + $(this).attr('data-comment-box'));
+        
+        if(!commentBox) {
+            return;
+        }
+        
+        commentBox.keypress(function() {
+            if($(this).isEmpty()) {
+                button.attr('disabled', true);
+            }
+            else {
+                button.removeAttr('disabled');
+            }
+        });
+        
+        if(commentBox.isEmpty()) {
+            button.attr('disabled', true);
+        }
+    });
 });
