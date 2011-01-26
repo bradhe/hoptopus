@@ -1,17 +1,21 @@
 Hoptopus::Application.routes.draw do
   resources :cellars, :only => [:index, :show] do
-    resources :beers
+    resources :beers do
+      resources :comments, :only => [:update, :destroy, :create]
+    end
+    
+    resources :comments, :only => [:update, :destroy, :create]
   end
 
   resources :brews do
-    resources :tastings
+    resources :tastings do
+      resources :comments, :only => [:update, :destroy, :create]
+    end
   end
   
   resources :users, :only => :update
 
-  resources :breweries, :except => :show do
-    resources :brews
-  end
+  resources :breweries, :except => :show
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

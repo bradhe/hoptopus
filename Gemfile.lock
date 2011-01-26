@@ -28,6 +28,7 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    acts_as_commentable (3.0.1)
     arel (2.0.7)
     builder (2.1.2)
     carmen (0.2.4)
@@ -71,15 +72,14 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
-    ym4r (0.6.1)
 
 PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  acts_as_commentable
   carmen
   maruku
   rack-rewrite
   rails (= 3.0.3)
   sqlite3-ruby
-  ym4r

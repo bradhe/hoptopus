@@ -1,4 +1,6 @@
 class Beer < ActiveRecord::Base
+  acts_as_commentable
+
   belongs_to :brew
   belongs_to :cellar
   has_many :tastings

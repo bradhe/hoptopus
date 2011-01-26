@@ -374,3 +374,30 @@ $('select#user_country').live('change', function() {
 
 <% end %>
 <% end %>
+
+<h3>Comments</h3>
+<div id="comments">
+    <% unless @cellar.comments.empty? %>
+        <% @cellar.comments.each do |c| %>
+    <div class="comment">
+        <span class="biline"><%= c.user.username %> | <%= c.created_at %></span>
+        <%== m c.comment %>
+    </div>
+        <% end %>
+    <% else %>
+    <div class="empty">No comments have been left yet!</div>
+    <% end %>
+    
+    <% if is_logged_in? %>
+        <% form_for(@cellar.comments.new, :url => cellar_comments_path(@cellar)) do |f| %>
+    <div class="field">
+        <%= f.label :comment, 'Leave a comment:' %>
+        <%= f.text_area :comment %>
+    </div>
+    
+    <div class="buttons">
+        <button type="submit" id="leave-comment">Leave Comment</button>
+    </div>
+        <% end %>
+    <% end %>
+</div>

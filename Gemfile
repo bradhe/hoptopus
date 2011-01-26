@@ -9,7 +9,8 @@ gem 'sqlite3-ruby', :require => 'sqlite3', :group => :development
 gem 'rack-rewrite'
 gem 'maruku'
 gem 'carmen'
-gem 'ym4r'
+#gem 'ym4r' # To be used for geolocation shit
+gem 'acts_as_commentable'
 
 # Use unicorn as the web server
 # gem 'unicorn'

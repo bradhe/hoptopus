@@ -1,4 +1,6 @@
 class Brew < ActiveRecord::Base
+  acts_as_commentable
+
   belongs_to :brewery
   belongs_to :brew_type
   has_many :beers
