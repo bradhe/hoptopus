@@ -2,56 +2,20 @@
 	the easy way to share your tasting notes and what's in you beer cellar
 <% end %>
 
-<div class="description clearfix">
-	<h2>The easy way to share your tasting notes and what's in you beer cellar.</h2>
-	
-    <div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
+<h2>The easy way to share your tasting notes and what's in you beer cellar.</h2>
+
+<div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
+
+<div class="more-info">
+    <p class="tag">Hoptopus makes it easy for you to get the most of your beer cellar!</p>
     
-	<div class="more-info">
-        <p class="tag">Hoptopus makes it easy for you to get the most of your beer cellar!</p>
-        <span class="note">Meet other beer aficionados. Share tasting and aging notes. Track where your beers are in the aging process. Discover new beers with recomendations and reviews from other users.</span>
-		
-        <div class="signup">
-            <%= link_to 'Create a Free Account!', register_path, :class => 'homepage-register' %>
-            <span class="or">or</span>
-            <%= link_to 'Have a Look Around!', cellars_path, :class => 'homepage-lookaround' %>
-        </div>
-<!--		
-		<ul>
-			<li>Share the contents of your cellar and find out how your beers' flavor will develop.</li>
-			<li>See what other people are storing in their cellars.</li>
-			<li>Keep, share, and find tasting notes on your beers as they age.</li>
-		</ul>
--->
-	</div>
+    <span class="note">Meet other beer aficionados. Share tasting and aging notes. Track where your beers are in the aging process. Discover new beers with recomendations and reviews from other users.</span>
+    
+    <div class="signup">
+        <%= link_to 'Create a Free Account!', register_path, :class => 'homepage-register' %>
+        
+        <span class="or">or</span>
+        
+        <%= link_to 'Have a Look Around!', cellars_path, :class => 'homepage-lookaround' %>
+    </div>
 </div>
-
-<!--
-<table width="100%">
-	<tr>
-		<td width="50%" align="center" valign="top">
-			
-		</td>
-		<td width="50%" align="center" valign="top">
-<div class="login">
-	<% if request.post? and @user.nil? %>
-		<ul class="errors">
-			<li>Invalid username or password.</li>
-		</ul>
-	<% end %>
-	
-	<p class="note">No account? <%= link_to 'Register', '/register' %></p>
-
-	<% form_tag('/login', :method => 'post') do %>
-		<div class="field"><%= label_tag :username, "Username:" %> <%= text_field_tag :username %></div>
-		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
-
-		<div class="buttons">
-			<span class="note"><%= link_to 'Reset Password', request_password_reset_path %> </span> <%= submit_tag 'Login' %>
-		</div>
-	<% end %>
-</div>
-		</td>
-	</tr>
-</table>
--->
