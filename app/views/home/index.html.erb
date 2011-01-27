@@ -5,21 +5,31 @@
 <div class="description clearfix">
 	<h2>Hoptopus is the easiest way to track and share whats in your beer cellar!</h2>
 	
+    <div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
+    
 	<div class="more-info">
-		<p class="note">Track what's in your beer cellar and share tasting notes with your friends!</p>
-		
+		<p class="note">Discover new brews while you learn more about the beer you're aging.</p>
+        
+        <div class="signup">
+            <%= link_to 'Create an Account!', register_path, :class => 'homepage-register' %>
+            <span class="or">or</span>
+            <%= link_to 'Take a Look Around!', cellars_path, :class => 'homepage-lookaround' %>
+        </div>
+<!--		
 		<ul>
 			<li>Share the contents of your cellar and find out how your beers' flavor will develop.</li>
 			<li>See what other people are storing in their cellars.</li>
 			<li>Keep, share, and find tasting notes on your beers as they age.</li>
 		</ul>
+-->
 	</div>
 </div>
 
+<!--
 <table width="100%">
 	<tr>
 		<td width="50%" align="center" valign="top">
-			<%= link_to 'Create an Account!', register_path, :class => 'homepage-register' %>
+			
 		</td>
 		<td width="50%" align="center" valign="top">
 <div class="login">
@@ -43,3 +53,4 @@
 		</td>
 	</tr>
 </table>
+-->

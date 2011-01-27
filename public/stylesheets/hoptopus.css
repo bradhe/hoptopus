@@ -30,9 +30,9 @@ div.field, div.actions, div.buttons {
 	margin-bottom: 10px;
 }
 
-.homepage-register {
+.homepage-register, .homepage-lookaround {
 	font-size: 14pt;
-	margin-top: 15pt;
+	margin-top: 5pt;
 	color: #85af22;
 	background-color: #ffe9a8;
 	padding: 20pt;
@@ -44,6 +44,17 @@ div.field, div.actions, div.buttons {
 	border-radius: 5pt;
 	-moz-border-radius: 5pt;
 	-webkit-border-radius: 5pt;
+}
+
+.homepage-lookaround {
+    margin-top: 0;
+    padding: 10pt;
+    padding-left: 20pt;
+    padding-right: 20pt;
+}
+
+span.or {
+    display: block;
 }
 
 .reset-password, .reset-password .field  {
@@ -426,6 +437,10 @@ ul.all-cellars {
 	background-color: #dff2b3;
 }
 
+.more-info p.note {
+    margin-bottom: 0;
+}
+
 .color2 {
 	background-color: #f2e4b3;
 }
@@ -434,6 +449,7 @@ ul.all-cellars {
 	font-size: 16pt;
 	line-height: 24pt;
 	font-style: normal;
+    overflow: hidden;
 }
 
 .more-info ul {
@@ -548,15 +564,18 @@ textarea.notes {
 .wiki h1, .description h1,.wiki h2, .description h2,.wiki h3, .description h3,.wiki h4, .description h4 {
     margin-bottom: 5pt;
 }
-
-.wiki h2, .description h2 {
-    border-bottom: none;
-}
-
 .wiki h3, .description h3 {
     font-size: 11pt;
 }
 
 .wiki ul, .description ul {
     padding-left: 20pt;
+}
+
+.the-hoptopus {
+    float: left;
+}
+
+.signup {
+    text-align: center;
 }
