@@ -23,7 +23,6 @@ pre {
 }
 
 a { color: #000; }
-a:visited { color: #666; }
 a:hover { color: #85af22; }
 
 div.field, div.actions, div.buttons {
@@ -33,8 +32,6 @@ div.field, div.actions, div.buttons {
 .homepage-register, .homepage-lookaround {
 	font-size: 14pt;
 	margin-top: 5pt;
-	color: #85af22;
-	background-color: #ffe9a8;
 	padding: 20pt;
 	padding-left: 40pt;
 	padding-right: 40pt;
@@ -46,15 +43,30 @@ div.field, div.actions, div.buttons {
 	-webkit-border-radius: 5pt;
 }
 
+.homepage-register {
+    background-color: #85AF22;
+    color: #FFE9A8;
+}
+
+.homepage-register:hover, .homepage-lookaround:hover {
+    color: #666;
+}
+
 .homepage-lookaround {
     margin-top: 0;
     padding: 10pt;
     padding-left: 20pt;
     padding-right: 20pt;
+    color: #85af22;
+    background-color: #ffe9a8;
 }
 
 span.or {
     display: block;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 5pt;
+    margin-top: 5pt;
 }
 
 .reset-password, .reset-password .field  {
@@ -445,13 +457,22 @@ ul.all-cellars {
 	background-color: #f2e4b3;
 }
 
-.more-info, .more-info p.note{
+.more-info p.note, .more-info p.tag{
 	font-size: 16pt;
 	line-height: 24pt;
 	font-style: normal;
     overflow: hidden;
 }
 
+.more-info p.tag {
+    margin-bottom: 0;
+}
+
+.more-info span.note {
+    font-size: 10pt;
+    color: #999;
+    line-height: 17pt;
+}
 .more-info ul {
 	margin-left: 25pt;
 }
