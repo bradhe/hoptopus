@@ -52,6 +52,15 @@ div.field, div.actions, div.buttons {
     color: #666;
 }
 
+span.beta {
+    color: #fff;
+    font-size: 10pt;
+    position: relative;
+    top: 4px;
+    left: -20px;
+    text-shadow: -1px -1px 1px #ccc;
+}
+
 .homepage-lookaround {
     margin-top: 0;
     padding: 10pt;
