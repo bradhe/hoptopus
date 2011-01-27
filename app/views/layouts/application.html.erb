@@ -33,11 +33,11 @@
       <li>Howdy <strong><%= @user.username %></strong>!</li>
       <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
       <li><%= link_to 'Browse Cellars', root_path %></li>
-      <li><%= link_to 'Brews Wiki', brews_path %></li>
+      <li><%= link_to 'Brew Wiki', brews_path %></li>
       <li><%= link_to 'Logout', logout_path %></li>
     <% else %>
       <li><%= link_to 'Browse Cellars', cellars_path %></li>
-	  <li><%= link_to 'Brews Wiki', brews_path %></li>
+	  <li><%= link_to 'Brew Wiki', brews_path %></li>
       <li><%= link_to 'Register', register_path %></li>
       <li><%= link_to 'Login', login_path %></li>
     <% end %>

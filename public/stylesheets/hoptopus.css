@@ -87,6 +87,8 @@ div.buttons {
 	float: right;
 	font-style: normal !important;
 	font-size: 9pt;
+    margin-left: 5pt;
+    margin-bottom: 5pt;
 }
 
 .brief .label {
@@ -533,4 +535,28 @@ table[data-sortable] th.headerSortUp {
 
 textarea.notes {
 	height: 150px;
+}
+
+.wiki, .description {
+    overflow: hidden;
+}
+
+.wiki h1, .description h1 {
+    font-size: 16pt;
+}
+
+.wiki h1, .description h1,.wiki h2, .description h2,.wiki h3, .description h3,.wiki h4, .description h4 {
+    margin-bottom: 5pt;
+}
+
+.wiki h2, .description h2 {
+    border-bottom: none;
+}
+
+.wiki h3, .description h3 {
+    font-size: 11pt;
+}
+
+.wiki ul, .description ul {
+    padding-left: 20pt;
 }
