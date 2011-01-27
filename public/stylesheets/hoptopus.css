@@ -180,6 +180,7 @@ h2.tastings {
 
 #content {
 	width: 900px;
+	min-height: 500px;
 }
 
 textarea {
