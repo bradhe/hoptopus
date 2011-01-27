@@ -3,9 +3,12 @@
 <head>
   <title><%= yield :title %> / hoptopus</title>
   <%= stylesheet_link_tag :all %>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.tablesorter.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.hoptopus.js" type="text/javascript"></script>
+
+<% if Rails.env.production? %>
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-20887375-1']);
@@ -18,26 +21,29 @@
     })();
 
   </script>
-  <script type="text/javascript" charset="utf-8">
+  
+  <script type="text/javascript">
     var is_ssl = ("https:" == document.location.protocol);
     var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
     document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
   </script>
 
-    <script type="text/javascript" charset="utf-8">
-      var feedback_widget_options = {};
-      feedback_widget_options.display = "overlay";  
-      feedback_widget_options.company = "hoptopus";
-      feedback_widget_options.placement = "right";
-      feedback_widget_options.color = "#85AF22";
-      feedback_widget_options.style = "idea";
-      var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-    </script>
+  <script type="text/javascript" charset="utf-8">
+    var feedback_widget_options = {};
+    feedback_widget_options.display = "overlay";  
+    feedback_widget_options.company = "hoptopus";
+    feedback_widget_options.placement = "right";
+    feedback_widget_options.color = "#85AF22";
+    feedback_widget_options.style = "idea";
+    var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+  </script>
+<% end %>
 
   <%= csrf_meta_tag %>
   
   <%= yield :javascript %>
 </head>
+
 <body>
 
 <div id="top">
