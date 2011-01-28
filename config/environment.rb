@@ -11,3 +11,6 @@ ActionMailer::Base.smtp_settings = {
   :authentication => :login,
   :enable_starttls_auto => true
 }
+
+ActiveRecord::Base.send :include, Hoptopus::Has::Formatter
+include Hoptopus::EventFormatters

@@ -10,14 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126190705) do
-
-  create_table "beer_added_events", :force => true do |t|
-    t.integer  "beer_id"
-    t.integer  "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20110127190300) do
 
   create_table "beers", :force => true do |t|
     t.integer  "brew_id"
@@ -42,29 +35,6 @@ ActiveRecord::Schema.define(:version => 20110126190705) do
     t.datetime "updated_at"
   end
 
-  create_table "brew_added_events", :force => true do |t|
-    t.integer  "brew_id"
-    t.integer  "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "brew_edited_events", :force => true do |t|
-    t.integer  "brew_id"
-    t.integer  "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "brew_tasted_events", :force => true do |t|
-    t.integer  "year"
-    t.integer  "tasting_id"
-    t.integer  "brew_id"
-    t.integer  "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "brew_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -85,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20110126190705) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
@@ -96,7 +65,6 @@ ActiveRecord::Schema.define(:version => 20110126190705) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.text     "description"
   end
 
   create_table "comments", :force => true do |t|
@@ -117,6 +85,9 @@ ActiveRecord::Schema.define(:version => 20110126190705) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "source_type"
+    t.integer  "source_id"
+    t.string   "formatter_type"
   end
 
   create_table "password_reset_attempts", :force => true do |t|
