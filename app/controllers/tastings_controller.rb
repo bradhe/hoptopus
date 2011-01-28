@@ -27,12 +27,9 @@ class TastingsController < ApplicationController
     @tasting.save
     
     # Record this tasting event
-    event = Event.new :user => @user
+    event = Event.new :user => @user, :source => @tasting, :formatter => BrewTastedEventFormatter.new
     event.save
-    
-    beer_tasted_event = BrewTastedEvent.new :event => event, :brew => @tasting.brew, :tasting => @tasting
-    beer_tasted_event.save
-    
+      
     respond_to do |format|
       if @tasting.save
         format.json { render :json => @tasting.to_json }

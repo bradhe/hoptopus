@@ -1,7 +1,6 @@
 module Hoptopus
 	module EventFormatters
     class EventFormatterBase 
-      include ActionView::Helpers::UrlHelper
       include ActionView::Helpers::TagHelper
       
       def css_class=(cls)
@@ -17,7 +16,8 @@ module Hoptopus
       end
       
       def render
-        content_tag 'li', format_message(event), {:class => @css_class}, false
+        formatted_message = Maruku.new(format_message(event)).to_html
+        content_tag 'li', formatted_message, {:class => @css_class}, false
       end
     end
     
@@ -27,53 +27,34 @@ module Hoptopus
       end
       
       def format_message(event)
-        cellar_link = link_to event.user.username, app.cellar_path(event.user.username)
-        brew_link = link_to event.source.name, app.brew_path(event.source)
+        username = event.user.username
         
-        "#{cellar_link} edited #{brew_link} in the #{link_to 'Brew Wiki', app.brews_path}"
+        "[#{username}](/cellars/#{username}) edited [#{event.source.name}](/brews/#{event.source.id}) in the [Brew Wiki](/brews)"
       end
     end
-    #has_many :beer_added_events
-  #has_many :brew_edited_events
- #has_many :brew_added_events
-  #has_many :brew_tasted_events
-  
+
     class BrewAddedEventFormatter < EventFormatterBase
       def initialize
         @css_class = 'brew-added'
       end
       
       def format_message(event)
-        cellar_link = link_to event.user.username, app.cellar_path(event.user.username)
-        brew_link = link_to event.source.name, app.brew_path(event.source)
+        username = event.user.username
         
-        "#{cellar_link} added #{brew_link} to the #{link_to 'Brew Wiki', app.brews_path}"
+        "[#{username}](/cellars/#{username}) added [#{event.source.name}](/brews/#{event.source.id}) to the [Brew Wiki](/brews)"
       end
     end
-    
-    class BrewAddedEventFormatter < EventFormatterBase
-      def initialize
-        @css_class = 'brew-added'
-      end
-      
-      def format_message(event)
-        cellar_link = link_to event.user.username, app.cellar_path(event.user.username)
-        brew_link = link_to event.source.name, app.brew_path(event.source)
-        
-        "#{cellar_link} added #{brew_link} to the #{link_to 'Brew Wiki', app.brews_path}"
-      end
-    end
-    
+
     class BeerAddedEventFormatter < EventFormatterBase
       def initialize
         @css_class = 'beer-added'
       end
       
       def format_message(e)
-        cellar_link = link_to e.user.username, app.cellar_path(e.user.username)
-        beer_link = link_to (e.source.year ? e.source.year + ' ' : '') + e.source.name, app.cellar_beer_path(e.source.cellar, e.source)
+        beer_link = "/cellars/#{e.user.username}/beers/#{e.source.id}"
+        beer_name = (e.source.year ? e.source.year + ' ' : '') + e.source.name
         
-        "#{cellar_link} added #{beer_link} to their #{link_to 'cellar', app.cellar_path(e.user.username)}"
+        "[#{e.user.username}](/cellars/#{e.user.username}) added [#{beer_name}](#{beer_link}) to their [cellar](/cellars/#{e.user.username})"
       end
     end
     
@@ -83,10 +64,9 @@ module Hoptopus
       end
       
       def format_message(e)
-        cellar_link = link_to e.user.username, app.cellar_path(e.user.username)
-        brew_link = link_to e.source.brew.name, app.brew_tasting_path(e.source.brew, e.source)
+        username = e.user.username
         
-        "#{cellar_link} added tasting notes for #{brew_link}"
+        "[#{username}](/cellars/#{username}) added tasting notes for [#{e.source.brew.name}](/brews/#{e.source.brew.id}/tastings/#{e.source.id})"
       end
     end
 	end

@@ -56,12 +56,9 @@ class BeersController < ApplicationController
     respond_to do |format|
       if @beer.valid? and @beer.save
         # Record this momentous event.
-        event = Event.new :user => @cellar.user
+        event = Event.new :user => @cellar.user, :source => @beer, :formatter => BeerAddedEventFormatter.new
         event.save
         
-        beerAddedEvent = BeerAddedEvent.new :event => event, :beer => @beer
-        beerAddedEvent.save
-
         # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
