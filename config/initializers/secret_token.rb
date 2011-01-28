@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Hoptopus::Application.config.secret_token = 'f0b1096b1aa6bda5d7c009eae400210d674c8825492822a03663ceab3cd73b622828a7385ac98cc0a3fbfd6567f3bce5a406aa96805f7be5d4298334bc99d023'
+Hoptopus::Application.config.secret_token = 'b1c4676d063cd9b6b259bcfc1ad32cd87139e4e30a635ef42e1ea8c7d8f3ffbfb98f5aa86cf0c9e58caacf85dac9ada09ddb01aa466846ab64c9e50d5e22c619'
