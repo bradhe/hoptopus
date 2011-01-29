@@ -18,7 +18,7 @@ class AddSourceToEvents < ActiveRecord::Migration
         e.source = e.brew_added_events[0].brew
       elsif not e.brew_tasted_events.empty?
         e.formatter = BrewTastedEventFormatter.new
-        e.source = e.brew_tasted_events[0].brew
+        e.source = e.brew_tasted_events[0].tasting
       end
       
       e.save
