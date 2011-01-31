@@ -43,7 +43,7 @@
 </div>
 
 <div class="description">
-	<%== m(@brew.description) || 'No description has been provided.' %>
+	<%== @brew.to_html || 'No description has been provided.' %>
 </div>
 
 <div class="recent-tastings">

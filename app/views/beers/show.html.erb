@@ -48,5 +48,5 @@
 </div>
 
 <div class="description">
-	<%== (@beer.notes.nil? or @beer.notes.empty?) ? "No notes have been added for this beer." : m(@beer.notes) %>
+	<%== @beer.to_html || "No notes have been added for this beer." %>
 </div>

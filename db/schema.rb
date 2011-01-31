@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110127190300) do
+ActiveRecord::Schema.define(:version => 20110131040602) do
 
   create_table "beers", :force => true do |t|
     t.integer  "brew_id"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(:version => 20110127190300) do
     t.datetime "cellared_at"
     t.string   "year"
     t.integer  "bottle_size_id"
-    t.text     "notes",          :limit => 255
     t.string   "name"
     t.string   "brewery_name"
     t.datetime "removed_at"
@@ -55,16 +54,17 @@ ActiveRecord::Schema.define(:version => 20110127190300) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
-    t.text     "description",  :limit => 255
   end
 
   create_table "cellars", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.text     "description"
   end
 
   create_table "comments", :force => true do |t|
@@ -102,7 +102,6 @@ ActiveRecord::Schema.define(:version => 20110127190300) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "notes",       :limit => 255
     t.integer  "brew_id"
     t.datetime "cellared_at"
   end
@@ -119,6 +118,15 @@ ActiveRecord::Schema.define(:version => 20110127190300) do
     t.string   "city"
     t.boolean  "should_show_own_events",             :default => true
     t.boolean  "should_receive_email_notifications", :default => true
+  end
+
+  create_table "wikis", :force => true do |t|
+    t.integer  "for_id"
+    t.string   "for_type"
+    t.text     "markup"
+    t.integer  "revision"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
