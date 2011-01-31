@@ -1,5 +1,6 @@
 class Beer < ActiveRecord::Base
   acts_as_commentable
+  acts_as_wiki
 
   belongs_to :brew
   belongs_to :cellar

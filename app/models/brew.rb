@@ -1,5 +1,6 @@
 class Brew < ActiveRecord::Base
   acts_as_commentable
+  acts_as_wiki
 
   belongs_to :brewery
   belongs_to :brew_type

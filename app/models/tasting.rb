@@ -1,6 +1,7 @@
 class Tasting < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :brew
+  acts_as_wiki
 	
 	def self.find_by_user(user)
 		if user.nil? 

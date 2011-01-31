@@ -5,7 +5,7 @@ class AddBottleSizeIdToBeers < ActiveRecord::Migration
   end
 
   def self.down
-	add_column :beers, :size
+	add_column :beers, :size, :integer
     remove_column :beers, :bottle_size_id
   end
 end
