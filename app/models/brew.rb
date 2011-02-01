@@ -5,6 +5,7 @@ class Brew < ActiveRecord::Base
   belongs_to :brewery
   belongs_to :brew_type
   has_many :beers
+  has_many :cellars, :through => :beers, :select => 'DISTINCT cellars.*'
   has_many :tastings
 	
   validates_presence_of :name, :message => 'A name is required.'

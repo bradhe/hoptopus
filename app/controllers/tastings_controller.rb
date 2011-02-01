@@ -25,10 +25,12 @@ class TastingsController < ApplicationController
 	end
 	  
   def create
-    year = params[:tasting][:year]
-    params[:tasting].delete(:year)
+    @beer = Beer.find(params[:beer_id])
     
     @tasting = Tasting.new(params[:tasting])
+    @tasting.cellared_at = @beer.cellared_at
+    @tasting.brew = @beer.brew
+    @tasting.user = @user
     @tasting.save
     
     # Record this tasting event
@@ -37,6 +39,7 @@ class TastingsController < ApplicationController
       
     respond_to do |format|
       if @tasting.save
+        format.html { redirect_to(brew_tasting_path(@tasting.brew, @tasting)) }
         format.json { render :json => @tasting.to_json }
       else
         format.json { render :json => { :status => :error, :message => "Could not create new tasting" }.to_json, :status => 400 }

@@ -1,6 +1,7 @@
 class Tasting < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :brew
+  has_many :events, :dependent => :destroy 
   acts_as_wiki
 	
 	def self.find_by_user(user)

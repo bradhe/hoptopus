@@ -19,7 +19,7 @@ module Hoptopus
       
       module InstanceMethods
         def self.included(cls)
-          cls.send :before_save, :save_current_wiki_if_exists
+          cls.send :after_save, :save_current_wiki_if_exists
         
           # If we wanted to extend class methods it would go here
           cls.extend ClassMethods
@@ -33,7 +33,7 @@ module Hoptopus
           @markup = markup
           
           # Stick this in the wiki bit too. We need to create a new wiki thinger.
-          @current_revision = self.wiki.new :markup => markup, :revision => (current_revision.nil? ? 1 : (current_revision.revision + 1))
+          @current_revision = self.wiki.build :markup => markup, :revision => (current_revision.nil? ? 1 : (current_revision.revision + 1))
         end
         
         def current_revision

@@ -150,6 +150,10 @@ div.buttons {
 	background-color: #f0f0f0;
 }
 
+#cellars {
+    padding-left: 15pt;
+}
+
 h2.tastings {
 	margin-top: 10pt;
 }
@@ -429,6 +433,10 @@ label, span.label {
 .events li {
 	padding: 5pt;
 	list-style-position: inside;
+}
+
+.events p {
+    display: inline;
 }
 
 .events li.brew-tasted {

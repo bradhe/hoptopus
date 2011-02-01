@@ -12,43 +12,46 @@
 
 <h2><%= @brew.brewery.name %>'s <%= @brew.name %></h2>
 
-<div class="brief info">
-	<div class="field">
-		<span class="label">Name:</span>
-		<span class="value"><%= @brew.name %></span>
-	</div>
-	
-	<div class="field">
-		<span class="label">Type:</span>
-		<span class="value"><%= @brew.brew_type.name %></span>
-	</div>
-	
-	<div class="field">
-		<span class="label">Brewery:</span>
-		<span class="value"><%= @brew.brewery.name %></span>
-	</div>
-		
-	<div class="field">
-		<span class="label">Location:</span>
-		<span class="value"><%= brew_location @brew %></span>
-	</div>
-	<div class="field">
-		<span class="label">ABV:</span>
-		<span class="value"><%= @brew.abv || 'Unknown' %></span>
-	</div>
-	<div class="field">
-		<span class="label">IBUs:</span>
-		<span class="value"><%= @brew.ibus || 'Unknown' %></span>
-	</div>
+<h2 data-tab-handle="info">Wiki Page</h2>
+
+<div id="info">
+    <div class="brief info">
+        <div class="field">
+            <span class="label">Name:</span>
+            <span class="value"><%= @brew.name %></span>
+        </div>
+        
+        <div class="field">
+            <span class="label">Type:</span>
+            <span class="value"><%= @brew.brew_type.name %></span>
+        </div>
+        
+        <div class="field">
+            <span class="label">Brewery:</span>
+            <span class="value"><%= @brew.brewery.name %></span>
+        </div>
+            
+        <div class="field">
+            <span class="label">Location:</span>
+            <span class="value"><%= brew_location @brew %></span>
+        </div>
+        <div class="field">
+            <span class="label">ABV:</span>
+            <span class="value"><%= @brew.abv || 'Unknown' %></span>
+        </div>
+        <div class="field">
+            <span class="label">IBUs:</span>
+            <span class="value"><%= @brew.ibus || 'Unknown' %></span>
+        </div>
+    </div>
+
+    <div class="description">
+        <%== @revision.to_html || 'No description has been provided.' %>
+    </div>
 </div>
 
-<div class="description">
-	<%== @revision.to_html || 'No description has been provided.' %>
-</div>
-
-<div class="recent-tastings">
-	<h3>Recent Tastings</h3>
-
+<h2 data-tab-handle="recent-tastings">Tastings</h2>
+<div id="recent-tastings">
 	<table class="list" <%= is_table_sortable? @brew.tastings %>>
 		<thead>
 			<tr>
@@ -77,4 +80,17 @@
 	<% end %>
 		</tbody>
 	</table>
-</table>
+</div>
+
+<h2 data-tab-handle="cellars">Cellars with this Beer</h2>
+<div id="cellars">
+    <ul>
+    <% if @brew.cellars.empty? %>
+        <li class="empty">No cellars have this beer in them.</li>
+    <% else %>
+        <% @brew.cellars.each do |c| %>
+        <li><%= link_to c.user.username, cellar_path(c.user.username) %></li>
+        <% end %>
+    <% end %>
+    </ul>
+</div>

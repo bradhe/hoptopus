@@ -15,8 +15,16 @@ module Hoptopus
         @event
       end
       
+      def event_time
+        if @event.created_at > 1.days.ago
+          @event.created_at.strftime '%I:%M:%S %p'
+        else
+          @event.created_at.strftime '%A %B %d, %Y'
+        end
+      end
+      
       def render
-        formatted_message = Maruku.new(format_message(event)).to_html
+        formatted_message = Maruku.new(format_message(event)).to_html + "<span class=\"timestamp note\">(#{event_time})</span>"
         content_tag 'li', formatted_message, {:class => @css_class}, false
       end
     end

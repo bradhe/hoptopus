@@ -86,7 +86,7 @@
 </div>
 
 <div class="buttons">
-	<button type="submit" id="add-beer">Save Beer</button>
+	<button type="submit" id="add-beer">Save Beer</button> <%= link_to 'Back', cellar_path(@beer.cellar.user.username) %>
 </div>
 
 <% end %>
