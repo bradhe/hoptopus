@@ -1,10 +1,14 @@
-#History
+#Brewer's Notes
 
-*Fill in a description here.*
+*Fill in notes from the brewer here. These can usually be found on the brewery's website.*
 
-#Recomended Drinking
+#Description
 
-*How should this beer be drank? What temperature? What type of glass?*
+*Fill in your own description of the brew here!*
+
+#Available In
+
+*What size bottles is this available in? Is it only available on draft?*
 
 #Links
 
