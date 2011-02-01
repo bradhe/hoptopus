@@ -5,7 +5,7 @@ class BrewsController < ApplicationController
   # GET /brews.xml
   def index
     @brews = Brew.order('name').all
-    @recent_events = Event.where('source_type = ? OR source_type = ?', 'Brew', 'Tasting').all
+    @recent_events = Event.where('source_type = ? OR source_type = ?', 'Brew', 'Tasting').order('created_at DESC').all
     @breweries = Brewery.order('name').all
     
     respond_to do |format|
