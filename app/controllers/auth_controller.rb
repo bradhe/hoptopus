@@ -29,7 +29,7 @@ class AuthController < ApplicationController
 				cellar.save
         
         # Alert Brad that there was a registration
-        Notifications.user_registered(@new_user)
+        Notifications.user_registered(@new_user).deliver
 
 				redirect_to root_path
 			end
