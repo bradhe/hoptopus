@@ -62,7 +62,7 @@ class BrewsController < ApplicationController
         # Record this momentous event.
         last_event = Event.order('created_at').where('formatter_type = ? AND user_id = ? AND source_id = ?', 'BrewAddedEventFormatter', @user.id, @brew.id).first
         
-        if last_event and last_event.created_at > 1.days.ago
+        if not last_event or last_event.created_at < 1.days.ago
           event = Event.new :user => @user, :source => @brew, :formatter => BrewAddedEventFormatter.new
           event.save
         end
@@ -86,7 +86,7 @@ class BrewsController < ApplicationController
         # Record this momentous event.
         last_event = Event.order('created_at').where('formatter_type = ? AND user_id = ? AND source_id = ?', 'BrewEditEventFormatter', @user.id, @brew.id).first
         
-        if last_event and last_event.created_at > 1.days.ago
+        if not last_event or last_event.created_at < 1.days.ago
           event = Event.new :user => @user, :source => @brew, :formatter => BrewEditEventFormatter.new
           event.save
         end
