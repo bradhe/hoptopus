@@ -2,13 +2,14 @@ Hoptopus::Application.routes.draw do
   resources :cellars, :only => [:index, :show] do
     resources :beers do
       resources :comments, :only => [:update, :destroy, :create]
+      resources :tastings, :only => [:new, :create]
     end
     
     resources :comments, :only => [:update, :destroy, :create]
   end
 
   resources :brews do
-    resources :tastings do
+    resources :tastings, :only => [:show, :update, :destroy, :edit] do
       resources :comments, :only => [:update, :destroy, :create]
     end
   end

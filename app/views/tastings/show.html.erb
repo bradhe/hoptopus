@@ -19,5 +19,5 @@
 </div>
 
 <div class="description">
-	<%== @tasting.to_html || 'No tasting notes have been entered for this tasting.' %>
+	<%== @tasting.current_revision.to_html || 'No tasting notes have been entered for this tasting.' %>
 </div>

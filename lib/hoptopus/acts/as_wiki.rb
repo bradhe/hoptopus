@@ -6,25 +6,25 @@ module Hoptopus
       end
       
       module AddActsAsWiki
-        def acts_as_wiki
+        def acts_as_wiki(params = {})
           has_many :wiki, :as => :for, :dependent => :destroy 
-
-          class_eval <<-END
-            include Hoptopus::Acts::AsWiki::InstanceMethods
-          END
+          
+          include Hoptopus::Acts::AsWiki::InstanceMethods
+          
+          if params[:default_template]
+            self.wiki_template = File.open(params[:default_template], 'r').read
+          end
         end
       end
       
       module InstanceMethods
         def self.included(cls)
-          # If we wanted to extend class methods it would go here
           cls.send :before_save, :save_current_wiki_if_exists
-        end
         
-        def to_html
-          Maruku.new(current_revision.markup).to_html
+          # If we wanted to extend class methods it would go here
+          cls.extend ClassMethods
         end
-        
+
         def markup
           @markup ||= current_revision  ? current_revision.markup : nil
         end
@@ -44,10 +44,18 @@ module Hoptopus
           @current_revision
         end
         
+        def revisions
+          self.wiki
+        end
+        
         def save_current_wiki_if_exists
           if current_revision
             current_revision.save
           end
+        end
+              
+        module ClassMethods
+          attr_accessor :wiki_template
         end
       end
     end

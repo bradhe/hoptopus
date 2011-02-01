@@ -8,6 +8,11 @@ class TastingsController < ApplicationController
 	def show
 		@tasting = Tasting.find(params[:id])
 	end
+  
+  def new
+    @beer = Beer.find(params[:beer_id])
+    @tasting = Tasting.new :brew => @beer.brew, :cellared_at => @beer.cellared_at
+  end
 
 	def destroy
 		@tasting = Tasting.find(params[:id])

@@ -13,8 +13,9 @@ class BeersController < ApplicationController
   end
   
   def show
-	@beer = Beer.find(params[:id])
-
+    @beer = Beer.find(params[:id])
+    @revision = @beer.revisions.select { |r| r.revision == params[:r] } || @beer.current_revision
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @beers }

@@ -15,13 +15,3 @@
 	<% end %>
 	</ul>
 </div>
-
-<h2 class="cellars" data-hideable="cellars">Browse Cellars</h2>
-
-<div id="cellars">
-	<ul class="all-cellars">
-	<% @cellars.each do |cellar| %>
-		<li><%= link_to cellar.user.username, cellar_path(cellar.user.username) %> (<%= cellar.beers.count %> beers, <%= cellar.user.tastings.count %> tasting notes)</a></li>
-	<% end %>
-	</ul>
-</div>

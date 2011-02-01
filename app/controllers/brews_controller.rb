@@ -16,7 +16,17 @@ class BrewsController < ApplicationController
   # GET /brews/1.xml
   def show
     @brew = Brew.find(params[:id])
-
+    
+    if params[:r]
+      @revision = @brew.revisions.where(:revision => params[:r]).first
+      
+      unless @revision
+        raise ActiveRecord::RecordNotFound, "Unable to find revision #{params[:r]}"
+      end
+    else
+      @revision = @brew.current_revision
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @brew }
@@ -37,6 +47,7 @@ class BrewsController < ApplicationController
   # GET /brews/1/edit
   def edit
     @brew = Brew.find(params[:id])
+    @brew.markup ||= Brew.wiki_template
   end
 
   # POST /brews

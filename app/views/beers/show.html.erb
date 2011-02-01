@@ -48,5 +48,5 @@
 </div>
 
 <div class="description">
-	<%== @beer.to_html || "No notes have been added for this beer." %>
+	<%== @beer.current_revision.to_html || "No notes have been added for this beer." %>
 </div>
