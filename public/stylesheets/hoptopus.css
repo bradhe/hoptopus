@@ -603,8 +603,18 @@ textarea.notes {
 .wiki h1, .description h1,.wiki h2, .description h2,.wiki h3, .description h3,.wiki h4, .description h4 {
     margin-bottom: 5pt;
 }
+
+.wiki h1, .description h1 {
+    font-size: 14pt;
+    color: #85AF22;
+}
+.wiki h2, .description h2 {
+    font-size: 12pt;
+    color: #666;
+}
 .wiki h3, .description h3 {
     font-size: 11pt;
+    color: #85AF22;
 }
 
 .wiki ul, .description ul {

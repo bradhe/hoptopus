@@ -26,7 +26,7 @@ class BrewsController < ApplicationController
         raise ActiveRecord::RecordNotFound, "Unable to find revision #{params[:r]}"
       end
     else
-      @revision = @brew.current_revision
+      @revision = @brew.current_revision || Wiki.new
     end
     
     respond_to do |format|
@@ -63,7 +63,7 @@ class BrewsController < ApplicationController
         event = Event.new :user => @user, :source => @brew, :formatter => BrewAddedEventFormatter.new
         event.save
         
-        format.html { redirect_to(@brew, :notice => 'Brew was successfully created.') }
+        format.html { redirect_to(edit_brew_path(@brew), :notice => 'Brew was successfully created.') }
         format.xml  { render :xml => @brew, :status => :created, :location => @brew }
       else
         format.html { render :action => "new" }
