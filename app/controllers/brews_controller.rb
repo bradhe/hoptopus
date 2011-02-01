@@ -60,8 +60,12 @@ class BrewsController < ApplicationController
     respond_to do |format|
       if @brew.save
         # Record this momentous event.
-        event = Event.new :user => @user, :source => @brew, :formatter => BrewAddedEventFormatter.new
-        event.save
+        last_event = Event.order('created_at').where('formatter_type = ? AND user_id = ? AND source_id = ?', 'BrewAddedEventFormatter', @user.id, @brew.id).first
+        
+        if last_event and last_event.created_at > 1.days.ago
+          event = Event.new :user => @user, :source => @brew, :formatter => BrewAddedEventFormatter.new
+          event.save
+        end
         
         format.html { redirect_to(edit_brew_path(@brew), :notice => 'Brew was successfully created.') }
         format.xml  { render :xml => @brew, :status => :created, :location => @brew }
@@ -80,8 +84,12 @@ class BrewsController < ApplicationController
     respond_to do |format|
       if @brew.update_attributes(params[:brew])
         # Record this momentous event.
-        event = Event.new :user => @user, :source => @brew, :formatter => BrewEditEventFormatter.new
-        event.save
+        last_event = Event.order('created_at').where('formatter_type = ? AND user_id = ? AND source_id = ?', 'BrewEditEventFormatter', @user.id, @brew.id).first
+        
+        if last_event and last_event.created_at > 1.days.ago
+          event = Event.new :user => @user, :source => @brew, :formatter => BrewEditEventFormatter.new
+          event.save
+        end
         
         format.html { redirect_to(@brew, :notice => 'Brew was successfully updated.') }
         format.xml  { head :ok }
