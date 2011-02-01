@@ -596,6 +596,13 @@ textarea.notes {
     overflow: hidden;
 }
 
+.wiki blockquote, .description blockquote {
+    font-style: italic;
+    margin-left: 10pt;
+    padding-left: 5pt;
+    border-left: 2px #ccc solid;
+}
+
 .wiki h1, .description h1 {
     font-size: 16pt;
 }
