@@ -6,7 +6,7 @@ class AuthController < ApplicationController
 
 	  unless @user.nil?
 	    session[:user_id] = @user.id
-	    redirect_to root_path
+	    redirect_to cellar_path @user.username
 	  end
 	end
 	
@@ -31,7 +31,7 @@ class AuthController < ApplicationController
         # Alert Brad that there was a registration
         Notifications.user_registered(@new_user).deliver
 
-				redirect_to root_path
+				redirect_to cellar_path @new_user.username
 			end
 		end
 	end

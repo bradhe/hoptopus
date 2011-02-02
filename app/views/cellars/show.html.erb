@@ -29,7 +29,7 @@
 	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| b.removed_at.nil? } %>>
 		<thead>
 			<tr>
-				<th width="40"></th>
+				<th width="20"></th>
 				<th>Brewery</th>
 				<th>Beer</th>
 				<th>Size</th>
@@ -49,7 +49,13 @@
 	<% if @cellar.beers.select { |b| b.removed_at.nil? }.empty? %>
 	
 			<tr>
-				<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">Hmm doesn't look like you have any beers in your cellar.</td>
+				<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">
+                    <% if is_users_cellar? %>
+                        You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
+                    <% else %>
+                        There is no beer in this cellar yet.
+                    <% end %>
+                </td>
 			</tr>
 			
 	<% else %>
@@ -86,7 +92,7 @@
     <h3>Recent Activity</h3>
     <ul class="events">
     <% if @cellar.user.events.empty? %>
-        <li class="empty"><%= is_users_cellar? ? "You haven't": @cellar.user.username + " hasn't"%> done anything recently.</li>
+        <li class="empty"><%= is_users_cellar? ? "You don't": @cellar.user.username + " doesn't"%> have any recent activity.</li>
     <% else %>
         <% @cellar.user.events.each do |e| %>
             <%== render_event e  %>

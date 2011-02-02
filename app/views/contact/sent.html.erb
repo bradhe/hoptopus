@@ -1,2 +1,6 @@
-<h1>Contact#sent</h1>
-<p>Find me in app/views/contact/sent.html.erb</p>
+<% content_for :title do %>
+    your contact request has been delivered!
+<% end %>
+
+<h2>Your contact request has been delivered!</h2>
+<p>Great! Thanks for reaching out! Someone will get back to you ASAP. In the mean time <%= link_to 'why not go do something fun?', root_url %></p>
