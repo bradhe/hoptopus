@@ -239,7 +239,7 @@
 
 	<div class="field">
 		<%= f.label :bottle_size_id, "Bottle Size:" %>
-		<%= f.collection_select :bottle_size_id, BottleSize.order('order').all, :id, :name %>
+		<%= f.collection_select :bottle_size_id, BottleSize.order('sort_order').all, :id, :name %>
 	</div>
 
 	<div class="field">
