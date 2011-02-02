@@ -73,9 +73,28 @@ $(document).ready(function() {
 		});
 	});
 	
+	var id = firstTab.attr('data-tab-handle');
+	
+	if(location.hash) {
+		id = location.hash.substring(1)
+		
+		// If there is a ? then chop off everything after that
+		if(id.indexOf('?') > 0) {
+			id = id.substring(0, id.indexOf('?'));
+		}
+		
+		// Finally, make sure that we can find this thing
+		if(!id || $('#' + id).length < 1) {
+			id = firstTab.attr('data-tab-handle');
+		}
+		else {
+			window.scroll(0, 0);
+		}
+	}
+	
 	// Make sure the first tab is open
-	var tabContents = $('#' + firstTab.attr('data-tab-handle'));
-	firstTab.addClass('open');
+	var tabContents = $('#' + id);
+	$('h2[data-tab-handle="'+id+'"]').addClass('open');
 	tabContents.show();
 	
 	window.setTimeout(function() { $('div.notice').fadeOut(2000, function() { $(this).remove(); }); }, 1000);

@@ -7,6 +7,7 @@
 	
 	<% if is_logged_in? %>
 	<%= link_to 'Edit Beer', edit_brew_path(@brew) %>
+	<%= link_to 'Add this beer to My Cellar', cellar_path(@user.username) + "?beer=#{@brew.id}\#add-a-beer" %>
 	<% end %>
 </div>
 
@@ -50,8 +51,8 @@
     </div>
 </div>
 
-<h2 data-tab-handle="recent-tastings">Tastings</h2>
-<div id="recent-tastings">
+<h2 data-tab-handle="tastings">Tastings</h2>
+<div id="tastings">
 	<table class="list" <%= is_table_sortable? @brew.tastings %>>
 		<thead>
 			<tr>

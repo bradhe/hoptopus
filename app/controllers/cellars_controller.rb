@@ -23,9 +23,17 @@ class CellarsController < ApplicationController
       @cellar = Cellar.find_by_user(@user)
       @tastings = @user.tastings
     else 
-	  user = User.find_by_username(params[:id])
+      user = User.find_by_username(params[:id])
       @cellar = Cellar.find_by_user(user)
-	  @tastings = @cellar.user.tastings
+      @tastings = @cellar.user.tastings
+    end
+    
+    if @user == @cellar.user
+      @new_beer = Beer.new
+      
+      if params[:beer]
+        @new_beer.brew = Brew.find(params[:beer])
+      end
     end
 
     respond_to do |format|

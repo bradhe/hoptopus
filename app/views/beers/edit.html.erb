@@ -54,7 +54,7 @@
 	<% if @beer.removed_at %>
 		<span class="value"><%= @beer.bottle_size.name %></span>
 	<% else %>
-		<%= f.collection_select :bottle_size_id, BottleSize.all, :id, :name %>
+		<%= f.collection_select :bottle_size_id, BottleSize.order('order').all, :id, :name %>
 	<% end %>
 </div>
 

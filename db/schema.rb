@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110131040602) do
+ActiveRecord::Schema.define(:version => 20110202181212) do
 
   create_table "beers", :force => true do |t|
     t.integer  "brew_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20110131040602) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "order"
   end
 
   create_table "brew_types", :force => true do |t|
@@ -54,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20110131040602) do
     t.integer  "brewery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cellar_id"
     t.integer  "brew_type_id"
     t.integer  "ibus"
     t.float    "abv"
@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20110131040602) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.text     "description"
   end
 
   create_table "comments", :force => true do |t|
