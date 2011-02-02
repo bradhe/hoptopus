@@ -531,6 +531,7 @@ table[data-sortable] th {
 	background-position: right center;
 	background-repeat: no-repeat;
 	padding-right: 10pt;
+	padding-left: 10pt;
 }
 
 table[data-sortable] th.unsortable {
