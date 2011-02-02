@@ -1,0 +1,28 @@
+<h2>Contact The Hoptopus</h2>
+
+<ul class="errors">
+	<% @contact_request.errors.each do |element,msg| %>
+		<li><%= msg %></li>
+	<% end %>
+</ul>
+
+<% form_for(@contact_request, :url => contact_index_path) do |f| %>
+	<div class="field">
+		<%= f.label :email, 'Your email:' %>
+		<%= f.text_field :email %>
+	</div>
+	
+	<div class="field">
+		<%= f.label :subject, 'Subject:' %>
+		<%= f.text_field :subject %>
+	</div>
+	
+	<div class="field">
+		<%= f.text_area :body %>
+	</div>
+	
+	<div class="buttons">
+		<button type="submit">Send Contact Request</button>
+		<%= link_to 'Back', root_url %>
+	</div>
+<% end %>

@@ -17,6 +17,8 @@ Hoptopus::Application.routes.draw do
   resources :users, :only => :update
 
   resources :breweries, :except => :show
+  
+  resources :contact, :only => [:index, :create]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -80,7 +82,7 @@ Hoptopus::Application.routes.draw do
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'
   match 'reset-password/sent' => 'auth#password_reset_confirmation_sent', :as => 'password_reset_confirmation_sent'
   match 'reset-password/:id' => 'auth#confirm_password_reset', :as => 'confirm_password_reset'
-  
+  match 'contact/sent' => 'contact#sent', :as => 'contact_request_sent'
   
   root :to => "home#index"
 end
