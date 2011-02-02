@@ -7,8 +7,12 @@ class ContactController < ApplicationController
     @contact_request = ContactRequest.new params[:contact_request]
     
     respond_to do |format|
-      if @contact_request.valid? and @contact_request.create
-        format.html { redirect_to(contact_sent_path, :notice => 'Your contact request has been delivered!') }
+      if @contact_request.valid?
+        # Send an email...
+        Notifications.contact_request(@contact_request).deliver
+        
+        # ...and get outta here.
+        format.html { redirect_to(contact_request_sent_path) }
       else
         format.html { render :action => 'index' }
       end
