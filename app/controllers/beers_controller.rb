@@ -43,8 +43,8 @@ class BeersController < ApplicationController
     @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
     @formatted_cellared_at = @beer.cellared_at ? @beer.cellared_at.strftime("%Y-%m-%d") : ''
     
-    @years = @beer.finish_aging_at.year - @beer.cellared_at.year
-    @months = (@beer.finish_aging_at.month - @beer.cellared_at.month) % 12
+    @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+    @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
   end
 
   # POST /beers
@@ -76,10 +76,10 @@ class BeersController < ApplicationController
         # Format the dates because fuck it sucks to do in views
         @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
         @formatted_cellared_at = @beer.cellared_at ? @beer.cellared_at.strftime("%Y-%m-%d") : ''
-        
-        @years = @beer.finish_aging_at.year - @beer.cellared_at.year
-        @months = (@beer.finish_aging_at.month - @beer.cellared_at.month) % 12
-
+			
+		@years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+		@months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+		
         format.html { render :action => "new" }
         format.xml  { render :xml => @beer.errors, :status => :unprocessable_entity }
       end
