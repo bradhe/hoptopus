@@ -49,14 +49,16 @@
 
 	<div class="field">
 		<%= f.label :cellared_at, "Cellared Date:" %>
-		<%= f.text_field :cellared_at, :class => 'date' %>
+		<%= f.text_field :cellared_at, :class => 'date', :value => @formatted_cellared_at %>
 	</div>
-    
-    <div class="field">
-		<%= f.label :cellared_at, "Age For:" %>
-		<%= f.text_field :cellared_at, :class => 'date' %>
+
+	<div class="field">
+		<%= f.label :finish_aging_at, "Age For:" %>
+		<%= f.text_field :finish_aging_at, :class => 'date', :value => @formatted_finish_aging_at %>
+                
+        <%= select_tag 'beer_finish_aging_year', options_for_select((0..50).to_a, @years) %> years 
+        <%= select_tag 'beer_finish_aging_month', options_for_select((0..11).to_a, @months) %> months 
 	</div>
-	
 	
 	<div class="field">
 		<%= f.label :markup, "Notes:" %>

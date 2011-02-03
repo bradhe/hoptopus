@@ -422,7 +422,7 @@ label.checkbox-label {
 	text-align: right;
 }
 
-#beer_cellared_at {
+#beer_cellared_at, #beer_finish_aging_at {
 	width: 125px;
 }
 

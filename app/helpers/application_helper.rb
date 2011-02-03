@@ -37,4 +37,12 @@ module ApplicationHelper
       event.formatter.render
     end
   end
+  
+  def format_date(date)
+    if date.nil?
+      return ''
+    end
+    
+    date.strftime "%Y-%m-%d"
+  end
 end

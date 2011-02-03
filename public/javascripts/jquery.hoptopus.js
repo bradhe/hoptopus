@@ -124,8 +124,7 @@ $(document).ready(function() {
         dateFormat: 'yy-mm-dd',
         showButtonPanel: true,
         buttonImage: "/images/calendar.png",
-        buttonImageOnly: false,
-        maxDate: '0m 0w 0y'
+        buttonImageOnly: false
     });
     
     $('input.date').each(function() {

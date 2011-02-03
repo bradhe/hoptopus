@@ -251,6 +251,14 @@
 		<%= f.label :cellared_at, "Cellared Date:" %>
 		<%= f.text_field :cellared_at, :value => Date.today.to_s, :class => 'date' %>
 	</div>
+    
+    <div class="field">
+		<%= f.label :finish_aging_at, "Finished Date:" %>
+		<%= f.text_field :finish_aging_at, :class => 'date' %>
+        
+        <%= select_tag 'beer_finish_aging_year', options_for_select((0..50).to_a) %> years 
+        <%= select_tag 'beer_finish_aging_month', options_for_select((0..11).to_a) %> months 
+	</div>
 	
 	<div class="field">
 		<%= f.label :markup, "Notes:" %>
