@@ -1,3 +1,7 @@
+<% content_for :title do %>
+    add a beer to your cellar
+<% end %>
+
 <h2>Add a Beer to your Cellar</h2>
 
 <div class="info">Don't see the brewery or beer you need? <%= link_to 'Add a Brewery', new_brewery_path %> <%= link_to 'Add a Beer', new_brew_path %></div>
@@ -45,8 +49,14 @@
 
 	<div class="field">
 		<%= f.label :cellared_at, "Cellared Date:" %>
-		<%= f.text_field :cellared_at %>
+		<%= f.text_field :cellared_at, :class => 'date' %>
 	</div>
+    
+    <div class="field">
+		<%= f.label :cellared_at, "Age For:" %>
+		<%= f.text_field :cellared_at, :class => 'date' %>
+	</div>
+	
 	
 	<div class="field">
 		<%= f.label :markup, "Notes:" %>

@@ -39,6 +39,10 @@
 	<%= f.text_field :ibus %>
   </div>
   <div class="field">
+    <%= f.label :suggested_aging_years, 'Suggested Aging:' %>
+    <%= f.select :suggested_aging_years, (0..50).to_a %> years <%= f.select :suggested_aging_months, (0..11).to_a %> months
+  </div>
+  <div class="field">
 	<%= f.label :markup, 'Description:' %>
 	<%= f.text_area :markup %>
 	

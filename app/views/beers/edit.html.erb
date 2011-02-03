@@ -74,7 +74,7 @@
 	<% if @beer.removed_at %>
 		<span class="value"><%= @beer.cellared_at %></span>
 	<% else %>
-		<%= f.text_field :cellared_at %>
+		<%= f.text_field :cellared_at, :class => 'date' %>
 	<% end %>
 </div>
 
