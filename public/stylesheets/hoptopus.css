@@ -647,3 +647,7 @@ table.cellars.list td {
 	color: #666;
 	font-style: italic;
 }
+
+.cellar {
+	margin-bottom: 5pt;
+}

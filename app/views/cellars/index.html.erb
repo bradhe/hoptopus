@@ -5,9 +5,9 @@
 <h2 data-tab-handle="largest">Largest</h2>
 <div id="largest">
 	<table class="cellars list">
-			<tr>
+		<tr>
 <% @largest_cellars.each do |cellars| %>
-			<td>
+			<td valign="top">
 	<% cellars.each do |cellar| %>
 				<div class="cellar">
 					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
@@ -23,9 +23,9 @@
 <h2 data-tab-handle="oldest">Oldest</h2>
 <div id="oldest">
 	<table class="cellars list">
-			<tr>
+		<tr>
 <% @oldest_cellars.each do |cellars| %>
-			<td>
+			<td valign="top">
 	<% cellars.each do |cellar| %>
 				<div class="cellar">
 					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
@@ -44,7 +44,7 @@
 	<table class="cellars list">
 		<tr>
 <% @newest_cellars.each do |cellars| %>
-			<td>
+			<td valign="top">
 	<% cellars.each do |cellar| %>
 				<div class="cellar">
 					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
