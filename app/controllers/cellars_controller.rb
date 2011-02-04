@@ -8,6 +8,9 @@ class CellarsController < ApplicationController
       @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
     end
     
+    @oldest_cellars = Cellar.order('created_at ASC').all
+    @newest_cellars = Cellar.order('created_at DESC').all
+    
     @cellars = Cellar.all
 
     respond_to do |format|
