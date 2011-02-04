@@ -651,3 +651,29 @@ table.cellars.list td {
 .cellar {
 	margin-bottom: 5pt;
 }
+
+.newsletter h2, .newsletter span.note {
+	border-bottom: 0;
+	display: block;
+	clear: both;
+}
+
+.newsletter h2 {
+	margin-bottom: 0;
+	font-size: 20pt;
+}
+
+.newsletter span.note {
+	margin-bottom: 5pt;
+}
+
+.newsletter {
+	margin-top: 20pt;
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.newsletter input {
+	width: 225px;
+}
