@@ -20,25 +20,6 @@
 	</table>
 </div>
 
-<h2 data-tab-handle="oldest">Oldest</h2>
-<div id="oldest">
-	<table class="cellars list">
-		<tr>
-<% @oldest_cellars.each do |cellars| %>
-			<td valign="top">
-	<% cellars.each do |cellar| %>
-				<div class="cellar">
-					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
-					<span class="date-joined">Joined on: <%= cellar.created_at.strftime "%Y-%m-%d" %></span>
-					<span class="stats"><%= cellar.beers.count %> beers</span>
-				</div>
-	<% end %>
-			</td>
-<% end %>
-		</tr>
-	</table>
-</div>
-
 <h2 data-tab-handle="newest">Newest</h2>
 <div id="newest">
 	<table class="cellars list">

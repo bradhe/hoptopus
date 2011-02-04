@@ -663,8 +663,19 @@ table.cellars.list td {
 	font-size: 20pt;
 }
 
+.newsletter img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
 .newsletter span.note {
 	margin-bottom: 5pt;
+}
+
+.newsletter span.error {
+	display: block;
+	color: #f00;
 }
 
 .newsletter {
