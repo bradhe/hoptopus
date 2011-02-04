@@ -36,9 +36,8 @@ class Array
 
     acc = 0
     self.each do |i|
-      puts acc
       chunks[acc] << i
-      acc = acc+1 % number_of_chunks
+      acc = (acc+1) % number_of_chunks
     end
     
     chunks

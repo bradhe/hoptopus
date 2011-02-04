@@ -636,3 +636,14 @@ textarea.notes {
 .signup {
     text-align: center;
 }
+
+table.cellars.list td {
+	width: 12.5%;
+}
+
+.cellar span.date-joined, .cellar span.stats {
+	display: block;
+	font-size: 9pt;
+	color: #666;
+	font-style: italic;
+}
