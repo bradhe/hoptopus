@@ -72,7 +72,7 @@
 			<% if is_users_cellar? %>
 			
 				<td align="center"><%= link_to 'Add Tasting Notes', new_cellar_beer_tasting_path(@cellar, b) %></td>
-				<td align="center"><%= link_to 'Edit Beer', edit_cellar_beer_path(@cellar, b) %></td>
+				<td align="center"><%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
 				<td align="center"><%= button_to 'Check Out', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
 				
 			<% end %>
