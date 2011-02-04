@@ -1,3 +1,7 @@
+<% content_for :title do %>
+    <%= @beer.brew.brewery.name %> <%= @beer.brew.name %>
+<% end %>
+
 <div class="navigation">
 	<%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) %>
 </div>
@@ -72,11 +76,25 @@
 	<%= f.label :cellared_at, "Cellared Date:" %>
 	
 	<% if @beer.removed_at %>
-		<span class="value"><%= @beer.cellared_at %></span>
+		<span class="value"><%= @formatted_cellared_at %></span>
 	<% else %>
-		<%= f.text_field :cellared_at %>
+		<%= f.text_field :cellared_at, :class => 'date', :value => @formatted_cellared_at %>
 	<% end %>
 </div>
+
+<div class="field">
+    <%= f.label :finish_aging_at, "Age For:" %>
+    
+    <% if @beer.removed_at %>
+        <span class="value"><%= @formatted_finish_aging_at %></span>
+    <% else %>
+        <%= f.text_field :finish_aging_at, :class => 'date', :value => @formatted_finish_aging_at %>
+            
+        <%= select_tag 'beer_finish_aging_year', options_for_select((0..50).to_a, @years) %> years 
+        <%= select_tag 'beer_finish_aging_month', options_for_select((0..11).to_a, @months) %> months 
+    <% end %>
+</div>
+	
 
 <div class="field">
 	<%= f.label :markup, "Notes:" %>

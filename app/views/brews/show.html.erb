@@ -44,6 +44,10 @@
             <span class="label">IBUs:</span>
             <span class="value"><%= @brew.ibus || 'Unknown' %></span>
         </div>
+        <div class="field">
+            <span class="label">Suggested Aging:</span>
+            <span class="value"><%= suggested_aging(@brew) %></span>
+        </div>
     </div>
 
     <div class="description">

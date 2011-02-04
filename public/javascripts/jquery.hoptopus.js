@@ -119,4 +119,16 @@ $(document).ready(function() {
             button.attr('disabled', true);
         }
     });
+    
+    $('input.date').datepicker({
+        dateFormat: 'yy-mm-dd',
+        showButtonPanel: true,
+        buttonImage: "/images/calendar.png",
+        buttonImageOnly: false
+    });
+    
+    $('input.date').each(function() {
+        var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
+        $(this).after(img);
+    });
 });

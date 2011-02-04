@@ -84,6 +84,12 @@ span.or {
     margin-right: auto;
 }
 
+img.datepicker {
+    position: relative;
+    top: 2px;
+    margin-left: 3px;
+}
+
 div.reset-password {
     width: auto !important;
 }
@@ -91,12 +97,6 @@ div.reset-password {
 .reset-password .field {
     display: table;
 }
-
-/*
-div.buttons {
-	text-align: right;
-}
-*/
 
 .notice {
 	color: green;
@@ -422,7 +422,7 @@ label.checkbox-label {
 	text-align: right;
 }
 
-#beer_cellared_at {
+#beer_cellared_at, #beer_finish_aging_at {
 	width: 125px;
 }
 
