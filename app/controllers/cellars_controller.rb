@@ -1,4 +1,17 @@
 class CellarsController < ApplicationController
+  def upload
+    @cellar = Cellar.find params[:cellar_id]
+    @cellar_upload = UploadCellar.new params[:upload_cellar]
+    
+    respond_to do |format|
+      if @celar_upload.valid?
+      
+      else
+        format.html # index.html.erb
+      end
+    end
+  end
+  
   # GET /cellars
   # GET /cellars.xml
   def index

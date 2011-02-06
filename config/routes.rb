@@ -1,5 +1,9 @@
 Hoptopus::Application.routes.draw do
   resources :cellars, :only => [:index, :show] do
+    member do
+      put 'upload'
+    end
+    
     resources :beers do
       resources :comments, :only => [:update, :destroy, :create]
       resources :tastings, :only => [:new, :create]
