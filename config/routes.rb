@@ -1,7 +1,7 @@
 Hoptopus::Application.routes.draw do
   resources :cellars, :only => [:index, :show] do
     member do
-      put 'upload'
+      post 'upload'
     end
     
     resources :beers do

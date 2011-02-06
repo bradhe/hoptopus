@@ -1,0 +1,22 @@
+<h2>Are you sure this is what you want to do?</h2>
+
+<table class="list">
+    <thead>
+        <tr>
+            <th>Brewery</th>
+            <th>Brew</th>
+            <th>Bottle Size</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+<% @uploaded_records.each do |r| %>
+        <tr>
+            <td><%= r.brewery %></td>
+            <td><%= r.variety %></td>
+            <td><%= r.bottle_size %></td>
+            <td><%= r.quantity %></td>
+        </tr>
+<% end %>
+    </tbody>
+</table>

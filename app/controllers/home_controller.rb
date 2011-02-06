@@ -1,3 +1,5 @@
+require 'array'
+
 class HomeController < ApplicationController
   
   def index

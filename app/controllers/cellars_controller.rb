@@ -1,15 +1,20 @@
 require 'array'
 
 class CellarsController < ApplicationController
+  include UploadParsers
+  
   def upload
-    @cellar = Cellar.find params[:cellar_id]
+    @cellar = Cellar.find params[:id]
     @cellar_upload = UploadCellar.new params[:upload_cellar]
-    
+
     respond_to do |format|
-      if @celar_upload.valid?
-      
+      if @cellar_upload.valid?
+        # Parse all this crap
+        @uploaded_records = csv(@cellar_upload.file.tempfile.path)
+        
+        format.html { render :template => 'cellars/confirm_upload' }
       else
-        format.html # index.html.erb
+        format.html # upload.html.erb
       end
     end
   end
