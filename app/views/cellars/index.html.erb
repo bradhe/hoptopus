@@ -2,9 +2,46 @@
 	all cellars
 <% end %>
 
-<h2>Flash! News! OMG!</h2>
+<h2 data-tab-handle="largest">Largest</h2>
+<div id="largest">
+	<table class="cellars list">
+		<tr>
+<% @largest_cellars.each do |cellars| %>
+			<td valign="top">
+	<% cellars.each do |cellar| %>
+				<div class="cellar">
+					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
+					<span class="stats"><%= cellar.beers.count %> beers</span>
+				</div>
+	<% end %>
+			</td>
+<% end %>
+		</tr>
+	</table>
+</div>
 
-<div id="news">
+<h2 data-tab-handle="newest">Newest</h2>
+<div id="newest">
+	<table class="cellars list">
+		<tr>
+<% @newest_cellars.each do |cellars| %>
+			<td valign="top">
+	<% cellars.each do |cellar| %>
+				<div class="cellar">
+					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
+					<span class="date-joined">Joined on: <%= cellar.created_at.strftime "%Y-%m-%d" %></span>
+					<span class="stats"><%= cellar.beers.count %> beers</span>
+				</div>
+	<% end %>
+			</td>
+<% end %>
+		</tr>
+	</table>
+</div>
+
+<h2 data-tab-handle="activity">Recent Activity</h2>
+
+<div id="activity">
 	<ul class="events">
 	<% if @recent_events.nil? or @recent_events.empty? %>
 		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', brews_path %></li>

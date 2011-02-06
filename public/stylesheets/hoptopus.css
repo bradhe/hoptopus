@@ -636,3 +636,55 @@ textarea.notes {
 .signup {
     text-align: center;
 }
+
+table.cellars.list td {
+	width: 12.5%;
+}
+
+.cellar span.date-joined, .cellar span.stats {
+	display: block;
+	font-size: 9pt;
+	color: #666;
+	font-style: italic;
+}
+
+.cellar {
+	margin-bottom: 5pt;
+}
+
+.newsletter h2, .newsletter span.note {
+	border-bottom: 0;
+	display: block;
+	clear: both;
+}
+
+.newsletter h2 {
+	margin-bottom: 0;
+	font-size: 20pt;
+}
+
+.newsletter img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.newsletter span.note {
+	margin-bottom: 5pt;
+}
+
+.newsletter span.error {
+	display: block;
+	color: #f00;
+}
+
+.newsletter {
+	margin-top: 20pt;
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.newsletter input {
+	width: 225px;
+}

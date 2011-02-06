@@ -1,0 +1,18 @@
+<h2>Upload Your Cellar</h2>
+
+<% form_for(@cellar_upload, :url => upload_cellar_path(@cellar) %>
+    <div class="field">
+        <%= f.label :file, 'File:'%>
+        <%= f.field_field :file %>
+    </div>
+    
+    <div class="field">
+        <%= f.checkbox :is_incremental %>
+        <%= f.label 'Is this all of your cellar or just part of it? If it is all your cellar then all the current contents will be deleted.', :class => 'checkbox-labl' %>
+    </div>
+    
+    <div class="buttons">
+        <button type="submit">Upload</button>
+        <%= link_to 'Back', cellar_path(@cellar.user.username) %>
+    </div>
+<% end %>

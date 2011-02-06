@@ -32,14 +32,12 @@
 				<th width="20"></th>
 				<th>Brewery</th>
 				<th>Beer</th>
-				<th>Size</th>
-				<th>Quantity</th>
 				<th>Cellared</th>
-				<th class="unsortable"></th>
+				<th class="unsortable" width="50"></th>
 			<% if is_users_cellar? %>
-				<th class="unsortable"></th>
-				<th class="unsortable"></th>
-				<th class="unsortable"></th>
+				<th class="unsortable" width="120"></th>
+				<th class="unsortable" width="50"></th>
+				<th class="unsortable" width="40"></th>
 			<% end %>
 			</tr>
 		</thead>
@@ -49,7 +47,7 @@
 	<% if @cellar.beers.select { |b| b.removed_at.nil? }.empty? %>
 	
 			<tr>
-				<td colspan="<%= is_users_cellar? ? '8' : '7' %>" class="empty">
+				<td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
                     <% if is_users_cellar? %>
                         You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
                     <% else %>
@@ -68,16 +66,14 @@
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name, brew_path(b.brew) %></td>
-				<td align="center"><%= b.bottle_size.name %></td>
-				<td class="quantity" align="center"><%= b.quantity %></td>
 				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 				<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
 				
 			<% if is_users_cellar? %>
 			
-				<td align="center"><%= link_to 'Tasted', new_cellar_beer_tasting_path(@cellar, b) %></td>
-				<td align="center"><%= link_to 'Edit Beer', edit_cellar_beer_path(@cellar, b) %></td>
-				<td align="center"><%= button_to 'Remove', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
+				<td align="center"><%= link_to 'Add Tasting Notes', new_cellar_beer_tasting_path(@cellar, b) %></td>
+				<td align="center"><%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
+				<td align="center"><%= button_to 'Check Out', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
 				
 			<% end %>
 			
@@ -366,7 +362,7 @@ $('select#user_country').live('change', function() {
 <% end %>
 <% end %>
 
-<h3>Comments</h3>
+<h2 data-tab-handle="comments">Comments</h2>
 <div id="comments">
     <% unless @cellar.comments.empty? %>
         <% @cellar.comments.each do |c| %>

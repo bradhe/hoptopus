@@ -87,7 +87,7 @@ $(document).ready(function() {
 		if(!id || $('#' + id).length < 1) {
 			id = firstTab.attr('data-tab-handle');
 		}
-		$('html, body').animate({scrollTop:0}, 'slow');
+		$('html, body').animate({scrollTop:0}, 0);
 	}
 	
 	// Make sure the first tab is open

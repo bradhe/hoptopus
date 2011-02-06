@@ -1,3 +1,5 @@
+require 'array'
+
 class CellarsController < ApplicationController
   def upload
     @cellar = Cellar.find params[:cellar_id]
@@ -20,8 +22,9 @@ class CellarsController < ApplicationController
     else 
       @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
     end
-    
-    @cellars = Cellar.all
+
+    @newest_cellars = Cellar.order('created_at DESC').limit(25).all.distribute 5
+    @largest_cellars = Cellar.all.sort!{ |a,b| b.beers.count <=> a.beers.count }.first(25).distribute 5
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,8 +32,6 @@ class CellarsController < ApplicationController
     end
   end
 
-  # GET /cellars/1
-  # GET /cellars/1.xml
   def show
     if params[:id].nil?
       @cellar = Cellar.find_by_user(@user)

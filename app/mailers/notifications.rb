@@ -28,4 +28,12 @@ class Notifications < ActionMailer::Base
       format.html
     end
   end
+  
+  def newsletter_signup(email)
+    @email = email
+    
+    mail(:subject => "[Newsletter Signup] " + email, :to => 'contact@hoptopus.com', :reply_to => email) do |format|
+      format.html
+    end
+  end
 end
