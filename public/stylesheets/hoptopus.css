@@ -688,3 +688,70 @@ table.cellars.list td {
 .newsletter input {
 	width: 225px;
 }
+
+.editable input {
+	border: 0;
+	width: 100%;
+	background: transparent;
+}
+
+.editable td.year input {
+	width: 40px;
+	text-align: center;
+}
+
+.editable tbody td {
+	border-bottom: 1px #ccc solid;
+	border-right: 1px #ccc solid;
+}
+
+.editable td.year {
+	border-collapse: separate;
+	border-left: 1px #ccc solid;
+}
+
+.editable input:focus {
+	outline: none;
+}
+
+.editable tfoot td {
+	padding-top: 5pt;
+}
+
+div.dropdown {
+	position: absolute;
+	background-color: #ebebeb;
+	overflow-y: auto;
+	max-height: 300px;
+	
+	border-left: 1px #ccc solid;
+	border-right: 1px #ccc solid;
+	border-bottom: 1px #ccc solid;
+}
+
+div.dropdown a, div.dropdown span {
+	padding-left: 5pt;
+}
+
+div.dropdown a {
+	display: block;
+}
+
+div.dropdown a:hover {
+	background-color: #fff;
+}
+
+div.dropdown li {
+	display: block;
+}
+
+.editable td.brewery, .editable td.brew {
+	background-image: url('/images/dropdown.png');
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.editable .new input {
+	color: #f00;
+	font-style: italic;
+}

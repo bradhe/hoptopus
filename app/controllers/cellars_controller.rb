@@ -3,6 +3,10 @@ require 'array'
 class CellarsController < ApplicationController
   include UploadParsers
   
+  def confirm
+	
+  end
+  
   def upload
     @cellar = Cellar.find params[:id]
     @cellar_upload = UploadCellar.new params[:upload_cellar]

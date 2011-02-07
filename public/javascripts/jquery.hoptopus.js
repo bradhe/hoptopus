@@ -8,11 +8,56 @@ $.fn.isEmpty = function() {
     return this.val && (this.val() == '' || this.val().match(/^\s+$/));
 }
 
+$.fn.closeDropdown = function() {
+	if($(this).data('popup') || $(this).hasClass('open')) {
+		var div = $(this).data('popup');
+		$(this).removeClass('open');
+		div.remove();
+	}
+}
+
+$.fn.dropdown = function(element) {	
+	if($(this).hasClass('open')) {
+		$(this).closeDropdown();
+		
+		e.stopPropagation();
+		return false;
+	}
+	
+	// All the other open ones, remove the popup
+	$('input.open').each(function() {
+		$(this).closeDropdown();
+	});
+	
+	$(this).addClass('open');
+	
+	// Make a brewery list here
+	var div = $('<div/>').addClass('dropdown');
+	div.append(element);
+
+	var offset = $(this).parent().offset();
+	div.css('top', offset.top + $(this).parent().outerHeight());
+	div.css('left', offset.left);
+	div.width($(this).width());
+	
+	$(this).after(div);
+	
+	$(this).data('popup', div);
+}
+
 $("button[data-confirm], input[data-confirm]").live('click', function(e) {
 	return confirm($(this).attr('data-confirm'));
 });
 
 $(document).ready(function() {
+	$('input').focus(function() {
+		$('input.open').each(function() {
+			var div = $(this).data('popup');
+			div.remove();
+			$(this).removeClass('open');
+		});
+	});
+	
 	$('h3[data-hideable], h2[data-hideable]').each(function() {
 		var div = $('div#'+$(this).attr('data-hideable'));
 		div.hide();

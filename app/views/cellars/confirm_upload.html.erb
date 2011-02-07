@@ -1,22 +1,173 @@
 <h2>Are you sure this is what you want to do?</h2>
+<% content_for :title do %>
+	confirm your upload
+<% end %>
 
-<table class="list">
+<%= form_tag(confirm_upload_cellar_path(@cellar)) do %>
+<table class="editable list" cellpadding="0" cellspacing="0">
     <thead>
         <tr>
+			<th width="40">Year</th>
             <th>Brewery</th>
             <th>Brew</th>
-            <th>Bottle Size</th>
-            <th>Quantity</th>
+			<th>Style</th>
+            <th width="100">Bottle Size</th>
+            <th width="80">Quantity</th>
         </tr>
     </thead>
     <tbody>
-<% @uploaded_records.each do |r| %>
+	<% i = 0 %>
+	
+	<% @uploaded_records.each do |r| %>
         <tr>
-            <td><%= r.brewery %></td>
-            <td><%= r.variety %></td>
-            <td><%= r.bottle_size %></td>
-            <td><%= r.quantity %></td>
+			<td class="year"><%= text_field_tag 'records['+i.to_s+'][year]', r.year %></td>
+            <td class="brewery <%= Brewery.find_by_name(r.brewery).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][bewery]', r.brewery %></td>
+            <td class="brew <%= Brew.find_by_name(r.variety).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][variety]', r.variety %></td>
+			<td class="style <%= BrewType.find_by_name(r.brew_style).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][brew_style]', r.brew_style %></td>
+            <td class="<%= BottleSize.find_by_name(r.bottle_size).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][bottle_size]', r.bottle_size %></td>
+            <td class="quantity"><%= text_field_tag 'records['+i.to_s+'][quantity]', r.quantity %></td>
         </tr>
-<% end %>
+		
+		<% i += 1 %>
+	<% end %>
     </tbody>
+	
+	<tfoot>
+		<tr>
+			<td colspan="5"><button type="submit">Save</button></td>
+		</tr>
+	</tfoot>
 </table>
+<% end %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+var breweries = {}
+<% Brewery.order('name').all.each do |b| %>
+breweries[<%= b.id %>] = "<%= b.name %>";
+<% end %>
+
+var brews = {}
+<% Brewery.all.each do |b| %>
+brews[<%= b.id %>] = <%== b.brews.map { |brew| brew.name }.to_json %>
+<% end %>
+
+var brewStyles = {}
+<% BrewType.all.each do |b| %>
+brewStyles[<%= b.id %>] = '<%= b.name %>';
+<% end %>
+
+$(document).ready(function() {
+	$('table.editable td.brewery input').focus(function(e) {
+		var ul = $('<ul/>');
+		var input = $(this);
+		
+		for(var i in breweries) {
+			var brewery = breweries[i];
+			
+			if(typeof(brewery) != 'string') {
+				continue;
+			}
+			
+			var a = $('<a/>').attr('href', 'javascript:void(0);').text(brewery);
+			var li = $('<li/>').append(a);
+			ul.append(li);
+			
+			a.click(function(e) {
+				var text = $(this).text();
+				input.val(text);
+				
+				var parent = input.parent();
+				parent.removeClass('new');
+				
+				// Look up the ID on this guy
+				for(var i in breweries) {
+					if(breweries[i] == text) {
+						input.parent().attr('data-brewery-id', i);
+						break;
+					}
+				}
+				
+				$(input).closeDropdown();
+		
+				e.stopPropagation();
+				return false;
+			});
+		}
+		
+		$(this).dropdown(ul);
+		e.stopPropagation();
+	});
+	
+	$('table.editable td.brew input').focus(function(e) {
+		// Get the brewery id
+		var breweryTd = $(this).parents('td').siblings('td.brewery');
+		
+		if(!breweryTd.attr('data-brewery-id')) {
+			var text = breweryTd.find('input').text();
+			
+			// Try to find the brewery ID
+			for(var i in breweries) {
+				if(breweries[i] == text) {
+					breweryTd.attr('data-brewery-id', i);
+					break;
+				}
+			}
+		}
+		
+		// If still none then there's a problem. Show nothing.
+		if(!breweryTd.attr('data-brewery-id') || brews[breweryTd.attr('data-brewery-id')].length < 1) {
+			var span = $('<span/>').text('No brews found for this brewery.');
+			$(this).dropdown(span);
+			
+			e.stopPropagation();
+			return false;
+		}
+		
+		var breweryId = breweryTd.attr('data-brewery-id')
+		var breweryBrews = brews[breweryId];
+		var input = $(this);
+		
+		var ul = $('<ul/>');
+		
+		for(var i in breweryBrews) {
+			var brew = breweryBrews[i];
+			
+			if(typeof(brew) != 'string') {
+				continue;
+			}
+			
+			var a = $('<a/>').attr('href', 'javascript:void(0);').text(brew);
+			var li = $('<li/>').append(a);
+			ul.append(li);
+			
+			a.click(function(e) {
+				var text = $(this).text();
+				input.val(text);
+				
+				var parent = input.parent();
+				parent.removeClass('new');
+				
+				// Look up the ID on this guy
+				for(var i in breweries) {
+					if(breweries[i] == text) {
+						input.parent().attr('data-brew-id', i);
+						break;
+					}
+				}
+				
+				$(input).closeDropdown();
+		
+				e.stopPropagation();
+				return false;
+			});
+		}
+		
+		$(this).dropdown(ul);
+	
+		e.stopPropagation();
+		return false;
+	});
+});
+</script>
+<% end %>
