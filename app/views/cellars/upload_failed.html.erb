@@ -1,0 +1,7 @@
+<h2>Upload failed.</h2>
+
+<ul class="errors">
+    <% @upload_errors.each do |element,msg| %>
+    <li>(<%= element %>) <%= msg %></li>
+    <% end %>
+</ul>

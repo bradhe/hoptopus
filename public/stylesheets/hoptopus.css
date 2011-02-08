@@ -718,6 +718,10 @@ table.cellars.list td {
 	padding-top: 5pt;
 }
 
+.editable input.date {
+    width: 70px;
+}
+
 div.dropdown {
 	position: absolute;
 	background-color: #ebebeb;

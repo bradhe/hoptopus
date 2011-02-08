@@ -1,16 +1,23 @@
+<% content_for :title do %>
+    upload your cellar
+<% end %>
+
 <h2>Upload Your Cellar</h2>
 
-<% form_for(@cellar_upload, :url => upload_cellar_path(@cellar), :multi_part => true) do |f| %>
+<% unless @cellar_upload.errors.empty? %>
+<ul class="errors">
+	<% @cellar_upload.errors.each do |element,msg| %>
+		<li><%= msg %></li>
+	<% end %>
+</ul>
+<% end %>
+
+<% form_for(@cellar_upload, :url => upload_cellar_path(@cellar), :multipart => true) do |f| %>
     <div class="field">
         <%= f.label :file, 'File:'%>
         <%= f.file_field :file %>
     </div>
-    
-    <div class="field">
-        <%= f.check_box :is_incremental %>
-        <%= f.label 'Is this all of your cellar or just part of it? If it is all your cellar then all the current contents will be deleted.', :class => 'checkbox-label' %>
-    </div>
-    
+
     <div class="buttons">
         <button type="submit">Upload</button>
         <%= link_to 'Back', cellar_path(@cellar.user.username) %>

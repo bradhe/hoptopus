@@ -4,7 +4,42 @@ class CellarsController < ApplicationController
   include UploadParsers
   
   def confirm
-	
+    cellar = Cellar.find params[:id]
+    uploaded_records = params[:records].map { |r| UploadedRecord.new(r[1]) }
+    errors = []
+    
+    # Get all the breweries
+    uploaded_records.each do |record|
+      brewery = Brewery.find_or_create_by_name(record.brewery)
+      brewery.save! unless brewery.persisted?
+      
+      brew_type = BrewType.find_or_create_by_name(record.brew_style)
+      brew_type.save! unless brew_type.persisted?
+      
+      brew = brewery.brews.find_by_name(record.variety) || Brew.create(:name => record.variety, :brewery => brewery, :brew_type => brew_type)
+      brew.save! unless brew.persisted?
+      
+      bottle_size = BottleSize.find_or_create_by_name(record.bottle_size)
+      bottle_size.save! unless bottle_size.persisted?
+
+      quantity = (record.quantity and record.quantity.to_i > 0) ? record.quantity.to_i : 1
+      year = (record.year and record.year.match(/^\d{4}$/)) ? record.year.to_i : 2010
+      cellared_at = (record.cellared_at.nil? or record.cellared_at.empty? ? DateTime.now : DateTime.parse(record.cellared_at))
+      
+      # Save the brew!
+      beer = Beer.create :cellar => cellar, :brew => brew, :bottle_size => bottle_size, :year => year, :quantity => quantity, :cellared_at => cellared_at
+      
+      errors |= beer.errors.full_messages  
+    end
+    
+    respond_to do |format|
+      if errors.empty?
+        format.html { redirect_to cellar_path cellar.user.username }
+      else
+        @upload_errors = errors
+        format.html { render :template => 'cellars/upload_failed' }
+      end
+    end
   end
   
   def upload

@@ -65,7 +65,7 @@
 			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
-				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name, brew_path(b.brew) %></td>
+				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, brew_path(b.brew) %></td>
 				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
 				<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
 				
@@ -274,12 +274,7 @@
         <%= f.label :file, 'File:'%>
         <%= f.file_field :file %>
     </div>
-    
-    <div class="field">
-        <%= f.check_box :is_incremental %>
-        <%= f.label 'Is this all of your cellar or just part of it? If it is all your cellar then all the current contents will be deleted.', :class => 'checkbox-label' %>
-    </div>
-    
+
     <div class="buttons">
         <button type="submit">Upload</button>
     </div>
