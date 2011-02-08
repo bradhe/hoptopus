@@ -731,9 +731,6 @@ div.dropdown {
 
 div.dropdown a, div.dropdown span {
 	padding-left: 5pt;
-}
-
-div.dropdown a {
 	display: block;
 }
 

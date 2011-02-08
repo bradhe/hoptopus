@@ -12,7 +12,7 @@ $.fn.closeDropdown = function() {
 	if($(this).data('popup') || $(this).hasClass('open')) {
 		var div = $(this).data('popup');
 		$(this).removeClass('open');
-		div.remove();
+		div.hide();
 	}
 }
 
@@ -25,10 +25,7 @@ $.fn.dropdown = function(element) {
 	}
 	
 	// All the other open ones, remove the popup
-	$('input.open').each(function() {
-		$(this).closeDropdown();
-	});
-	
+	$('input.open').closeDropdown();
 	$(this).addClass('open');
 	
 	// Make a brewery list here
@@ -45,6 +42,11 @@ $.fn.dropdown = function(element) {
 	$(this).data('popup', div);
 }
 
+$('input.open').live('click', function(e) {
+	e.stopPropagation();
+	return false;
+});
+
 $("button[data-confirm], input[data-confirm]").live('click', function(e) {
 	return confirm($(this).attr('data-confirm'));
 });
@@ -53,9 +55,14 @@ $(document).ready(function() {
 	$('input').focus(function() {
 		$('input.open').each(function() {
 			var div = $(this).data('popup');
-			div.remove();
+			div.hide();
 			$(this).removeClass('open');
 		});
+	});
+	
+	$('body').click(function(e) {
+		$('input.open').closeDropdown();
+		e.stopPropagation();
 	});
 	
 	$('h3[data-hideable], h2[data-hideable]').each(function() {

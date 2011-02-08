@@ -42,9 +42,9 @@
 
 <% content_for :javascript do %>
 <script type="text/javascript">
-var breweries = {}
+var breweries = []
 <% Brewery.order('name').all.each do |b| %>
-breweries[<%= b.id %>] = "<%= b.name %>";
+breweries.push(["<%= b.name %>", <%= b.id %>]);
 <% end %>
 
 var brews = {}
@@ -58,12 +58,11 @@ brewStyles[<%= b.id %>] = '<%= b.name %>';
 <% end %>
 
 $(document).ready(function() {
-	$('table.editable td.brewery input').focus(function(e) {
-		var ul = $('<ul/>');
-		var input = $(this);
+	(function(breweries) {
+		var ul = $('<ul/>');		
 		
 		for(var i in breweries) {
-			var brewery = breweries[i];
+			var brewery = breweries[i][0];
 			
 			if(typeof(brewery) != 'string') {
 				continue;
@@ -75,6 +74,7 @@ $(document).ready(function() {
 			
 			a.click(function(e) {
 				var text = $(this).text();
+				var input = $(this).parents('td.brewery').children('input');
 				input.val(text);
 				
 				var parent = input.parent();
@@ -82,8 +82,8 @@ $(document).ready(function() {
 				
 				// Look up the ID on this guy
 				for(var i in breweries) {
-					if(breweries[i] == text) {
-						input.parent().attr('data-brewery-id', i);
+					if(breweries[i][0] == text) {
+						input.parent().attr('data-brewery-id', breweries[i][1]);
 						break;
 					}
 				}
@@ -95,11 +95,61 @@ $(document).ready(function() {
 			});
 		}
 		
-		$(this).dropdown(ul);
-		e.stopPropagation();
-	});
+		function filterByText(anchors, text) {
+			var found = [];
+			
+			for(var i = 0; i < anchors.length; i++) {
+				found.push(anchors[i]);
+			}
+			
+			for(var i = 0; i < text.length; i++) {
+				// Cycle through each anchor and make sure that the item
+				// is in the right place.
+				var clean = [];
+				
+				for(var j = 0; j < found.length; j++) {
+					var anchor = found[j];
+					
+					if(anchor.text.length > i && anchor.text[i] == text[i]) {
+						clean.push(anchor);
+					}
+				}
+				
+				// If we didn't find anything here, just return what we had last time.
+				if(clean.length < 1) {
+					return found;
+				}
+				else {
+					// Swap the buffers.
+					found = clean;
+				}
+			}
+			
+			return found;
+		}
+		
+		$('table.editable td.brewery input').click(function(e) {
+			var input = $(this);
+			$(this).dropdown(ul);
+			
+			// If we have a val try to find the current position in the dropdown
+			if(!$(this).isEmpty()) {
+				var anchors = filterByText(ul.find('a'), $(this).val());
+				
+				// Just get the first anchor, set the scroll to there
+				var top = anchors[0];
+
+				// Get ULs parent, set scroll to that spot
+				ul.parent().scrollTop($(top).position().top, 0);	
+			}
+			
+			e.stopPropagation();
+			return false;
+		});
+	})(breweries);
 	
-	$('table.editable td.brew input').focus(function(e) {
+	
+	$('table.editable td.brew input').click(function(e) {
 		// Get the brewery id
 		var breweryTd = $(this).parents('td').siblings('td.brewery');
 		
