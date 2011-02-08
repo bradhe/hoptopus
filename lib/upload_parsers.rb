@@ -38,7 +38,7 @@ module UploadParsers
           uploaded_record.variety = uploaded_record.variety.gsub(/(\s*\-\s*)?\d{4}/, '')
           uploaded_record.year = result[0]
         elsif uploaded_record.variety.match(/^\d{4}\s+/)
-          result = uploaded_record.variety.match(/^\d{4}$/)
+          result = uploaded_record.variety.match(/^\d{4}/)
           
           # Remove the year bits
           uploaded_record.variety = uploaded_record.variety.gsub(/^\d{4}\s+/, '')
