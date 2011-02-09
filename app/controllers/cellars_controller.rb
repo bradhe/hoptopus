@@ -51,6 +51,16 @@ class CellarsController < ApplicationController
         # Parse all this crap
         @uploaded_records = csv(@cellar_upload.file.tempfile.path)
         
+        # Run through all the uploaded records and find the closest-matching brewery
+        # because it's the right thing to do!
+        @uploaded_records.each do |r|
+          b = Brewery.find(:all, :conditions => ['sanitized_name LIKE ?', "#{r.brewery.downcase.gsub(/[^\S]/,'')}%"]).first
+          
+          unless b.nil?
+            r.brewery = b.name
+          end
+        end
+        
         format.html { render :template => 'cellars/confirm_upload' }
       else
         format.html # upload.html.erb
