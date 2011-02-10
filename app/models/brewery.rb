@@ -2,7 +2,7 @@ class Brewery < ActiveRecord::Base
 	has_many :brews
   
   before_save do
-    self.sanitized_name = name.downcase.gsub(/[^\S]/, '') unless name.nil?
+    self.sanitized_name = name.downcase.gsub(/[^\w]/, '') unless name.nil?
   end
   
   validates_presence_of :name, :message => 'A name is required.'

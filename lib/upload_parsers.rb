@@ -15,7 +15,7 @@ module UploadParsers
     return lambda { |column | row[fields[column]] }
   end
   
-  def csv(file)
+  def parse_csv(file)
     fields = {}
     records = []
     

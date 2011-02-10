@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  job_id: MyString
+  brewery: MyString
+  variety: MyString
+  bottle_size: MyString
+  quantity: MyString
+  brew_style: MyString
+  year: MyString
+  cellared_at: MyString
+
+two:
+  job_id: MyString
+  brewery: MyString
+  variety: MyString
+  bottle_size: MyString
+  quantity: MyString
+  brew_style: MyString
+  year: MyString
+  cellared_at: MyString
