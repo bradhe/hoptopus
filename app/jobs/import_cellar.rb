@@ -6,19 +6,24 @@ class ImportCellar
   def perform(file_path)
     records = parse_csv(file_path)
     
-    job_id = UUID.timestamp_create().to_s
+    job_id = UUIDTools::UUID.timestamp_create.to_s
     
-    records.each do |r|
-      r.job_id = job_id
+    records.each do |record|
+      record.job_id = job_id
       
       # Also clean up the brewery if it exists.
-      b = Brewery.find(:all, :conditions => ['sanitized_name LIKE ?', "#{r.brewery.downcase.gsub(/[^\w]/,'')}%"]).first          
-      unless b.nil?
-        r.brewery = b.name
+      sanitized_name = r.brewery.downcase.gsub(/[^\w]/,'')
+
+      existing_brewery = Brewery.find(:all, :conditions => ['sanitized_name LIKE ?', "#{sanitized_name}%"]).first
+      unless existing_brewery.nil?
+        record.brewery = existing_brewery.name
       end
     
       # Save this job
-      r.save
+      record.save
     end
+
+    # We're done with this file.
+    File.delete path
   end
 end

@@ -26,8 +26,7 @@ class CellarsController < ApplicationController
       if @cellar_upload.valid?
         # Parse all this crap
         file_name = File.basename(@cellar_upload.file.tempfile.path)
-        p file_name
-        path = File.join('tmp', file_name)
+        path = File.join(Rails.root, 'tmp', file_name)
         File.open(path, 'wb') { |f| f.write(@cellar_upload.file.read) }
 
         # Fire the job.
