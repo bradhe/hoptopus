@@ -1,15 +1,5 @@
 require 'csv'
 
-class UploadedRecord
-  attr_accessor :brewery, :variety, :bottle_size, :quantity, :brew_style, :year, :cellared_at
-  
-  def initialize(params={})
-    params.each do |k,v|
-      instance_variable_set("@#{k}", v) unless v.nil?
-    end
-  end
-end
-
 module UploadParsers
   def find_value(row, fields)
     return lambda { |column | row[fields[column]] }
@@ -25,7 +15,7 @@ module UploadParsers
         row.each_index { |i| fields[row[i]] = i }
       else
         finder = find_value(row, fields)
-        uploaded_record = UploadedRecord.new
+        uploaded_record = UploadedBeerRecord.new
         uploaded_record.brewery = finder.call('Brewer')
         uploaded_record.variety = finder.call('Brew')
         uploaded_record.cellared_at = finder.call('Cellared Date')

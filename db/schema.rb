@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110209003219) do
+ActiveRecord::Schema.define(:version => 20110210063116) do
 
   create_table "beers", :force => true do |t|
     t.integer   "brew_id"
@@ -113,6 +113,19 @@ ActiveRecord::Schema.define(:version => 20110209003219) do
     t.timestamp "updated_at"
     t.integer   "brew_id"
     t.timestamp "cellared_at"
+  end
+
+  create_table "uploaded_beer_records", :force => true do |t|
+    t.string   "job_id"
+    t.string   "brewery"
+    t.string   "variety"
+    t.string   "bottle_size"
+    t.string   "quantity"
+    t.string   "brew_style"
+    t.string   "year"
+    t.string   "cellared_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

@@ -25,19 +25,15 @@ class CellarsController < ApplicationController
     respond_to do |format|
       if @cellar_upload.valid?
         # Parse all this crap
-        @uploaded_records = csv(@cellar_upload.file.tempfile.path)
+        file_name = File.basename(@cellar_upload.file.tempfile.path)
+        p file_name
+        path = File.join('tmp', file_name)
+        File.open(path, 'wb') { |f| f.write(@cellar_upload.file.read) }
+
+        # Fire the job.
+        Resque.enqueue(ImportCellar, path)
         
-        # Run through all the uploaded records and find the closest-matching brewery
-        # because it's the right thing to do!
-        @uploaded_records.each do |r|
-          b = Brewery.find(:all, :conditions => ['sanitized_name LIKE ?', "#{r.brewery.downcase.gsub(/[^\w]/,'')}%"]).first
-          
-          unless b.nil?
-            r.brewery = b.name
-          end
-        end
-        
-        format.html { render :template => 'cellars/confirm_upload' }
+        format.html { redirect_to cellar_path(@cellar.user.username), :notice => 'Cellar has been uploaded. Please wait a bit.' }
       else
         format.html # upload.html.erb
       end
