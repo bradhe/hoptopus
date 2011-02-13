@@ -2,9 +2,11 @@ class ImportCellar
   @queue = :uploads
   
   include UploadParsers
+  include AWS::S3
    
   def self.perform(file_path, user_id)
-    records = UploadParsers::parse_csv(file_path)
+    csv = S3Object.value file_path, 'hoptopus'
+    records = UploadParsers::parse_csv(csv)
     
     job_id = UUIDTools::UUID.timestamp_create.to_s
     
@@ -24,7 +26,7 @@ class ImportCellar
     end
 
     # We're done with this file.
-    File.delete file_path
+    S3Object.delete file_path, 'hoptopus'
 
     uri = URI.parse(ENV["REDIS_URL"])
     redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)

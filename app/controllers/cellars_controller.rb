@@ -2,6 +2,7 @@ require 'array'
 
 class CellarsController < ApplicationController
   include UploadParsers
+  include AWS::S3
 
   def import_status
     @cellar = Cellar.find params[:id]
@@ -85,13 +86,10 @@ class CellarsController < ApplicationController
       if @cellar_upload.valid?
         # Parse all this crap
         file_name = File.basename(@cellar_upload.file.tempfile.path)
-        path = File.join(Rails.root, 'tmp', file_name)
-        path = "#{path}_#{Process.pid}"
-
-        File.open(path, 'wb') { |f| f.write(@cellar_upload.file.read) }
+        S3Object.store file_name, @cellar_upload.file.tempfile, 'hoptopus'
 
         # Fire the job.
-        Resque.enqueue(ImportCellar, path, @cellar.user_id)
+        Resque.enqueue(ImportCellar, file_name, @cellar.user_id)
 
         # Mark cellar as "importing"
         redis["cellar_import:#{@cellar.user_id}:status"] = 0

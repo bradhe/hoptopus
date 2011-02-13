@@ -5,12 +5,12 @@ module UploadParsers
     return lambda { |column | row[fields[column]] }
   end
   
-  def self.parse_csv(file)
+  def self.parse_csv(csv_data)
     fields = {}
     records = []
 
     i = 0
-    CSV.open(file, 'r') do |row|
+    CSV.parse(csv_data) do |row|
       if i == 0
         row.each_index { |i| fields[row[i]] = i }
       else
