@@ -86,6 +86,8 @@ class CellarsController < ApplicationController
         # Parse all this crap
         file_name = File.basename(@cellar_upload.file.tempfile.path)
         path = File.join(Rails.root, 'tmp', file_name)
+        path = "#{path}_#{Process.pid}"
+
         File.open(path, 'wb') { |f| f.write(@cellar_upload.file.read) }
 
         # Fire the job.

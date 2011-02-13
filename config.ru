@@ -10,3 +10,4 @@ use Rack::Rewrite do
 end
 
 run Hoptopus::Application
+
