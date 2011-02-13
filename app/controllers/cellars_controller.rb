@@ -2,8 +2,67 @@ require 'array'
 
 class CellarsController < ApplicationController
   include UploadParsers
+
+  def import_status
+    @cellar = Cellar.find params[:id]
+    status = redis["cellar_import:#{@cellar.user_id}:status"].to_i
+
+    if status == 2
+      # Clean up after ourselves
+      redis.del("cellar_import:#{@cellar.user_id}:status")
+    end
+
+    respond_to do |format|
+      format.json { render :json => { :status => status } }
+    end
+  end
+
+  def confirm_import
+    # We need to get all the records by job ID
+    @cellar = Cellar.find params[:id]
+    job_id = redis["cellar_import:#{@cellar.user_id}:job_id"]
+
+    if request.post? and not params[:done]
+      # Update the posted records
+      records = params[:records].map do |r| 
+        attributes = r[1]
+        record = UploadedBeerRecord.find(attributes[:id])
+
+        # Delete ID for now
+        attributes.delete(:id)
+        record.update_attributes(attributes)
+      end
+    elsif request.post? and params[:done]
+      # We're done so we need to schedule this job for import
+      # and show the next interstitial
+      Resque.enqueue(ProcessConfirmedImport, job_id, @cellar.user_id)
+
+      respond_to do |format|
+        format.html { render :template => 'cellars/processing' }
+      end
+
+      # Get outta here
+      return
+    end
+
+    @uploaded_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').all
+
+    unless params[:p].nil?
+      p = params[:p].to_i
+      all_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').all      
+      @uploaded_records = all_records[p, 25]
+      @total_records = all_records.count
+    else
+      @uploaded_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').first(25)
+      @total_records = UploadedBeerRecord.where(:job_id => job_id).count
+    end
+    
+    respond_to do |format|
+      format.html
+    end
+  end
   
-  def confirm
+  def import_confirmed
     cellar = Cellar.find params[:id]
     uploaded_records = params[:records].map { |r| UploadedRecord.new(r[1]) }
     errors = []
@@ -30,9 +89,12 @@ class CellarsController < ApplicationController
         File.open(path, 'wb') { |f| f.write(@cellar_upload.file.read) }
 
         # Fire the job.
-        Resque.enqueue(ImportCellar, path)
+        Resque.enqueue(ImportCellar, path, @cellar.user_id)
+
+        # Mark cellar as "importing"
+        redis["cellar_import:#{@cellar.user_id}:status"] = 0
         
-        format.html { redirect_to cellar_path(@cellar.user.username), :notice => 'Cellar has been uploaded. Please wait a bit.' }
+        format.html { render :template => 'cellars/importing' }
       else
         format.html # upload.html.erb
       end
@@ -82,25 +144,6 @@ class CellarsController < ApplicationController
   end
   
   def process_upload(uploaded_records) 
-    uploaded_records.each do |record|
-        brewery = Brewery.find_or_create_by_name(record.brewery)
-        brewery.save! unless brewery.persisted?
-        
-        brew_type = BrewType.find_or_create_by_name(record.brew_style)
-        brew_type.save! unless brew_type.persisted?
-        
-        brew = brewery.brews.find_by_name(record.variety) || Brew.create(:name => record.variety, :brewery => brewery, :brew_type => brew_type)
-        brew.save! unless brew.persisted?
-        
-        bottle_size = BottleSize.find_or_create_by_name(record.bottle_size)
-        bottle_size.save! unless bottle_size.persisted?
 
-        quantity = (record.quantity and record.quantity.to_i > 0) ? record.quantity.to_i : 1
-        year = (record.year and record.year.match(/^\d{4}$/)) ? record.year.to_i : 2010
-        cellared_at = (record.cellared_at.nil? or record.cellared_at.empty? ? DateTime.now : DateTime.parse(record.cellared_at))
-        
-        # Save the brew!
-        beer = Beer.create :cellar => cellar, :brew => brew, :bottle_size => bottle_size, :year => year, :quantity => quantity, :cellared_at => cellared_at
-    end
   end
 end

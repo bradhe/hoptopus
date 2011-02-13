@@ -32,7 +32,8 @@ Hoptopus::Application.routes.draw do
   match 'reset-password/:id' => 'auth#confirm_password_reset', :as => 'confirm_password_reset'
   match 'contact/sent' => 'contact#sent', :as => 'contact_request_sent'
   match 'newsletter/signup' => 'newsletter#signup', :as => 'newsletter_signup'
-  match 'cellars/:id/upload/confirm' => 'cellars#confirm', :as => 'confirm_upload_cellar'
-  
+  match 'cellars/:id/upload/confirm' => 'cellars#confirm_import', :as => 'confirm_upload_cellar'
+  match 'cellars/:id/import-status' => 'cellars#import_status', :as => 'cellar_import_status'
+
   root :to => "home#index"
 end

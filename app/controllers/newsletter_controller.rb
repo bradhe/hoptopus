@@ -4,7 +4,6 @@ class NewsletterController < ApplicationController
     
     respond_to do |format|
       if newsletter_signup.valid? and newsletter_signup.save
-        # Tell brad!
         Notifications.newsletter_signup(params[:email]).deliver
         
         format.json { render :json => true }

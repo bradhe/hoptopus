@@ -1,0 +1,32 @@
+<% content_for :title do %>
+  please wait while your import is processed
+<% end %>
+
+<h2>Processing Your Import</h2>
+
+<div align="center">
+  <p>Please wait while the server processes your confirmed import.</p>
+
+  <img src="/images/progress-big.gif" alt="Please wait..." />
+</div>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+function checkStatus() {
+  $.ajax({
+    url: '<%= cellar_import_status_path(@cellar) %>',
+    success: function(data) {
+      if(data.status == 2) {
+        window.location.href = '<%= cellar_path(@cellar.user.username) %>';
+      }
+      else if(data.status == 3) {
+        alert("Your import failed.");
+      }
+    }
+  });
+}
+$(document).ready(function() {
+  window.setInterval(checkStatus, 1000);
+});
+</script>
+<% end %>

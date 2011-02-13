@@ -1,14 +1,14 @@
 require 'csv'
 
 module UploadParsers
-  def find_value(row, fields)
+  def self.find_value(row, fields)
     return lambda { |column | row[fields[column]] }
   end
   
-  def parse_csv(file)
+  def self.parse_csv(file)
     fields = {}
     records = []
-    
+
     i = 0
     CSV.open(file, 'r') do |row|
       if i == 0

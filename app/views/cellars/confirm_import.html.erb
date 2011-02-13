@@ -3,6 +3,7 @@
 	confirm your upload
 <% end %>
 
+<% if (not params[:p]) or params[:p].to_i < 1 %>
 <div class="info">
     <p><strong>Use the drop downs below to match what's in your file with what's in the brew wiki.</strong> Hoptopus doesn't think that anything in red is currently in the brew wiki. For instance, your file might have "Bells" as a brewery but hoptopus already has "Bell's Brewery, Inc." as a brewery in the brew wiki. </p>
     
@@ -10,6 +11,7 @@
     
     <p style="margin-top: 10pt;">Once you're finished reviewing the list click the "Confirm Upload" button at the bottom of the page to finish the uploading process. <%= link_to 'Contact Brad', contact_index_path %> if you need assistance with anything!</p>
 </div>
+<% end %>
 
 <%= form_tag(confirm_upload_cellar_path(@cellar)) do %>
 <table class="editable list" cellpadding="0" cellspacing="0">
@@ -29,7 +31,7 @@
 	
 	<% @uploaded_records.each do |r| %>
         <tr>
-			<td class="year"><%= text_field_tag 'records['+i.to_s+'][year]', r.year %></td>
+			<td class="year"><%= hidden_field_tag 'records['+i.to_s+'][id]', r.id %><%= text_field_tag 'records['+i.to_s+'][year]', r.year %></td>
             <td class="brewery <%= Brewery.find_by_name(r.brewery).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][brewery]', r.brewery %></td>
             <td class="brew <%= Brew.find_by_name(r.variety).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][variety]', r.variety %></td>
 			<td class="style <%= BrewType.find_by_name(r.brew_style).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][brew_style]', r.brew_style %></td>
@@ -44,7 +46,18 @@
 	
 	<tfoot>
 		<tr>
-			<td colspan="5"><button type="submit">Confirm Upload</button></td>
+			<td colspan="5">
+        <%= ((params[:p] ? params[:p].to_f : 1)/ 25).ceil + 1 %> / <%= (@total_records.to_f / 25).ceil %>
+        <% if params[:p] and params[:p].to_i >= 25 %>
+          <button type="button" id="prev">Prev</button>
+        <% end %>
+        
+        <% if params[:p] and (params[:p].to_i + 25) > @total_records %>
+          <button type="button" id="finish">Finish</button>
+        <% else %>
+          <button type="button" id="next">Next</button>
+        <% end %>
+      </td>
 		</tr>
 	</tfoot>
 </table>
@@ -68,6 +81,26 @@ brewStyles[<%= b.id %>] = '<%= b.name %>';
 <% end %>
 
 $(document).ready(function() {
+  $('#prev').click(function() {
+    p = <%= params[:p] || '0' %>;
+
+    if(p > 0) {
+      $(this).parents('form').attr('action', '<%= confirm_upload_cellar_path(@cellar) %>?p=' + (p - 25) );
+      $(this).parents('form').submit();
+    }
+  });
+
+  $('#next').click(function() {
+    p = <%= params[:p] || '0' %>;
+    $(this).parents('form').attr('action', '<%= confirm_upload_cellar_path(@cellar) %>?p=' + (p + 25) );
+    $(this).parents('form').submit();
+  });
+
+  $('#finish').click(function() {
+    $(this).parents('form').attr('action', '<%= confirm_upload_cellar_path(@cellar) %>?done=1' );
+    $(this).parents('form').submit();
+  });
+
 	(function(breweries) {
 		var ul = $('<ul/>');		
 		
