@@ -196,12 +196,10 @@
 		</tbody>
 	<% end %>
 	</table>
-	
 </div>
 
-
 <% if is_users_cellar? %>
-<h2 data-tab-handle="add-a-beer">Add Beer to your Cellar</h2>
+<h2 data-tab-handle="add-a-beer">Add a Beer to your Cellar</h2>
 <div id="add-a-beer">
 	<% form_for(@new_beer, :url => cellar_beers_path(@cellar)) do |f| %>
 	
@@ -266,8 +264,11 @@
 	</div>
 	
 	<% end %>
-    
-    <h3>Upload Your Cellar</h3>
+</div>
+
+<h2 data-tab-handle="upload-cellar">Upload Cellar</h2>
+<div id="upload-cellar">
+    <div class="info">Please fill out the <a href="/cellar_import_template.csv">cellar template</a> and save it as a CSV document.</div>
 
     <% form_for(UploadCellar.new, :url => upload_cellar_path(@cellar), :html => {:multipart => true}) do |f| %>
     <div class="field">
@@ -374,30 +375,3 @@ $('select#user_country').live('change', function() {
 
 <% end %>
 <% end %>
-
-<h2 data-tab-handle="comments">Comments</h2>
-<div id="comments">
-    <% unless @cellar.comments.empty? %>
-        <% @cellar.comments.each do |c| %>
-    <div class="comment">
-        <span class="byline"><%= link_to c.user.username, cellar_path(c.user.username) %> (<%= c.created_at.strftime "%A %B %d, %Y" %>)</span>
-        <%== m c.comment %>
-    </div>
-        <% end %>
-    <% else %>
-    <div class="empty">No comments have been left yet!</div>
-    <% end %>
-    
-    <% if is_logged_in? %>
-        <% form_for(@cellar.comments.new, :url => cellar_comments_path(@cellar)) do |f| %>
-    <div class="field">
-        <%= f.label :comment, 'Leave a comment:' %>
-        <%= f.text_area :comment %>
-    </div>
-    
-    <div class="buttons">
-        <button type="submit" class="leave-comment" data-comment-box="comment_comment">Leave Comment</button>
-    </div>
-        <% end %>
-    <% end %>
-</div>

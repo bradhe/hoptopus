@@ -4,10 +4,12 @@
 
 <h2>Processing Your Import</h2>
 
-<div align="center">
-  <p>Please wait while the server processes your confirmed import.</p>
+<div align="center" id="progress">
+  <p>Please wait while the server processes import.</p>
 
   <img src="/images/progress-big.gif" alt="Please wait..." />
+
+  <p>Once it's complete you will be redirected to your cellar and all of your beers will be there!</p>
 </div>
 
 <% content_for :javascript do %>
@@ -17,7 +19,15 @@ function checkStatus() {
     url: '<%= cellar_import_status_path(@cellar) %>',
     success: function(data) {
       if(data.status == 2) {
-        window.location.href = '<%= cellar_path(@cellar.user.username) %>';
+        var div = $('<div/>').attr('align', 'center').text('Import complete! Redirecting you to your cellar now.');
+        div.hide();
+
+        $('#progress').before(div);
+        $('#progress').fadeOut('fast', function() {
+          div.fadeIn('fast', function() {
+            window.location.href = '<%= cellar_path(@cellar.user.username) %>';
+          });
+        });
       }
       else if(data.status == 3) {
         alert("Your import failed.");

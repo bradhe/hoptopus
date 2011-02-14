@@ -12,7 +12,7 @@
 </ul>
 <% end %>
 
-<% form_for(@cellar_upload, :url => upload_cellar_path(@cellar), :multipart => true) do |f| %>
+<% form_for(@cellar_upload, :url => upload_cellar_path(@cellar), :html => {:multipart => true}) do |f| %>
     <div class="field">
         <%= f.label :file, 'File:'%>
         <%= f.file_field :file %>

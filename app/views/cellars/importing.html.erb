@@ -4,10 +4,12 @@
 
 <h2>Processing File</h2>
 
-<div align="center">
+<div align="center" id="progress">
   <p>Please wait while your file is processed.</p>
 
   <img src="/images/progress-big.gif" alt="Loading..." />
+
+  <p>You will be sent to the next step in the import process when it's complete!</p>
 </div>
 
 <% content_for :javascript do %>
@@ -17,7 +19,15 @@ function checkStatus() {
     url: '<%= cellar_import_status_path(@cellar) %>',
     success: function(data) {
       if(data.status == 1) {
-        window.location.href = '<%= confirm_upload_cellar_path(@cellar) %>';
+        var div = $('<div/>').attr('align', 'center').text('Processing complete! You are being redirected to the next step now.');
+        div.hide();
+
+        $('#progress').before(div);
+        $('#progress').fadeOut('fast', function() {
+          div.fadeIn('fast', function() {
+            window.location.href = '<%= confirm_upload_cellar_path(@cellar) %>';
+          });
+        });
       }
     }
   });

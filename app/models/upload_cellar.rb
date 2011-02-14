@@ -8,8 +8,10 @@ class UploadCellar
   validates_presence_of :file, :message => 'Please select a file.'
   
   def initialize(params={})
-    params.each do |k,v|
-      instance_variable_set("@#{k}", v) unless v.nil?
+    unless params.nil?
+      params.each do |k,v|
+        instance_variable_set("@#{k}", v) unless v.nil?
+      end
     end
   end
   
