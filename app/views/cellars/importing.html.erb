@@ -29,6 +29,9 @@ function checkStatus() {
           });
         });
       }
+      else if(data.status == -1) {
+        window.location.href = '<%= cellar_upload_failed_path %>';
+      }
     }
   });
 }

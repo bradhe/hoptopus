@@ -1,4 +1,6 @@
 Hoptopus::Application.routes.draw do
+  match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
+
   resources :cellars, :only => [:index, :show] do
     member do
       post 'upload'

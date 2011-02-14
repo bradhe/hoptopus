@@ -16,6 +16,11 @@ body, p, ol, ul, td {
 	line-height: 18px;
 }
 
+ul.notes {
+  margin-left: 15pt;
+  margin-top: 5pt;
+}
+
 pre {
 	background-color: #eee;
 	padding: 10px;

@@ -1,7 +1,13 @@
-<h2>Upload failed.</h2>
+<% content_for :title do %>
+  import failed
+<% end %>
 
-<ul class="errors">
-    <% @upload_errors.each do |element,msg| %>
-    <li>(<%= element %>) <%= msg %></li>
-    <% end %>
+<h2>Cellar import failed.</h2>
+
+For some reason your cellar import failed! You can try again, but here are a few tips that might help you.
+
+<ul class="notes">
+  <li>Make sure that the file you uploaded is saved as a CSV file.</li>
+  <li>Make sure you don't have any empty values in the "brewery" or "brew" columns.</li>
+  <li>Make sure that the column names match the column names in the <a href="/cellar_import_template.csv">cellar import template</a>.</li>
 </ul>

@@ -11,11 +11,17 @@ class CellarsController < ApplicationController
     if status == 2
       # Clean up after ourselves
       redis.del("cellar_import:#{@cellar.user_id}:status")
+    elsif status == -1
+      redis.del("cellar_import:#{@cellar.user_id}:status")
+      redis.del("cellar_import:#{@cellar.user_id}:job_id")
     end
 
     respond_to do |format|
       format.json { render :json => { :status => status } }
     end
+  end
+
+  def import_failed
   end
 
   def confirm_import
