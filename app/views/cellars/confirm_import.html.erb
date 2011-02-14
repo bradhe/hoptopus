@@ -4,13 +4,13 @@
 <% end %>
 
 <% if (not params[:p]) or params[:p].to_i < 1 %>
-<div class="info">
+  <% alert 'import_instructions' do %>
     <p><strong>Use the drop downs below to match what's in your file with what's in the brew wiki.</strong> Hoptopus doesn't think that anything in red is currently in the brew wiki. For instance, your file might have "Bells" as a brewery but hoptopus already has "Bell's Brewery, Inc." as a brewery in the brew wiki. </p>
     
     <p style="margin-top: 10pt;">If that were to be the case then you should select "Bell's Brewery, Inc." from the drop down on that cell. <strong>Note that all fields are editable</strong> so you can make any last minute changes!</p>
     
     <p style="margin-top: 10pt;">Once you're finished reviewing the list click the "Confirm Upload" button at the bottom of the page to finish the uploading process. <%= link_to 'Contact Brad', contact_index_path %> if you need assistance with anything!</p>
-</div>
+  <% end %>
 <% end %>
 
 <%= form_tag(confirm_upload_cellar_path(@cellar)) do %>

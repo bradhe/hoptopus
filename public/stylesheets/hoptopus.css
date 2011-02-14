@@ -16,9 +16,13 @@ body, p, ol, ul, td {
 	line-height: 18px;
 }
 
-ul.notes {
+ul.notes, .alert ul {
   margin-left: 15pt;
   margin-top: 5pt;
+}
+
+.alert h3 {
+  margin-top: 0;
 }
 
 pre {
@@ -235,6 +239,10 @@ textarea {
 	color: #85af22;
 }
 
+.navigation .controls {
+  float: right;
+}
+
 label {
 	display: inline-block;
 	width: 125px;
@@ -252,14 +260,14 @@ label {
 
 h1 img {
 	position: relative;
-	top: 5px;
+	top: 8px;
 }
 
 .content-wrapper {
 	background-image: url('/images/faded-top.png');
-    background-position: center top;
-    background-repeat: no-repeat;
-    padding-top: 15px;
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding-top: 15px;
 	
 	min-height: 200px;
 }
@@ -294,7 +302,7 @@ h1 img {
     margin-bottom: 5pt;
 }
 
-div.info, div.navigation {
+div.info, div.navigation, div.alert {
 	background-color: #ffe9a8;
 	padding: 5pt;
 		
@@ -760,4 +768,12 @@ div.dropdown li {
 .editable .new input {
 	color: #f00;
 	font-style: italic;
+}
+
+.logo {
+	border: 1px #86673F solid;
+}
+
+a.dismiss-alert {
+  float: right;
 }

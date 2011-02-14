@@ -45,4 +45,22 @@ module ApplicationHelper
     
     date.strftime "%Y-%m-%d"
   end
+
+  def block_to_partial(partial_name, options = {}, &block)
+    options.merge!(:body => capture(&block))
+    render(:partial => partial_name, :locals => options)
+  end
+
+  def alert(name, options = {}, &block)
+    a = Alert.where('name = ? AND user_id = ?', name, @user.id).first
+
+    if a.nil?
+      a = Alert.create(:name => name, :user_id => @user.id)
+    end
+
+    unless a.dismissed
+      options.merge!(:name => name)
+      block_to_partial('shared/alert', options, &block)
+    end
+  end
 end

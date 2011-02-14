@@ -3,10 +3,13 @@
 <% end %>
 
 <div class="navigation">
-	<a href="/cellars/<%= @beer.cellar.user.username %>">Back to Cellar</a> <%= link_to 'See in Brew Wiki', brew_path(@beer.brew) %>
+  <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) %>
+  <%= link_to 'View Brew Wiki Entry', brew_path(@beer.brew) %>
 	
 	<% if @beer.cellar.user == @user %>
-		<%= link_to 'Edit Beer', edit_cellar_beer_path(@beer.cellar, @beer) %>
+    <div class="controls">
+		<%= link_to 'Edit Beer & Notes', edit_cellar_beer_path(@beer.cellar, @beer) %>
+    </div>
 	<% end %>
 </div>
 

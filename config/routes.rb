@@ -1,4 +1,7 @@
 Hoptopus::Application.routes.draw do
+  post "alerts/dismiss"
+
+  # This needs to be up here so that it doesn't match the username rule thinger for below.
   match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
 
   resources :cellars, :only => [:index, :show] do

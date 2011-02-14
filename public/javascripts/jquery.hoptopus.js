@@ -149,40 +149,62 @@ $(document).ready(function() {
 	
 	window.setTimeout(function() { $('div.notice').fadeOut(2000, function() { $(this).remove(); }); }, 1000);
     
-    // Set up comment stuff
-    $('button.leave-comment[data-comment-box]').each(function() {
-        var button = $(this);
-        var commentBox = $('#' + $(this).attr('data-comment-box'));
-        
-        if(!commentBox) {
-            return;
-        }
-        
-        commentBox.keypress(function() {
-            if($(this).isEmpty()) {
-                button.attr('disabled', true);
-            }
-            else {
-                button.removeAttr('disabled');
-            }
+  // Set up comment stuff
+  $('button.leave-comment[data-comment-box]').each(function() {
+      var button = $(this);
+      var commentBox = $('#' + $(this).attr('data-comment-box'));
+      
+      if(!commentBox) {
+          return;
+      }
+      
+      commentBox.keypress(function() {
+          if($(this).isEmpty()) {
+              button.attr('disabled', true);
+          }
+          else {
+              button.removeAttr('disabled');
+          }
+      });
+      
+      if(commentBox.isEmpty()) {
+          button.attr('disabled', true);
+      }
+  });
+  
+  $('input.date').datepicker({
+      dateFormat: 'yy-mm-dd',
+      showButtonPanel: true,
+      buttonImage: "/images/calendar.png",
+      buttonImageOnly: false,
+      changeYear: true,
+      changeMonth: true
+  });
+  
+  $('input.date').each(function() {
+      var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
+      $(this).after(img);
+  });
+
+  // Add dismiss buttons for alerts
+  $('div.alert').each(function() {  
+    var img = new Image();
+    img.src = '/images/x.png';
+    img = $(img).attr('border', '0');
+
+    var a = $('<a/>').attr('href', 'javascript:void(0);').addClass('dismiss-alert');
+    a.append(img);
+
+    a.click(function() {
+      $(this).parents('div.alert').fadeOut('fast', function() {
+        $.ajax({
+          url: '/alerts/dismiss',
+          type: 'POST',
+          data: { 'name': $(this).attr('data-alert-name') }
         });
-        
-        if(commentBox.isEmpty()) {
-            button.attr('disabled', true);
-        }
+      }); 
     });
-    
-    $('input.date').datepicker({
-        dateFormat: 'yy-mm-dd',
-        showButtonPanel: true,
-        buttonImage: "/images/calendar.png",
-        buttonImageOnly: false,
-        changeYear: true,
-        changeMonth: true
-    });
-    
-    $('input.date').each(function() {
-        var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
-        $(this).after(img);
-    });
+  
+    $(this).prepend(a);
+  }); 
 });

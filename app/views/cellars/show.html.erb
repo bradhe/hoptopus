@@ -7,9 +7,20 @@
 <% end %>
 
 <% if is_users_cellar? %>
-	<div class="info">
+  <% alert 'welcome' do %>
+  <h3>Welcome to Hoptopus!</h3>
+  <p>There are a few things you can do to get up and running quickly with hoptopus.<p>
+
+  <ul>
+    <li><strong>Upload your cellar.</strong> You can import your cellar under the "Upload Cellar" tab below. This will help you get your cellar inventory in place quickly so you can start sharing and trading with people.</li>
+    <li><strong>Contribute to the Brew Wiki.</strong> See what beers are currently in the brew wiki and perhaps add some that you don't see. Maybe you will learn something about a beer that you might not have otherwise!</li>
+    <li><strong>Browse other peoples' cellars.</strong> See what other people in the hoptopus community are cellaring and compare notes on how long you should plan to age your beers.</li>
+  </ul>
+  <% end %>
+
+	<% alert 'my_cellar' do %>
 		This is your cellar! Share it with others: <a href="<%= cellar_url %>"><%= cellar_url %></a> 
-	</div>
+  <% end %>
 	
 	<% if notice %>
 		<div class="notice"><%= notice %></div>
@@ -25,7 +36,7 @@
 </h2>
 
 <div id="cellar">
-    <h3>Currently in Cellar</h3>
+    <h3>Cellar Inventory</h3>
 	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| b.removed_at.nil? } %>>
 		<thead>
 			<tr>
@@ -33,10 +44,8 @@
 				<th>Brewery</th>
 				<th>Beer</th>
 				<th>Cellared</th>
-				<th class="unsortable" width="50"></th>
 			<% if is_users_cellar? %>
 				<th class="unsortable" width="120"></th>
-				<th class="unsortable" width="50"></th>
 				<th class="unsortable" width="40"></th>
 			<% end %>
 			</tr>
@@ -48,13 +57,13 @@
 	
 			<tr>
 				<td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
-                    <% if is_users_cellar? %>
-                        You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
-                    <% else %>
-                        There is no beer in this cellar yet.
-                    <% end %>
-                </td>
-			</tr>
+          <% if is_users_cellar? %>
+              You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
+          <% else %>
+              There is no beer in this cellar yet.
+          <% end %>
+        </td>
+      </tr>
 			
 	<% else %>
 	
@@ -65,14 +74,12 @@
 			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
-				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, brew_path(b.brew) %></td>
+				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
 				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
-				<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
-				
+
 			<% if is_users_cellar? %>
 			
 				<td align="center"><%= link_to 'Add Tasting Notes', new_cellar_beer_tasting_path(@cellar, b) %></td>
-				<td align="center"><%= link_to 'Edit', edit_cellar_beer_path(@cellar, b) %></td>
 				<td align="center"><%= button_to 'Check Out', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
 				
 			<% end %>
