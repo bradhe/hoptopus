@@ -37,17 +37,28 @@
 
 <div id="cellar">
     <h3>Cellar Inventory</h3>
-	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| b.removed_at.nil? } %>>
+  
+  <div class="buttons">
+    <button type="button" id="edit-beers-button">Edit</button>
+    <button type="button" id="check-out-beers-button">Check Out</button>
+    <span class="info">Re-order columns by clicking and dragging the header.</span>
+    <button type="button" id="columns-button">Select Columns</button>
+  </div>
+
+	<table class="beers list">
 		<thead>
 			<tr>
-				<th width="20"></th>
-				<th>Brewery</th>
-				<th>Beer</th>
-				<th>Cellared</th>
+        <th class="unsortable"></th>
+				<th width="20" id="year"></th>
+				<th id="brewery">Brewery</th>
+				<th id="variety">Variety</th>
+				<th id="created-at">Cellared</th>
+<!--
 			<% if is_users_cellar? %>
 				<th class="unsortable" width="120"></th>
 				<th class="unsortable" width="40"></th>
 			<% end %>
+-->
 			</tr>
 		</thead>
 		
@@ -68,28 +79,37 @@
 	<% else %>
 	
 		<% c = 'color2' %>
-		<% @cellar.beers.select { |b| b.removed_at.nil? }.each do |b| %>
+		<% @cellared_beers.select { |b| b.removed_at.nil? }.each do |b| %>
 			<% c = (c == 'color2' ? 'color1' : 'color2') %>
 			
 			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
+        <td><input type="checkbox" name="selected_beers" value="<%= c.id %>" /></td>
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
-				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
+				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.formatted_cellared_at %></td>
 
+<!--
 			<% if is_users_cellar? %>
 			
 				<td align="center"><%= link_to 'Add Tasting Notes', new_cellar_beer_tasting_path(@cellar, b) %></td>
 				<td align="center"><%= button_to 'Check Out', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
 				
 			<% end %>
-			
+-->
+
 			</tr>
 			
 		<% end %>
 		
 	<% end %>
 		</tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="5" align="center"><button type="button">Show More (<%= @beers_left_in_pagination %>)</button></td>
+      </tr>
+    </tfoot>
 	</table>
     
     <h3>Recent Activity</h3>
@@ -206,6 +226,7 @@
 </div>
 
 <% if is_users_cellar? %>
+
 <h2 data-tab-handle="add-a-beer">Add a Beer to your Cellar</h2>
 <div id="add-a-beer">
 	<% form_for(@new_beer, :url => cellar_beers_path(@cellar)) do |f| %>
@@ -335,8 +356,11 @@
 	</div>
 	<% end %>
 </div>
+<% end %>
+
 
 <% content_for :javascript do %>
+  <% if is_users_cellar? %>
 <script type="text/javascript">
 var brews = {};
 <% Brewery.all.each do |b| %>
@@ -379,6 +403,54 @@ $('select#user_country').live('change', function() {
 	statesSelect.removeAttr('disabled');
 });
 </script>
+  <% end %>
+<script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
 
-<% end %>
+<script type="text/javascript">
+  function makeSortable() {
+    var table = $('table.beers.list');
+
+    var headers = {};
+    table.find('th').each(function(i) {
+	    if($(this).hasClass('unsortable')) {
+		    headers[i] = { sorter: false };
+	    }
+    });
+
+    table.tablesorter({headers: headers});
+  }
+
+  $(document).ready(function() {
+    var tbl = $('table.beers.list').sortableColumns({ 
+      showPosition: true,
+      sorted: function(e) {
+        makeSortable();
+      }
+    });
+
+    var table = $('table.beers.list');
+    hoptopus.grid.init(<%== @grid_columns.to_json %>, $('#columns-button'), table, {
+      columnAdded: function(th) {
+        // Report to the sortableColumns thinger that a column has been added.
+        tbl.sortableColumns('addColumn', th);
+        makeSortable();
+      },
+      columnRemoved: function(th) {
+        // Report to the sortableColumns thinger that a column has been removed.
+        tbl.sortableColumns('removeColumn', th);
+        makeSortable();
+      }
+    });
+
+    // Post-process this crap.
+    var unprocessed = <%== @cellar.beers.to_json(:methods => :formatted_cellared_at) || '{}' %>;
+    var processed = [];
+    for(var i in unprocessed) {
+      processed.push(unprocessed[i].beer);
+    }
+
+    hoptopus.grid.objects(processed);
+  });
+</script>
 <% end %>

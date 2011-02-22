@@ -5,7 +5,12 @@ $.fn.showLoading = function() {
 }
 
 $.fn.isEmpty = function() {
-    return this.val && (this.val() == '' || this.val().match(/^\s+$/));
+    if(this.text() && !this.val()) {
+      return (this.text() == '' || this.text().match(/^\s+$/));
+    }
+    else {
+      return this.val && (this.val() == '' || this.val().match(/^\s+$/)); 
+    }
 }
 
 $.fn.closeDropdown = function() {
@@ -91,7 +96,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 	$("table[data-sortable]").each(function(i) {
 		var headers = {};
 		$(this).find('th').each(function(i) {
@@ -124,6 +129,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+
 	
 	var id = firstTab.attr('data-tab-handle');
 	

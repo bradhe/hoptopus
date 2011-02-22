@@ -134,7 +134,19 @@ class CellarsController < ApplicationController
       @cellar = Cellar.find_by_user(user)
       @tastings = @cellar.user.tastings
     end
+
+    @cellared_beers = @cellar.beers.select { |b| b.removed_at.nil? }.first(25)
+    @beers_left_in_pagination = @cellar.beers.count - 25
     
+    # This hash controls grid columns. Derp.
+    @grid_columns = { 
+      :formatted_cellared_at => { :class => 'created-at', :title => 'Cellared' },
+      :brewery_name => { :class => 'brewery', :title => 'Brewery' },
+      :name => { :class => 'variety', :title => 'Variety' },
+      :year => { :class => 'year', :title => 'Year' },
+      :quantity => { :class => 'quantity', :title => 'Quantity' }
+    }
+
     if @user == @cellar.user
       @new_beer = Beer.new
       
@@ -147,9 +159,5 @@ class CellarsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @cellar }
     end
-  end
-  
-  def process_upload(uploaded_records) 
-
   end
 end
