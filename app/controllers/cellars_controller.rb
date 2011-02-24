@@ -144,7 +144,9 @@ class CellarsController < ApplicationController
       :brewery_name => { :id => 'brewery', :title => 'Brewery' },
       :name => { :id => 'variety', :title => 'Variety' },
       :year => { :id => 'year', :title => 'Year' },
-      :quantity => { :id => 'quantity', :title => 'Quantity' }
+      :quantity => { :id => 'quantity', :title => 'Quantity' },
+      :formatted_price => { :id => 'price', :title => 'Price'},
+      :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' }
     }
 
     if @user == @cellar.user

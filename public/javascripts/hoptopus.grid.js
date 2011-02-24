@@ -44,6 +44,10 @@ hoptopus.grid = (function($){
   var columnAddedFn = null;
   var columnRemovedFn = null;
   var objectIndex = {};
+  var columnProperties = {};
+  
+  // This is for a really terrible hack.
+  var cellar = -1;
 
   function checkboxClicked(e) {
     var column = $(this).data('column');
@@ -127,7 +131,7 @@ hoptopus.grid = (function($){
     var rows = grid.find('tbody tr');
     for(var i = 0; i < rows.length; i++) {
       var tr = rows[i];
-      var beerId = $(tr).attr('data-beer-id');
+      var beerId = $(tr).attr('data-beer');
 
       // lookup that beer from the objs.
       var beer = objectIndex[beerId];
@@ -137,7 +141,7 @@ hoptopus.grid = (function($){
       }
 
       var actualTd = $(tr).children('td')[idx];
-      var td = $('<td/>').text(beer[property]);
+      var td = $('<td/>').text(beer[property] ? beer[property] : '');
       td.insertAfter(actualTd);
     }
 
@@ -151,16 +155,31 @@ hoptopus.grid = (function($){
     td.attr('colspan', colspan + 1);
   } 
 
+  var timeout = null;
   function dropdownButtonClicked(e) {
+    if($(this).hasClass('down')) {
+      if(timeout) {
+        window.clearTimeout(timeout);
+      }
+      
+      $(this).removeClass('down');
+      dropdown.hide();
+      
+      return false;
+    }
+    
     var offset = $(this).offset();
 	  dropdown.css('top', offset.top + $(this).outerHeight());
   	dropdown.css('left', offset.left);
-
+    $(this).addClass('down');
+    
     if(columns == null) {
       throw "Column definitions not set";
     }
 
-    var timeout = setTimeout(function() {
+    var t = $(this);
+    
+    timeout = setTimeout(function() {
       dropdown.hide();
     }, 3000);
 
@@ -171,22 +190,29 @@ hoptopus.grid = (function($){
     dropdown.mouseleave(function() {
       timeout = setTimeout(function() {
         dropdown.hide();
+        t.removeClass('down');
       }, 3000);
     });
 
     $('body').click(function() {
       dropdown.hide();
+      t.removeClass('down');
+    });
+    
+    dropdown.click(function(e) {
+      e.stopPropagation();
     });
 
     e.stopPropagation();
     dropdown.show();
   }
 
-  g.init = function(columnObj, dropdownObj, gridObj, callbacks) {
+  g.init = function(columnObj, dropdownObj, gridObj, callbacks, cellarId) {
     columns = columnObj;
     dropdownButton = dropdownObj;
     grid = gridObj;
-
+    cellar = cellarId;
+    
     $(dropdownButton).click(dropdownButtonClicked);
 
     // Do the callbacks thing.
@@ -195,7 +221,8 @@ hoptopus.grid = (function($){
       columnRemovedFn = callbacks.columnRemoved;
     }
 
-    var div = $('<div/>').addClass('dropdown');
+    var div = $('<div/>').addClass('select-columns dropdown');
+    
     // Cache the dropdown thing.
     // Get all the currently checked columns
     var checked = {};
@@ -212,9 +239,12 @@ hoptopus.grid = (function($){
       var column = columns[i];
       var checkbox = $('<input/>').attr('type', 'checkbox').attr('id', i + '-checkbox');
       checkbox.data('property', i);
+      columnProperties[i] = column;
 
       var label = $('<label/>').attr('for', i + '-checkbox').text(column.title);
       $('<div/>').append(checkbox).append(label).appendTo(div);
+      
+      label.click(function(e) { e.stopPropagation(); });
 
       if(checked[column.id]) {
         checkbox.attr('checked', true);
@@ -240,6 +270,96 @@ hoptopus.grid = (function($){
       if(typeof(obj) == 'object' && obj.id) {
         objectIndex[obj.id] = obj;
       }
+    }
+  }
+  
+  g.addObjects = function(objs, rowClasses, rowClassStartingIndex) {
+    // Grab all the headers for the grid.
+    var headers = grid.find('thead tr:first th');
+    var selectedColumns = [];
+    
+    if(!rowClassStartingIndex) {
+      rowClassStartingIndex = 0;
+    }
+    
+    if(!rowClasses) {
+      rowClasses = [];
+    }
+    
+    for(var i = 0; i < headers.length; i++) {
+      var header = headers[i];
+      
+      if($(header).hasClass('unsortable')) {
+        // TODO: Abstract this logic. For now, just mark this as the textbox column.
+        selectedColumns.push({ checkbox: true });
+      }
+      else {
+        for(var j in columns) {
+          if(columns[j].id == header.id) {
+            selectedColumns.push(j);
+          }
+        }
+      }
+    }
+
+    var rowClassesN =  rowClasses.length;
+    var tbody = grid.find('tbody');
+    
+    // Get the last TR here and figure out how each column should by styled.
+    var columnStyles = {};
+    var rows = tbody.find('tr:last');
+    var cols = rows.find('td');
+    for(var i = 0; i < cols.length; i++) {
+      var td = $(cols[i]);
+      columnStyles[i] = { valign: td.attr('valign'), align: td.attr('align') };
+    }
+    
+    // Push all these objs on to the row objs
+    for(var i = 0; i < objs.length; i++) {
+      var obj = objs[i];
+      rowObjs.push(obj);
+      
+      var tr = $('<tr/>');
+      tr.attr('data-beer', obj.id);
+      var cls = rowClasses[(i + rowClassStartingIndex) % rowClassesN];
+      
+      if(cls) {
+        tr.addClass(cls);
+      }
+      
+      for(var j = 0; j < selectedColumns.length; j++) {
+        var column = selectedColumns[j];
+        
+        var td = $('<td/>');
+        if(typeof(column) == 'object' && 'checkbox' in column) {
+          var input = $('<input/>').attr('type', 'checkbox').attr('name', 'selected_beers').val(obj.id);
+          td.attr('valign', 'middle');
+          td.attr('align', 'center');
+          td.append(input);
+        }
+        else {
+          // TODO: Fix this hack for name.
+          if(column == 'name') {
+            var a = $('<a/>').attr('href', '/cellars/'+cellar+'/beers/'+obj.id).text(obj[column]);
+            td.append(a);
+          }
+          else {
+            td.text(obj[column]);
+          }
+        }
+        
+        // We should see if this has any styling to it.
+        var style = columnStyles[j];
+        for(var k in columnStyles[j]) {
+          if(style[k]) {
+            td.attr(k, style[k]);
+          }
+        }
+        
+        tr.append(td);
+      }
+      
+      tbody.append(tr);
     }
   }
 

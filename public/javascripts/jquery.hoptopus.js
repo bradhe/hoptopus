@@ -145,6 +145,7 @@ $(document).ready(function() {
 	tabs.append($('h2[data-tab-handle]'));
 
 	$('h2[data-tab-handle]').each(function() {
+    var attr = $(this).attr('data-tab-handle');
 		var tab = $('#' + $(this).attr('data-tab-handle'));
 		tab.addClass('tab');
 		tab.hide();
@@ -153,8 +154,13 @@ $(document).ready(function() {
 			if(tab.is(':hidden')) {
 				$('.tabs .open').removeClass('open');
 				$(this).addClass('open');
+        
+        // Hide all the other tabs...
 				$('.tab').hide();
 				tab.show();
+        
+        // Set the hash so that we can come back here easily.
+        window.location.hash = attr;
 			}
 		});
 	});

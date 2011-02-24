@@ -19,4 +19,12 @@ class Beer < ActiveRecord::Base
   def formatted_cellared_at
     self.cellared_at.strftime "%A %B %d, %Y" unless self.cellared_at.nil?
   end
+  
+  def bottle_size_name
+    self.bottle_size.name
+  end
+  
+  def formatted_price
+    self.price ? '$%#.2f' % self.price : 'Unknown'
+  end
 end

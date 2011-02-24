@@ -522,6 +522,12 @@ ul.all-cellars {
 
 .right {
 	float: right;
+  display: inline-block;
+}
+
+.left {
+  float: left;
+  display: inline-block;
 }
 
 button, input[type="submit"] {
@@ -547,7 +553,7 @@ button:focus, input[type="submit"]:focus {
 	border: 1px #85af22 solid;
 }
 
-button:active, input[type="submit"]:active {
+button:active, input[type="submit"]:active, button.down {
 	background-image: url('/images/button-down.png');
 }
 
@@ -820,4 +826,18 @@ table.beers.list th.sortable-right {
   opacity: 0.8;
   -moz-opacity: 0.8;
   filter:alpha(opacity=80);
+}
+
+.select-columns {
+  padding-top: 3pt;
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+
+.select-columns div {
+  margin-bottom: 3pt;
+}
+
+.select-columns input {
+  margin-right: 3pt;
 }

@@ -44,14 +44,16 @@
 
 <div id="cellar">
   
-	<div class="buttons info">
-		<button type="button" id="edit-beers-button" disabled>Edit</button>
-		<button type="button" id="check-out-beers-button" disabled>Check Out</button>
+	<div class="buttons info" align="right">
+<% if is_users_cellar? %>
+    <div class="left">
+      <button type="button" id="edit-beers-button" disabled>Edit</button>
+      <button type="button" id="check-out-beers-button" disabled>Check Out</button>
+    </div>
+<% end %>
 		
-		<div class="right">
-			<span class="info">Re-order columns by clicking and dragging the header.</span>
-			<button type="button" id="columns-button">Select Columns</button>
-		</div>
+    <span class="info">Re-order columns by clicking and dragging the header.</span>
+    <button type="button" id="columns-button">Select Columns</button>
 	</div>
 
 	<table class="beers list" id="cellared-beers">
@@ -67,7 +69,7 @@
 		
 		<tbody>
 		
-	<% if @cellar.beers.select { |b| b.removed_at.nil? }.empty? %>
+	<% if @cellared_beers.empty? %>
 	
 			<tr>
 				<td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
@@ -85,23 +87,27 @@
 		<% @cellared_beers.each do |b| %>
 			<% c = (c == 'color2' ? 'color1' : 'color2') %>
 			
-			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
-				<td align="center" valign="middle"><input type="checkbox" name="selected_beers" value="<%= c.id %>" /></td>
+			<tr data-beer="<%= b.id %>" class="<%= c %>">
+				<td align="center" valign="middle">
+          <input type="checkbox" name="selected_beers" value="<%= b.id %>" />
+        </td>
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
 				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.formatted_cellared_at %></td>
 			</tr>
+      
 		<% end %>
 		
 	<% end %>
 		</tbody>
-
+  <% if @beers_left_in_pagination > 0 %>
 		<tfoot>
 		  <tr>
-			<td colspan="5" align="center"><button type="button">Show More (<%= @beers_left_in_pagination %>)</button></td>
+			<td colspan="5" align="center"><button type="button" id="show-more">Show More (<%= @beers_left_in_pagination %>)</button></td>
 		  </tr>
 		</tfoot>
+  <% end %>
 	</table>
 </div>
 
@@ -345,6 +351,14 @@ $('select#user_country').live('change', function() {
 
     table.tablesorter({headers: headers});
   }
+  
+  
+  // Post-process this crap.
+  var unprocessed = <%== @cellar.beers.select { |b| b.removed_at.nil? }.to_json(:methods => [:formatted_cellared_at, :bottle_size_name, :formatted_price]) || '{}' %>;
+  var processed = [];
+  for(var i in unprocessed) {
+    processed.push(unprocessed[i].beer);
+  }
 
   $(function() {
     var tbl = $('#cellared-beers').sortableColumns({ showPosition: true });
@@ -353,36 +367,95 @@ $('select#user_country').live('change', function() {
       columnAdded: function(th) {
         // Report to the sortableColumns thinger that a column has been added.
         tbl.sortableColumns('addColumn', th);
+        makeSortable();
       },
       columnRemoved: function(th) {
         // Report to the sortableColumns thinger that a column has been removed.
         tbl.sortableColumns('removeColumn', th);
+        makeSortable();
+      }
+    }, <%= @cellar.id %>);
+    
+    // Find all of the TRs with data-beers on them build up a list of IDs
+    var shownBeerIds = [];
+    var rows = tbl.find('tr[data-beer]');
+    for(var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      shownBeerIds.push(parseInt(row.getAttribute('data-beer')));
+    }
+    
+    // Now create a list of useable bbers.
+    var useableBeers = [];
+    for(var i = 0; i < processed.length; i++) {
+      var beer = processed[i];
+      
+      var found = false;
+      for(var j = 0; j < shownBeerIds.length; j++) {
+        if(beer.id == shownBeerIds[j]) {
+          found = true;
+        }
+      }
+      
+      if(!found) {
+        useableBeers.push(beer);
+      }
+    }
+    
+    // The actual useable beers is the reverse of thsi thing.
+    useableBeers.reverse();
+    
+    // Note: This has to happen here because we have to use the useableBeers
+    // thinger.
+    $('#show-more').click(function() {
+      // Grab 25 beers off the list and stick them in the table.
+      var n = 25;
+      
+      var toAdd = [];
+      for(var i = 0; i < n; i++) {
+        var beer = useableBeers.pop();
+        
+        if(beer) {
+          toAdd.push(beer);
+        }
+      }
+      
+      if(toAdd.length < 1) {
+        throw "Could not add any more beers as they have all been added, dummy.";
+      }
+      
+      var rowClasses = ['color1', 'color2'];
+      var idx = $('#cellared-beers tbody tr:last').hasClass('color1') ? 1 : 0;
+      
+      hoptopus.grid.addObjects(toAdd, rowClasses, idx);
+      
+      // We need to change the value here.
+      var l = useableBeers.length;
+      
+      if(l < 1) {
+        $(this).parents('tfoot').remove();
+      }
+      else {
+        var txt = $(this).text();
+        $(this).text(txt.replace(/\d{1,}/, l));
       }
     });
-
-    // Post-process this crap.
-    var unprocessed = <%== @cellar.beers.to_json(:methods => :formatted_cellared_at) || '{}' %>;
-    var processed = [];
-    for(var i in unprocessed) {
-      processed.push(unprocessed[i].beer);
-    }
-
+        
     hoptopus.grid.objects(processed);
 	
-	$('#cellared-beers input[type="checkbox"]').click(function() {
-		var checked = $('#cellared-beers input[type="checkbox"]:checked');
+    $('#cellared-beers input[type="checkbox"]').click(function() {
+      var checked = $('#cellared-beers input[type="checkbox"]:checked');
 		
-		if(checked.length == 1) {
-			$('#edit-beers-button').removeAttr('disabled');
-		}
-		else {
-			$('#edit-beers-button').attr('disabled', true);
-		}
+      if(checked.length == 1) {
+        $('#edit-beers-button').removeAttr('disabled');
+      }
+      else {
+        $('#edit-beers-button').attr('disabled', true);
+      }
 		
-		if(checked.length > 1) {
-			$('#edit-beers-button').tooltip('Multiple edit is not supported.');
-		}
-	});
+      if(checked.length > 1) {
+        $('#edit-beers-button').tooltip('Multiple edit is not supported.');
+      }
+    });
   });
 </script>
 <% end %>
