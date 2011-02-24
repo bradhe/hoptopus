@@ -47,6 +47,8 @@
 	<div class="buttons info" align="right">
 <% if is_users_cellar? %>
     <div class="left">
+	  <button type="button" id="new-beer-button">Add</button>
+	  <button type="button" id="import-beers-button">Import</button>
       <button type="button" id="edit-beers-button" disabled>Edit</button>
       <button type="button" id="check-out-beers-button" disabled>Check Out</button>
     </div>
@@ -89,8 +91,8 @@
 			
 			<tr data-beer="<%= b.id %>" class="<%= c %>">
 				<td align="center" valign="middle">
-          <input type="checkbox" name="selected_beers" value="<%= b.id %>" />
-        </td>
+					<input type="checkbox" name="selected_beers" value="<%= b.id %>" />
+				</td>
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
@@ -157,73 +159,6 @@
 </div>
 
 <% if is_users_cellar? %>
-
-<h2 data-tab-handle="add-a-beer">Add a Beer to your Cellar</h2>
-<div id="add-a-beer">
-	<% form_for(@new_beer, :url => cellar_beers_path(@cellar)) do |f| %>
-	
-	<div class="info">Don't see the brewery or beer you need? <%= link_to 'Add a Brewery', new_brewery_path %> <%= link_to 'Add a Beer', new_brew_path %></div>
-	
-	<div class="field">	
-		<%= label_tag "brewery", "Beer:" %>
-		<%= select_tag "brewery", options_from_collection_for_select(Brewery.order('name').all, 'id', 'name', (@new_beer.brew ? @new_beer.brew.brewery.id : 0)), { :include_blank => 'Brewery' } %>
-		
-		<% if @new_beer.brew %>
-			<%= f.collection_select :brew_id, Brew.where(:brewery_id => @new_beer.brew.brewery.id).all, :id, :name %>
-		<% else %>
-			<%= f.select :brew_id, [], { :include_blank => 'Beer' }, :disabled => true %>
-		<% end %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :year, "Year:" %>
-		<%= f.text_field :year, :value => Date.today.year %>
-	</div>
-
-	<div class="field">
-		<%= f.label :quantity, "Quantity:" %>
-		<%= f.text_field :quantity %>
-	</div>
-
-	<div class="field">
-		<%= f.label :abv, "ABV:" %>
-		<%= f.text_field :abv %>
-	</div>
-
-	<div class="field">
-		<%= f.label :bottle_size_id, "Bottle Size:" %>
-		<%= f.collection_select :bottle_size_id, BottleSize.order('sort_order').all, :id, :name %>
-	</div>
-
-	<div class="field">
-		<%= f.label :price, "Price:" %>
-		<%= f.text_field :price %>
-	</div>
-
-	<div class="field">
-		<%= f.label :cellared_at, "Cellared Date:" %>
-		<%= f.text_field :cellared_at, :value => Date.today.to_s, :class => 'date' %>
-	</div>
-    
-    <div class="field">
-		<%= f.label :finish_aging_at, "Finished Date:" %>
-		<%= f.text_field :finish_aging_at, :class => 'date' %>
-        
-        <%= select_tag 'beer_finish_aging_year', options_for_select((0..50).to_a) %> years 
-        <%= select_tag 'beer_finish_aging_month', options_for_select((0..11).to_a) %> months 
-	</div>
-	
-	<div class="field">
-		<%= f.label :markup, "Notes:" %>
-		<%= f.text_area :markup, :class => 'notes' %>
-	</div>
-
-	<div class="buttons">
-		<button type="submit" id="add-beer" <%= "disabled" unless not @new_beer.nil? %>>Add Beer to Cellar</button>
-	</div>
-	
-	<% end %>
-</div>
 
 <h2 data-tab-handle="upload-cellar">Upload Cellar</h2>
 <div id="upload-cellar">
@@ -360,7 +295,15 @@ $('select#user_country').live('change', function() {
     processed.push(unprocessed[i].beer);
   }
 
-  $(function() {
+  $(function() {    
+	$('#new-beer-button').bind('click', function() {
+		window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
+	});
+	
+	$('#import-beers-button').bind('click', function(e) {
+		$('div.tabs h2[data-tab-handle="upload-cellar"]').click();
+	});
+	
     var tbl = $('#cellared-beers').sortableColumns({ showPosition: true });
 
     hoptopus.grid.init(<%== @grid_columns.to_json %>, $('#columns-button'), $('#cellared-beers'), {

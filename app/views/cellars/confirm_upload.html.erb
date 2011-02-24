@@ -1,0 +1,233 @@
+<h2>Review and Match Your Beers</h2>
+<% content_for :title do %>
+	confirm your upload
+<% end %>
+
+<div class="info">
+    <p><strong>Use the drop downs below to match what's in your file with what's in the brew wiki.</strong> Hoptopus doesn't think that anything in red is currently in the brew wiki. For instance, your file might have "Bells" as a brewery but hoptopus already has "Bell's Brewery, Inc." as a brewery in the brew wiki. </p>
+    
+    <p style="margin-top: 10pt;">If that were to be the case then you should select "Bell's Brewery, Inc." from the drop down on that cell. <strong>Note that all fields are editable</strong> so you can make any last minute changes!</p>
+    
+    <p style="margin-top: 10pt;">Once you're finished reviewing the list click the "Confirm Upload" button at the bottom of the page to finish the uploading process. <%= link_to 'Contact Brad', contact_index_path %> if you need assistance with anything!</p>
+</div>
+
+<%= form_tag(confirm_upload_cellar_path(@cellar)) do %>
+<table class="editable list" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr>
+			<th width="40">Year</th>
+            <th>Brewery</th>
+            <th>Beer</th>
+			<th>Style</th>
+            <th width="100">Bottle Size</th>
+            <th width="80">Quantity</th>
+            <th width="100">Cellared Date</th>
+        </tr>
+    </thead>
+    <tbody>
+	<% i = 0 %>
+	
+	<% @uploaded_records.each do |r| %>
+        <tr>
+			<td class="year"><%= text_field_tag 'records['+i.to_s+'][year]', r.year %></td>
+            <td class="brewery <%= Brewery.find_by_name(r.brewery).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][brewery]', r.brewery %></td>
+            <td class="brew <%= Brew.find_by_name(r.variety).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][variety]', r.variety %></td>
+			<td class="style <%= BrewType.find_by_name(r.brew_style).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][brew_style]', r.brew_style %></td>
+            <td class="<%= BottleSize.find_by_name(r.bottle_size).nil? ? 'new' : '' %>"><%= text_field_tag 'records['+i.to_s+'][bottle_size]', r.bottle_size %></td>
+            <td class="quantity"><%= text_field_tag 'records['+i.to_s+'][quantity]', r.quantity %></td>
+            <td><%= text_field_tag 'records['+i.to_s+'][cellared_at]', r.cellared_at, :class => 'date' %></td>
+        </tr>
+		
+		<% i += 1 %>
+	<% end %>
+    </tbody>
+	
+	<tfoot>
+		<tr>
+			<td colspan="5"><button type="submit">Confirm Upload</button></td>
+		</tr>
+	</tfoot>
+</table>
+<% end %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+var breweries = []
+<% Brewery.order('name').all.each do |b| %>
+breweries.push(["<%= b.name %>", <%= b.id %>]);
+<% end %>
+
+var brews = {}
+<% Brewery.all.each do |b| %>
+brews[<%= b.id %>] = <%== b.brews.map { |brew| brew.name }.to_json %>
+<% end %>
+
+var brewStyles = {}
+<% BrewType.all.each do |b| %>
+brewStyles[<%= b.id %>] = '<%= b.name %>';
+<% end %>
+
+$(document).ready(function() {
+	(function(breweries) {
+		var ul = $('<ul/>');		
+		
+		for(var i in breweries) {
+			var brewery = breweries[i][0];
+			
+			if(typeof(brewery) != 'string') {
+				continue;
+			}
+			
+			var a = $('<a/>').attr('href', 'javascript:void(0);').text(brewery);
+			var li = $('<li/>').append(a);
+			ul.append(li);
+			
+			a.click(function(e) {
+				var text = $(this).text();
+				var input = $(this).parents('td.brewery').children('input');
+				input.val(text);
+				
+				var parent = input.parent();
+				parent.removeClass('new');
+				
+				// Look up the ID on this guy
+				for(var i in breweries) {
+					if(breweries[i][0] == text) {
+						input.parent().attr('data-brewery-id', breweries[i][1]);
+						break;
+					}
+				}
+				
+				$(input).closeDropdown();
+		
+				e.stopPropagation();
+				return false;
+			});
+		}
+		
+		function filterByText(anchors, text) {
+			var found = [];
+			
+			for(var i = 0; i < anchors.length; i++) {
+				found.push(anchors[i]);
+			}
+			
+			for(var i = 0; i < text.length; i++) {
+				// Cycle through each anchor and make sure that the item
+				// is in the right place.
+				var clean = [];
+				
+				for(var j = 0; j < found.length; j++) {
+					var anchor = found[j];
+					
+					if(anchor.text.length > i && anchor.text[i] == text[i]) {
+						clean.push(anchor);
+					}
+				}
+				
+				// If we didn't find anything here, just return what we had last time.
+				if(clean.length < 1) {
+					return found;
+				}
+				else {
+					// Swap the buffers.
+					found = clean;
+				}
+			}
+			
+			return found;
+		}
+		
+		$('table.editable td.brewery input').click(function(e) {
+			var input = $(this);
+			$(this).dropdown(ul);
+			
+			// If we have a val try to find the current position in the dropdown
+			if(!$(this).isEmpty()) {
+				var anchors = filterByText(ul.find('a'), $(this).val());
+				
+				// Just get the first anchor, set the scroll to there
+				var top = anchors[0];
+
+				// Get ULs parent, set scroll to that spot
+				ul.parent().scrollTop($(top).position().top, 0);	
+			}
+			
+			e.stopPropagation();
+			return false;
+		});
+	})(breweries);
+	
+	
+	$('table.editable td.brew input').click(function(e) {
+		// Get the brewery id
+		var breweryTd = $(this).parents('td').siblings('td.brewery');
+		
+		if(!breweryTd.attr('data-brewery-id')) {
+			var text = breweryTd.find('input').text();
+			
+			// Try to find the brewery ID
+			for(var i in breweries) {
+				if(breweries[i] == text) {
+					breweryTd.attr('data-brewery-id', i);
+					break;
+				}
+			}
+		}
+		
+		// If still none then there's a problem. Show nothing.
+		if(!breweryTd.attr('data-brewery-id') || brews[breweryTd.attr('data-brewery-id')].length < 1) {
+			var span = $('<span/>').text("Hoptopus does not have any record of this brewery or any of its beers.");
+			$(this).dropdown(span);
+			
+			e.stopPropagation();
+			return false;
+		}
+		
+		var breweryId = breweryTd.attr('data-brewery-id')
+		var breweryBrews = brews[breweryId];
+		var input = $(this);
+		
+		var ul = $('<ul/>');
+		
+		for(var i in breweryBrews) {
+			var brew = breweryBrews[i];
+			
+			if(typeof(brew) != 'string') {
+				continue;
+			}
+			
+			var a = $('<a/>').attr('href', 'javascript:void(0);').text(brew);
+			var li = $('<li/>').append(a);
+			ul.append(li);
+			
+			a.click(function(e) {
+				var text = $(this).text();
+				input.val(text);
+				
+				var parent = input.parent();
+				parent.removeClass('new');
+				
+				// Look up the ID on this guy
+				for(var i in breweries) {
+					if(breweries[i] == text) {
+						input.parent().attr('data-brew-id', i);
+						break;
+					}
+				}
+				
+				$(input).closeDropdown();
+		
+				e.stopPropagation();
+				return false;
+			});
+		}
+		
+		$(this).dropdown(ul);
+	
+		e.stopPropagation();
+		return false;
+	});
+});
+</script>
+<% end %>

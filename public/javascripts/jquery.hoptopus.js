@@ -100,7 +100,9 @@ $(document).ready(function() {
 	});
 	
 	$('h3[data-hideable], h2[data-hideable]').each(function() {
-		var div = $('div#'+$(this).attr('data-hideable'));
+    var id = $(this).attr('data-hideable');
+    
+		var div = $('div#'+id);
 		div.hide();
 		
 		var img = new Image();
@@ -146,6 +148,8 @@ $(document).ready(function() {
 
 	$('h2[data-tab-handle]').each(function() {
     var attr = $(this).attr('data-tab-handle');
+    $('body').prepend($('<a/>').attr('name', attr));
+    
 		var tab = $('#' + $(this).attr('data-tab-handle'));
 		tab.addClass('tab');
 		tab.hide();

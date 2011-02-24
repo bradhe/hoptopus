@@ -18,8 +18,14 @@
 
 	<div class="field">	
 		<%= label_tag "brewery", "Beer:" %>
+		
+		<% unless @beer.brew.nil? %>
 		<%= select_tag "brewery", options_from_collection_for_select(Brewery.all, 'id', 'name', @beer.brew.brewery.id), :include_blank => 'Brewery' %>
 		<%= f.collection_select :brew_id, Brew.find(:all, "brewery_id='#{@beer.brew.brewery.id}'"), :id, :name, :disabled => true %>
+		<% else %>
+		<%= select_tag "brewery", options_from_collection_for_select(Brewery.order('name').all, 'id', 'name'), { :include_blank => 'Brewery' } %>
+		<%= f.select :brew_id, [], { :include_blank => 'Beer' }, :disabled => true %>
+		<% end %>
 	</div>
 
 	<div class="field">
@@ -78,7 +84,8 @@ var brews = {};
 	<% Brewery.all.each do |b| %>
 brews[<%= b.id %>] = <%== b.brews.to_json %>;
 	<% end %>
-	
+</script>
+
 <script src="/javascripts/brewery-helper.js" type="text/javascript"></script>
 
 </script>
