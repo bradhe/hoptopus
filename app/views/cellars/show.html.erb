@@ -27,38 +27,41 @@
 	<% end %>
 <% end %>
 
-<h2 data-tab-handle="cellar">
-	<% unless is_users_cellar? %>
-		<%= @cellar.user.username %>'s
-	<% end %>
-	
-	Cellar
-</h2>
+<h2 data-tab-handle="activity">Recent Activity</h2>
+<div id="activity">
+    <ul class="events">
+    <% if @cellar.user.events.empty? %>
+        <li class="empty"><%= is_users_cellar? ? "You don't": @cellar.user.username + " doesn't"%> have any recent activity.</li>
+    <% else %>
+        <% @cellar.user.events.each do |e| %>
+            <%== render_event e  %>
+        <% end %>
+    <% end %>
+	</ul>
+</div>
+
+<h2 data-tab-handle="cellar">Cellar</h2>
 
 <div id="cellar">
-    <h3>Cellar Inventory</h3>
   
-  <div class="buttons">
-    <button type="button" id="edit-beers-button">Edit</button>
-    <button type="button" id="check-out-beers-button">Check Out</button>
-    <span class="info">Re-order columns by clicking and dragging the header.</span>
-    <button type="button" id="columns-button">Select Columns</button>
-  </div>
+	<div class="buttons info">
+		<button type="button" id="edit-beers-button" disabled>Edit</button>
+		<button type="button" id="check-out-beers-button" disabled>Check Out</button>
+		
+		<div class="right">
+			<span class="info">Re-order columns by clicking and dragging the header.</span>
+			<button type="button" id="columns-button">Select Columns</button>
+		</div>
+	</div>
 
-	<table class="beers list">
+	<table class="beers list" id="cellared-beers">
 		<thead>
 			<tr>
-        <th class="unsortable"></th>
+				<th class="unsortable"></th>
 				<th width="20" id="year"></th>
 				<th id="brewery">Brewery</th>
 				<th id="variety">Variety</th>
 				<th id="created-at">Cellared</th>
-<!--
-			<% if is_users_cellar? %>
-				<th class="unsortable" width="120"></th>
-				<th class="unsortable" width="40"></th>
-			<% end %>
--->
 			</tr>
 		</thead>
 		
@@ -79,108 +82,30 @@
 	<% else %>
 	
 		<% c = 'color2' %>
-		<% @cellared_beers.select { |b| b.removed_at.nil? }.each do |b| %>
+		<% @cellared_beers.each do |b| %>
 			<% c = (c == 'color2' ? 'color1' : 'color2') %>
 			
 			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
-        <td><input type="checkbox" name="selected_beers" value="<%= c.id %>" /></td>
+				<td align="center" valign="middle"><input type="checkbox" name="selected_beers" value="<%= c.id %>" /></td>
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
 				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.formatted_cellared_at %></td>
-
-<!--
-			<% if is_users_cellar? %>
-			
-				<td align="center"><%= link_to 'Add Tasting Notes', new_cellar_beer_tasting_path(@cellar, b) %></td>
-				<td align="center"><%= button_to 'Check Out', cellar_beer_path(@cellar, b), :method => :delete, :confirm => 'Removes beer from cellar and places in cellar history. You sure you wanna do that?' %></td>
-				
-			<% end %>
--->
-
 			</tr>
-			
 		<% end %>
 		
 	<% end %>
 		</tbody>
 
-    <tfoot>
-      <tr>
-        <td colspan="5" align="center"><button type="button">Show More (<%= @beers_left_in_pagination %>)</button></td>
-      </tr>
-    </tfoot>
-	</table>
-    
-    <h3>Recent Activity</h3>
-    <ul class="events">
-    <% if @cellar.user.events.empty? %>
-        <li class="empty"><%= is_users_cellar? ? "You don't": @cellar.user.username + " doesn't"%> have any recent activity.</li>
-    <% else %>
-        <% @cellar.user.events.each do |e| %>
-            <%== render_event e  %>
-        <% end %>
-    <% end %>
-    </ul>
-</div>
-
-<h2 data-tab-handle="cellar-history">Cellar History</h2>
-<div id="cellar-history">
-	<table class="list" <%= is_table_sortable? @cellar.beers.select { |b| not b.removed_at.nil? } %>>
-		<thead>
-			<tr>
-				<th width="40"></th>
-				<th>Brewery</th>
-				<th>Beer</th>
-				<th>Size</th>
-				<th>Quantity</th>
-				<th>Cellared</th>
-				<th>Removed On</th>
-				<th class="unsortable"></th>
-			<% if is_users_cellar? %>
-				<th class="unsortable"></th>
-			<% end %>
-			</tr>
-		</thead>
-		
-		<tbody>
-		
-	<% if @cellar.beers.select { |b| not b.removed_at.nil? }.empty? %>
-	
-			<tr>
-				<td colspan="<%= is_users_cellar? ? '10' : '9' %>" class="empty">Hmm looks like no beers have been removed from the cellar yet!</td>
-			</tr>
-			
-	<% else %>
-	
-		<% c = 'color2' %>
-		<% @cellar.beers.select { |b| not b.removed_at.nil? }.each do |b| %>
-			<% c = (c == 'color2' ? 'color1' : 'color2') %>
-			
-			<tr data-beer-id="<%= b.id %>" class="<%= c %>">
-				<td align="right" class="year"><%= b.year %></td>
-				<td><%= b.brewery_name || b.brew.brewery.name %></td>
-				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name, brew_path(b.brew) %></td>
-				<td align="center"><%= b.bottle_size.name %></td>
-				<td class="quantity" align="center"><%= b.quantity %></td>
-				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.cellared_at.nil? ? 'Unknown' : distance_of_time_in_words(b.cellared_at, Time.now) + ' ago' %></td>
-				<td align="center"><%= b.removed_at.strftime "%A %B %d, %Y" %></td>
-				<td align="center"><%= link_to 'Notes', cellar_beer_path(@cellar, b) %></td>
-				
-			<% if is_users_cellar? %>
-				<td align="center"><%= link_to 'Edit Notes', edit_cellar_beer_path(@cellar, b) %></td>
-			<% end %>
-			
-			</tr>
-			
-		<% end %>
-		
-	<% end %>
-		</tbody>
+		<tfoot>
+		  <tr>
+			<td colspan="5" align="center"><button type="button">Show More (<%= @beers_left_in_pagination %>)</button></td>
+		  </tr>
+		</tfoot>
 	</table>
 </div>
 
-<h2 data-tab-handle="tastings">Recent Tastings</h2>
+<h2 data-tab-handle="tastings">Tasting Notes</h2>
 <div id="tastings">
 
 	<table class="list" <%= is_table_sortable? @tastings %>>
@@ -409,7 +334,7 @@ $('select#user_country').live('change', function() {
 
 <script type="text/javascript">
   function makeSortable() {
-    var table = $('table.beers.list');
+    var table = $('#cellared-beers');
 
     var headers = {};
     table.find('th').each(function(i) {
@@ -421,25 +346,17 @@ $('select#user_country').live('change', function() {
     table.tablesorter({headers: headers});
   }
 
-  $(document).ready(function() {
-    var tbl = $('table.beers.list').sortableColumns({ 
-      showPosition: true,
-      sorted: function(e) {
-        makeSortable();
-      }
-    });
+  $(function() {
+    var tbl = $('#cellared-beers').sortableColumns({ showPosition: true });
 
-    var table = $('table.beers.list');
-    hoptopus.grid.init(<%== @grid_columns.to_json %>, $('#columns-button'), table, {
+    hoptopus.grid.init(<%== @grid_columns.to_json %>, $('#columns-button'), $('#cellared-beers'), {
       columnAdded: function(th) {
         // Report to the sortableColumns thinger that a column has been added.
         tbl.sortableColumns('addColumn', th);
-        makeSortable();
       },
       columnRemoved: function(th) {
         // Report to the sortableColumns thinger that a column has been removed.
         tbl.sortableColumns('removeColumn', th);
-        makeSortable();
       }
     });
 
@@ -451,6 +368,21 @@ $('select#user_country').live('change', function() {
     }
 
     hoptopus.grid.objects(processed);
+	
+	$('#cellared-beers input[type="checkbox"]').click(function() {
+		var checked = $('#cellared-beers input[type="checkbox"]:checked');
+		
+		if(checked.length == 1) {
+			$('#edit-beers-button').removeAttr('disabled');
+		}
+		else {
+			$('#edit-beers-button').attr('disabled', true);
+		}
+		
+		if(checked.length > 1) {
+			$('#edit-beers-button').tooltip('Multiple edit is not supported.');
+		}
+	});
   });
 </script>
 <% end %>

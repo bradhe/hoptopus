@@ -70,14 +70,14 @@ hoptopus.grid = (function($){
     for(var i = 0; i < headers.length; i++) {
       var header = headers[i];
       
-      if(header.id == column.class) {
+      if(header.id == column.id) {
         index = i;
         break;
       }
     }
 
     if(index < 0) {
-      throw "No column with ID " + column.class + " was found.";
+      throw "No column with ID " + column.id + " was found.";
     }
 
     // keep the th to report the removal
@@ -114,21 +114,14 @@ hoptopus.grid = (function($){
     }
 
     var th = $('<th/>').addClass('header').text(column.title);
-    $(th).attr('id', column.class);
+    $(th).attr('id', column.id);
 
     // TODO: Figure out where this should actually go. Do we really want italic
     // to be after the first unsortable?
-    //var actualTh = grid.find('thead th.unsortable').first();
     var actualTh = grid.find('thead th').last();
-//    var shouldInsertBefore = true;
-
-    if(actualTh.length < 1 || actualTh.index() == 0) {
-      actualTh = grid.find('thead th').last();
-      //shouldInsertBefore = false;
-    }
 
     var idx = $(actualTh).index();
-    actualTh.before(th);
+    actualTh.after(th);
     
     // Get all the rows, a column to each row.
     var rows = grid.find('tbody tr');
@@ -223,7 +216,7 @@ hoptopus.grid = (function($){
       var label = $('<label/>').attr('for', i + '-checkbox').text(column.title);
       $('<div/>').append(checkbox).append(label).appendTo(div);
 
-      if(checked[column.class]) {
+      if(checked[column.id]) {
         checkbox.attr('checked', true);
       }
 

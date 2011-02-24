@@ -21,6 +21,35 @@ $.fn.closeDropdown = function() {
 	}
 }
 
+$.fn.tooltip = function(text) {
+  if($(this).data('tooltip')) {
+    return;
+  }
+
+  $(this).one('mouseover', function(e) {
+    var span = $('<span/>').addClass('tooltip');
+    span.css('position', 'absolute');
+    span.css('left', e.pageX);
+    span.css('top', e.pageY);
+    span.text(text);
+
+    $('body').append(span);
+    $(this).data('tooltip', span);
+    
+    $('body').bind('mousemove.tooltip', function(e) {
+      span.css('left', e.pageX);
+      span.css('top', e.pageX);
+    });
+    
+    $(this).one('mouseleave.tooltip', function() {
+      $('body').unbind('mousemove.tooltip');
+      span.remove();
+      
+      $(this).data('tooltip', null);
+    });
+  });
+}
+
 $.fn.dropdown = function(element) {	
 	if($(this).hasClass('open')) {
 		$(this).closeDropdown();

@@ -13,7 +13,7 @@ gem 'geokit'
 gem 'acts_as_commentable'
 gem 'resque'
 gem 'uuidtools'
-gem 'SystemTimer'
+#gem 'SystemTimer'
 gem 'aws-s3'
 
 # Use unicorn as the web server

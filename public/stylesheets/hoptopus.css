@@ -520,6 +520,10 @@ ul.all-cellars {
 	margin-top: 20pt;
 }
 
+.right {
+	float: right;
+}
+
 button, input[type="submit"] {
 	background-image: url('/images/button.png');
 	background-repeat: repeat-x;
@@ -528,6 +532,14 @@ button, input[type="submit"] {
 	color: #333;
 	
 	outline: none;
+	
+	-moz-border-radius: 10pt;
+	-webkit-border-radius: 10pt;
+	border-radius: 10pt;
+}
+
+button[disabled], input[disabled], button[disabled]:focus, input[disabled]:focus, button[disabled]:active, input[disabled]:active {
+	background-image: none;
 }
 
 button:focus, input[type="submit"]:focus {
