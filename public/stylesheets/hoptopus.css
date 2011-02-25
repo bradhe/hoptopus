@@ -841,3 +841,11 @@ table.beers.list th.sortable-right {
 .select-columns input {
   margin-right: 3pt;
 }
+
+#cellared-beers tr.filters select, #cellared-beers tr.filters input {
+  width: 100%;
+}
+
+#cellared-beers tr.filters {
+  background-color: #ebebeb;
+}

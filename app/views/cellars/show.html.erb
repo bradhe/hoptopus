@@ -47,8 +47,8 @@
 	<div class="buttons info" align="right">
 <% if is_users_cellar? %>
     <div class="left">
-	  <button type="button" id="new-beer-button">Add</button>
-	  <button type="button" id="import-beers-button">Import</button>
+      <button type="button" id="new-beer-button">Add</button>
+      <button type="button" id="import-beers-button">Import</button>
       <button type="button" id="edit-beers-button" disabled>Edit</button>
       <button type="button" id="check-out-beers-button" disabled>Check Out</button>
     </div>
@@ -61,12 +61,24 @@
 	<table class="beers list" id="cellared-beers">
 		<thead>
 			<tr>
-				<th class="unsortable"></th>
-				<th width="20" id="year"></th>
+				<th class="unsortable" width="25"></th>
+				<th width="40" id="year"></th>
 				<th id="brewery">Brewery</th>
 				<th id="variety">Variety</th>
 				<th id="created-at">Cellared</th>
 			</tr>
+      <tr class="filters">
+        <td></td>
+        <td></td>
+        <td data-filter-for="brewery_name">
+          <select name="search[brewery_name]" >
+            <option value=""></option>
+            <%= options_from_collection_for_select(Brewery.order('name ASC').all, :name, :name, {:include_blank => true}) %>
+          </select>
+        </td>
+        <td data-filter-for="name"><input type="text" name="search[name]" /></td>
+        <td></td>
+      </tr>
 		</thead>
 		
 		<tbody>
@@ -294,15 +306,21 @@ $('select#user_country').live('change', function() {
   for(var i in unprocessed) {
     processed.push(unprocessed[i].beer);
   }
+  
+  var unprocessedBreweries = <%== Brewery.all.to_json %>;
+  var processedBreweries = [];
+  for(var i in unprocessedBreweries) {
+    processedBreweries.push(unprocessedBreweries[i].brewery);
+  }
 
   $(function() {    
-	$('#new-beer-button').bind('click', function() {
-		window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
-	});
-	
-	$('#import-beers-button').bind('click', function(e) {
-		$('div.tabs h2[data-tab-handle="upload-cellar"]').click();
-	});
+    $('#new-beer-button').bind('click', function() {
+      window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
+    });
+    
+    $('#import-beers-button').bind('click', function(e) {
+      $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
+    });
 	
     var tbl = $('#cellared-beers').sortableColumns({ showPosition: true });
 
@@ -318,73 +336,19 @@ $('select#user_country').live('change', function() {
         makeSortable();
       }
     }, <%= @cellar.id %>);
-    
-    // Find all of the TRs with data-beers on them build up a list of IDs
-    var shownBeerIds = [];
-    var rows = tbl.find('tr[data-beer]');
-    for(var i = 0; i < rows.length; i++) {
-      var row = rows[i];
-      shownBeerIds.push(parseInt(row.getAttribute('data-beer')));
-    }
-    
-    // Now create a list of useable bbers.
-    var useableBeers = [];
-    for(var i = 0; i < processed.length; i++) {
-      var beer = processed[i];
-      
-      var found = false;
-      for(var j = 0; j < shownBeerIds.length; j++) {
-        if(beer.id == shownBeerIds[j]) {
-          found = true;
-        }
-      }
-      
-      if(!found) {
-        useableBeers.push(beer);
-      }
-    }
-    
-    // The actual useable beers is the reverse of thsi thing.
-    useableBeers.reverse();
+    hoptopus.grid.objects = processed;
+    hoptopus.grid.breweries = processedBreweries;
+    hoptopus.grid.rowsShown = 25;
+    hoptopus.grid.rowClasses = ['color1', 'color2'];
     
     // Note: This has to happen here because we have to use the useableBeers
     // thinger.
     $('#show-more').click(function() {
       // Grab 25 beers off the list and stick them in the table.
       var n = 25;
-      
-      var toAdd = [];
-      for(var i = 0; i < n; i++) {
-        var beer = useableBeers.pop();
-        
-        if(beer) {
-          toAdd.push(beer);
-        }
-      }
-      
-      if(toAdd.length < 1) {
-        throw "Could not add any more beers as they have all been added, dummy.";
-      }
-      
-      var rowClasses = ['color1', 'color2'];
-      var idx = $('#cellared-beers tbody tr:last').hasClass('color1') ? 1 : 0;
-      
-      hoptopus.grid.addObjects(toAdd, rowClasses, idx);
-      
-      // We need to change the value here.
-      var l = useableBeers.length;
-      
-      if(l < 1) {
-        $(this).parents('tfoot').remove();
-      }
-      else {
-        var txt = $(this).text();
-        $(this).text(txt.replace(/\d{1,}/, l));
-      }
+      hoptopus.grid.moreRows(n);
     });
-        
-    hoptopus.grid.objects(processed);
-	
+    
     $('#cellared-beers input[type="checkbox"]').click(function() {
       var checked = $('#cellared-beers input[type="checkbox"]:checked');
 		
