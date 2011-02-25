@@ -849,3 +849,19 @@ table.beers.list th.sortable-right {
 #cellared-beers tr.filters {
   background-color: #ebebeb;
 }
+
+th#brewery {
+  width: 240px;
+}
+
+th#variety {
+  width: 260px;
+}
+
+th#quantity {
+  width: 70px;
+}
+
+#show-more {
+  margin-top: 10pt;
+}

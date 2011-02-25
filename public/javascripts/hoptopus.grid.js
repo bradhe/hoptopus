@@ -66,6 +66,10 @@ function VarietyFilter(textBox) {
 
     return found;
   }
+  
+  this.clear = function() {
+    $(this.textBox).val('');
+  }
 }
 
 function BreweryFilter(select) {
@@ -88,6 +92,10 @@ function BreweryFilter(select) {
 
     return found;
   }
+  
+  this.clear = function() {
+    $(this.select).val('');
+  }
 }
 
 hoptopus.grid = (function($){ 
@@ -103,7 +111,7 @@ hoptopus.grid = (function($){
   var columnProperties = {};
   var filters = [];
   var filtersIndex = {};
-  var searchResults = null;
+  g.searchResults = null;
 
   // This is for a really terrible hack.
   var cellar = -1;
@@ -147,12 +155,12 @@ hoptopus.grid = (function($){
       
       // Take all the others and put them in the search results queue.
       if(stickInQueue) {
-        searchResults = targets.slice(n);
+        g.searchResults = targets.slice(n);
         
         // Set up the "more" bit.
         var btn = grid.find('tfoot button');
         var txt = btn.text();
-        txt = txt.replace(/\d{1,}/, searchResults.length);
+        txt = txt.replace(/\d{1,}/, g.searchResults.length);
         btn.text(txt);
         btn.show();
         
@@ -360,7 +368,7 @@ hoptopus.grid = (function($){
     
     timeout = setTimeout(function() {
       dropdown.hide();
-    }, 3000);
+    }, 1500);
 
     dropdown.mouseenter(function() {
       window.clearTimeout(timeout);
@@ -370,7 +378,7 @@ hoptopus.grid = (function($){
       timeout = setTimeout(function() {
         dropdown.hide();
         t.removeClass('down');
-      }, 3000);
+      }, 1500);
     });
 
     $('body').click(function() {
@@ -546,7 +554,7 @@ hoptopus.grid = (function($){
               window.clearTimeout(t);
             }
             
-            t = window.setTimeout(applyFilters, 200);
+            t = window.setTimeout(applyFilters, 75);
           }
         }());
       }
@@ -569,8 +577,8 @@ hoptopus.grid = (function($){
     for(var i = g.rowsShown; i < t; i++) {
       var obj = null;
       
-      if(searchResults) {
-        obj = searchResults[i];
+      if(g.searchResults) {
+        obj = g.searchResults[i];
       }
       else {
         obj = g.objects[i];
@@ -582,6 +590,14 @@ hoptopus.grid = (function($){
     }
     
     g.rowsShown = t;
+  }
+  
+  g.clearFilters = function() {
+    for(var i = 0; i < filters.length; i++) {
+      filters[i].clear();
+    }
+    
+    applyFilters();
   }
 
   return g;

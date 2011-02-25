@@ -56,6 +56,7 @@
 		
     <span class="info">Re-order columns by clicking and dragging the header.</span>
     <button type="button" id="columns-button">Select Columns</button>
+    <button type="button" id="clear-filters">Clear Filters</button>
 	</div>
 
 	<table class="beers list" id="cellared-beers">
@@ -347,6 +348,27 @@ $('select#user_country').live('change', function() {
       // Grab 25 beers off the list and stick them in the table.
       var n = 25;
       hoptopus.grid.moreRows(n);
+      
+      var l = -1;
+      if(hoptopus.grid.searchResults) {
+        l = hoptopus.grid.searchResults.length - hoptopus.grid.rowsShown;
+      }
+      else {
+        l = hoptopus.grid.objects.length - hoptopus.grid.rowsShown;
+      }
+
+      if(l > 0) {
+        var txt = $('#show-more').text();
+        txt = txt.replace(/\d+/, l);
+        $('#show-more').text(txt);
+      }
+      else if(l < 1) {
+        $('#show-more').hide();
+      }
+    });
+    
+    $('#clear-filters').click(function(e) {
+      hoptopus.grid.clearFilters();
     });
     
     $('#cellared-beers input[type="checkbox"]').click(function() {
