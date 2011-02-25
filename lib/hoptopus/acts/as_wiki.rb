@@ -37,13 +37,13 @@ module Hoptopus
         end
         
         def current_revision
-          if @current_revision.nil?
-            @current_revision = self.wiki.order('revision DESC').limit(1).first
-          end
-          
           # If it's STILL nil then we need to add one
-          if @current_revision.nil?
+          if @current_revision.nil? and self.persisted? and not self.wiki.empty?
+            @current_revision = self.wiki.order('revision DESC').limit(1).first
+          elsif @current_revision.nil? and self.persisted?
             @current_revision = self.wiki.create :revision => 1
+          elsif @current_reivision.nil?
+            @current_revision = self.wiki.new :revision => 1
           end
           
           @current_revision
