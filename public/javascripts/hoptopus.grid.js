@@ -366,11 +366,17 @@ hoptopus.grid = (function($){
 
     var t = $(this);
     
-    timeout = setTimeout(function() {
-      dropdown.hide();
-    }, 1500);
+    $(this).one('mouseleave', function() {
+      timeout = setTimeout(function() {
+        dropdown.hide();
+      }, 1500);
+    });
 
     dropdown.mouseenter(function() {
+      window.clearTimeout(timeout);
+    });
+    
+    $(this).mouseenter(function() {
       window.clearTimeout(timeout);
     });
 

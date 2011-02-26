@@ -2,6 +2,7 @@ class Cellar < ActiveRecord::Base
   acts_as_commentable
 
   has_many :beers
+  has_many :breweries, :through => :beers, :select => 'DISTINCT breweries.*' 
   belongs_to :user  
 
   def self.find_by_user(user)

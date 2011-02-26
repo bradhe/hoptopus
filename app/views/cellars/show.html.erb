@@ -74,7 +74,7 @@
         <td data-filter-for="brewery_name">
           <select name="search[brewery_name]" >
             <option value=""></option>
-            <%= options_from_collection_for_select(Brewery.order('name ASC').all, :name, :name, {:include_blank => true}) %>
+            <%= options_from_collection_for_select(@cellar.breweries.order('name DESC'), :name, :name, {:include_blank => true}) %>
           </select>
         </td>
         <td data-filter-for="name"><input type="text" name="search[name]" /></td>
@@ -308,7 +308,7 @@ $('select#user_country').live('change', function() {
     processed.push(unprocessed[i].beer);
   }
   
-  var unprocessedBreweries = <%== Brewery.all.to_json %>;
+  var unprocessedBreweries = <%== @cellar.breweries.order('name DESC').to_json %>;
   var processedBreweries = [];
   for(var i in unprocessedBreweries) {
     processedBreweries.push(unprocessedBreweries[i].brewery);
