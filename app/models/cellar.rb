@@ -1,8 +1,10 @@
+require 'set'
+
 class Cellar < ActiveRecord::Base
   acts_as_commentable
 
   has_many :beers
-  has_many :breweries, :through => :beers, :select => 'DISTINCT breweries.*' 
+  has_many :brews, :through => :beers, :select => 'DISTINCT brews.*' 
   belongs_to :user  
 
   def self.find_by_user(user)
@@ -11,5 +13,11 @@ class Cellar < ActiveRecord::Base
     end
     
     return Cellar.where(:user_id => user.id).first
+  end
+  
+  def breweries
+	s = Set.new
+	brews.each { |b| s << b.brewery_id }
+	Brewery.order('name').where('id IN (?)', s.to_a).all
   end
 end

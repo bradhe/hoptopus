@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(:version => 20110214222511) do
   end
 
   create_table "breweries", :force => true do |t|
-    t.string   "name"
-    t.string   "country"
-    t.string   "state"
-    t.string   "city"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "sanitized_name"
+    t.string    "name"
+    t.string    "country"
+    t.string    "state"
+    t.string    "city"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "sanitized_name"
   end
 
   create_table "brews", :force => true do |t|
