@@ -335,7 +335,8 @@ $('select#user_country').live('change', function() {
         // Report to the sortableColumns thinger that a column has been removed.
         tbl.sortableColumns('removeColumn', th);
         makeSortable();
-      }
+      },
+	  sortable: true
     }, <%= @cellar.id %>);
     hoptopus.grid.objects = processed;
     hoptopus.grid.breweries = processedBreweries;

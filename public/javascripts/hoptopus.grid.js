@@ -116,6 +116,10 @@ hoptopus.grid = (function($){
   // This is for a really terrible hack.
   var cellar = -1;
   
+  function sortColumn(property) {
+	alert('Sort by ' + property);
+  }
+  
   function applyFilters() {
     // Bind this thing.
     var tbody = grid.find('tbody');
@@ -493,7 +497,7 @@ hoptopus.grid = (function($){
   g.breweries = [];
   g.rowsShown = 0;
   
-  g.init = function(columnObj, dropdownObj, gridObj, callbacks, cellarId) {
+  g.init = function(columnObj, dropdownObj, gridObj, options, cellarId) {
     columns = columnObj;
     dropdownButton = dropdownObj;
     grid = gridObj;
@@ -502,9 +506,9 @@ hoptopus.grid = (function($){
     $(dropdownButton).click(dropdownButtonClicked);
 
     // Do the callbacks thing.
-    if(callbacks) {
-      columnAddedFn = callbacks.columnAdded;
-      columnRemovedFn = callbacks.columnRemoved;
+    if(options) {
+      columnAddedFn = options.columnAdded;
+      columnRemovedFn = options.columnRemoved;
     }
 
     var div = $('<div/>').addClass('select-columns dropdown');
@@ -520,7 +524,15 @@ hoptopus.grid = (function($){
         checked[$(th).attr('id')] = true;
       }
     }
-
+	
+	if(options && options.sortable) {
+		// Set up for sorting.
+		headers.click(function() {
+			var property = $(this).data('property');
+			sortColumn(property);
+		});
+	}
+	
     for(var i in columns) {
       var column = columns[i];
       var checkbox = $('<input/>').attr('type', 'checkbox').attr('id', i + '-checkbox');

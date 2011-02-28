@@ -143,12 +143,15 @@
     span.css('top', e.pageY - ($(this).height() / 2));
 
     var parent = this;
-
     var centerOffset = { x: $(span).width() / 2, y: $(span).height() / 2 };
+	var parents = $(this).parents('table');
     
-    $(this).parents('table').before(span);
-
-    $('body').bind('mousemove.sortableColumns', mouseMoved);
+	$('body').one('mousemove.sortableColumns', function() {
+		parents.before(span);
+		
+		// Now move stuff around I guess
+		$('body').bind('mousemove.sortableColumns', mouseMoved);
+	});
     
     $('body').bind('mouseleave.sortableColumns', function() {
       span.remove();
