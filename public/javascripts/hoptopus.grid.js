@@ -98,6 +98,55 @@ function BreweryFilter(select) {
   }
 }
 
+function StringComparator(left, right) {
+  left = left.toLowerCase();
+  right = right.toLowerCase();
+  
+  return left > right;
+}
+
+function qsort(property, objs, comp) {
+  if(!jQuery.isArray(objs)) {
+    throw "Somehow you screwed up. Objs is not an array.";
+  }
+  
+  if(objs.length < 2) {
+    return objs;
+  }
+  
+  // Set a random pivot.
+  var p = objs[0];
+  var top = [];
+  var bottom = [];
+  
+  for(var i = 1; i < objs.length; i++) {
+    var o = objs[i];
+    var c = comp(p[property], o[property]);
+    if(c) {
+      bottom.push(o);
+    }
+    else {
+      top.push(o);
+    }
+  }
+  
+  bottom = qsort(property, bottom, comp);
+  top = qsort(property, top, comp);
+  
+  var t = [];
+  for(var i = 0; i < bottom.length; i++) {
+    t.push(bottom[i]);
+  }
+  
+  t.push(p);
+  
+  for(var i = 0; i < top.length; i++) {
+    t.push(top[i]);
+  }
+  
+  return t;
+}
+
 hoptopus.grid = (function($){ 
   var g = {};
   var columns = null;  
@@ -111,13 +160,72 @@ hoptopus.grid = (function($){
   var columnProperties = {};
   var filters = [];
   var filtersIndex = {};
+  var sortedColumn = null;
   g.searchResults = null;
 
   // This is for a really terrible hack.
   var cellar = -1;
   
-  function sortColumn(property) {
-	alert('Sort by ' + property);
+  function sortColumn(th, column, objs) {
+    var needsSort = true;
+    
+    // Clear the other objects that have sortable columns.
+    if(sortedColumn != column) {
+      // Clear this and get the new objects.
+      grid.find('thead th.sorted').addClass('unsorted').removeClass('sorted');
+      $(th).removeClass('unsorted').addClass('sorted down');
+      
+      if(!objs) {
+        objs = g.objects;
+      }
+    }
+    else if(sortedColumn) {
+      if($(th).hasClass('down')) {
+        $(th).removeClass('down');
+        $(th).addClass('up');
+      }
+      else {
+        $(th).removeClass('up');
+        $(th).addClass('down');
+      } 
+      
+      if(!objs) {
+        objs = g.objects.reverse();
+      }
+      
+      needsSort = false;
+    }
+    else if(!objs) {
+      objs = g.objects;
+    }
+    
+    if(needsSort) {
+      sortedColumn = column;
+     
+      var p = column.property;
+      var comp = StringComparator;
+      
+      // Look up special cases for thing. If P starts with "formatted_" then strip that
+      // and return a date comparator if it has a "_at" at the end.
+      if(p.indexOf('formatted_') == 0) {
+        p = p.substring('formatted_'.length);
+      }
+      
+      objs = qsort(p, objs, comp);
+    }
+    else {
+      objs = objs;
+    }
+    
+    // TODO: This is a pretty shitty hack, fix it.
+    g.rowsShown = 0;
+    
+    grid.children('tbody').empty();
+    
+    // Empty the body.
+    g.moreRows(25);
+    
+    return objs;
   }
   
   function applyFilters() {
@@ -134,6 +242,7 @@ hoptopus.grid = (function($){
       targets = filters[i].filter(targets);
     }
     
+    // Unsorted so just do this however.
     if(targets.length < 1) {
       var tr = $('<tr/>');
       var td = $('<td/>').attr('colspan', grid.find('thead tr:first th').length);
@@ -146,6 +255,8 @@ hoptopus.grid = (function($){
       grid.find('tfoot button').hide();
     }
     else {
+      // Now that that's complete we need to sort the columns
+      // again.
       var l = targets.length;
       var stickInQueue = false;
       if(l > n) {
@@ -153,8 +264,13 @@ hoptopus.grid = (function($){
         stickInQueue = true;
       }
       
-      for(var i = 0; i < l; i++) {
-        addObjectRow(targets[i], tbody);
+      if(sortedColumn) {
+        targets = sortColumn([], sortedColumn, targets);
+      }
+      else {        
+        for(var i = 0; i < l; i++) {
+          addObjectRow(targets[i], tbody);
+        }
       }
       
       // Take all the others and put them in the search results queue.
@@ -438,7 +554,6 @@ hoptopus.grid = (function($){
       }
     }
     
-    
     var tr = $('<tr/>');
     tr.attr('data-beer', obj.id);
 
@@ -517,6 +632,11 @@ hoptopus.grid = (function($){
     // Get all the currently checked columns
     var checked = {};
     var headers = grid.find('thead th');
+    
+    if(options.sortable) {
+      headers.addClass('unsorted');
+    }
+    
     for(var i = 0; i < headers.length; i++) {
       var th = headers[i];
 
@@ -525,16 +645,32 @@ hoptopus.grid = (function($){
       }
     }
 	
-	if(options && options.sortable) {
-		// Set up for sorting.
-		headers.click(function() {
-			var property = $(this).data('property');
-			sortColumn(property);
-		});
-	}
+    if(options && options.sortable) {
+      // Set up for sorting.
+      headers.click(function() {
+        var id = this.id;
+        var column = null;
+        
+        for(var i in columns) {
+          var c = columns[i];
+          if(c.id == id) {
+            column = c;
+            break;
+          }
+        }
+        
+        if(!column) {
+          throw "No column with ID " + id + " was found.";
+        }
+        
+        g.objects = sortColumn(this, column);
+      });
+    }
 	
     for(var i in columns) {
       var column = columns[i];
+      columns[i].property = i;
+      
       var checkbox = $('<input/>').attr('type', 'checkbox').attr('id', i + '-checkbox');
       checkbox.data('property', i);
       columnProperties[i] = column;

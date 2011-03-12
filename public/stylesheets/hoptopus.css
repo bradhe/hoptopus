@@ -557,7 +557,7 @@ button:active, input[type="submit"]:active, button.down {
 	background-image: url('/images/button-down.png');
 }
 
-table[data-sortable] th {
+table[data-sortable] th, th.unsorted {
 	background-image: url('/images/unsorted.png');
 	background-position: right center;
 	background-repeat: no-repeat;
@@ -565,19 +565,19 @@ table[data-sortable] th {
 	padding-left: 10pt;
 }
 
-table[data-sortable] th.unsortable {
+th.unsortable {
 	background-image: none;
 	padding-right: 0;
 }
 
-table[data-sortable] th.headerSortDown {
+th.headerSortDown, th.sorted.down {
 	background-image: url('/images/sort-down.png');
 	background-color: #FFE9A8;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
-table[data-sortable] th.headerSortUp {
+th.headerSortUp, th.sorted.up {
 	background-image: url('/images/sort-up.png');
 	background-color: #FFE9A8;
 	background-repeat: no-repeat;

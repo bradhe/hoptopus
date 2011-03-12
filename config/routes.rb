@@ -4,7 +4,7 @@ Hoptopus::Application.routes.draw do
   # This needs to be up here so that it doesn't match the username rule thinger for below.
   match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
 
-  resources :cellars, :only => [:index, :show] do
+  resources :cellars, :only => [:index, :show], :constraints => { :id => /.*/ } do
     member do
       post 'upload'
     end
@@ -23,7 +23,7 @@ Hoptopus::Application.routes.draw do
     end
   end
   
-  resources :users, :only => :update
+  resources :users, :only => :update, :constraints => { :id => /.*/ }
 
   resources :breweries, :except => :show
   
