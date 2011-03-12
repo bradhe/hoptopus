@@ -300,7 +300,6 @@ $('select#user_country').live('change', function() {
     table.tablesorter({headers: headers});
   }
   
-  
   // Post-process this crap.
   var unprocessed = <%== @cellar.beers.select { |b| b.removed_at.nil? }.to_json(:methods => [:formatted_cellared_at, :bottle_size_name, :formatted_price]) || '{}' %>;
   var processed = [];
@@ -381,10 +380,17 @@ $('select#user_country').live('change', function() {
       else {
         $('#edit-beers-button').attr('disabled', true);
       }
-		
-      if(checked.length > 1) {
-        $('#edit-beers-button').tooltip('Multiple edit is not supported.');
+    });
+    
+    $('#edit-beers-button').click(function() {
+      var cellarId = <%= @cellar.id %>;
+      var checked = $('#cellared-beers input[type="checkbox"]:checked');
+      
+      if(checked.length != 1) {
+        throw "Can only have one check box checked.";
       }
+      
+      window.location.href = '/cellars/'+cellarId+'/beers/'+checked[0].value+'/edit';
     });
   });
 </script>
