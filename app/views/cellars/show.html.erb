@@ -54,7 +54,7 @@
     </div>
 <% end %>
 		
-    <span class="info">Re-order columns by clicking and dragging the header.</span>
+    <span class="info">Drag header to re-order columns.</span>
     <button type="button" id="columns-button">Select Columns</button>
     <button type="button" id="clear-filters">Clear Filters</button>
 	</div>
@@ -66,7 +66,7 @@
 				<th width="40" id="year"></th>
 				<th id="brewery">Brewery</th>
 				<th id="variety">Variety</th>
-				<th id="created-at">Cellared</th>
+				<th id="quantity">Quantity</th>
 			</tr>
       <tr class="filters">
         <td></td>
@@ -109,7 +109,7 @@
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
-				<td align="center" data-cellared-at="<%= b.cellared_at %>"><%= b.formatted_cellared_at %></td>
+				<td><%= b.quantity %></td>
 			</tr>
       
 		<% end %>

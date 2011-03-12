@@ -105,6 +105,10 @@ function StringComparator(left, right) {
   return left > right;
 }
 
+function NumericComparator(left, right) {
+  return left > right;
+}
+
 function qsort(property, objs, comp) {
   if(!jQuery.isArray(objs)) {
     throw "Somehow you screwed up. Objs is not an array.";
@@ -166,7 +170,7 @@ hoptopus.grid = (function($){
   // This is for a really terrible hack.
   var cellar = -1;
   
-  function sortColumn(th, column, objs) {
+  function sortByColumn(th, column, objs) {
     var needsSort = true;
     
     // Clear the other objects that have sortable columns.
@@ -203,7 +207,13 @@ hoptopus.grid = (function($){
       sortedColumn = column;
      
       var p = column.property;
+      
       var comp = StringComparator;
+      
+      // TODO: This is gross. We should have a better way of determining data type.
+      if(p == 'year') {
+        comp = NumericComparator;
+      }
       
       // Look up special cases for thing. If P starts with "formatted_" then strip that
       // and return a date comparator if it has a "_at" at the end.
@@ -216,15 +226,7 @@ hoptopus.grid = (function($){
     else {
       objs = objs;
     }
-    
-    // TODO: This is a pretty shitty hack, fix it.
-    g.rowsShown = 0;
-    
-    grid.children('tbody').empty();
-    
-    // Empty the body.
-    g.moreRows(25);
-    
+
     return objs;
   }
   
@@ -265,7 +267,7 @@ hoptopus.grid = (function($){
       }
       
       if(sortedColumn) {
-        targets = sortColumn([], sortedColumn, targets);
+        targets = sortByColumn([], sortedColumn, targets);
       }
       else {        
         for(var i = 0; i < l; i++) {
@@ -663,7 +665,15 @@ hoptopus.grid = (function($){
           throw "No column with ID " + id + " was found.";
         }
         
-        g.objects = sortColumn(this, column);
+        g.objects = sortByColumn(this, column);
+                
+        // TODO: This is a pretty shitty hack, fix it.
+        g.rowsShown = 0;
+        
+        grid.children('tbody').empty();
+        
+        // Empty the body.
+        g.moreRows(25);
       });
     }
 	
