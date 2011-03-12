@@ -353,6 +353,7 @@ h3 a:hover {
 
 table.list th {
 	background-color: #ccc;
+	cursor: url("/cursors/openhand.cur"), default !important;
 }
 
 table.list td {
