@@ -58,8 +58,11 @@ class BeersController < ApplicationController
     end
     
     @beer = @cellar.beers.new(params[:beer])
-    @beer.name = @beer.brew.name
-    @beer.brewery_name = @beer.brew.brewery.name
+    
+    if @beer.valid?
+      @beer.name = @beer.brew.name
+      @beer.brewery_name = @beer.brew.brewery.name
+    end
     
     return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
     
