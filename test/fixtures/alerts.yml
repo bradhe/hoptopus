@@ -1,0 +1,15 @@
+--- 
+alerts_001: 
+  name: welcome
+  created_at: 2011-03-12 22:03:03.984628
+  dismissed: f
+  updated_at: 2011-03-12 22:03:03.984628
+  id: 1
+  user_id: 1
+alerts_002: 
+  name: my_cellar
+  created_at: 2011-03-12 22:03:04.073633
+  dismissed: f
+  updated_at: 2011-03-12 22:03:04.073633
+  id: 2
+  user_id: 1

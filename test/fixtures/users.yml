@@ -1,0 +1,14 @@
+--- 
+users_001: 
+  city: Atlassian
+  created_at: 2011-03-12 22:02:42.039373
+  email_consent: f
+  country: US
+  updated_at: 2011-03-12 22:02:42.039373
+  username: TLCLover
+  id: 1
+  should_show_own_events: t
+  password_hash: 0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e
+  should_receive_email_notifications: t
+  email: krishemenway@gmail.com
+  state: AL

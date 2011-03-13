@@ -1,0 +1,12 @@
+--- 
+brews_001: 
+  name: BoobDrink
+  created_at: 2011-03-12 23:18:11.342479
+  updated_at: 2011-03-12 23:18:11.342479
+  brew_type_id: 3
+  ibus: 12
+  suggested_aging_years: 5
+  id: 1
+  suggested_aging_months: 5
+  brewery_id: 1
+  abv: 100.0

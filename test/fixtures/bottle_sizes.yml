@@ -1,0 +1,55 @@
+--- 
+bottle_sizes_001: 
+  name: 12oz
+  created_at: 2011-03-12 19:57:06.303786
+  updated_at: 2011-03-12 19:57:11.053060
+  sort_order: 
+  id: 1
+bottle_sizes_002: 
+  name: 22oz
+  created_at: 2011-03-12 19:57:06.646806
+  updated_at: 2011-03-12 19:57:11.065060
+  sort_order: 
+  id: 2
+bottle_sizes_003: 
+  name: 25.4oz
+  created_at: 2011-03-12 19:57:06.646806
+  updated_at: 2011-03-12 19:57:11.066060
+  sort_order: 
+  id: 3
+bottle_sizes_004: 
+  name: 40oz
+  created_at: 2011-03-12 19:57:06.647806
+  updated_at: 2011-03-12 19:57:11.066561
+  sort_order: 
+  id: 4
+bottle_sizes_005: 
+  name: 64oz
+  created_at: 2011-03-12 19:57:06.647806
+  updated_at: 2011-03-12 19:57:11.067561
+  sort_order: 
+  id: 5
+bottle_sizes_006: 
+  name: 330ml
+  created_at: 2011-03-12 19:57:06.648806
+  updated_at: 2011-03-12 19:57:11.068061
+  sort_order: 
+  id: 6
+bottle_sizes_007: 
+  name: 341ml
+  created_at: 2011-03-12 19:57:06.648806
+  updated_at: 2011-03-12 19:57:11.069061
+  sort_order: 
+  id: 7
+bottle_sizes_008: 
+  name: 355ml
+  created_at: 2011-03-12 19:57:06.649806
+  updated_at: 2011-03-12 19:57:11.069561
+  sort_order: 
+  id: 8
+bottle_sizes_009: 
+  name: 375ml
+  created_at: 2011-03-12 19:57:06.649806
+  updated_at: 2011-03-12 19:57:11.070061
+  sort_order: 
+  id: 9
