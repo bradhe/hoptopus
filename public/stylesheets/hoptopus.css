@@ -699,6 +699,7 @@ table.cellars.list td {
 
 .cellar {
 	margin-bottom: 5pt;
+  height: 63px;
 }
 
 .newsletter h2, .newsletter span.note {
@@ -885,7 +886,10 @@ th#quantity {
 }
 
 img.gravatar {
-	
+	float: left;
+  padding: 2pt;
+  border: 1px #ccc solid;
+  background-color: #ebebeb;
 }
 
 img.browsecellaravatar {
@@ -895,6 +899,46 @@ img.browsecellaravatar {
 }
 
 img.inlineimg {
-	height: 1em;
+	height: 2em;
 	top: 1px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
+.profile-info h2 {
+  float: left;
+  border-bottom: none;
+  margin-left: 3pt;
+  margin-bottom: 2pt;
+  padding-bottom: 0;
+}
+
+#navigation .user-info img {
+  position: relative;
+  top: -3px;
+}
+
+.user-info span.note {
+  display: block;
+  float: left;
+  margin-left: 4pt;
 }

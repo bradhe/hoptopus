@@ -5,6 +5,32 @@ module ApplicationHelper
 	def is_logged_in?
 		not @user.nil?
 	end
+  
+  def location_str(params={})
+    city = params[:city]
+    state = params[:state]
+    country = params[:country]
+
+    if city and state and country
+      location = city + ', ' + state + ' (' + country + ')'
+    elsif city and state
+      location = city + ', ' + state
+    elsif city and country
+      location = city + ' (' + country + ')'
+    elsif state and country
+      location = state + ' (' + country + ')'
+    elsif city
+      location = city
+    elsif state
+      location = state
+    elsif country
+      location = country
+    else
+      location = 'Unknown'
+    end
+    
+    return location
+  end
 	
 	def full_host
 		host = self.request.host || "hoptopus.com"
@@ -53,7 +79,7 @@ module ApplicationHelper
   
   def gravatar_for user, options = {}
     if(user.respond_to? "email")
-      options = {:alt => 'avatar', :class => 'avatar', :size => 80}.merge! options
+      options = { :alt => 'avatar', :class => 'avatar', :size => 42 }.merge! options
       id = Digest::MD5::hexdigest user.email.strip.downcase
       url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s
       options.delete :size
