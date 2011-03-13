@@ -47,10 +47,10 @@
 	<div class="buttons info" align="right">
 <% if is_users_cellar? %>
     <div class="left">
-      <button type="button" id="new-beer-button">Add</button>
-      <button type="button" id="import-beers-button">Import</button>
-      <button type="button" id="edit-beers-button" disabled>Edit</button>
-      <button type="button" id="check-out-beers-button" disabled>Check Out</button>
+      <button type="button" id="new-beer">Add</button>
+      <button type="button" id="import-beers">Import</button>
+      <button type="button" id="edit-beers" disabled>Edit</button>
+      <!--<button type="button" id="check-out-beers-button" disabled>Check Out</button>-->
     </div>
 <% end %>
 		
@@ -62,7 +62,9 @@
 	<table class="beers list" id="cellared-beers">
 		<thead>
 			<tr>
+  <% if is_logged_in? %>
 				<th class="unsortable" width="25"></th>
+  <% end %>
 				<th width="40" id="year"></th>
 				<th id="brewery">Brewery</th>
 				<th id="variety">Variety</th>
@@ -103,9 +105,11 @@
 			<% c = (c == 'color2' ? 'color1' : 'color2') %>
 			
 			<tr data-beer="<%= b.id %>" class="<%= c %>">
+  <% if is_logged_in? %>
 				<td align="center" valign="middle">
 					<input type="checkbox" name="selected_beers" value="<%= b.id %>" />
 				</td>
+  <% end %>
 				<td align="right" class="year"><%= b.year %></td>
 				<td><%= b.brewery_name || b.brew.brewery.name %></td>
 				<td data-brew-id="<%= b.brew.id %>"><%= link_to b.name || b.brew.name, cellar_beer_path(@cellar, b) %></td>
@@ -314,11 +318,11 @@ $('select#user_country').live('change', function() {
   }
 
   $(function() {    
-    $('#new-beer-button').bind('click', function() {
+    $('#new-beer').bind('click', function() {
       window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
     });
     
-    $('#import-beers-button').bind('click', function(e) {
+    $('#import-beers').bind('click', function(e) {
       $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
     });
 	
@@ -375,14 +379,14 @@ $('select#user_country').live('change', function() {
       var checked = $('#cellared-beers input[type="checkbox"]:checked');
 		
       if(checked.length == 1) {
-        $('#edit-beers-button').removeAttr('disabled');
+        $('#edit-beers').removeAttr('disabled');
       }
       else {
-        $('#edit-beers-button').attr('disabled', true);
+        $('#edit-beers').attr('disabled', true);
       }
     });
     
-    $('#edit-beers-button').click(function() {
+    $('#edit-beers').click(function() {
       var cellarId = <%= @cellar.id %>;
       var checked = $('#cellared-beers input[type="checkbox"]:checked');
       
