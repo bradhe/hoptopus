@@ -883,3 +883,12 @@ th#quantity {
 #show-more {
   margin-top: 10pt;
 }
+
+img.gravatar {
+	
+}
+
+img.inlineimg {
+	height: 1em;
+	top: 1px;
+}

@@ -50,6 +50,16 @@ module ApplicationHelper
     options.merge!(:body => capture(&block))
     render(:partial => partial_name, :locals => options)
   end
+  
+  def gravatar_for user, options = {}
+    if(user.respond_to? "email")
+      options = {:alt => 'avatar', :class => 'avatar', :size => 80}.merge! options
+      id = Digest::MD5::hexdigest user.email.strip.downcase
+      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s
+      options.delete :size
+      image_tag url, options
+    end
+  end
 
   def alert(name, options = {}, &block)
     a = Alert.where('name = ? AND user_id = ?', name, @user.id).first

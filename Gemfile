@@ -15,6 +15,7 @@ gem 'resque'
 gem 'uuidtools'
 #gem 'SystemTimer'
 gem 'aws-s3'
+gem 'gravatar'
 
 # Use unicorn as the web server
 # gem 'unicorn'
