@@ -8,6 +8,7 @@ module BrewsHelper
     
     brewery = brew.brewery
     
+    # TODO: There has got to be a better way...
     if brewery.city and brewery.state and brewery.country
       location = brewery.city + ', ' + brewery.state + ' (' + brewery.country + ')'
     elsif brewery.city and brewery.state
@@ -26,7 +27,7 @@ module BrewsHelper
       location = 'Unknown'
     end
     
-    return location
+    location
   end
   
   def suggested_aging(brew)

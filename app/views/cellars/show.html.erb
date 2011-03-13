@@ -6,6 +6,15 @@
 	<% end %>
 <% end %>
 
+<div class="profile-info clearfix">
+  <%= gravatar_for @cellar.user, :class => "gravatar", :align => 'left' %>
+  
+  <div class="user-info">
+    <h2><%= @cellar.user.username %></h2>
+    <span class="note"><%= location_str :city => @cellar.user.city, :state => @cellar.user.state, :country => @cellar.user.country %></span>
+  </div>
+</div>
+
 <% if is_users_cellar? %>
   <% alert 'welcome' do %>
   <h3>Welcome to Hoptopus!</h3>
@@ -195,8 +204,8 @@
     <% end %>
 </div>
 
-<h2 data-tab-handle="update-preferences">Preferences</h2>
-<div id="update-preferences">
+<h2 data-tab-handle="preferences">Preferences</h2>
+<div id="preferences">
 	<%= form_for(@user) do |f| %>
 	<div class="field">
 		<%= f.check_box :should_show_own_events %>
