@@ -16,6 +16,7 @@ gem 'uuidtools'
 #gem 'SystemTimer'
 gem 'aws-s3'
 gem 'gravatar'
+gem 'oauth2', :git => 'git://github.com/intridea/oauth2.git'
 
 # Use unicorn as the web server
 # gem 'unicorn'
