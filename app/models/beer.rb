@@ -15,8 +15,8 @@ class Beer < ActiveRecord::Base
   validates_presence_of :cellared_at, :message => 'Cellared date is required.'
 
   validates_format_of :year, :with => /^\d+$/, :message => 'The year must be a value.', :allow_nil => true
-  #validates_numericality_of :year, :message => 'I don\'t believe you have a beer that old.', :greater_than => YEAR_OF_OLDEST_BEER
-  #validates_numericality_of :year, :message => 'Beers of the future do not exist yet.', :less_than => Time.new.year + ACCEPTED_YEARS_FROM_TODAY
+  validates_numericality_of :year, :message => 'I don\'t believe you have a beer that old.', :greater_than => YEAR_OF_OLDEST_BEER
+  validates_numericality_of :year, :message => 'Beers of the future do not exist yet.', :less_than => Time.new.year + ACCEPTED_YEARS_FROM_TODAY
   validates_numericality_of :quantity, :message => 'Quantity must be a number less than 120.', :less_than => 120
   validates_numericality_of :abv, :message => 'ABV must be a decimal less than 150.', :less_than_or_equal_to => 150, :allow_nil => true
   validates_numericality_of :price, :message => 'Invalid price, bro.', :allow_nil => true

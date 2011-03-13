@@ -47,14 +47,21 @@ div.field, div.actions, div.buttons {
 	
 	display: inline-block;
 	
-	border-radius: 5pt;
+	/*border-radius: 5pt;
 	-moz-border-radius: 5pt;
-	-webkit-border-radius: 5pt;
+	-webkit-border-radius: 5pt;*/
 }
 
 .homepage-register {
+    background-image: url('/images/green-button.png');
+    background-repeat: repeat-x;
     background-color: #85AF22;
     color: #FFE9A8;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #000;
+    border: 1px #5f6946 solid;
+    border-top: 1px #adca67 solid;
+    border-left: 1px #adca67 solid;
 }
 
 .homepage-register:hover, .homepage-lookaround:hover {
@@ -75,8 +82,15 @@ span.beta {
     padding: 10pt;
     padding-left: 20pt;
     padding-right: 20pt;
-    color: #85af22;
+    color: #ebebeb;
     background-color: #ffe9a8;
+    background-image: url('/images/yellow-button.png');
+    background-repeat: repeat-x;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #999;
+    border: 1px #fce397 solid;
+    border-top: 1px #fff solid;
+    border-left: 1px #fff solid;
 }
 
 span.or {
@@ -532,21 +546,23 @@ ul.all-cellars {
 }
 
 button, input[type="submit"] {
-	background-image: url('/images/button.png');
+	background-image: url('/images/gray-button.png');
 	background-repeat: repeat-x;
-	border: 1px #ccc solid;
-	
+  background-positiion: center;
+	border: 1px #d6d6d6 solid;
 	color: #333;
-	
+  text-shadow: 1px 1px 1px #d6d6d6;
 	outline: none;
-	
-	-moz-border-radius: 10pt;
-	-webkit-border-radius: 10pt;
-	border-radius: 10pt;
+  
+  padding-top: 2pt;
+  padding-bottom: 2pt;
 }
 
 button[disabled], input[disabled], button[disabled]:focus, input[disabled]:focus, button[disabled]:active, input[disabled]:active {
 	background-image: none;
+  outline: none;
+  color: #ccc;
+  text-shadow: none;
 }
 
 button:focus, input[type="submit"]:focus {
@@ -555,7 +571,8 @@ button:focus, input[type="submit"]:focus {
 }
 
 button:active, input[type="submit"]:active, button.down {
-	background-image: url('/images/button-down.png');
+	background-image: url('/images/gray-button-down.png');
+  color: #999;
 }
 
 table[data-sortable] th, th.unsorted {
