@@ -888,6 +888,12 @@ img.gravatar {
 	
 }
 
+img.browsecellaravatar {
+	height: 3em;
+	float: left;
+	margin: 0 4px 2px 0;
+}
+
 img.inlineimg {
 	height: 1em;
 	top: 1px;
