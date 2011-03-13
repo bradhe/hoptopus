@@ -899,7 +899,7 @@ img.browsecellaravatar {
 }
 
 img.inlineimg {
-	height: 2em;
+	height: 1.5em;
 	top: 1px;
 }
 
@@ -941,4 +941,13 @@ html[xmlns] .clearfix {
   display: block;
   float: left;
   margin-left: 4pt;
+}
+
+#navigation li.user-info a {
+  background-color: transparent;
+  padding: 0;
+}
+
+#navigation li.user-info strong {
+  margin-left: 5pt;
 }
