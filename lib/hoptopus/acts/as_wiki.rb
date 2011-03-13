@@ -11,8 +11,9 @@ module Hoptopus
           
           include Hoptopus::Acts::AsWiki::InstanceMethods
           
-          if params[:default_template]
-            self.wiki_template = File.open(params[:default_template], 'r').read
+          default_template = params[:default_template]
+          if default_template and File.exist?(default_template)
+            self.wiki_template = File.open(default_template, 'r').read
           end
         end
       end

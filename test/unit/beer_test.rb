@@ -5,4 +5,14 @@ class BeerTest < ActiveSupport::TestCase
   test "the truth" do
     assert true
   end
+  
+  test "should not save a beer in the future" do
+    beer = Beer.new :year => Time.new.year + Beer::ACCEPTED_YEARS_FROM_TODAY + 1
+    assert (not beer.valid?)
+  end
+  
+  test "should not save a beer too far in the past" do
+    beer = Beer.new :year => Beer::YEAR_OF_OLDEST_BEER - 1
+    assert (not beer.valid?)
+  end
 end

@@ -64,7 +64,7 @@ class BeersController < ApplicationController
     return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
     
     respond_to do |format|
-      if @beer.valid? and @beer.save
+      if @beer.save
         # Record this momentous event.
         event = Event.new :user => @cellar.user, :source => @beer, :formatter => BeerAddedEventFormatter.new
         event.save
