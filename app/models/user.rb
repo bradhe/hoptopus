@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 	has_many :tastings
   has_many :events
   has_many :alerts
+  has_and_belongs_to_many :roles
 	
 	validates_presence_of :email, :message => 'Please provide an email address.'
 	validates_presence_of :username, :message => 'Please provide a username.'

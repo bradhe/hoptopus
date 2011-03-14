@@ -81,7 +81,7 @@ module ApplicationHelper
     if(user.respond_to? "email")
       options = { :alt => 'avatar', :class => 'avatar', :size => 42 }.merge! options
       id = Digest::MD5::hexdigest user.email.strip.downcase
-      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s
+      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s + '&d=mm'
       options.delete :size
       image_tag url, options
     end
