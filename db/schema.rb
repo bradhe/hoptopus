@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214222511) do
+ActiveRecord::Schema.define(:version => 20110314050303) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20110214222511) do
     t.string    "city"
     t.boolean   "should_show_own_events",             :default => true
     t.boolean   "should_receive_email_notifications", :default => true
+    t.integer   "facebook_id"
   end
 
   create_table "wikis", :force => true do |t|

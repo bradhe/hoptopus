@@ -4,19 +4,53 @@ class OauthController < ApplicationController
   end
   
   def facebook_return
+    if params[:error]
+      logger.info "Facebook login error."
+      logger.info "\tError: " + params[:error]
+      logger.info "\tMessage: " + params[:error_description]
+
+      # We're outta here.
+      redirect_to root_path
+      return
+    end
+
     access_token = client.web_server.get_access_token(params[:code], :redirect_uri => oauth_facebook_return_url)
-    u = JSON.parse(access_token.get('/me'))
+    facebook = JSON.parse(access_token.get('/me'))
+
+    logger.debug "Facebook: " + facebook.to_yaml
 
     # Do login stuff here.
-    hoptopus_user = User.find_by_email u["email"]
-    
-    # If we found a user, lets update their facebook_id
-    # TODO: Add this here!
-    if hoptopus_user
-      login_user hoptopus_user
+    user = User.find_by_email facebook['email']
+
+    # We might want to go somewhere else...    
+    redirect_path = root_path
+
+    if user and user.username and user.facebook_id != facebook.id
+      # We will need the facebook user ID for later so...lets hang on to that.
+      user.facebook_id = facebook['id']
+      user.save!
+    elsif not user
+      user = User.new :email => facebook['email'], :facebook_id => facebook['id']
+      
+      # Skip validation so we don't error on missing username and password.
+      user.save :validate => false
+
+			# Also create a cellar for this user.
+			cellar = Cellar.new(:user => user)
+			cellar.save
+
+      # Send notification email too
+      Notifications.user_registered(user).deliver
+
+      redirect_path = select_username_path
+    elsif not user.username
+      redirect_path = select_username_path
     end
-    
-    redirect_to root_path
+
+    # Okay, finally ready to login the user.
+    login_user user
+
+    redirect_to redirect_path
   end
   
   def oauth_facebook_return_url

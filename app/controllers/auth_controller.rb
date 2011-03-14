@@ -28,7 +28,7 @@ class AuthController < ApplicationController
 				cellar = Cellar.new(:user => @new_user)
 				cellar.save
         
-        # Alert Brad that there was a registration
+        # Alert that there was a registration
         Notifications.user_registered(@new_user).deliver
 
 				redirect_to cellar_path @new_user.username

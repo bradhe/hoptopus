@@ -1,2 +1,7 @@
 <p><strong>Username:</strong> <%= @registered_user.username %></p>
 <p><strong>Email Address:</strong> <%= @registered_user.email %></p>
+
+<% if @registered_user.facebook_id %>
+<p>&nbsp;</p>
+<p><strong>Facebook ID:</strong> <%= @registered_user.facebook_id %></p>
+<% end %>

@@ -37,8 +37,13 @@ Hoptopus::Application.routes.draw do
   match 'reset-password/sent' => 'auth#password_reset_confirmation_sent', :as => 'password_reset_confirmation_sent'
   match 'reset-password/:id' => 'auth#confirm_password_reset', :as => 'confirm_password_reset'
   
+  # These are front end routes.
   match 'contact/sent' => 'contact#sent', :as => 'contact_request_sent'
   match 'newsletter/signup' => 'newsletter#signup', :as => 'newsletter_signup'
+
+  # Special user paths
+  match 'user/select-username' => 'users#select_username', :as => 'select_username'
+  match 'user/update-username' => 'users#update_username', :as => 'update_username'
   
   # Special cellar paths
   match 'cellars/:id/upload/confirm' => 'cellars#confirm_import', :as => 'confirm_upload_cellar'

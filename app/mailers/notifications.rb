@@ -15,8 +15,11 @@ class Notifications < ActionMailer::Base
   
   def user_registered(user)
     @registered_user = user
-    
-    mail(:subject => "New user registration: #{user.username}", :to => 'alerts@hoptopus.com') do |format|
+
+    # Default title value.
+    title = user.username ? "New user registration: #{user.username}" : "New Facebook registration"
+
+    mail(:subject => title, :to => 'alerts@hoptopus.com') do |format|
       format.html
     end
   end

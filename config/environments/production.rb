@@ -50,4 +50,6 @@ Hoptopus::Application.configure do
   config.after_initialize do
     ActiveRecord::Base.send :include, Hoptopus::Has::Formatter
   end
+
+  config.log_level = Logger::WARN
 end

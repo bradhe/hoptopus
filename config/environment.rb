@@ -1,6 +1,8 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
+Rails.logger = Log4r::Logger.new "Hoptopus Log"
+
 # Initialize the rails application
 Hoptopus::Application.initialize!
 
