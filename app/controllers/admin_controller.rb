@@ -1,3 +1,3 @@
 class AdminController < ApplicationController
-  must_be_admin
+  #must_be_admin
 end
