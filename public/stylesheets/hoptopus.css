@@ -238,12 +238,14 @@ textarea {
 #navigation a, .navigation a {
 	color: #333;
 	display: inline-block;
-	padding: 3pt;
+	padding: 4px;
 	padding-left: 7pt;
 	padding-right: 7pt;
-	border-radius: 5pt;
-	-moz-border-radius: 5pt;
-	-webkit-border-radius: 5pt;
+  
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
 	background-color: #fff;
 	text-decoration: none;
 }
@@ -943,11 +945,24 @@ html[xmlns] .clearfix {
   margin-left: 4pt;
 }
 
-#navigation li.user-info a {
+#navigation li.user-info a, #navigation li.connect a {
   background-color: transparent;
   padding: 0;
 }
 
 #navigation li.user-info strong {
   margin-left: 5pt;
+}
+
+#navigation li.connect a img {
+  border: 0;
+  position: relative;
+  top: 7px;
+}
+
+li.connect span.or {
+  font-weight: bold;
+  margin-right: 6pt;
+  display: inline-block;
+  font-size: 11pt;
 }
