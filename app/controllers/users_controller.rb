@@ -1,9 +1,19 @@
 class UsersController < ApplicationController
   def update
-    @user = User.find(params[:id])
+    @user = User.find params[:id]
     
     if params[:user][:state].nil?
       @user.state = nil
+    end
+    
+    email = params[:user][:email]
+    existing = User.find_by_email email
+    
+    # It could be the case that the person tried to log in with their FB Connect account
+    # before but failed.
+    if existing and existing.facebook_id and not existing.username
+      # Delete the facebook connect record for this
+      existing.destroy 
     end
     
     respond_to do |format|
@@ -18,37 +28,36 @@ class UsersController < ApplicationController
   end
 
   def select_username
-    # If this isn't an oauth client then we need to tell them
-    # to fuck right off.
-    if @user.facebook_id.nil?
-      render :status => 404
-      return
+    @new_user = User.new
+    @email_address = session[:registration][:email]
+    
+    # Configure this in case we have matched an email address.
+    if session.has_key?(:registration) and session[:registration].has_key?(:user_id)
+      @matched_user = User.find(session[:registration][:user_id])
     end
-
-    @email_address = @user.email
   end
 
   def update_username
-    # See above.
-    if @user.facebook_id.nil?
-      render :status => 404
-      return
-    end
+    @new_user = User.new :email => session[:registration][:email], :username => params[:user][:username], :facebook_id => session[:registration][:facebook_id]
 
-    @username = params[:username]
-
-    # just see if the username is now valid.
-    @user.username = @username
-    
     respond_to do |format|
-      if @user.valid?
+      if @new_user.valid?
         # We got three of them! Sweet!
-        @user.save!
+        @new_user.save!
+        Notifications.user_registered(@new_user).deliver
+
+        Cellar.create :user => @new_user
+        
+        # Also clean up their session.
+        session.delete :registration
+        
+        # Finally, log in the guy.
+        login_user @new_user
 
         format.html { redirect_to root_path }
       else
         # Clear this to prevent some strange behavior.
-        @user.username = nil
+        @new_user.username = nil
 
         # fml
         format.html { render :action => 'select_username' }

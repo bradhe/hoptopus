@@ -52,6 +52,7 @@ Hoptopus::Application.routes.draw do
   # OAuth paths
   match 'oauth/facebook/connnect' => 'oauth#facebook_connect', :as => 'facebook_connect'
   match 'oauth/facebook/return' => 'oauth#facebook_return', :as => 'facebook_return'
+  match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
 
   root :to => "home#index"
 end

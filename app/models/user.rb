@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-	has_one :cellar, :dependent => :delete
+	has_one :cellar, :dependent => :destroy
 	has_many :tastings
   has_many :events
   has_many :alerts
@@ -55,4 +55,9 @@ class User < ActiveRecord::Base
       User.create!(:name => data["name"], :email => data["email"], :password => Devise.friendly_token)
     end
   end
+  
+  private
+    def destroy_cellar
+      self.cellar.destroy
+    end
 end

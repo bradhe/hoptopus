@@ -7,20 +7,46 @@
 <p>You won't be able to do anything else unless you select a username first!</p>
 
 <div class="centered">
-  <% unless @user.errors.empty? %>
+  <% unless @new_user.errors.empty? %>
   <ul class="errors">
-    <% @user.errors.each do |element,msg| %>
+    <% @new_user.errors.each do |element,msg| %>
 		<li><%= msg %></li>
   	<% end %>
   </ul>
   <% end %>
 
-  <%= form_tag update_username_path do |f| %>
-    <%= label_tag 'username', 'Username:' %>
-    <%= text_field_tag 'username', @username %>
+  <%= form_for @new_user, :url => update_username_path do |f| %>
+    <%= f.label :username, 'Username:' %>
+    <%= f.text_field :username %>
 
     <div class="buttons">
       <button type="submit">Set Username</button>
+    </div>
+  <% end %>
+</div>
+
+<h3>Already have a hoptopus account?</h3>
+<p>Supply your credentials here link your hoptopus account with your facebook account!</p>
+
+<div class="centered">
+  <%= form_tag(associate_facebook_with_hoptopus_account_path) do |f| %>
+    <div class="field">
+      <%= label_tag 'username', 'Username:' %>
+    <% if @matched_user %>
+      <span class="value"><%= gravatar_for @matched_user, :size => 20 %> <%= @matched_user.username %> (<%= @matched_user.email %>)</span>
+      <%= hidden_field_tag 'username', @matched_user.username %>
+    <% else %>
+      <%= text_field_tag 'username' %>
+    <% end %>
+    </div>
+    
+    <div class="field">
+      <%= label_tag 'password', 'Password:' %>
+      <%= password_field_tag 'password' %>
+    </div>
+    
+    <div class="buttons">
+      <button type="submit">Associate Account</button>
     </div>
   <% end %>
 </div>

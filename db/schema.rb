@@ -115,6 +115,19 @@ ActiveRecord::Schema.define(:version => 20110314050303) do
     t.boolean   "confirmed",      :default => false
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer  "role_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tastings", :force => true do |t|
     t.integer   "user_id"
     t.timestamp "created_at"

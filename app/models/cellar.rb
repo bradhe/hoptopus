@@ -5,7 +5,7 @@ class Cellar < ActiveRecord::Base
 
   has_many :beers
   has_many :brews, :through => :beers, :select => 'DISTINCT brews.*' 
-  belongs_to :user  
+  belongs_to :user
 
   def self.find_by_user(user)
     if user.nil? or user.id < 1

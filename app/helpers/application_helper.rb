@@ -77,8 +77,12 @@ module ApplicationHelper
     render(:partial => partial_name, :locals => options)
   end
   
-  def gravatar_for user, options = {}
-    options = { :alt => 'avatar', :class => 'avatar', :size => 42 }.merge! options
+  def gravatar_for(user, options = {})
+    options = { :alt => 'avatar', :class => 'avatar' }.merge! options
+    
+    unless options.has_key?(:size) 
+      options[:size] = 42
+    end
 
     if user.facebook_id
       url = "http://graph.facebook.com/#{user.facebook_id}/picture"
