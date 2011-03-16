@@ -7,16 +7,16 @@ class OauthController < ApplicationController
     username = params[:username]
     password = params[:password]
       
-    u = User.authenticate_without_password_hash username, password
+    user = User.authenticate_without_password_hash username, password
 
-    if u
-      u.facebook_id = session[:registration][:facebook_id]
-      u.save!
+    if user
+      user.facebook_id = session[:registration][:facebook_id]
+      user.save!
       
       # Get rid of this shit.
       session.delete :registration
       
-      login_user u
+      login_user user
       
       redirect_to root_url
     else
@@ -39,7 +39,7 @@ class OauthController < ApplicationController
 
     access_token = client.web_server.get_access_token(params[:code], :redirect_uri => oauth_facebook_return_url)
     facebook = JSON.parse access_token.get('/me')
-
+    
     logger.debug "Facebook: " + facebook.to_yaml
 
     # Do login stuff here.
@@ -76,4 +76,9 @@ class OauthController < ApplicationController
       :site => 'https://graph.facebook.com'
     )
   end
+  
+  private
+    def request_facebook_data_from_code(code)
+
+    end
 end

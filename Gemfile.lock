@@ -65,6 +65,7 @@ GEM
     maruku (0.6.0)
       syntax (>= 1.0.0)
     mime-types (1.16)
+    mocha (0.9.12)
     multi_json (0.0.5)
     multipart-post (1.1.0)
     polyglot (0.3.1)
@@ -126,6 +127,7 @@ DEPENDENCIES
   gravatar
   log4r
   maruku
+  mocha
   oauth2!
   rack-rewrite
   rails (= 3.0.3)

@@ -1,14 +1,32 @@
 --- 
-users_001: 
-  city: Atlassian
+no_password_user: 
+  city: Portland
   created_at: 2011-03-12 22:02:42.039373
-  email_consent: f
+  email_consent: t
   country: US
   updated_at: 2011-03-12 22:02:42.039373
-  username: TLCLover
-  id: 1
+  username: no_password_user
+  id: 3
   should_show_own_events: t
-  password_hash: 0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e
+# No password hash supplied!
+#  password_hash: 
   should_receive_email_notifications: t
-  email: krishemenway@gmail.com
-  state: AL
+  email: test1@gmail.com
+  state: OR
+  facebook_id: 1290
+facebook_association_user: 
+  city: Portland
+  created_at: 2011-03-12 22:02:42.039373
+  email_consent: t
+  country: US
+  updated_at: 2011-03-12 22:02:42.039373
+  username: facebook_user1
+  id: 4
+  should_show_own_events: t
+  # Password: !!abc123
+  password_hash: 16f7b0fa57649759f6bff4ee90ecf81579cef201b59a695f7666a20ae2a9ef2b
+  should_receive_email_notifications: t
+  email: test2@gmail.com
+  state: OR
+# No facebook ID for this test.
+#  facebook_id: 
