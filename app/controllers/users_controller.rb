@@ -26,42 +26,4 @@ class UsersController < ApplicationController
       end
     end
   end
-
-  def select_username
-    @new_user = User.new
-    @email_address = session[:registration][:email]
-    
-    # Configure this in case we have matched an email address.
-    if session.has_key?(:registration) and session[:registration].has_key?(:user_id)
-      @matched_user = User.find(session[:registration][:user_id])
-    end
-  end
-
-  def update_username
-    @new_user = User.new :email => session[:registration][:email], :username => params[:user][:username], :facebook_id => session[:registration][:facebook_id]
-
-    respond_to do |format|
-      if @new_user.valid?
-        # We got three of them! Sweet!
-        @new_user.save!
-        Notifications.user_registered(@new_user).deliver
-
-        Cellar.create :user => @new_user
-        
-        # Also clean up their session.
-        session.delete :registration
-        
-        # Finally, log in the guy.
-        login_user @new_user
-
-        format.html { redirect_to root_path }
-      else
-        # Clear this to prevent some strange behavior.
-        @new_user.username = nil
-
-        # fml
-        format.html { render :action => 'select_username' }
-      end
-    end
-  end
 end

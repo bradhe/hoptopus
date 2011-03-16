@@ -41,10 +41,6 @@ Hoptopus::Application.routes.draw do
   match 'contact/sent' => 'contact#sent', :as => 'contact_request_sent'
   match 'newsletter/signup' => 'newsletter#signup', :as => 'newsletter_signup'
 
-  # Special user paths
-  match 'user/select-username' => 'users#select_username', :as => 'select_username'
-  match 'user/update-username' => 'users#update_username', :as => 'update_username'
-  
   # Special cellar paths
   match 'cellars/:id/upload/confirm' => 'cellars#confirm_import', :as => 'confirm_upload_cellar'
   match 'cellars/:id/import-status' => 'cellars#import_status', :as => 'cellar_import_status'
@@ -53,6 +49,7 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/connnect' => 'oauth#facebook_connect', :as => 'facebook_connect'
   match 'oauth/facebook/return' => 'oauth#facebook_return', :as => 'facebook_return'
   match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
+  match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
   root :to => "home#index"
 end

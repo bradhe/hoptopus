@@ -3,10 +3,47 @@ class OauthController < ApplicationController
     redirect_to client.web_server.authorize_url(:redirect_uri => oauth_facebook_return_url, :scope => 'email,offline_access')
   end
   
+  def facebook_register
+    if request.post?
+      @new_user = User.new :email => session[:registration][:email], :username => params[:user][:username], :facebook_id => session[:registration][:facebook_id]
+
+      respond_to do |format|
+        if @new_user.valid?
+          # We got three of them! Sweet!
+          @new_user.save!
+          Notifications.user_registered(@new_user).deliver
+          Cellar.create :user => @new_user
+          
+          # Also clean up their session.
+          session.delete :registration
+          
+          # Finally, log in the guy.
+          login_user @new_user
+
+          format.html { redirect_to root_path }
+        else
+          # Clear this to prevent some strange behavior.
+          @new_user.username = nil
+
+          # fml
+          format.html
+        end
+      end
+    else 
+      @new_user = User.new
+      @email_address = session[:registration][:email]
+      
+      # Configure this in case we have matched an email address.
+      if session.has_key?(:registration) and session[:registration].has_key?(:user_id)
+        @matched_user = User.find(session[:registration][:user_id])
+      end
+    end
+  end
+  
   def associate_facebook_with_account
     username = params[:username]
     password = params[:password]
-      
+    
     user = User.authenticate_without_password_hash username, password
 
     if user
@@ -48,15 +85,15 @@ class OauthController < ApplicationController
     # We might want to go somewhere else...    
     redirect_path = root_path
 
-    if user and user.facebook_id == facebook['id'] # Facebook IDs match. Who care's about email?
+    if user and user.facebook_id == facebook['id'].to_i # Facebook IDs match. Who care's about email?
       # Okay, finally ready to login the user.
       login_user user
     elsif user and user.email == facebook['email'] # Facebook IDs don't match but emails do.
       session[:registration] = { :facebook_id => facebook['id'], :user_id => user.id }
-      redirect_path = select_username_path
+      redirect_path = facebook_register_path
     else 
       session[:registration] = { :email => facebook['email'], :facebook_id => facebook['id'] }
-      redirect_path = select_username_path
+      redirect_path = facebook_register_path
     end
 
     redirect_to redirect_path
@@ -76,9 +113,4 @@ class OauthController < ApplicationController
       :site => 'https://graph.facebook.com'
     )
   end
-  
-  private
-    def request_facebook_data_from_code(code)
-
-    end
 end
