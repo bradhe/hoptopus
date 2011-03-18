@@ -19,6 +19,7 @@ gem 'gravatar'
 gem 'oauth2', :git => 'git://github.com/intridea/oauth2.git'
 gem 'log4r'
 gem 'mocha'
+gem 'haml'
 
 # Use unicorn as the web server
 # gem 'unicorn'
