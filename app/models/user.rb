@@ -24,6 +24,16 @@ class User < ActiveRecord::Base
     end
 	end
 
+  def is_admin?
+    admin_role = Role::admin_role
+  
+    if admin_role.nil?
+      return false
+    end
+    
+    return roles.include? admin_role
+  end
+  
   def hash_password(password)
     Digest::SHA256.hexdigest(password)
   end

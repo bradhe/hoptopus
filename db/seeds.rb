@@ -5,3 +5,5 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+
+Role.create ([{:name => "Hoptopus Admin", :id => 1}, {:name => "Cellar Master", :id => 2}])

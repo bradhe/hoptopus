@@ -51,5 +51,8 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
   match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
+  # Admin paths
+  match 'admin' => 'admin#lobby', :as => 'lobby'
+  
   root :to => "home#index"
 end
