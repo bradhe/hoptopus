@@ -2,8 +2,35 @@
   select a username
 <% end %>
 
-<h2>Select a Username</h2>
+<h2>We couldn't find a hoptopus account associated with your facebook account!</h2>
 
+<% if @matched_user %>
+<h3>But we did find a hoptopus account with your email address.</h3>
+<p>Enter your hoptopus account's password below and it will be associated with your facebook account.</p>
+
+<div class="centered">
+  <%= form_tag(associate_facebook_with_hoptopus_account_path) do |f| %>
+    <div class="field">
+      <%= label_tag 'username', 'Username:' %>
+      
+      <span class="value"><%= gravatar_for @matched_user, :size => 20 %> <%= @matched_user.username %> (<%= @matched_user.email %>)</span>
+      <%= hidden_field_tag 'username', @matched_user.username %>
+    </div>
+    
+    <div class="field">
+      <%= label_tag 'password', 'Password:' %>
+      <%= password_field_tag 'password' %>
+    </div>
+    
+    <div class="buttons">
+      <button type="submit">Associate Account</button>
+    </div>
+  <% end %>
+</div>
+
+<% else %>
+
+<h3>Create a new hoptopus account</h3>
 <p>You won't be able to do anything else unless you select a username first!</p>
 
 <div class="centered">
@@ -15,7 +42,7 @@
   </ul>
   <% end %>
 
-  <%= form_for @new_user, :url => update_username_path do |f| %>
+  <%= form_for @new_user, :url => facebook_register_path do |f| %>
     <%= f.label :username, 'Username:' %>
     <%= f.text_field :username %>
 
@@ -32,12 +59,7 @@
   <%= form_tag(associate_facebook_with_hoptopus_account_path) do |f| %>
     <div class="field">
       <%= label_tag 'username', 'Username:' %>
-    <% if @matched_user %>
-      <span class="value"><%= gravatar_for @matched_user, :size => 20 %> <%= @matched_user.username %> (<%= @matched_user.email %>)</span>
-      <%= hidden_field_tag 'username', @matched_user.username %>
-    <% else %>
       <%= text_field_tag 'username' %>
-    <% end %>
     </div>
     
     <div class="field">
@@ -50,3 +72,5 @@
     </div>
   <% end %>
 </div>
+
+<% end %>
