@@ -208,11 +208,6 @@
 <div id="preferences">
 	<%= form_for(@user) do |f| %>
 	<div class="field">
-		<%= f.label :email, "Email address:" %>
-		<%= f.text_field :email %>
-	</div>
-	
-	<div class="field">
 		<%= f.check_box :should_show_own_events %>
 		<%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
 	</div>	
