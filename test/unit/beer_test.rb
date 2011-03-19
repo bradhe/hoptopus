@@ -7,13 +7,13 @@ class BeerTest < ActiveSupport::TestCase
   end
   
   test "should not save a beer in the future" do
-    beer = beers(:Valid_Beer)
+    beer = beers(:valid_beer)
     beer.year = Time.new.year + Beer::ACCEPTED_YEARS_FROM_TODAY + 1
     assert (not beer.valid?)
   end
   
   test "should not save a beer too far in the past" do
-    beer = beers(:Valid_Beer)
+    beer = beers(:valid_beer)
     beer.year = Beer::YEAR_OF_OLDEST_BEER - 1
     assert (not beer.valid?)
   end

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BreweriesControllerTest < ActionController::TestCase
   setup do
-    @brewery = breweries(:one)
+    @brewery = breweries(:valid_brewery)
   end
 
   test "should get index" do

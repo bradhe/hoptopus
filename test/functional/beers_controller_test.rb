@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BeersControllerTest < ActionController::TestCase
   setup do
-    @beer = beers(:one)
+    @beer = beers(:valid_beer)
   end
 
   test "should get index" do
