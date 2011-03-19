@@ -62,7 +62,7 @@ module Hoptopus
         beer_link = "/cellars/#{e.user.username}/beers/#{e.source.id}"
         beer_name = (e.source.year ? e.source.year + ' ' : '') + e.source.name
         
-        "[#{e.user.username}](/cellars/#{e.user.username}) added [#{beer_name}](#{beer_link}) to their [cellar](/cellars/#{e.user.username})"
+        "[#{e.user.username}](/cellars/#{e.user.username}) added [#{beer_name}](#{beer_link}) to their [cellar](/cellars/#{e.user.username}#cellar)"
       end
     end
     

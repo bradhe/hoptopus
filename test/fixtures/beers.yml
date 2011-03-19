@@ -1,5 +1,5 @@
 --- 
-Valid_Beer: 
+valid_beer: 
   price: 5.0
   name: "The First Beer"
   removed_at: 
@@ -13,21 +13,5 @@ Valid_Beer:
   bottle_size_id: 1
   id: 1
   year: "1234"
-  cellar_id: 1
-  abv: 100.0
-beers_002: 
-  price: 5.005
-  name: BoobDrink
-  removed_at: 
-  created_at: 2011-03-12 23:20:31.414796
-  quantity: 5
-  cellared_at: 2011-03-07 00:00:00.000000
-  brewery_name: sAM Boobs
-  finish_aging_at: 2016-08-07 00:00:00.000000
-  updated_at: 2011-03-12 23:20:31.414796
-  brew_id: 1
-  bottle_size_id: 4
-  id: 2
-  year: "5000"
   cellar_id: 1
   abv: 100.0

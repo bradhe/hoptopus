@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CellarsControllerTest < ActionController::TestCase
   setup do
-    @cellar = cellars(:one)
+    @cellar = cellars(:valid_cellar)
   end
 
   test "should get index" do
