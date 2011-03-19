@@ -27,6 +27,12 @@ Hoptopus::Application.routes.draw do
   resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
   
+  namespace 'admin' do
+    resources :users
+    
+    root :to => 'lobby#index'
+  end
+  
   # Shortcut URLs
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
@@ -52,7 +58,7 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
   # Admin paths
-  match 'admin' => 'admin#lobby', :as => 'lobby'
+  #match 'admin' => 'admin#lobby', :as => 'lobby'
   
   root :to => "home#index"
 end

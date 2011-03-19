@@ -7,7 +7,7 @@ class AdminController < ApplicationController
   
   def ensure_user_is_admin
     if not @user.is_admin?
-      redirect_to cellars_path
+      render :status => 404
     end
   end
 end
