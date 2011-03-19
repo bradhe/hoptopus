@@ -266,15 +266,19 @@ h1 img {
 #comments h1, #comments h2, #comments h3, #comments h4 {
   margin-bottom: 5pt; }
 
-div.info, div.navigation, div.alert {
+div.navigation, div.alert {
   background-color: #ffe9a8;
   padding: 5pt;
   border-radius: 5pt;
   -moz-border-radius: 5pt;
   -webkit-border-radius: 5pt;
+}
+  
+div.info, div.navigation, div.alert {
   font-style: italic;
   margin-bottom: 5pt;
-  color: #666; }
+  color: #666; 
+}
 
 h3 {
   margin-top: 5pt;
