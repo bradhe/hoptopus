@@ -34,6 +34,14 @@ class User < ActiveRecord::Base
     return roles.include? admin_role
   end
   
+  def formatted_created_at
+    self.created_at.strftime "%A %B %d, %Y" unless self.created_at.nil?
+  end
+  
+  def formatted_last_login_at
+    self.last_login_at.strftime "%A %B %d, %Y" unless self.last_login_at.nil?
+  end
+  
   def hash_password(password)
     Digest::SHA256.hexdigest(password)
   end

@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     
     if session[:user_id] != user.id
       session[:user_id] = user.id
+      
+      # Update the last login date for this guy
+      user.last_login_at = Time.now
+      user.save!
     end
   end
 
@@ -32,5 +36,9 @@ class ApplicationController < ActionController::Base
     unless @user
       redirect_to login_path
     end
+  end
+  
+  def render_404
+    render :file => "404", :layout => false, :status => 404
   end
 end

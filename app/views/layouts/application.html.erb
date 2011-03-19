@@ -51,11 +51,14 @@
   <div id="navigation">
     <ul>
     <% if is_logged_in? %>
-      <% unless @user.username.nil? %>
       <li class="user-info"><a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class =>
  "gravatar inlineimg" %> <strong><%= @user.username %></a></strong></li>
-      <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
+ 
+      <% if @user.is_admin? %>
+      <li><%= link_to 'Admin', admin_root_path %></li>
       <% end %>
+      
+      <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
       <li><%= link_to 'Browse Cellars', root_path %></li>
       <li><%= link_to 'Brew Wiki', brews_path %></li>
       <li><%= link_to 'Logout', logout_path %></li>

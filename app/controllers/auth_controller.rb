@@ -5,7 +5,7 @@ class AuthController < ApplicationController
 	  @user = User.authenticate_without_password_hash(params[:username], params[:password])
 
 	  unless @user.nil?
-	    session[:user_id] = @user.id
+	    login_user @user
 	    redirect_to cellar_path @user.username
 	  end
 	end
@@ -22,7 +22,7 @@ class AuthController < ApplicationController
 			@new_user = User.new(params[:user])
 
 			if @new_user.valid? and @new_user.save
-				session[:user_id] = @new_user.id
+        login_user @new_user
 				
 				# Also create a cellar for this user.
 				cellar = Cellar.new(:user => @new_user)
@@ -83,8 +83,8 @@ class AuthController < ApplicationController
         @reset_request.user.save
       
         # Login this user
-        session[:user_id] = @reset_request.user.id
-      
+        login_user @reset_request.user
+        
         # Also set the request to confirmed.
         @reset_request.confirmed = true
         @reset_request.save

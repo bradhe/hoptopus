@@ -61,4 +61,7 @@ Hoptopus::Application.routes.draw do
   #match 'admin' => 'admin#lobby', :as => 'lobby'
   
   root :to => "home#index"
+  
+  # This needs to be a the bottom!!!
+  match '*path', :controller => 'application', :action => 'render_404'
 end
