@@ -85,7 +85,7 @@ $("button[data-confirm], input[data-confirm]").live('click', function(e) {
 	return confirm($(this).attr('data-confirm'));
 });
 
-$(document).ready(function() {
+$(function() {
 	$('input').focus(function() {
 		$('input.open').each(function() {
 			var div = $(this).data('popup');
@@ -100,7 +100,7 @@ $(document).ready(function() {
 	});
 	
 	$('h3[data-hideable], h2[data-hideable]').each(function() {
-    var id = $(this).attr('data-hideable');
+        var id = $(this).attr('data-hideable');
     
 		var div = $('div#'+id);
 		div.hide();
@@ -125,6 +125,8 @@ $(document).ready(function() {
 				img.src = '/images/plus.png';
 				div.slideUp('fast');
 			}
+
+            return false;
 		});
 	});
 
@@ -147,33 +149,41 @@ $(document).ready(function() {
 	tabs.append($('h2[data-tab-handle]'));
 
 	$('h2[data-tab-handle]').each(function() {
-    var attr = $(this).attr('data-tab-handle');
-    $('body').prepend($('<a/>').attr('name', attr));
-    
-		var tab = $('#' + $(this).attr('data-tab-handle'));
-		tab.addClass('tab');
+        var attr = $(this).attr('data-tab-handle');
+
+		var tab = $('#' + attr);
+
+        // This is kind of fucked up. We have to remove the ID so that the thing doesn't
+        // jump around when we change tabs, but we still need to be able to find the body
+        // of this tab somehow. Thus, we add a class here, then we can find it with the
+        // selected .tab.<attr>
+		tab.addClass('tab ' + attr);
 		tab.hide();
+
+        // Remove this tab's ID I guess.
+        tab.attr('id', '');
 		
 		$(this).click(function() {
 			if(tab.is(':hidden')) {
 				$('.tabs .open').removeClass('open');
 				$(this).addClass('open');
         
-        // Hide all the other tabs...
+                // Hide all the other tabs...
 				$('.tab').hide();
 				tab.show();
         
-        // Set the hash so that we can come back here easily.
-        window.location.hash = attr;
+                // Set the hash so that we can come back here easily.
+                window.location.hash = attr;
 			}
+
+            return false;
 		});
 	});
 
-	
 	var id = firstTab.attr('data-tab-handle');
 	
 	if(location.hash) {
-		id = location.hash.substring(1)
+		id = location.hash.substring(1);
 		
 		// If there is a ? then chop off everything after that
 		if(id.indexOf('?') > 0) {
@@ -181,14 +191,13 @@ $(document).ready(function() {
 		}
 		
 		// Finally, make sure that we can find this thing
-		if(!id || $('#' + id).length < 1) {
+		if(!id || $('.tab.' + id).length < 1) {
 			id = firstTab.attr('data-tab-handle');
 		}
-		$('html, body').animate({scrollTop:0}, 0);
 	}
 	
 	// Make sure the first tab is open
-	var tabContents = $('#' + id);
+	var tabContents = $('.tab.' + id);
 	$('h2[data-tab-handle="'+id+'"]').addClass('open');
 	tabContents.show();
 	
