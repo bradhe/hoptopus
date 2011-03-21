@@ -22,6 +22,8 @@ Hoptopus::Application.routes.draw do
       resources :comments, :only => [:update, :destroy, :create]
     end
   end
+
+  resources :wiki, :only => :index
   
   resources :users, :only => :update, :constraints => { :id => /.*/ }
   resources :breweries, :except => :show
@@ -57,8 +59,8 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
   match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
-  # Admin paths
-  #match 'admin' => 'admin#lobby', :as => 'lobby'
+  # Wiki paths
+  match 'wiki/:type(/:id)', :controller => 'wiki', :action => 'list'
   
   root :to => "home#index"
   

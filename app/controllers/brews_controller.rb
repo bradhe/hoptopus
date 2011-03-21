@@ -4,31 +4,24 @@ class BrewsController < ApplicationController
   # GET /brews
   # GET /brews.xml
   def index
-    @brews = Brew.order('name').all
-    @recent_events = Event.where('source_type = ? OR source_type = ?', 'Brew', 'Tasting').order('created_at DESC').all
-    @breweries = Brewery.order('name').all
-    
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @brews }
-    end
+    raise NotImplementedError
   end
 
   # GET /brews/1
   # GET /brews/1.xml
   def show
     @brew = Brew.find(params[:id])
-    
+
     if params[:r]
       @revision = @brew.revisions.where(:revision => params[:r]).first
-      
+
       unless @revision
         raise ActiveRecord::RecordNotFound, "Unable to find revision #{params[:r]}"
       end
     else
       @revision = @brew.current_revision || Wiki.new
     end
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @brew }

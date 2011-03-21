@@ -48,7 +48,7 @@
 <div id="activity">
 	<ul class="events">
 	<% if @recent_events.nil? or @recent_events.empty? %>
-		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', brews_path %></li>
+		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', wiki_index_path  %></li>
 	<% else %>
 		<% @recent_events.each do |event| %>
 			<%== render_event event %>
