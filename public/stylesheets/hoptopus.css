@@ -264,7 +264,8 @@ h1 img {
   border-top: 1px dashed #EBEBEB;
   padding-top: 5pt;
   margin-top: 5pt;
-  text-align: center; }
+  text-align: center;
+  min-height: 100px; }
 
 .byline {
   display: block;
@@ -283,7 +284,7 @@ h1 img {
 #comments h1, #comments h2, #comments h3, #comments h4 {
   margin-bottom: 5pt; }
 
-div.info, div.navigation, div.alert {
+div.navigation, div.alert {
   background-color: #ffe9a8;
   padding: 5pt;
   border-radius: 5pt;
@@ -292,6 +293,9 @@ div.info, div.navigation, div.alert {
   font-style: italic;
   margin-bottom: 5pt;
   color: #666; }
+
+.tab.cellar {
+  height: auto; }
 
 h3 {
   margin-top: 5pt;
@@ -686,7 +690,16 @@ span.progress {
   margin-left: auto;
   margin-right: auto;
   font-weight: bold;
-  color: #fff; }
+  color: #fff;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+span.progress img {
+  position: relative;
+  top: 3px;
+  margin-right: 10px; }
 
 table.beers.list th.sortable-over {
   background-color: #aaa; }

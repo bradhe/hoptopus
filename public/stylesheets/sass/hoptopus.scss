@@ -307,9 +307,9 @@ h1 img {
 
 .content-wrapper {
 	background-image: url('/images/faded-top.png');
-  background-position: center top;
-  background-repeat: no-repeat;
-  padding-top: 15px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding-top: 15px;
 	
 	min-height: 200px;
 }
@@ -320,6 +320,7 @@ h1 img {
 	padding-top: 5pt;
 	margin-top: 5pt;
 	text-align: center;
+    min-height: 100px;
 }
 
 .byline {
@@ -356,6 +357,10 @@ div.navigation, div.alert {
 	
 	margin-bottom: 5pt;
 	color: #666;
+}
+
+.tab.cellar {
+    height: auto;
 }
 
 h3 {
@@ -854,6 +859,17 @@ span.progress {
   margin-right: auto;
   font-weight: bold;
   color: #fff;
+
+    padding-bottom: 7px;
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+span.progress img {
+    position: relative;
+    top: 3px;
+    margin-right: 10px;
 }
 
 table.beers.list {

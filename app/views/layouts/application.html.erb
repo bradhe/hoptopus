@@ -7,7 +7,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.tablesorter.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.hoptopus.js" type="text/javascript"></script>
+  <script src="/javascripts/hoptopus.js" type="text/javascript"></script>
 
+<% # This is shit that we only want to display in prod. Why aren't there comments in erb? %>
 <% if Rails.env.production? %>
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -37,6 +39,7 @@
     var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
   </script>
 <% end %>
+<% # End production-only shit. %>
 
   <%= csrf_meta_tag %>
 

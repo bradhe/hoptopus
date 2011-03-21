@@ -1,5 +1,5 @@
 module WikiHelper
-  def first_letters_link_list(base_path = '')
+  def first_letters_link_list(base_path = '', params = {})
     first_letters = ('A'..'Z').to_a.unshift('#').unshift('!')
 
     first_letters.each do |i|
@@ -29,8 +29,14 @@ module WikiHelper
       if (params[:q] || params[:id]) == parameter
         link_params[:class] = 'selected'
       end
-      
-      concat link_to(i, uri.to_s, link_params)
+
+      if params[:for_javascript]
+        link_params = link_params.merge!({ 'data-path' => uri.to_s })
+        concat link_to(i, 'javascript:void(0);', link_params)
+      else
+        concat link_to(i, uri.to_s, link_params)
+      end
+
     end
 
     # This blocks the weird output.

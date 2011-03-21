@@ -25,16 +25,28 @@ class WikiController < ApplicationController
       q = ["#{id}%"]
     end
 
+    template = nil
+    
     if type == "brews"
       @brews = Brew.where(where_clause, *q).all if q
-      render :template => "wiki/list_brews"
+      template = "wiki/list_brews"
     elsif type == "breweries"
       @breweries = Brewery.where(where_clause, *q).all if q
-      render :template => "wiki/list_breweries"
+      template = "wiki/list_breweries"
     elsif type
       raise NotImplementedError "No template for type #{type} was not found"
     else
       raise RangeError "No type was specified."
+    end
+
+    respond_to do |format|
+      format.html { render :template => template }
+
+      if @brews
+        format.json { render :json => @brews, :methods => [:brewery_name, :brew_type_name] }
+      elsif @breweries
+        format.json { render :json => @breweries }
+      end
     end
   end
 
