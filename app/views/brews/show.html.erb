@@ -3,12 +3,12 @@
 <% end %>
 
 <div class="navigation">
-	<%= link_to 'Back to Brew Wiki', brews_path %>
-	
-	<% if is_logged_in? %>
-	<%= link_to 'Edit Beer', edit_brew_path(@brew) %>
-	<%= link_to 'Add this beer to My Cellar', cellar_path(@user.username) + "?beer=#{@brew.id}\#add-a-beer" %>
-	<% end %>
+    <%= link_to 'Back to Brew Wiki', wiki_index_path  %>
+
+    <% if is_logged_in? %>
+    <%= link_to 'Edit Beer', edit_brew_path(@brew) %>
+    <%= link_to 'Add this beer to My Cellar', cellar_path(@user.username) + "?beer=#{@brew.id}\#add-a-beer" %>
+    <% end %>
 </div>
 
 <h2><%= @brew.brewery.name %>'s <%= @brew.name %></h2>

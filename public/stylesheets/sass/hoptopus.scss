@@ -1,4 +1,7 @@
 $green: #85af22;
+$brown: #FFE9A8;
+
+html { height: 101%; }
 
 body { background-color: #fff; color: #333; }
 
@@ -18,6 +21,21 @@ body, p, ol, ul, td {
 	line-height: 18px;
 }
 
+.letters-list a {
+    display: inline-block;
+    width: 28px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.letters-list a.selected {
+    background-color: $brown;
+}
+
+.letters-list {
+    text-align: center;
+}
+
 ul.notes, .alert ul {
   margin-left: 15pt;
   margin-top: 5pt;
@@ -26,6 +44,8 @@ ul.notes, .alert ul {
 .alert h3 {
   margin-top: 0;
 }
+
+
 
 pre {
 	background-color: #eee;
@@ -48,17 +68,13 @@ div.field, div.actions, div.buttons {
 	padding-right: 40pt;
 	
 	display: inline-block;
-	
-	/*border-radius: 5pt;
-	-moz-border-radius: 5pt;
-	-webkit-border-radius: 5pt;*/
 }
 
 .homepage-register {
     background-image: url('/images/green-button.png');
     background-repeat: repeat-x;
     background-color: $green;
-    color: #FFE9A8;
+    color: $brown;
     text-decoration: none;
     text-shadow: 1px 1px 1px #000;
     border: 1px #5f6946 solid;
@@ -85,7 +101,7 @@ span.beta {
     padding-left: 20pt;
     padding-right: 20pt;
     color: #ebebeb;
-    background-color: #ffe9a8;
+    background-color: $brown;
     background-image: url('/images/yellow-button.png');
     background-repeat: repeat-x;
     text-decoration: none;
@@ -261,7 +277,7 @@ textarea {
 }
 
 #navigation a:hover, #navigation a:focus, .navigation a:hover, .navigation a:focus {
-	background-color: #ffe9a8;
+	background-color: $brown;
 	color: $green;
 }
 
@@ -291,9 +307,9 @@ h1 img {
 
 .content-wrapper {
 	background-image: url('/images/faded-top.png');
-  background-position: center top;
-  background-repeat: no-repeat;
-  padding-top: 15px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding-top: 15px;
 	
 	min-height: 200px;
 }
@@ -304,6 +320,7 @@ h1 img {
 	padding-top: 5pt;
 	margin-top: 5pt;
 	text-align: center;
+    min-height: 100px;
 }
 
 .byline {
@@ -328,8 +345,8 @@ h1 img {
     margin-bottom: 5pt;
 }
 
-div.info, div.navigation, div.alert {
-	background-color: #ffe9a8;
+div.navigation, div.alert {
+	background-color: $brown;
 	padding: 5pt;
 		
 	border-radius: 5pt;
@@ -340,6 +357,10 @@ div.info, div.navigation, div.alert {
 	
 	margin-bottom: 5pt;
 	color: #666;
+}
+
+.tab.cellar {
+    height: auto;
 }
 
 h3 {
@@ -407,7 +428,7 @@ h2 a {
 
 div.login, div.reset-password {
 	margin-top: 15pt;
-	background-color: #ffe9a8;
+	background-color: $brown;
 	
 	border-radius: 5pt;
 	-moz-border-radius: 5pt;
@@ -603,14 +624,14 @@ th.unsortable {
 
 th.headerSortDown, th.sorted.down {
 	background-image: url('/images/sort-down.png');
-	background-color: #FFE9A8;
+	background-color: $brown;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
 
 th.headerSortUp, th.sorted.up {
 	background-image: url('/images/sort-up.png');
-	background-color: #FFE9A8;
+	background-color: $brown;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
@@ -838,6 +859,17 @@ span.progress {
   margin-right: auto;
   font-weight: bold;
   color: #fff;
+
+    padding-bottom: 7px;
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+span.progress img {
+    position: relative;
+    top: 3px;
+    margin-right: 10px;
 }
 
 table.beers.list {

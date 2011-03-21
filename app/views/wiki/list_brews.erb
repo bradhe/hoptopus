@@ -1,0 +1,42 @@
+<% content_for :title do %>
+    beers / wiki
+<% end %>
+
+<div class="navigation">
+    <%= link_to 'Back to Wiki Index', wiki_index_path + '#brews'  %>
+</div>
+
+<h2>Beers</h2>
+
+<div class="letters-list"><%= first_letters_link_list %></div>
+<% if @brews %>
+    <table class="list" data-sortable>
+        <thead>
+          <tr>
+            <th>Beer</th>
+            <th>Type</th>
+            <th>Brewery</th>
+          </tr>
+        </thead>
+
+        <tbody>
+    <% if @brews.empty? %>
+      <tr>
+        <td colspan="3" class="empty">Oh god! No beers have been added!</td>
+      </tr>
+    <% else %>
+        <% c = 'color2' %>
+        <% @brews.each do |brew| %>
+            <% c = (c == 'color2' ? 'color1' : 'color2') %>
+      <tr class="<%= c %>">
+            <td><%= link_to brew.name, brew_path(brew) %></td>
+            <td><%= brew.brew_type.name %></td>
+            <td><%= brew.brewery.name %></td>
+      </tr>
+        <% end %>
+    <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p class="info">Select a letter.</p>
+<% end %>

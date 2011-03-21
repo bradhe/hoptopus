@@ -15,7 +15,7 @@
 <div id="recent-activity">
 	<ul class="events">
 	<% if @recent_events.nil? or @recent_events.empty? %>
-		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', brews_path %></li>
+		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', wiki_index_path  %></li>
 	<% else %>
 		<% @recent_events.each do |event| %>
 			<%== render_event event %>
@@ -41,9 +41,9 @@
         
         <tbody>
     <% if @brews.empty? %>
-      <tr>
-        <td colspan="3" class="empty">Oh god! No beers have been added!</td>
-      </tr>
+          <tr>
+            <td colspan="3" class="empty">Oh god! No beers have been added!</td>
+          </tr>
     <% else %>
         <% c = 'color2' %>
         <% @brews.each do |brew| %>

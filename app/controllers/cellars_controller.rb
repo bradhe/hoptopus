@@ -138,7 +138,7 @@ class CellarsController < ApplicationController
     @cellared_beers = @cellar.beers.select { |b| b.removed_at.nil? }.first(25)
     @beers_left_in_pagination = @cellar.beers.count - 25
     
-    # This hash controls grid columns. Derp.
+    # This hash controls grid columns.
     @grid_columns = { 
       :formatted_cellared_at => { :id => 'created-at', :title => 'Cellared' },
       :brewery_name => { :id => 'brewery', :title => 'Brewery' },

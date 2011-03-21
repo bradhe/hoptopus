@@ -7,7 +7,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.tablesorter.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.hoptopus.js" type="text/javascript"></script>
+  <script src="/javascripts/hoptopus.js" type="text/javascript"></script>
 
+<% # This is shit that we only want to display in prod. Why aren't there comments in erb? %>
 <% if Rails.env.production? %>
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -37,6 +39,7 @@
     var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
   </script>
 <% end %>
+<% # End production-only shit. %>
 
   <%= csrf_meta_tag %>
 
@@ -50,8 +53,9 @@
   <div id="navigation">
     <ul>
     <% if is_logged_in? %>
-      <li class="user-info"><a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class =>
- "gravatar inlineimg" %> <strong><%= @user.username %></a></strong></li>
+      <li class="user-info">
+        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username %></a></strong>
+      </li>
  
       <% if @user.is_admin? %>
       <li><%= link_to 'Admin', admin_root_path %></li>
@@ -59,11 +63,11 @@
       
       <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
       <li><%= link_to 'Browse Cellars', root_path %></li>
-      <li><%= link_to 'Brew Wiki', brews_path %></li>
+      <li><%= link_to 'Brew Wiki', wiki_index_path %></li>
       <li><%= link_to 'Logout', logout_path %></li>
     <% else %>
       <li><%= link_to 'Browse Cellars', cellars_path %></li>
-	  <li><%= link_to 'Brew Wiki', brews_path %></li>
+	  <li><%= link_to 'Brew Wiki', wiki_index_path  %></li>
       <li><%= link_to 'Register', register_path %></li>
       <li><%= link_to 'Login', login_path %></li>
       <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
