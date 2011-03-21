@@ -4,8 +4,6 @@ class Admin::UsersController < AdminController
   end
   
   def makeadmin
-    selected_users = params[:selectedUsers].as_json
-    
     respond_to do |format|
       format.json { render :nothing => true }
     end
