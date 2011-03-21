@@ -26,10 +26,14 @@ Hoptopus::Application.routes.draw do
   resources :users, :only => :update, :constraints => { :id => /.*/ }
   resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
-  
-  namespace 'admin' do
-    resources :users
     
+  namespace 'admin' do
+    resources :users do
+      collection do
+         post 'makeadmin'
+      end
+    end
+
     root :to => 'lobby#index'
   end
   

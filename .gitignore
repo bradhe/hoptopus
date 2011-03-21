@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 tmp/Rack*
 .sass-cache
+.idea

@@ -2,33 +2,52 @@
   manage users
 <% end %>
 
+<%= content_for :javascript do %>
+<script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
+<% end %>
+
 <h2>Manage Users (Count: <%= @users.count %>)</h2>
 
-<table class="list">
-  <thead>
-    <tr>
-      <th>FB?</th>
-      <th>Username</th>
-      <th>Email Address</th>
-      <th>Joined Date</th>
-      <th>Last Login Date</th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    <% c = 'color2' %>
-    <% @users.each do |u| %>
-      <% c = c == 'color1' ? 'color2' : 'color1' %>
-    <tr class="<%= c %>">
-      <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
-      <td><%= u.username %></td>
-      <td><%= u.email %></td>
-      <td><%= u.created_at %></td>
-      <td><%= u.last_login_at %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= form_tag(makeadmin_admin_users_path) %>
+
+  <ul class="navigation">
+    <li><button type="button" name="makeadmin" id="makeadminbtn" value="makeadmin">Make Admin</button></li>
+    <li><button type="submit" name="edit" id="editbtn" value="edit">Edit</button></li>
+    <li><button type="button" name="delete" id="deletebtn" value="delete">Delete</button></li>
+    <li><button type="button" name="sendmessage" id="sendmessagebtn" value="sendmessage">Send Message</button></li>
+  </ul>
+
+  <table class="list">
+    <thead>
+      <tr>
+      <th></th>
+        <th>FB?</th>
+        <th>ADM?</th>
+        <th>Username</th>
+        <th>Email Address</th>
+        <th>Joined Date</th>
+        <th>Last Login Date</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% c = 'color2' %>
+      <% @users.each do |u| %>
+        <% c = c == 'color1' ? 'color2' : 'color1' %>
+      <tr class="<%= c %>">
+      <td align="center"><input type="checkbox" name="userids" value="<%= u.username %>" /></td>
+        <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
+        <td align="center"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+        <td><%= u.created_at %></td>
+        <td><%= u.last_login_at %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </form>
 
 <% 
   emails = []
