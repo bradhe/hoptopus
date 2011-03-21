@@ -7,17 +7,17 @@ class WikiController < ApplicationController
     type = params['type']
     id = params[:p] || params[:id]
 
-    where_clause = 'name LIKE ?'
+    where_clause = 'lower(name) LIKE ?'
 
     # Some special cases for query parameters
     q = nil
     
     if id == 'num'
-      where_clause = (0..9).map { 'name LIKE ?' }.join(' OR ')
+      where_clause = (0..9).map { 'lower(name) LIKE ?' }.join(' OR ')
       q = (0..9).map { |i| "#{i}%" }
     elsif id == 'sym'
       arr = ".,#".split(//)
-      where_clause = arr.map { 'name LIKE ?' }.join(' OR ')
+      where_clause = arr.map { 'lower(name) LIKE ?' }.join(' OR ')
       q = arr.map { |i| "#{i}%" }
     elsif id and id.length > 1
       q = ["#{id[0]}%"]
