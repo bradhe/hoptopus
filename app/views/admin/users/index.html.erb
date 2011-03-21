@@ -12,8 +12,8 @@ $(document).ready(function() {
         var url = '<%= makeadmin_admin_users_path %>';
         var userIds = $(".selectedUser:checked");
 
-        var data = { 'usernames[]' : []};
-        userIds.each(function() {data['usernames[]'].push($(this).val());});
+        var data = { 'selected_users' : []};
+        userIds.each(function() {data['selected_users'].push($(this).val());});
 
         if(userIds.length > 0) {
             $.ajax({ type: 'POST', url: url, data: data, success: function (request) {}, dataType: 'json' });
@@ -54,7 +54,7 @@ $(document).ready(function() {
       <% @users.each do |u| %>
         <% c = c == 'color1' ? 'color2' : 'color1' %>
       <tr class="<%= c %>">
-        <td align="center"><%= check_box("selectUser","selectUser",{ :class=> "selectedUser" },u.username) %></td>
+        <td align="center"><%= check_box("selectUser","selectUser",{ :class=> "selectedUser" },u.id) %></td>
         <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
         <td align="center"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
         <td><%= u.username %></td>

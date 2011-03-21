@@ -33,6 +33,13 @@ class User < ActiveRecord::Base
     
     return roles.include? admin_role
   end
+
+  def make_admin
+    admin_role = Role::admin_role
+    unless is_admin?
+      roles << admin_role
+    end
+  end
   
   def formatted_created_at
     self.created_at.strftime "%A %B %d, %Y" unless self.created_at.nil?
