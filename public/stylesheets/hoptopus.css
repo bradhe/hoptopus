@@ -200,6 +200,11 @@ textarea {
   margin-left: auto;
   margin-right: auto; }
 
+.navigation, .navigation ul {
+  list-style-type: none; }
+  .navigation li, .navigation ul li {
+    display: inline; }
+
 #navigation {
   float: right;
   margin-top: 5pt;
@@ -278,7 +283,7 @@ h1 img {
 #comments h1, #comments h2, #comments h3, #comments h4 {
   margin-bottom: 5pt; }
 
-div.navigation, div.alert {
+div.info, div.navigation, div.alert {
   background-color: #ffe9a8;
   padding: 5pt;
   border-radius: 5pt;

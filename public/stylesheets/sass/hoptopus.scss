@@ -239,6 +239,14 @@ textarea {
 	margin-right: auto;
 }
 
+.navigation ,.navigation ul{
+  list-style-type: none;
+  
+  li {
+    display: inline;
+  }
+}
+
 #navigation {
 	float: right;
 	margin-top: 5pt;

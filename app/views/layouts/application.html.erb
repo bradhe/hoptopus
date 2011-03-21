@@ -39,8 +39,7 @@
 <% end %>
 
   <%= csrf_meta_tag %>
-  
-  <%= yield :javascript %>
+
 </head>
 
 <body>
@@ -84,5 +83,6 @@
   Copyright 2010 &copy; The Hoptopus People <%= link_to 'Contact', contact_index_path %> | <a href="http://hoptopus.posterous.com/">Blog</a>
 </div>
 
+<%= yield :javascript %>
 </body>
 </html>
