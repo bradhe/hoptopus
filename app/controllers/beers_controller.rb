@@ -29,6 +29,15 @@ class BeersController < ApplicationController
   def new
     @beer = Beer.new
 
+    if params[:beer]
+      # Should look up by ID
+      @beer.brew = Brew.find params[:beer]
+    end
+
+    # Some defaults for this new thing.
+    @beer.cellared_at = Time.now
+    @beer.quantity = 1
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @beer }
@@ -42,7 +51,7 @@ class BeersController < ApplicationController
     # Format the dates because fuck it sucks to do in views
     @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
     @formatted_cellared_at = @beer.cellared_at ? @beer.cellared_at.strftime("%Y-%m-%d") : ''
-    
+
     @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
     @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
   end
@@ -50,8 +59,13 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.xml
   def create
-    @cellar = Cellar.find(params[:cellar_id])
-    
+    # Figure out if the cellar ID is only numbers. if it is, it's an ID otherwise it's a username
+    if params[:cellar_id].match /\d+/
+      @cellar = Cellar.find params[:cellar_id]
+    else
+      @cellar = Cellar.find_by_username params[:cellar_id]
+    end
+
     # This is kind of gross, but cleans up nicely.
     if params[:beer][:price] =~ /^\$/
       params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
