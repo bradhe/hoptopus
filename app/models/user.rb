@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def disable
+    
+  end
+
   def revoke_admin
     roles.delete Role::admin_role
   end

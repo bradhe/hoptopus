@@ -23,33 +23,6 @@ $(document).ready(function() {
         return data;
     }
 
-    function makeAdminCallback(request){
-        
-        $(".selectuser:checked").each (function() {
-            var admCell = $(this).parent("td").nextAll(".admincell");
-            
-            if(admCell.has("img").length == 0) {
-                admCell.prepend(checkmarkImg.clone());
-                $(this).removeAttr("checked");
-                $(this).parents("tr").first().attr("data-type-admin","true");
-                handleRowChange($(this));
-            }
-        });
-        
-        hoptopus.hideProgress();
-    }
-
-    function revokeAdminCallback(request){
-        $(".selectuser:checked").each (function() {
-            var admCell = $(this).parent("td").nextAll(".admincell").empty();
-            $(this).removeAttr("checked");
-            $(this).parents("tr").first().attr("data-type-admin","false");
-            handleRowChange($(this));
-        });
-
-        hoptopus.hideProgress();
-    }
-
     function handleRowChange(checkbox) {
         if(checkbox.is(':checked')) checkbox.parents("tr").first().addClass("rowselected");
         else checkbox.parents("tr").first().removeClass("rowselected");
@@ -85,31 +58,64 @@ $(document).ready(function() {
     });
 
     $("#makeadminbtn").click (function(){
-        var url = '<%= makeadmin_admin_users_path %>';
-        var data = getSelectedUsers();
+        hoptopus.showProgress("Working...");
+        makeSelectedUserCall('<%= makeadmin_admin_users_path %>', function() {
+            $(".selectuser:checked").each (function() {
+                var admCell = $(this).parent("td").nextAll(".admincell");
 
-        if(data['selected_users'].length > 0) {
-            hoptopus.showProgress("Please wait...");
-            $.ajax({ type: 'POST', url: url, data: data, success: makeAdminCallback, dataType: 'json' });
-        } else {
-            alert("You must select at least one person to make admin!")
-        }
+                if(admCell.has("img").length == 0) {
+                    admCell.prepend(checkmarkImg.clone());
+                    $(this).removeAttr("checked");
+                    $(this).parents("tr").first().attr("data-type-admin","true");
+                    handleRowChange($(this));
+                }
+            });
+
+            hoptopus.hideProgress();
+        });
     });
 
     $("#revokeadminbtn").click(function() {
-        var url = '<%= revokeadmin_admin_users_path %>';
-        var data = getSelectedUsers();
+        hoptopus.showProgress("Working...");
+        makeSelectedUserCall('<%= revokeadmin_admin_users_path %>', function() {
+            $(".selectuser:checked").each (function() {
+                var admCell = $(this).parent("td").nextAll(".admincell").empty();
+                $(this).removeAttr("checked");
+                $(this).parents("tr").first().attr("data-type-admin","false");
+                handleRowChange($(this));
+            });
 
-        if(data['selected_users'].length > 0) {
-            $.ajax({ type: 'POST', url: url, data: data, success: revokeAdminCallback, dataType: 'json' });
-        } else {
-            alert("You must select at least one person to revoke!")
-        }
+            hoptopus.hideProgress();
+        });
+    });
+
+    $('#disablebtn').click (function(){
+        hoptopus.showProgress("Working...");
+        makeSelectedUserCall('<%= disableuser_admin_users_path %>', function() {
+
+        });
     });
 
     $('#deletebtn').click (function() {
-       var url = '<%= deleteuser_admin_users_path %>'; 
+        hoptopus.showProgress("Working...");
+        makeSelectedUserCall('<%= deleteuser_admin_users_path %>', function() {
+            $(".selectuser:checked").each (function() {
+                $(this).parents("tr").first().remove();
+            });
+
+            hoptopus.hideProgress();
+        });
     });
+
+    function makeSelectedUserCall(url,callback) {
+        var data = getSelectedUsers();
+
+        if(data['selected_users'].length > 0) {
+            $.ajax({ type: 'POST', url: url, data: data, success: callback, dataType: 'json' });
+        } else {
+            alert("You must select at least one person to revoke!")
+        }
+    }
 });
 </script>
 <% end %>

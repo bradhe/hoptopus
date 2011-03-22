@@ -35,6 +35,7 @@ Hoptopus::Application.routes.draw do
         post 'makeadmin'
         post 'revokeadmin'
         post 'deleteuser'
+        post 'disableuser'
       end
     end
 
