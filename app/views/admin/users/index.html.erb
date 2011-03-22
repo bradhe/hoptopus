@@ -97,14 +97,19 @@ $(document).ready(function() {
     });
 
     $('#deletebtn').click (function() {
-        hoptopus.showProgress("Working...");
-        makeSelectedUserCall('<%= deleteuser_admin_users_path %>', function() {
-            $(".selectuser:checked").each (function() {
-                $(this).parents("tr").first().remove();
-            });
 
-            hoptopus.hideProgress();
-        });
+        var result = confirm("Are you sure you want to delete these users?")
+
+        if (result) {
+            hoptopus.showProgress("Working...");
+            makeSelectedUserCall('<%= deleteuser_admin_users_path %>', function() {
+                $(".selectuser:checked").each (function() {
+                    $(this).parents("tr").first().remove();
+                });
+
+                hoptopus.hideProgress();
+            });
+        }
     });
 
     function makeSelectedUserCall(url,callback) {
