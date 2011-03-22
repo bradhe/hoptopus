@@ -818,3 +818,6 @@ li.connect span.or {
   display: table;
   margin-left: auto;
   margin-right: auto; }
+
+.rowselected {
+  background-color: white; }

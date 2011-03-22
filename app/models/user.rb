@@ -35,10 +35,13 @@ class User < ActiveRecord::Base
   end
 
   def make_admin
-    admin_role = Role::admin_role
     unless is_admin?
-      roles << admin_role
+      roles << Role::admin_role
     end
+  end
+
+  def revoke_admin
+    roles.delete Role::admin_role
   end
   
   def formatted_created_at

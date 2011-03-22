@@ -8,18 +8,107 @@
 
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
+
+    var checkmarkImg = $("<img />").attr("src" ,"/images/check.png");
+
+    function enableButtons(a, b){
+        a.removeAttr("disabled");
+        b.removeAttr("disabled");
+    }
+
+    function getSelectedUsers(){
+        var user_ids = $(".selectuser:checked");
+        var data = { 'selected_users' : []};
+        user_ids.each(function() {data['selected_users'].push($(this).val());});
+        return data;
+    }
+
+    function makeAdminCallback(request){
+        
+        $(".selectuser:checked").each (function() {
+            var admCell = $(this).parent("td").nextAll(".admincell");
+            
+            if(admCell.has("img").length == 0) {
+                admCell.prepend(checkmarkImg.clone());
+                $(this).removeAttr("checked");
+                $(this).parents("tr").first().attr("data-type-admin","true");
+                handleRowChange($(this));
+            }
+        });
+        
+        hoptopus.hideProgress();
+    }
+
+    function revokeAdminCallback(request){
+        $(".selectuser:checked").each (function() {
+            var admCell = $(this).parent("td").nextAll(".admincell").empty();
+            $(this).removeAttr("checked");
+            $(this).parents("tr").first().attr("data-type-admin","false");
+            handleRowChange($(this));
+        });
+
+        hoptopus.hideProgress();
+    }
+
+    function handleRowChange(checkbox) {
+        if(checkbox.is(':checked')) checkbox.parents("tr").first().addClass("rowselected");
+        else checkbox.parents("tr").first().removeClass("rowselected");
+    }
+
+    function handleAdminButtonSwitches(){
+        var hasAdminSelected = $('.selectuser:checked').parents("tr[data-type-admin=true]").length > 0;
+        var hasNonAdminSelected = $('.selectuser:checked').parents("tr[data-type-admin=false]").length > 0;
+
+        var revokeAdminButton = $("#revokeadminbtn");
+        var makeAdminButton = $("#makeadminbtn");
+
+        if(hasAdminSelected && hasNonAdminSelected){
+            makeAdminButton.attr("disabled", "disabled").show();;
+            revokeAdminButton.attr("disabled", "disabled").hide();
+        } else if(hasAdminSelected){
+            enableButtons(revokeAdminButton,makeAdminButton)
+            revokeAdminButton.show();
+            makeAdminButton.hide();
+        } else if(hasNonAdminSelected){
+            enableButtons(revokeAdminButton,makeAdminButton)
+            revokeAdminButton.hide();
+            makeAdminButton.show();
+        } else {
+            makeAdminButton.show();
+            revokeAdminButton.hide();
+        }
+    }
+
+    $('input[type=checkbox]').change(function(){
+        handleRowChange($(this));
+        handleAdminButtonSwitches();
+    });
+
     $("#makeadminbtn").click (function(){
         var url = '<%= makeadmin_admin_users_path %>';
-        var userIds = $(".selectedUser:checked");
+        var data = getSelectedUsers();
 
-        var data = { 'selected_users' : []};
-        userIds.each(function() {data['selected_users'].push($(this).val());});
-
-        if(userIds.length > 0) {
-            $.ajax({ type: 'POST', url: url, data: data, success: function (request) {}, dataType: 'json' });
+        if(data['selected_users'].length > 0) {
+            hoptopus.showProgress("Please wait...");
+            $.ajax({ type: 'POST', url: url, data: data, success: makeAdminCallback, dataType: 'json' });
         } else {
             alert("You must select at least one person to make admin!")
         }
+    });
+
+    $("#revokeadminbtn").click(function() {
+        var url = '<%= revokeadmin_admin_users_path %>';
+        var data = getSelectedUsers();
+
+        if(data['selected_users'].length > 0) {
+            $.ajax({ type: 'POST', url: url, data: data, success: revokeAdminCallback, dataType: 'json' });
+        } else {
+            alert("You must select at least one person to revoke!")
+        }
+    });
+
+    $('#deletebtn').click (function() {
+       var url = '<%= deleteuser_admin_users_path %>'; 
     });
 });
 </script>
@@ -31,6 +120,7 @@ $(document).ready(function() {
 
   <ul class="navigation">
     <li><button type="button" name="makeadmin" id="makeadminbtn" value="makeadmin">Make Admin</button></li>
+    <li><button type="button" style="display: none;" name="revokeadmin" id="revokeadminbtn" value="revokeadmin">Revoke Admin</button></li>
     <li><button type="submit" name="edit" id="editbtn" value="edit">Edit</button></li>
     <li><button type="button" name="delete" id="deletebtn" value="delete">Delete</button></li>
     <li><button type="button" name="sendmessage" id="sendmessagebtn" value="sendmessage">Send Message</button></li>
@@ -53,10 +143,10 @@ $(document).ready(function() {
       <% c = 'color2' %>
       <% @users.each do |u| %>
         <% c = c == 'color1' ? 'color2' : 'color1' %>
-      <tr class="<%= c %>">
-        <td align="center"><%= check_box("selectUser","selectUser",{ :class=> "selectedUser" },u.id) %></td>
+      <tr data-type-admin="<%= u.is_admin? %>" class="<%= c %>">
+        <td align="center"><%= check_box("select_user","select_user",{ :class=> "selectuser" },u.id) %></td>
         <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
-        <td align="center"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
+        <td align="center" class="admincell"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
         <td><%= u.username %></td>
         <td><%= u.email %></td>
         <td><%= u.created_at %></td>
