@@ -818,3 +818,17 @@ li.connect span.or {
   display: table;
   margin-left: auto;
   margin-right: auto; }
+
+.add-beer {
+  display: none; }
+
+.add-beer textarea {
+  height: 132px; }
+
+.add-beer .left {
+  width: 400px;
+  height: 300px;
+  float: left; }
+
+select.beers.dropdown {
+  width: 100%; }

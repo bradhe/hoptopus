@@ -6,6 +6,8 @@
     <% end %>
 <% end %>
 
+<%= render 'beers/add' %>
+
 <div class="profile-info clearfix">
   <%= gravatar_for @cellar.user, :class => "gravatar", :align => 'left' %>
 
@@ -341,7 +343,8 @@
 
         $(function() {
             $('#new-beer').bind('click', function() {
-                window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
+                //window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
+                $('.add-beer').dialog({width:'auto', modal: true});
             });
 
             $('#import-beers').bind('click', function(e) {
