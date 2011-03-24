@@ -261,8 +261,11 @@
           </div>
       <% end %>
     </div>
-<% end %>
 
+    <div id="add-beer-form">
+        <%= render 'beers/add', :beer => Beer.new(:cellar => @cellar, :cellared_at => Time.now), :url => cellar_beers_path(@cellar) %>
+    </div>
+<% end %>
 
 <% content_for :javascript do %>
     <% if is_users_cellar? %>
@@ -311,7 +314,8 @@
     <% end %>
     <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
     <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
-
+    <script type="text/javascript" src="/javascripts/jquery.dynamicForm.js"></script>
+    
     <script type="text/javascript">
         function makeSortable() {
             var table = $('#cellared-beers');
@@ -340,10 +344,6 @@
         }
 
         $(function() {
-            $('#new-beer').bind('click', function() {
-                window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
-            });
-
             $('#import-beers').bind('click', function(e) {
                 $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
             });
@@ -375,7 +375,35 @@
             grid.rowsShown = 25;
             grid.rowClasses = ['color1', 'color2'];
 
-            // Note: This has to happen here because we have to use the useableBeers
+            $('#new-beer').bind('click', function() {
+                var dialog = $('#add-beer-form');
+                dialog.dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Add a Beer to your Cellar'});
+                
+                dialog.find('form').dynamicForm({
+                    errorListSelector: '#add-beer-form ul.errors',
+                    submitStart: function() {
+                        hoptopus.showProgress('Adding...')
+                    },
+                    submitDone: function() {
+                        hoptopus.hideProgress();
+                    },
+                    success: function(data) {
+                        // Add this silly row to the silly thing.
+                        // TODO: Remove this stupid de-referencing!
+                        var tr = grid.addSingleObject(data.beer, {front:true});
+
+                        // We need to pulse the TR to make it obvious what it is.
+                        var bg = tr[0].style.backgroundColor;
+                        tr.effect('highlight', {color:'#85af22'}, 1500);
+                        
+                        dialog.find('form').each(function() { this.reset(); });
+                        dialog.find('ul.errors').empty();
+                        dialog.dialog('close');
+                    }
+                });
+            });
+
+            // Note: This has to happen here because we have to use the useable Beers
             // thinger.
             $('#show-more').click(function() {
                 // Grab 25 beers off the list and stick them in the table.

@@ -1,9 +1,8 @@
 /**
- * Created by .
+ * Created by DA BWAD!!!!!!
  * User: brad.heller
  * Date: 3/21/11
  * Time: 12:14 AM
- * To change this template use File | Settings | File Templates.
  */
 
 // TODO: Abstract out these filters. D'oh.
@@ -37,11 +36,11 @@ function VarietyFilter(textBox) {
     }
 
     return found;
-  }
+  };
   
   this.clear = function() {
     $(this.textBox).val('');
-  }
+  };
 }
 
 function BreweryFilter(select) {
@@ -63,11 +62,11 @@ function BreweryFilter(select) {
     }
 
     return found;
-  }
+  };
   
   this.clear = function() {
     $(this.select).val('');
-  }
+  };
 }
 
 function StringComparator(left, right) {
@@ -175,9 +174,6 @@ hoptopus.grid = function(options) {
       }
 
       objs = hoptopus.qsort(p, objs, comp);
-    }
-    else {
-      objs = objs;
     }
 
     return objs;
@@ -475,7 +471,7 @@ hoptopus.grid = function(options) {
       dropdown.show();
     }
 
-    function addObjectRow(obj, tbody) {
+    function addObjectRow(obj, tbody, front) {
       // Grab all the headers for the grid.
       var headers = grid.find('thead tr:first th');
       var selectedColumns = [];
@@ -556,11 +552,16 @@ hoptopus.grid = function(options) {
         }
 
         tr.append(td);
+      }
 
-        if(tbody) {
+        if(tbody && front) {
+            tbody.prepend(tr);
+        }
+        else if(tbody) {
             tbody.append(tr);
         }
-      }
+
+        return tr;
     }
 
     g.init = function() {
@@ -703,6 +704,21 @@ hoptopus.grid = function(options) {
 
       applyFilters();
     };
+
+    g.addSingleObject = function(obj, options) {
+        if(g.objects && $.isArray(g.objects)) {
+            g.objects.push(obj);
+        }
+
+        // Add a single row to the grid.
+        var front = false;
+        if(options && options.front) {
+            front = options.front;
+        }
+
+        var tbody = grid.find('tbody');
+        return addObjectRow(obj, tbody, front);
+    }
 
     // Init our object right before we leave this thing.
     g.init();
