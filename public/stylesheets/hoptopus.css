@@ -828,3 +828,7 @@ li.connect span.or {
 .sub.field {
   margin-left: 130px;
   margin-top: 4pt; }
+
+.rowselected {
+  background-color: white; }
+

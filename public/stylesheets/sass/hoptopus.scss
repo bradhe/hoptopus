@@ -1,5 +1,7 @@
 $green: #85af22;
 $brown: #FFE9A8;
+$selected_row_color: #FFFFFF;
+
 
 html { height: 101%; }
 
@@ -44,8 +46,6 @@ ul.notes, .alert ul {
 .alert h3 {
   margin-top: 0;
 }
-
-
 
 pre {
 	background-color: #eee;
@@ -1038,5 +1038,8 @@ li.connect span.or {
 
 .sub.field {
     margin-left: 130px;
-    margin-top: 4pt;
+    margin-top: 4pt; }
+
+.rowselected{
+  background-color: $selected_row_color;
 }

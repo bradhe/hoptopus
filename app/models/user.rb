@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   # We do not want to do these for OAuth clients
 	validates_presence_of :password_hash, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
 	validates_confirmation_of :password_hash, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
-	validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be atleast 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+	validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
 	
 	before_create do
     if password_hash
@@ -35,10 +35,17 @@ class User < ActiveRecord::Base
   end
 
   def make_admin
-    admin_role = Role::admin_role
     unless is_admin?
-      roles << admin_role
+      roles << Role::admin_role
     end
+  end
+
+  def disable
+    
+  end
+
+  def revoke_admin
+    roles.delete Role::admin_role
   end
   
   def formatted_created_at
