@@ -1028,6 +1028,7 @@ li.connect span.or {
   margin-right: auto;
 }
 
+<<<<<<< HEAD
 .add-beer.left {
     width: 400px;
 }
@@ -1039,4 +1040,22 @@ li.connect span.or {
 .sub.field {
     margin-left: 130px;
     margin-top: 4pt;
+}
+
+.add-beer {
+    display: none;
+}
+
+.add-beer textarea {
+    height: 132px;
+}
+
+.add-beer .left {
+    width: 400px;
+    height: 300px;
+    float: left;
+}
+
+select.beers.dropdown {
+    width: 100%;
 }
