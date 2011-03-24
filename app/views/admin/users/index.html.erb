@@ -2,10 +2,61 @@
   manage users
 <% end %>
 
-<%= content_for :javascript do %>
+<h2>Manage Users (Count: <%= @users.count %>)</h2>
+
+<%= form_tag(makeadmin_admin_users_path) %>
+
+  <ul class="navigation">
+    <li><button data-url-path="<%= makeadmin_admin_users_path %>"   type="button" name="makeadmin" id="makeadminbtn" value="makeadmin">Make Admin</button></li>
+    <li><button data-url-path="<%= revokeadmin_admin_users_path %>" type="button" style="display: none;" name="revokeadmin" id="revokeadminbtn" value="revokeadmin">Revoke Admin</button></li>
+    <li><button type="submit" name="edit" id="editbtn" value="edit">Edit</button></li>
+    <li><button data-url-path="<%= disableuser_admin_users_path %>" type="button" name="delete" id="deletebtn" value="delete">Delete</button></li>
+    <li><button type="button" name="sendmessage" id="sendmessagebtn" value="sendmessage">Send Message</button></li>
+  </ul>
+
+  <table class="list">
+    <thead>
+      <tr>
+      <th></th>
+        <th>FB?</th>
+        <th>ADM?</th>
+        <th>Username</th>
+        <th>Email Address</th>
+        <th>Joined Date</th>
+        <th>Last Login Date</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% c = 'color2' %>
+      <% @users.each do |u| %>
+        <% c = c == 'color1' ? 'color2' : 'color1' %>
+      <tr data-type-admin="<%= u.is_admin? %>" class="<%= c %>">
+        <td align="center"><%= check_box("select_user","select_user",{ :class=> "selectuser" },u.id) %></td>
+        <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
+        <td align="center" class="admincell"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+        <td><%= u.created_at %></td>
+        <td><%= u.last_login_at %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </form>
+
+<% 
+  emails = []
+  @users.each { |u| emails << u.email }
+%>
+
+<h3>All emails</h3>
+<p>You can select all of the emails joined with a ; by clicking on the text box below. This way you can copy it and email everyone at once!</p>
+<input type="text" value="<%= emails.join ';' %>" id="all-emails" />
+
+<% content_for :javascript do %>
 <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
-
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
 
@@ -52,6 +103,16 @@ $(document).ready(function() {
         }
     }
 
+    function makeSelectedUserCall(url,callback) {
+        var data = getSelectedUsers();
+
+        if(data['selected_users'].length > 0) {
+            $.ajax({ type: 'POST', url: url, data: data, success: callback, dataType: 'json' });
+        } else {
+            alert("You must select at least one person to revoke!")
+        }
+    }
+
     $('input[type=checkbox]').change(function(){
         handleRowChange($(this));
         handleAdminButtonSwitches();
@@ -59,7 +120,7 @@ $(document).ready(function() {
 
     $("#makeadminbtn").click (function(){
         hoptopus.showProgress("Working...");
-        makeSelectedUserCall('<%= makeadmin_admin_users_path %>', function() {
+        makeSelectedUserCall($(this).attr("data-url-path"), function() {
             $(".selectuser:checked").each (function() {
                 var admCell = $(this).parent("td").nextAll(".admincell");
 
@@ -77,7 +138,7 @@ $(document).ready(function() {
 
     $("#revokeadminbtn").click(function() {
         hoptopus.showProgress("Working...");
-        makeSelectedUserCall('<%= revokeadmin_admin_users_path %>', function() {
+        makeSelectedUserCall($(this).attr("data-url-path"), function() {
             $(".selectuser:checked").each (function() {
                 var admCell = $(this).parent("td").nextAll(".admincell").empty();
                 $(this).removeAttr("checked");
@@ -91,18 +152,18 @@ $(document).ready(function() {
 
     $('#disablebtn').click (function(){
         hoptopus.showProgress("Working...");
-        makeSelectedUserCall('<%= disableuser_admin_users_path %>', function() {
+        makeSelectedUserCall('$(this).attr("data-url-path")', function() {
 
         });
     });
 
     $('#deletebtn').click (function() {
 
-        var result = confirm("Are you sure you want to delete these users?")
+        var result = confirm("Are you sure you want to delete these users?");
 
         if (result) {
             hoptopus.showProgress("Working...");
-            makeSelectedUserCall('<%= deleteuser_admin_users_path %>', function() {
+            makeSelectedUserCall($(this).attr("data-url-path"), function() {
                 $(".selectuser:checked").each (function() {
                     $(this).parents("tr").first().remove();
                 });
@@ -111,74 +172,12 @@ $(document).ready(function() {
             });
         }
     });
-
-    function makeSelectedUserCall(url,callback) {
-        var data = getSelectedUsers();
-
-        if(data['selected_users'].length > 0) {
-            $.ajax({ type: 'POST', url: url, data: data, success: callback, dataType: 'json' });
-        } else {
-            alert("You must select at least one person to revoke!")
-        }
-    }
 });
-</script>
-<% end %>
 
-<h2>Manage Users (Count: <%= @users.count %>)</h2>
+hoptopus.ajaxCheckboxes = function (){
 
-<%= form_tag(makeadmin_admin_users_path) %>
+};
 
-  <ul class="navigation">
-    <li><button type="button" name="makeadmin" id="makeadminbtn" value="makeadmin">Make Admin</button></li>
-    <li><button type="button" style="display: none;" name="revokeadmin" id="revokeadminbtn" value="revokeadmin">Revoke Admin</button></li>
-    <li><button type="submit" name="edit" id="editbtn" value="edit">Edit</button></li>
-    <li><button type="button" name="delete" id="deletebtn" value="delete">Delete</button></li>
-    <li><button type="button" name="sendmessage" id="sendmessagebtn" value="sendmessage">Send Message</button></li>
-  </ul>
-
-  <table class="list">
-    <thead>
-      <tr>
-      <th></th>
-        <th>FB?</th>
-        <th>ADM?</th>
-        <th>Username</th>
-        <th>Email Address</th>
-        <th>Joined Date</th>
-        <th>Last Login Date</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-      <% c = 'color2' %>
-      <% @users.each do |u| %>
-        <% c = c == 'color1' ? 'color2' : 'color1' %>
-      <tr data-type-admin="<%= u.is_admin? %>" class="<%= c %>">
-        <td align="center"><%= check_box("select_user","select_user",{ :class=> "selectuser" },u.id) %></td>
-        <td align="center"><%= u.facebook_id ? image_tag('/images/check.png', {}) : nil %></td>
-        <td align="center" class="admincell"><%= u.is_admin? ? image_tag('/images/check.png', {}) : nil  %></td>
-        <td><%= u.username %></td>
-        <td><%= u.email %></td>
-        <td><%= u.created_at %></td>
-        <td><%= u.last_login_at %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  </form>
-
-<% 
-  emails = []
-  @users.each { |u| emails << u.email }
-%>
-
-<h3>All emails</h3>
-<p>You can select all of the emails joined with a ; by clicking on the text box below. This way you can copy it and email everyone at once!</p>
-<input type="text" value="<%= emails.join ';' %>" id="all-emails" />
-
-<% content_for :javascript do %>
-<script type="text/javascript">
 $(function() {
   $('#all-emails').mouseup(function() { this.select(); });
 });
