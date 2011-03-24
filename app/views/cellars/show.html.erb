@@ -343,8 +343,8 @@
 
         $(function() {
             $('#new-beer').bind('click', function() {
-                //window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
-                $('.add-beer').dialog({width:'auto', modal: true});
+                window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
+                //$('.add-beer').dialog({width:'auto', modal: true});
             });
 
             $('#import-beers').bind('click', function(e) {
