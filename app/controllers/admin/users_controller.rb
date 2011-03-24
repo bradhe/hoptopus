@@ -4,7 +4,7 @@ class Admin::UsersController < AdminController
   end
 
   def get_users
-    params["selected_users"];
+    params["values"];
   end
 
   def makeadmin

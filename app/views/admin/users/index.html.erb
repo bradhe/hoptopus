@@ -57,8 +57,38 @@
 <% content_for :javascript do %>
 <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
+<script type="text/javascript" src="/javascripts/hoptopus.ajaxCheckboxes.js"></script>
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
+
+hoptopus.ajaxCheckboxes("makeadminbtn","selectuser", function() {
+    $(".selectuser:checked").each (function() {
+        var admCell = $(this).parent("td").nextAll(".admincell");
+
+        if(admCell.has("img").length == 0) {
+            admCell.prepend(checkmarkImg.clone());
+            $(this).removeAttr("checked");
+            $(this).parents("tr").first().attr("data-type-admin","true");
+            handleRowChange($(this));
+        }
+    });
+});
+
+
+hoptopus.ajaxCheckboxes("revokeadminbtn", "selectuser", function() {
+    $(".selectuser:checked").each (function() {
+        var admCell = $(this).parent("td").nextAll(".admincell").empty();
+        $(this).removeAttr("checked");
+        $(this).parents("tr").first().attr("data-type-admin","false");
+        handleRowChange($(this));
+    });
+});
+
+hoptopus.ajaxCheckboxes("deletebtn", "selectuser", function() {
+    $(".selectuser:checked").each (function() {
+        $(this).parents("tr").first().remove();
+    });
+});
 
     var checkmarkImg = $("<img />").attr("src" ,"/images/check.png");
 
@@ -117,66 +147,7 @@ $(document).ready(function() {
         handleRowChange($(this));
         handleAdminButtonSwitches();
     });
-
-    $("#makeadminbtn").click (function(){
-        hoptopus.showProgress("Working...");
-        makeSelectedUserCall($(this).attr("data-url-path"), function() {
-            $(".selectuser:checked").each (function() {
-                var admCell = $(this).parent("td").nextAll(".admincell");
-
-                if(admCell.has("img").length == 0) {
-                    admCell.prepend(checkmarkImg.clone());
-                    $(this).removeAttr("checked");
-                    $(this).parents("tr").first().attr("data-type-admin","true");
-                    handleRowChange($(this));
-                }
-            });
-
-            hoptopus.hideProgress();
-        });
-    });
-
-    $("#revokeadminbtn").click(function() {
-        hoptopus.showProgress("Working...");
-        makeSelectedUserCall($(this).attr("data-url-path"), function() {
-            $(".selectuser:checked").each (function() {
-                var admCell = $(this).parent("td").nextAll(".admincell").empty();
-                $(this).removeAttr("checked");
-                $(this).parents("tr").first().attr("data-type-admin","false");
-                handleRowChange($(this));
-            });
-
-            hoptopus.hideProgress();
-        });
-    });
-
-    $('#disablebtn').click (function(){
-        hoptopus.showProgress("Working...");
-        makeSelectedUserCall('$(this).attr("data-url-path")', function() {
-
-        });
-    });
-
-    $('#deletebtn').click (function() {
-
-        var result = confirm("Are you sure you want to delete these users?");
-
-        if (result) {
-            hoptopus.showProgress("Working...");
-            makeSelectedUserCall($(this).attr("data-url-path"), function() {
-                $(".selectuser:checked").each (function() {
-                    $(this).parents("tr").first().remove();
-                });
-
-                hoptopus.hideProgress();
-            });
-        }
-    });
 });
-
-hoptopus.ajaxCheckboxes = function (){
-
-};
 
 $(function() {
   $('#all-emails').mouseup(function() { this.select(); });
