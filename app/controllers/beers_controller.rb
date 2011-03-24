@@ -75,6 +75,7 @@ class BeersController < ApplicationController
         # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
+        format.json { render :json => @beer }
       else
         # Format the dates because fuck it sucks to do in views
         @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
@@ -85,6 +86,7 @@ class BeersController < ApplicationController
 		
         format.html { render :action => "new" }
         format.xml  { render :xml => @beer.errors, :status => :unprocessable_entity }
+        format.json { render :json => @beer.errors, :status => :unprocessable_entity }
       end
     end
   end
