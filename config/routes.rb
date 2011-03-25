@@ -37,7 +37,10 @@ Hoptopus::Application.routes.draw do
   namespace 'admin' do
     resources :users do
       collection do
-         post 'makeadmin'
+        post 'makeadmin'
+        post 'revokeadmin'
+        post 'deleteuser'
+        post 'disableuser'
       end
     end
 

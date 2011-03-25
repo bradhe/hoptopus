@@ -828,6 +828,15 @@ li.connect span.or {
 .sub.field {
   margin-left: 130px;
   margin-top: 4pt; }
+<<<<<<< HEAD
+=======
+
+.rowselected {
+  background-color: white; }
+
+.add-beer {
+  display: none; }
+>>>>>>> 7aef33d2a4abbc6ec046e3cb49ed42a9034465b7
 
 .add-beer textarea {
   height: 132px; }
@@ -839,6 +848,7 @@ li.connect span.or {
 
 select.beers.dropdown {
   width: 100%; }
+<<<<<<< HEAD
 
 .hidden {
   display: none; }
@@ -862,3 +872,5 @@ select.beers.dropdown {
 
 .ui-paged-dialog .buttons a.selected {
   background-color: #ffe9a8; }
+=======
+>>>>>>> 7aef33d2a4abbc6ec046e3cb49ed42a9034465b7

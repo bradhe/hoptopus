@@ -14,10 +14,14 @@ class Cellar < ActiveRecord::Base
     
     return Cellar.where(:user_id => user.id).first
   end
+
+  def self.find_by_username(username)
+    return Cellar.find_by_user User.find_by_username(username)
+  end
   
   def breweries
-	s = Set.new
-	brews.each { |b| s << b.brewery_id }
-	Brewery.order('name').where('id IN (?)', s.to_a).all
+    s = Set.new
+    brews.each { |b| s << b.brewery_id }
+    Brewery.order('name').where('id IN (?)', s.to_a).all
   end
 end
