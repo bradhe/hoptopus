@@ -6,8 +6,6 @@
     <% end %>
 <% end %>
 
-<%= render 'beers/add' %>
-
 <div class="profile-info clearfix">
   <%= gravatar_for @cellar.user, :class => "gravatar", :align => 'left' %>
 
@@ -78,6 +76,7 @@
     <button type="button" id="clear-filters">Clear Filters</button>
   </div>
 
+  <%= form_tag(cellar_path(@cellar.user.username), :id => 'edit-cellar') %>
   <table class="beers list" id="cellared-beers">
     <thead>
     <tr>
@@ -127,7 +126,7 @@
             <tr data-beer="<%= b.id %>" class="<%= c %>">
               <% if is_logged_in? %>
                   <td align="center" valign="middle">
-                    <input type="checkbox" name="selected_beers" value="<%= b.id %>"/>
+                    <input type="checkbox" name="beer_id" value="<%= b.id %>"/>
                   </td>
               <% end %>
               <td align="right" class="year"><%= b.year %></td>
@@ -149,7 +148,8 @@
         </tr>
         </tfoot>
     <% end %>
-  </table>
+    </table>
+  </form>
 </div>
 
 <h2 data-tab-handle="tastings">Tasting Notes</h2>
@@ -263,8 +263,16 @@
           </div>
       <% end %>
     </div>
-<% end %>
 
+    <div class="hidden">
+    <div id="add-beer-form">
+        <%= render 'beers/add', :beer => Beer.new(:cellar => @cellar, :cellared_at => Time.now),
+                   :url => cellar_beers_path(@cellar),
+                   :form_element_prefix => 'beer',
+                   :include_form => true %>
+    </div>
+    </div>
+<% end %>
 
 <% content_for :javascript do %>
     <% if is_users_cellar? %>
@@ -313,7 +321,9 @@
     <% end %>
     <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
     <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
-
+    <script type="text/javascript" src="/javascripts/jquery.dynamicForm.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.pagedDialog.js"></script>
+    
     <script type="text/javascript">
         function makeSortable() {
             var table = $('#cellared-beers');
@@ -342,11 +352,6 @@
         }
 
         $(function() {
-            $('#new-beer').bind('click', function() {
-                window.location.href = '<%= new_cellar_beer_path(@cellar) %>';
-                //$('.add-beer').dialog({width:'auto', modal: true});
-            });
-
             $('#import-beers').bind('click', function(e) {
                 $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
             });
@@ -378,7 +383,37 @@
             grid.rowsShown = 25;
             grid.rowClasses = ['color1', 'color2'];
 
-            // Note: This has to happen here because we have to use the useableBeers
+            $('#new-beer').bind('click', function() {
+                var dialog = $('#add-beer-form');
+                dialog.dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Add a Beer to your Cellar'});
+                
+                dialog.find('form').dynamicForm({
+                    errorListSelector: '#add-beer-form ul.errors',
+                    submitStart: function() {
+                        hoptopus.showProgress('Adding...')
+                    },
+                    submitDone: function() {
+                        alert('DONE');
+                        hoptopus.hideProgress();
+                    },
+                    success: function(data) {
+                        dialog.dialog('close');
+                        
+                        // Add this silly row to the silly thing.
+                        // TODO: Remove this stupid de-referencing!
+                        var tr = grid.addSingleObject(data.beer, {front:true});
+
+                        // We need to pulse the TR to make it obvious what it is.
+                        var bg = tr[0].style.backgroundColor;
+                        tr.effect('highlight', {color:'#85af22'}, 1500);
+                        
+                        dialog.find('form').each(function() { this.reset(); });
+                        dialog.find('ul.errors').empty();
+                    }
+                });
+            });
+
+            // Note: This has to happen here because we have to use the useable Beers
             // thinger.
             $('#show-more').click(function() {
                 // Grab 25 beers off the list and stick them in the table.
@@ -409,24 +444,31 @@
 
             $('#cellared-beers input[type="checkbox"]').click(function() {
                 var checked = $('#cellared-beers input[type="checkbox"]:checked');
+                var editBeers = $('#edit-beers');
 
-                if (checked.length == 1) {
-                    $('#edit-beers').removeAttr('disabled');
-                }
-                else {
-                    $('#edit-beers').attr('disabled', true);
+                if (editBeers.is(':disabled') && checked.length > 0) {
+                    editBeers.removeAttr('disabled');
                 }
             });
 
+            var editCellar = $('#edit-cellar').dynamicForm({
+                success: function(data) {
+                    $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto' } });
+                },
+                error: function() {
+                    alert('AWW YAAA');
+                },
+                submitStart: function () {
+                    hoptopus.showProgress('Loading...');
+                },
+                submitDone: function() {
+                    hoptopus.hideProgress();
+                },
+                responseType: 'html'
+            });
+
             $('#edit-beers').click(function() {
-                var cellarId = <%= @cellar.id %>;
-                var checked = $('#cellared-beers input[type="checkbox"]:checked');
-
-                if (checked.length != 1) {
-                    throw "Can only have one check box checked.";
-                }
-
-                window.location.href = '/cellars/' + cellarId + '/beers/' + checked[0].value + '/edit';
+                editCellar[0].submit('<%= edit_cellar_beers_path(@cellar.user.username) %>');
             });
         });
     </script>

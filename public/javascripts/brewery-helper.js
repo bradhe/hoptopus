@@ -12,12 +12,12 @@ function findBrew(brewId) {
 	}
 }
 
-$('select#brewery').live('change', function() {
+$('select#brewery, select#beer_brewery_id').live('change', function() {
 	var selectBrews = $('select#beer_brew_id');
 	var button = $('#add-beer');
 	
 	if(!selectBrews) {
-		throw "Couldn't find brews list. Ass.";
+		throw "Couldn't find brews list.";
 	}
 	
 	if($(this).val() == '') {

@@ -93,6 +93,18 @@ $(function() {
 			$(this).removeClass('open');
 		});
 	});
+
+    $('button[data-close-dialog]').bind('click', function() {
+        $(this).parents('div.ui-dialog-content').dialog('close');
+        var form = $(this).parents('form').first();
+
+        if(form.length > 0) {
+            form[0].reset();
+        }
+
+        // TODO: Fix this hack -- this is stupid.
+        $(form).find('ul.errors').empty();
+    });
 	
 	$('body').click(function(e) {
 		$('input.open').closeDropdown();

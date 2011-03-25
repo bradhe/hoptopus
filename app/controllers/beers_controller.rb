@@ -46,14 +46,28 @@ class BeersController < ApplicationController
 
   # GET /beers/1/edit
   def edit
-    @beer = Beer.find(params[:id])
+    @cellar = Cellar.find_by_user User.find_by_username(params[:cellar_id])
     
-    # Format the dates because fuck it sucks to do in views
-    @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
-    @formatted_cellared_at = @beer.cellared_at ? @beer.cellared_at.strftime("%Y-%m-%d") : ''
+    if request.post?
+      unless params.has_key? :beer_id
+        raise ArgumentError "Beer IDs are missing. You need to specify the IDs of beers you want to operate on."
+      end
 
-    @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
-    @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+      @beers = params[:beer_id].map { |i| Beer.find i }
+
+      respond_to do |format|
+        format.html { render :partial => 'beers/multiedit' }
+      end
+    else
+      @beer = Beer.find(params[:id])
+
+      # Format the dates because fuck it sucks to do in views
+      @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
+      @formatted_cellared_at = @beer.cellared_at ? @beer.cellared_at.strftime("%Y-%m-%d") : ''
+
+      @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+      @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
+    end
   end
 
   # POST /beers
@@ -70,8 +84,20 @@ class BeersController < ApplicationController
     if params[:beer][:price] =~ /^\$/
       params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
     end
-    
+
+    # If a brew and brewery ID exist in the params then we should load it up
+    if params[:beer].has_key? :brew_id and not params[:beer][:brew_id].blank?
+      brew = Brew.find(params[:beer][:brew_id])
+      params[:beer].delete(:brew_id)
+    elsif params[:beer].has_key? :brew_id and params[:beer][:brew_id].blank?
+      params[:beer].delete(:brew_id)
+    end
+
+    # We just need to ignore any brewery ids sent across for now. We get brewery from brew.
+    params[:beer].delete(:brewery_id) if params[:beer].has_key? :brewery_id
+
     @beer = @cellar.beers.new(params[:beer])
+    @beer.brew = brew unless brew.nil?
     
     if @beer.valid?
       @beer.name = @beer.brew.name
@@ -89,6 +115,7 @@ class BeersController < ApplicationController
         # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
+        format.json { render :json => @beer }
       else
         # Format the dates because fuck it sucks to do in views
         @formatted_finish_aging_at = @beer.finish_aging_at ? @beer.finish_aging_at.strftime("%Y-%m-%d") : ''
@@ -99,6 +126,7 @@ class BeersController < ApplicationController
 		
         format.html { render :action => "new" }
         format.xml  { render :xml => @beer.errors, :status => :unprocessable_entity }
+        format.json { render :json => @beer.errors, :status => :unprocessable_entity }
       end
     end
   end

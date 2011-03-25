@@ -10,6 +10,11 @@ Hoptopus::Application.routes.draw do
     end
     
     resources :beers do
+      collection do
+        post :edit
+        put :update
+      end
+
       resources :comments, :only => [:update, :destroy, :create]
       resources :tastings, :only => [:new, :create]
     end

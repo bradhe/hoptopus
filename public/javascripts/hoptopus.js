@@ -20,7 +20,7 @@ var hoptopus = (function($) {
         span.append($(progressImg));
         span.append(text);
     
-        var left = ($(window).width() / 2) - (span.outerWidth() / 2)
+        var left = ($(window).width() / 2) - (span.outerWidth() / 2);
         span.css('left', left);
 
         span.hide();
