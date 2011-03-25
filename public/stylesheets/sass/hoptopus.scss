@@ -1028,7 +1028,6 @@ li.connect span.or {
   margin-right: auto;
 }
 
-<<<<<<< HEAD
 .add-beer.left {
     width: 400px;
 }
@@ -1040,10 +1039,6 @@ li.connect span.or {
 .sub.field {
     margin-left: 130px;
     margin-top: 4pt;
-}
-
-.add-beer {
-    display: none;
 }
 
 .add-beer textarea {
@@ -1058,4 +1053,34 @@ li.connect span.or {
 
 select.beers.dropdown {
     width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.ui-paged-dialog .buttons {
+    text-align: center;
+}
+
+.ui-paged-dialog .buttons.submit {
+    text-align: right;
+}
+
+.ui-paged-dialog .buttons a {
+    display: inline-block;
+    padding: 2px;
+    padding-left: 5pt;
+    padding-right: 5pt;
+
+    background-color: #ebebeb;
+    border: 1px #ccc solid;
+}
+
+.ui-paged-dialog .buttons button, .ui-paged-dialog .buttons a {
+    margin-right: 5pt;
+}
+
+.ui-paged-dialog .buttons a.selected {
+    background-color: $brown;
 }
