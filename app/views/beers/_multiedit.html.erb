@@ -1,7 +1,7 @@
 <% form_tag cellar_beers_path(@cellar.user.username) do %>
     <% @beers.each do |beer| %>
 <div class="edit beer" data-id="<%= beer.id %>">
-  <%= render 'beers/add', :beer => Beer.new(:cellar => @cellar, :cellared_at => Time.now),
+  <%= render 'beers/add', :beer => beer,
            :url => cellar_beers_path(@cellar),
            :form_element_prefix => "beer[#{beer.id}]",
            :include_form => false %>

@@ -1038,17 +1038,11 @@ li.connect span.or {
 
 .sub.field {
     margin-left: 130px;
-<<<<<<< HEAD
     margin-top: 4pt;
-=======
     margin-top: 4pt; }
 
 .rowselected{
   background-color: $selected_row_color;
-
-.add-beer {
-    display: none;
->>>>>>> 7aef33d2a4abbc6ec046e3cb49ed42a9034465b7
 }
 
 .add-beer textarea {
@@ -1093,4 +1087,8 @@ select.beers.dropdown {
 
 .ui-paged-dialog .buttons a.selected {
     background-color: $brown;
+}
+
+.ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
+    outline: none;
 }
