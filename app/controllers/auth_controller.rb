@@ -1,40 +1,45 @@
 class AuthController < ApplicationController
   include ApplicationHelper
   
+<<<<<<< HEAD
 	def login
 	  @user = User.authenticate_without_password_hash(params[:user_email], params[:password])
+=======
+  def login
+    @user = User.authenticate_without_password_hash(params[:email], params[:password])
+>>>>>>> dev
 
-	  unless @user.nil?
-	    login_user @user
-	    redirect_to cellar_path @user.username
-	  end
-	end
-	
-	def logout
-	  session[:user_id] = nil
-	  redirect_to root_path
-	end
-	
-	def register
-		@new_user = User.new 
+    unless @user.nil?
+      login_user @user
+      redirect_to cellar_path @user.username
+    end
+  end
+  
+  def logout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+  
+  def register
+    @new_user = User.new 
     
-		if request.post?
-			@new_user = User.new(params[:user])
+    if request.post?
+      @new_user = User.new(params[:user])
 
-			if @new_user.valid? and @new_user.save
+      if @new_user.valid? and @new_user.save
         login_user @new_user
-				
-				# Also create a cellar for this user.
-				cellar = Cellar.new(:user => @new_user)
-				cellar.save
+        
+        # Also create a cellar for this user.
+        cellar = Cellar.new(:user => @new_user)
+        cellar.save
         
         # Alert that there was a registration
         Notifications.user_registered(@new_user).deliver
 
-				redirect_to cellar_path @new_user.username
-			end
-		end
-	end
+        redirect_to cellar_path @new_user.username
+      end
+    end
+  end
 
   def request_password_reset
     if request.post? 
