@@ -14,11 +14,8 @@
   <% @login_postback_url ||= '/login' %>
   
 	<% form_tag @login_postback_url, :method => 'post' do %>
-<<<<<<< HEAD
-		<div class="field"><%= label_tag :username, "E-Mail Address:" %> <%= text_field_tag :user_email %></div>
-=======
 		<div class="field"><%= label_tag :email, "E-Mail Address:" %> <%= text_field_tag :email %></div>
->>>>>>> dev
+
 		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 
 		<div class="buttons">
