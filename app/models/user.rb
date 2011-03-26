@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
     Digest::SHA256.hexdigest(password)
   end
   
-  def self.authenticate_without_password_hash(user_email, password)
+  def self.authenticate_without_password_hash(email, password)
     if password.nil? or password.empty?
       return nil
     end
@@ -68,11 +68,11 @@ class User < ActiveRecord::Base
     # Just hash the fucker and get outta here.
     password_hash = Digest::SHA256.hexdigest(password)
 
-    return authenticate_with_password_hash(user_email, password_hash)
+    return authenticate_with_password_hash(email, password_hash)
   end
 
-  def self.authenticate_with_password_hash(user_email, password_hash)
-    return find(:first, :conditions => "email = '#{user_email}' AND password_hash = '#{password_hash}'")
+  def self.authenticate_with_password_hash(email, password_hash)
+    return find(:first, :conditions => "email = '#{email}' AND password_hash = '#{password_hash}'")
   end
   
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
