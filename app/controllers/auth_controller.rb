@@ -1,13 +1,8 @@
 class AuthController < ApplicationController
   include ApplicationHelper
   
-<<<<<<< HEAD
-	def login
-	  @user = User.authenticate_without_password_hash(params[:user_email], params[:password])
-=======
   def login
     @user = User.authenticate_without_password_hash(params[:email], params[:password])
->>>>>>> dev
 
     unless @user.nil?
       login_user @user
