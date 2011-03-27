@@ -30,7 +30,11 @@ class BeersControllerTest < ActionController::TestCase
     assert_response :success
     
     # Now load these beers and make sure their values are different.
-    assert_equal '1.50', beers(:beer_001).abv
-    assert_equal '10', beers(:beer_002).quantity
+    assert_equal 1.50, Beer.find(2).abv
+    assert_equal 10, Beer.find(3).quantity
+  end
+
+  test "when submitting multiple beers and there is errors in one then it should return those errors" do
+    
   end
 end

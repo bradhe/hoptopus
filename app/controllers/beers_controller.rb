@@ -124,14 +124,15 @@ class BeersController < ApplicationController
       end
       
       beers = params[:beer].map { |k,v| Beer.find k }
-      errors = beers.map { |b| {b.id => b.errors} unless b.update_attributes(params[:beer][b.id]) }
-      
-      logger.debug "Errors in updates: #{errors.length}"
+      errors = beers.map { |b| {b.id => b.errors} unless b.update_attributes(params[:beer][b.id.to_s]) }
+
+      # Remove any nil entries from errors. This occurs when there a save is successful.
+      errors.delete_if { |i| i.nil? }
       
       respond_to do |format|
         if errors.empty?
           # No errors, hurray!
-          format.json { render :nothing, :status => :success }
+          format.json { render :nothing => true, :status => :ok }
         else
           format.json { render :json => { :errors => errors }, :status => :unprocessable_entity }
         end
