@@ -39,4 +39,12 @@ class Notifications < ActionMailer::Base
       format.html
     end
   end
+
+  def send_confirmation_request(confirmation_request)
+    @confirmation_request = confirmation_request
+    
+    mail(:subject => "Confirm your Hoptopus account!", :to => confirmation_request.user.email) do |format|
+      format.html
+    end
+  end
 end

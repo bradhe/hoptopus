@@ -22,8 +22,10 @@ class UsersController < ApplicationController
   end
 
   def send_confirmation
+    # Previous requests need to be set to expired.
+    ConfirmationRequest.where(:user_id => @user.id).each { |c| c.expired = true; c.save }
     @confirmation_request = ConfirmationRequest.create :user => @user, :confirmation_code => Digest::SHA1.hexdigest(Time.now.to_s)
 
-    # Previous requests need to be set to expired.
+    
   end
 end
