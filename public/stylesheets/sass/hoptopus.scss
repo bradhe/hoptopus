@@ -1,6 +1,7 @@
 $green: #85af22;
 $brown: #FFE9A8;
 $selected_row_color: #FFFFFF;
+$content_width: 900px;
 
 html { height: 101%; }
 
@@ -223,7 +224,7 @@ h2.tastings {
 }
 
 #content {
-	width: 900px;
+	width: $content_width;
 	min-height: 500px;
 }
 
@@ -362,7 +363,19 @@ div.navigation, div.alert {
     height: auto;
 }
 
-h3 {
+fieldset {
+    width: $content_width / 2 - 10px;
+    float: left;
+    border: none;
+    padding-top: 7pt;
+    padding-left: 5pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+fieldset legend, h3 {
+    font-size: 15px;
+    font-weight: bold;
 	margin-top: 5pt;
 	margin-bottom: 5pt;
 	color: #666;
@@ -1091,3 +1104,5 @@ select.beers.dropdown {
 .ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
     outline: none;
 }
+
+@import "preferences";

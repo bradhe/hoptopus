@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       
       # Update the last login date for this guy
       user.last_login_at = Time.now
-      user.save!
+      user.save :validates => false
     end
   end
 

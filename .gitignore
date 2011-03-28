@@ -6,4 +6,4 @@ tmp/**/*
 tmp/Rack*
 tmp/sass-cache*
 .sass-cache
-public/stylesheets/hoptopus.css
+*.css

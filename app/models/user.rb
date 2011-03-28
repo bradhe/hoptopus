@@ -4,7 +4,9 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :alerts
   has_and_belongs_to_many :roles
-  
+
+  validates_presence_of :first_name, :message => 'Please provide a first name'
+  validates_presence_of :last_name, :message => 'Please provide a last name'
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
   validates_length_of :username, :in => 4..16, :message => 'Usernames must be between 4 and 16 characters long.'
@@ -16,7 +18,9 @@ class User < ActiveRecord::Base
   # We do not want to do these for OAuth clients
   validates_presence_of :password_hash, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
   validates_confirmation_of :password_hash, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be atleast 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+
+  validates_confirmation_of :email, :message => 'Emails do not match.'
   
   before_create do
     if password_hash

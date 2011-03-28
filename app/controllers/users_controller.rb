@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   def update
     @user = User.find params[:id]
+    if(params[:user][:email].blank? and params[:user][:confirm].blank?)
+      params[:user].delete :email
+      params[:user].delete :email_confirmation
+    end
     
     if params[:user][:state].nil?
       @user.state = nil

@@ -218,50 +218,11 @@
     </div>
 
     <h2 data-tab-handle="preferences">Preferences</h2>
+
     <div id="preferences">
-      <%= form_for(@user) do |f| %>
-          <div class="field">
-            <%= f.check_box :should_show_own_events %>
-            <%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
-          </div>
 
-          <div class="field">
-            <%= f.check_box :email_consent %>
-            <%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'checkbox-label' %>
-          </div>
+    <%= render 'users/editform' %>
 
-          <div class="field">
-            <%= f.check_box :should_receive_email_notifications %>
-            <%= f.label :should_receive_email_notifications, "Receive notifications about comments and stuff via email?", :class => 'checkbox-label' %>
-          </div>
-
-
-          <h3>Location</h3>
-          <% Carmen.excluded_states = {'US' => ['AE']} %>
-          <div class="field">
-            <%= f.label :country, 'Country:' %>
-            <%= f.select :country, countries_list %>
-          </div>
-
-          <div class="field">
-            <%= f.label :state, 'State/Province:' %>
-
-            <% unless @user.state.nil? %>
-                <%= f.select :state, Carmen.states %>
-            <% else %>
-                <%= f.select :state, [], {:include_blank => 'No states available for this country.'}, :disabled => true %>
-            <% end %>
-          </div>
-
-          <div class="field">
-            <%= f.label :city, 'City:' %>
-            <%= f.text_field :city %>
-          </div>
-
-          <div class="buttons">
-            <button type="submit" id="save-preferences">Save Preferences</button>
-          </div>
-      <% end %>
     </div>
 
     <div class="hidden">
