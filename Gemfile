@@ -20,8 +20,9 @@ gem 'log4r'
 gem 'mocha'
 gem 'haml'
 
+
 # No SystemTimer gem on windows.
-unless RUBY_PLATFORM =~ /win/
+unless RUBY_PLATFORM =~ /win|ming/
   gem 'SystemTimer'
 end
 
