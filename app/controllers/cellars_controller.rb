@@ -149,14 +149,6 @@ class CellarsController < ApplicationController
       :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' }
     }
 
-    if @user == @cellar.user
-      @new_beer = Beer.new
-      
-      if params[:beer]
-        @new_beer.brew = Brew.find(params[:beer])
-      end
-    end
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @cellar }

@@ -128,11 +128,20 @@ class BeersController < ApplicationController
 
       # Remove any nil entries from errors. This occurs when there a save is successful.
       errors.delete_if { |i| i.nil? }
+
+      # Also, errors need to be hashes and not an array
+      errors_copy = {}
+
+      errors.each do |a|
+        errors_copy[a.keys[0]] = a[a.keys[0]]
+      end
+
+      errors = errors_copy
       
       respond_to do |format|
         if errors.empty?
-          # No errors, hurray!
-          format.json { render :nothing => true, :status => :ok }
+          # No errors, hurray! We have to render SOMETHING tho or else jQuery gets all pissy.
+          format.json { render :json => {:success => true}, :status => :ok }
         else
           format.json { render :json => { :errors => errors }, :status => :unprocessable_entity }
         end

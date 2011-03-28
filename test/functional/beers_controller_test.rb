@@ -6,7 +6,7 @@ class BeersControllerTest < ActionController::TestCase
 
     assert_response :success
     assert assigns(:beers)
-    
+
     # should load 2 beers
     assert_equal 2, assigns(:beers).length
   end
@@ -34,7 +34,38 @@ class BeersControllerTest < ActionController::TestCase
     assert_equal 10, Beer.find(3).quantity
   end
 
-  test "when submitting multiple beers and there is errors in one then it should return those errors" do
-    
+  test "validators should be applied to all entities submitted for update" do
+    # Update beers with ID 2. ABV must be a number.
+    beers_hash = { '2' => { :abv => 'asdf', :quantity => 'asdfasdf' } }
+
+    # Put updates should be JSON-y
+    put :update, { :format => :json, :cellar_id => 'valid_user', :beer => beers_hash }, { :user_id => 1}
+
+    assert_response :unprocessable_entity
+
+    # Make sure that this is json
+    json = nil
+    p @response.body
+    begin
+      json = JSON.parse @response.body
+    rescue
+      # Just swallow the exception
+    end
+
+    assert_not_nil json, "Error response must be JSON"
+
+    # There should be an "errors" item in the json payload
+    assert json.has_key? 'errors'
+
+    if json.has_key? 'errors'
+      # Also assert that errors is an array
+      assert_equal json['errors'].class, Hash
+
+      # Should have an error for 2.
+      assert json['errors'].has_key? '2'
+
+      # Should have an error for ABV in hash with key 2
+      assert json['errors']['2'].has_key? 'abv'
+    end
   end
 end

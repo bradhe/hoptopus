@@ -43,17 +43,17 @@
 
         <div class="field">
             <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
-            <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date" %>
+            <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date cellared_at" %>
         </div>
 
         <div class="field">
             <%= label_tag "#{form_element_prefix}[finish_aging_at]", "Age For:" %>
           
-            <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, (beer.finish_aging_at.year unless beer.finish_aging_at.nil?)) %> years
-            <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, (beer.finish_aging_at.month unless beer.finish_aging_at.nil?)) %> months
+            <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, ((beer.finish_aging_at.year - beer.cellared_at.year) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_year' %> years
+            <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, ((beer.finish_aging_at.month - beer.cellared_at.month) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_month' %> months
 
             <div class="sub field">
-              <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date" %>
+              <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at" %>
             </div>
         </div>
     </div>
@@ -73,11 +73,13 @@
         </div>
     </div>
 </div>
-    
+
+<% if include_buttons %>
 <div class="buttons submit">
     <button type="button" data-close-dialog>Cancel</button>
     <button type="submit">Add Beer to Cellar</button>
 </div>
+<% end %>
 
 <% if include_form %>
 </form>

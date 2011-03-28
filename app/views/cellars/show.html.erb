@@ -50,7 +50,7 @@
           activity.
         </li>
     <% else %>
-        <% @cellar.user.events.each do |e| %>
+        <% @cellar.user.events.first(15).each do |e| %>
             <%== render_event e %>
         <% end %>
     <% end %>
@@ -67,7 +67,7 @@
           <button type="button" id="new-beer">Add</button>
           <button type="button" id="import-beers">Import</button>
           <button type="button" id="edit-beers" disabled>Edit</button>
-          <!--<button type="button" id="check-out-beers-button" disabled>Check Out</button>-->
+          <!--<button type="button" id="check-out-beers" disabled>Check Out</button>-->
         </div>
     <% end %>
 
@@ -269,7 +269,8 @@
         <%= render 'beers/add', :beer => Beer.new(:cellar => @cellar, :cellared_at => Time.now),
                    :url => cellar_beers_path(@cellar),
                    :form_element_prefix => 'beer',
-                   :include_form => true %>
+                   :include_form => true,
+                   :include_buttons => true %>
     </div>
     </div>
 <% end %>
@@ -393,7 +394,6 @@
                         hoptopus.showProgress('Adding...')
                     },
                     submitDone: function() {
-                        alert('DONE');
                         hoptopus.hideProgress();
                     },
                     success: function(data) {
@@ -453,7 +453,83 @@
 
             var editCellar = $('#edit-cellar').dynamicForm({
                 success: function(data) {
-                    $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto' } });
+                    var dialogs = $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto', modal: true, resizable: false, title: 'Edit Beers'} });
+                    setupDatePickers();
+                  
+                    var dialog = dialogs[0];
+
+                    // Before the previous button lets insert a bunch of buttons.
+                    var div = $('<div/>').addClass('submit buttons');
+                    var cancelButton = $('<button/>').text('Cancel').click(function() { dialog.close(); }).attr('type', 'button');
+                    var submitButton = $('<button/>').text('Save Beers');
+
+                    div.append(cancelButton);
+                    div.append(submitButton);
+                    $(dialog.prevButton).before(div);
+
+                    // Also, this data should be a dynamic form.
+                    var form = $(dialog.dialog).find('form').first();
+                    var dynamicForm = $(form).dynamicForm({
+                        submitStart: function() {
+                          hoptopus.showProgress('Saving...');
+                        },
+                        submitDone: function() {
+                          hoptopus.hideProgress();
+                        },
+                        success: function(data) {
+                          dialog.close();
+                        },
+                        error: function(errors) {
+                          // Indirection for great victory!
+                          errors = errors['errors'];
+
+                          var errorsDiv= $('<div/>').addClass('errors').html('Some of your updates contain errors! The beers without errors have been saved and removed.<br/>The beers with errors remain here.');
+                          errorsDiv.hide();
+                          $(dialog.prevButton).parent().after(errorsDiv);
+                          errorsDiv.fadeIn('fast');
+
+                          // For each of the errors in the dialog, figure out which ones have errors and which ones don't.
+                          // then rebuild the links at the bottom of the page.
+                          var elements = $(dialog.dialog).find('div.edit.beer');
+                          var l = elements.length;
+                          for(var i = 0; i < l; i++) {
+                              var element = elements[i];
+                              var id = $(element).attr('data-id');
+
+                              if(!id) {
+                                  throw "ID attribute missing from page element.";
+                              }
+
+                              if(id in errors) {
+                                // If there is an errors UL, then empty it and put the errors in. Otherwise,
+                                // create one and add to the errors.
+                                var ul = $(element).find('ul.errors') || $('<ul/>').addClass('errors');
+                                ul.empty();
+
+                                for(var j in errors[id]) {
+                                  ul.append($('<li/>').text(errors[id][j]));
+                                }
+                              }
+                              else {
+                                // Not here, just get rid of it.
+                                $(element).remove();
+                              }
+                          }
+
+                          // Now rebuild all of the links and show the first page.
+                          dialog.rebuildLinks($(dialog.dialog).find('div.edit.beer'));
+
+                          $(dialog.dialog).find('input, select').one('focus', function() {
+                            window.setTimeout(function() {
+                              $(errorsDiv).fadeOut('fast', function() { $(this).remove(); });
+                            }, 1500);
+                          });
+                        }
+                    });
+
+                    submitButton.click(function() {
+                        return dynamicForm[0].submit('<%= cellar_beers_path(@cellar.user.username) %>');
+                    });
                 },
                 error: function() {
                     alert('AWW YAAA');

@@ -4,6 +4,6 @@ db/*.sqlite3
 log/*.log
 tmp/**/*              
 tmp/Rack*
-tmp/sass-cache*
+tmp/*
 .sass-cache
 public/stylesheets/hoptopus.css
