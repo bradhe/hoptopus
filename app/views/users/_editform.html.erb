@@ -36,7 +36,7 @@
   <%= field_set_tag "Location", :class => "preferencegroup" do %>
 
     <div id="preferencelocation">
-      <% Carmen.excluded_states = {'US' => ['AE']} %>
+      <% Carmen.excluded_states = {'US' => ['AE','AA']} %>
       <div class="field">
         <%= f.label :country, 'Country:' %>
         <%= f.select :country, countries_list %>

@@ -1,110 +1,90 @@
 <% content_for :title do %>
-	register
+  register
 <% end %>
 
 
 <h2>Create your hoptopus account!</h2>
 
 <% if request.post? and not @new_user.errors.empty? %>
-<ul class="errors">
-	<% @new_user.errors.each do |element,msg| %>
-		<li><%= msg %></li>
-	<% end %>
-</ul>
+  <ul class="errors">
+    <% @new_user.errors.each do |element, msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
 <% end %>
 
-<% Carmen.excluded_states = { 'US' => ['AE'] } %>
+<% Carmen.excluded_states = {'US' => ['AE']} %>
 
 <% form_for(@new_user, :url => register_path) do |f| %>
-	<div class="field">
-		<%= f.label :email, "Email Address:" %>
-		<%= f.email_field :email %>
-	</div>
 
-    <div class="field">
-		<%= f.label :first_name, "First Name:" %>
-		<%= f.text_field :first_name %>      
-    </div>
+  <div class="field">
+    <%= f.label :username, "Username:" %>
+    <%= f.text_field :username %>
+  </div>
 
-    <div class="field">
-		<%= f.label :last_name, "Last Name:" %>
-		<%= f.text_field :last_name %>
-    </div>
-	
-	<div class="field">
-		<%= f.label :username, "Username:" %>
-		<%= f.text_field :username %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :password_hash, "Password:" %>
-		<%= f.password_field :password_hash %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :password_hash, "Confirm Password:" %>
-		<%= f.password_field :password_hash_confirmation %>
-	</div>
-	
-	<h3>Location</h3>
-	<div class="field">
-		<%= f.label :country, 'Country:' %> 
-		<%= f.select :country, Carmen.countries, :selected => 'US' %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :state, 'State/Province:' %>
-		<%= f.select :state, options_for_select(Carmen.states) %>
-	</div>
-	
-	<div class="field">
-		<%= f.label :city, 'City:' %>
-		<%= f.text_field :city %>
-	</div>
-	
-	<div class="field">
-		<%= f.check_box :email_consent %>
-		<%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'checkbox-label' %>
-	</div>
-	
-	<div class="buttons">
-		<%= submit_tag 'Register' %> 
-	</div>
+  <div class="field">
+    <%= f.label :email, "Email Address:" %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email, "Confirm Email:" %>
+    <%= f.email_field :email_confirmation %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_hash, "Password:" %>
+    <%= f.password_field :password_hash %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_hash, "Confirm Password:" %>
+    <%= f.password_field :password_hash_confirmation %>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :email_consent %>
+    <%= f.label :email_consent, "Is it cool if hoptopus emails you for updates and feedback?", :class => 'checkbox-label' %>
+  </div>
+
+  <div class="buttons">
+    <%= submit_tag 'Register' %>
+  </div>
 <% end %>
 
 <% content_for :javascript do %>
-<script type="text/javascript">
-var states = {};
-states['US'] = <%== Carmen.states.to_json %>;
+  <script type="text/javascript">
+    var states = {};
+    states['US'] = <%== Carmen.states.to_json %>;
 
-$('select#user_country').live('change', function() {
-	var statesSelect = $('select#user_state');
-	var countryStates = states[$(this).val()];
-	
-	if(!countryStates && (typeof statesSelect.attr('disabled') !== 'undefined')) {
-		statesSelect.empty();
-		statesSelect.append($('<option/>').val('').text('No states available for this country.'));
-		statesSelect.attr('disabled', true);
-		
-		return;
-	}
-	else if(!countryStates && (typeof statesSelect.attr('disabled') === 'undefined')) {
-		// Don't do anything
-		return;
-	}
-	
-	statesSelect.empty();
-	for(var i in countryStates) {
-		var state = countryStates[i];
-		
-		if(typeof(state) != 'object') {
-			continue;
-		}
-		
-		statesSelect.append($('<option/>').val(state[1]).text(state[0]));
-	}
-	
-	statesSelect.removeAttr('disabled');
-});
-</script>
+    $('select#user_country').live('change', function() {
+      var statesSelect = $('select#user_state');
+      var countryStates = states[$(this).val()];
+
+      if (!countryStates && (typeof statesSelect.attr('disabled') !== 'undefined')) {
+        statesSelect.empty();
+        statesSelect.append($('<option/>').val('').text('No states available for this country.'));
+        statesSelect.attr('disabled', true);
+
+        return;
+      }
+      else if (!countryStates && (typeof statesSelect.attr('disabled') === 'undefined')) {
+        // Don't do anything
+        return;
+      }
+
+      statesSelect.empty();
+      for (var i in countryStates) {
+        var state = countryStates[i];
+
+        if (typeof(state) != 'object') {
+          continue;
+        }
+
+        statesSelect.append($('<option/>').val(state[1]).text(state[0]));
+      }
+
+      statesSelect.removeAttr('disabled');
+    });
+  </script>
 <% end %>

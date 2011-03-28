@@ -2,6 +2,7 @@ $green: #85af22;
 $brown: #FFE9A8;
 $selected_row_color: #FFFFFF;
 $content_width: 900px;
+$lightgray: #C0C0C0;
 
 html { height: 101%; }
 
@@ -17,10 +18,27 @@ body {
 	background-repeat: repeat-x;
 }
 
-body, p, ol, ul, td {
+body, p, ol, ul, td, input, select {
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-size:	 13px;
 	line-height: 18px;
+}
+
+input, select{
+  border-top: 2px solid $lightgray;
+  border-right: 1px solid $lightgray;
+  border-left: 2px solid $lightgray;
+  border-bottom: 1px solid $lightgray;
+  border-radius: .4em;
+  padding: .3em .3em;
+}
+
+td select, td input {
+  padding: .25em 0;
+}
+
+input[type=file] {
+  border: none;
 }
 
 .letters-list a {
@@ -411,7 +429,7 @@ h3 a:hover {
 }
 
 table.list th {
-	background-color: #ccc;
+	background-color: $lightgray;
 	cursor: url("/cursors/openhand.cur"), default !important;
 }
 
@@ -1105,4 +1123,6 @@ select.beers.dropdown {
     outline: none;
 }
 
+
 @import "preferences";
+@import "register";

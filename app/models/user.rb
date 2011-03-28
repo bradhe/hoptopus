@@ -5,8 +5,6 @@ class User < ActiveRecord::Base
   has_many :alerts
   has_and_belongs_to_many :roles
 
-  validates_presence_of :first_name, :message => 'Please provide a first name'
-  validates_presence_of :last_name, :message => 'Please provide a last name'
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
   validates_length_of :username, :in => 4..16, :message => 'Usernames must be between 4 and 16 characters long.'
