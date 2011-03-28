@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+#  alias_method :confirmed?, :confirmed
+
   has_one :cellar, :dependent => :destroy
   has_many :tastings
   has_many :events
@@ -24,6 +26,10 @@ class User < ActiveRecord::Base
     if password_hash
       self.password_hash = hash_password(password_hash)
     end
+  end
+
+  def confirmed?
+    self.confirmed
   end
 
   def is_admin?

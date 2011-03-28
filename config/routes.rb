@@ -30,7 +30,12 @@ Hoptopus::Application.routes.draw do
 
   resources :wiki, :only => :index
   
-  resources :users, :only => :update, :constraints => { :id => /.*/ }
+  resources :users, :only => :update, :constraints => { :id => /.*/ } do
+    collection do
+
+    end
+  end
+  
   resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
     
@@ -51,6 +56,11 @@ Hoptopus::Application.routes.draw do
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
   match 'logout' => 'auth#logout'
+  match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
+
+  # Users paths
+  match 'users/confirm-email' => 'users#confirm_email', :as => 'confirm_email'
+  match 'users/send-confirmation' => 'users#send_confirmation', :as => 'send_confirmation'
   
   # Special auth paths
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'

@@ -1,5 +1,8 @@
 class AuthController < ApplicationController
+  # TODO: Remove this, we shouldn't mix this stuff in.
   include ApplicationHelper
+
+  skip_before_filter :ensure_confirmed
   
   def login
     @user = User.authenticate_without_password_hash(params[:email], params[:password])
@@ -107,5 +110,8 @@ class AuthController < ApplicationController
   end
 
   def password_reset_confirmation_sent
+  end
+
+  def unconfirmed
   end
 end 

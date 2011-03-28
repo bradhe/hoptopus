@@ -20,4 +20,10 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def send_confirmation
+    @confirmation_request = ConfirmationRequest.create :user => @user, :confirmation_code => Digest::SHA1.hexdigest(Time.now.to_s)
+
+    # Previous requests need to be set to expired.
+  end
 end

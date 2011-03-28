@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper :all
-  before_filter :restore_session
+  before_filter :restore_session, :ensure_confirmed
   
   def restore_session
     unless session[:user_id].nil?
@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
       rescue
         session[:user_id] = nil
       end
+    end
+  end
+
+  def ensure_confirmed
+    unless @user.nil? or @user.confirmed?
+      redirect_to unconfirmed_path
     end
   end
   
