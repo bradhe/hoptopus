@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   def hash_password(password)
     Digest::SHA256.hexdigest(password)
   end
-  
+
   def self.authenticate_without_password_hash(email, password)
     if password.nil? or password.empty?
       return nil
@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   def self.authenticate_with_password_hash(email, password_hash)
     return find(:first, :conditions => "email = '#{email}' AND password_hash = '#{password_hash}'")
   end
-  
+
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     # Get the user email info from Facebook for sign up
     # You'll have to figure this part out from the json you get back

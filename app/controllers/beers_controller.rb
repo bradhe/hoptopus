@@ -1,8 +1,7 @@
 class BeersController < ApplicationController
   before_filter :ensure_login, :except => [:index, :show]
-  
-  # GET /beers
-  # GET /beers.xml
+  before_filter :ensure_cellar
+
   def index
     @beers = Beer.all
 
@@ -24,8 +23,6 @@ class BeersController < ApplicationController
     end
   end
 
-  # GET /beers/new
-  # GET /beers/new.xml
   def new
     @beer = Beer.new
 
@@ -44,10 +41,7 @@ class BeersController < ApplicationController
     end
   end
 
-  # GET /beers/1/edit
   def edit
-    @cellar = Cellar.find_by_user User.find_by_username(params[:cellar_id])
-    
     if request.post?
       unless params.has_key? :beer_id
         raise ArgumentError "Beer IDs are missing. You need to specify the IDs of beers you want to operate on."
@@ -70,16 +64,7 @@ class BeersController < ApplicationController
     end
   end
 
-  # POST /beers
-  # POST /beers.xml
   def create
-    # Figure out if the cellar ID is only numbers. if it is, it's an ID otherwise it's a username
-    if params[:cellar_id].match /\d+/
-      @cellar = Cellar.find params[:cellar_id]
-    else
-      @cellar = Cellar.find_by_username params[:cellar_id]
-    end
-
     # This is kind of gross, but cleans up nicely.
     if params[:beer][:price] =~ /^\$/
       params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
@@ -131,44 +116,88 @@ class BeersController < ApplicationController
     end
   end
 
-  # PUT /beers/1
-  # PUT /beers/1.xml
   def update
-    cellar = Cellar.find(params[:cellar_id])
-    
-    # This is kind of gross, but cleans up nicely.
-    if params[:beer][:price] =~ /^\$/
-      params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
-    end
-    
-    @beer = Beer.find(params[:id])
+    if request.put?
+      # UPDATE MULTIPLE BEERS
+      unless params.has_key? :beer
+        raise ArgumentError "Need a beers hash!"
+      end
+      
+      beers = params[:beer].map { |k,v| Beer.find k }
+      errors = beers.map { |b| {b.id => b.errors} unless b.update_attributes(params[:beer][b.id.to_s]) }
 
-    # We need to keep track of this for a bit...
-    quantity = @beer.quantity
-    
-    respond_to do |format|
-      if @beer.update_attributes(params[:beer])
-        format.html { redirect_to(cellar_beer_path(cellar, @beer), :notice => "#{@beer.brew.name} has been updated!") }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @beer.errors, :status => :unprocessable_entity }
+      # Remove any nil entries from errors. This occurs when there a save is successful.
+      errors.delete_if { |i| i.nil? }
+
+      # Also, errors need to be hashes and not an array
+      errors_copy = {}
+
+      errors.each do |a|
+        errors_copy[a.keys[0]] = a[a.keys[0]]
+      end
+
+      errors = errors_copy
+      
+      respond_to do |format|
+        if errors.empty?
+          # No errors, hurray! We have to render SOMETHING tho or else jQuery gets all pissy.
+          format.json { render :json => {:success => true}, :status => :ok }
+        else
+          format.json { render :json => { :errors => errors }, :status => :unprocessable_entity }
+        end
+      end
+    else
+      # UPDATE A SINGLE BEER
+      
+      # This is kind of gross, but cleans up nicely.
+      if params[:beer][:price] =~ /^\$/
+        params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
+      end
+      
+      @beer = Beer.find(params[:id])
+
+      # We need to keep track of this for a bit...
+      quantity = @beer.quantity
+      
+      respond_to do |format|
+        if @beer.update_attributes(params[:beer])
+          format.html { redirect_to(cellar_beer_path(@cellar, @beer), :notice => "#{@beer.brew.name} has been updated!") }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @beer.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
 
-  # DELETE /beers/1
-  # DELETE /beers/1.xml
   def destroy
     @beer = Beer.find(params[:id])
     
     # Beers don't get deleted, they just get removed from the cellar.
     @beer.removed_at = Time.now
-    @beer.save
+    @beer.save!
 
     respond_to do |format|
       format.html { redirect_to(cellar_path(@user.username)) }
       format.xml  { head :ok }
     end
   end
+  
+  private 
+    def ensure_cellar
+      unless params.has_key? :cellar_id
+        raise ArgumentError "Cellar ID is missing from route."
+      end
+      
+      cellar_id = params[:cellar_id]
+      
+      # We can pass either a cellar ID or a username. We really don't want
+      # to pass a cellar ID, we prefer username.
+      if cellar_id.class == Fixnum or cellar_id.match /^\d+$/
+        @cellar = Cellar.find cellar_id
+      else
+        @cellar = Cellar.find_by_username cellar_id
+      end
+    end
 end

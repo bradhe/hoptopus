@@ -9,6 +9,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    SystemTimer (1.2.2)
     abstract (1.0.0)
     actionmailer (3.0.3)
       actionpack (= 3.0.3)
@@ -121,6 +122,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  SystemTimer
   acts_as_commentable
   aws-s3
   carmen

@@ -15,6 +15,7 @@
   
 	<% form_tag @login_postback_url, :method => 'post' do %>
 		<div class="field"><%= label_tag :email, "E-Mail Address:" %> <%= text_field_tag :email %></div>
+
 		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
 
 		<div class="buttons">

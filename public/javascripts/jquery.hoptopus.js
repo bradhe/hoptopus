@@ -1,3 +1,19 @@
+function setupDatePickers() {
+  $('input.date').datepicker({
+      dateFormat: 'yy-mm-dd',
+      showButtonPanel: true,
+      buttonImage: "/images/calendar.png",
+      buttonImageOnly: false,
+      changeYear: true,
+      changeMonth: true
+  }).each(function() {
+      if(!$(this).data('has_img')) {
+        var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
+        $(this).after(img);
+        $(this).data('has_img', true);
+      }
+  });
+}
 
 $.fn.showLoading = function() {
 	var div = $('<div/>').addClass('loading-modal');
@@ -94,17 +110,17 @@ $(function() {
 		});
 	});
 
-    $('button[data-close-dialog]').bind('click', function() {
-        $(this).parents('div.ui-dialog-content').dialog('close');
-        var form = $(this).parents('form').first();
+  $('button[data-close-dialog]').bind('click', function() {
+      $(this).parents('div.ui-dialog-content').dialog('close');
+      var form = $(this).parents('form').first();
 
-        if(form.length > 0) {
-            form[0].reset();
-        }
+      if(form.length > 0) {
+          form[0].reset();
+      }
 
-        // TODO: Fix this hack -- this is stupid.
-        $(form).find('ul.errors').empty();
-    });
+      // TODO: Fix this hack -- this is stupid.
+      $(form).find('ul.errors').empty();
+  });
 	
 	$('body').click(function(e) {
 		$('input.open').closeDropdown();
@@ -112,7 +128,7 @@ $(function() {
 	});
 	
 	$('h3[data-hideable], h2[data-hideable]').each(function() {
-        var id = $(this).attr('data-hideable');
+    var id = $(this).attr('data-hideable');
     
 		var div = $('div#'+id);
 		div.hide();
@@ -161,34 +177,34 @@ $(function() {
 	tabs.append($('h2[data-tab-handle]'));
 
 	$('h2[data-tab-handle]').each(function() {
-        var attr = $(this).attr('data-tab-handle');
+    var attr = $(this).attr('data-tab-handle');
 
 		var tab = $('#' + attr);
 
-        // This is kind of fucked up. We have to remove the ID so that the thing doesn't
-        // jump around when we change tabs, but we still need to be able to find the body
-        // of this tab somehow. Thus, we add a class here, then we can find it with the
-        // selected .tab.<attr>
+    // This is kind of fucked up. We have to remove the ID so that the thing doesn't
+    // jump around when we change tabs, but we still need to be able to find the body
+    // of this tab somehow. Thus, we add a class here, then we can find it with the
+    // selected .tab.<attr>
 		tab.addClass('tab ' + attr);
 		tab.hide();
 
-        // Remove this tab's ID I guess.
-        tab.attr('id', '');
+    // Remove this tab's ID I guess.
+    tab.attr('id', '');
 		
 		$(this).click(function() {
 			if(tab.is(':hidden')) {
 				$('.tabs .open').removeClass('open');
 				$(this).addClass('open');
         
-                // Hide all the other tabs...
+        // Hide all the other tabs...
 				$('.tab').hide();
 				tab.show();
-        
-                // Set the hash so that we can come back here easily.
-                window.location.hash = attr;
+
+        // Set the hash so that we can come back here easily.
+        window.location.hash = attr;
 			}
 
-            return false;
+      return false;
 		});
 	});
 
@@ -237,20 +253,8 @@ $(function() {
           button.attr('disabled', true);
       }
   });
-  
-  $('input.date').datepicker({
-      dateFormat: 'yy-mm-dd',
-      showButtonPanel: true,
-      buttonImage: "/images/calendar.png",
-      buttonImageOnly: false,
-      changeYear: true,
-      changeMonth: true
-  });
-  
-  $('input.date').each(function() {
-      var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
-      $(this).after(img);
-  });
+
+  setupDatePickers();
 
   // Add dismiss buttons for alerts
   $('div.alert').each(function() {  
@@ -274,3 +278,101 @@ $(function() {
     $(this).prepend(a);
   }); 
 });
+
+
+$('.finish_aging_year').live('change', function() {
+  // We shouldn't be further than a few parents away from the other box so go up by three or four parents.
+  var parent = $(this).parent().parent().parent();
+  
+  var startedAt = parent.find('.cellared_at').first();
+  var finishedAt = parent.find('.finish_aging_at').first();
+  var finishMonthBox =  parent.find('.finish_aging_month').first();
+  recalculateFinishDateFromYearAndMonth(finishedAt, startedAt, finishMonthBox, $(this));
+});
+
+$('.finish_aging_month').live('change', function() {
+  var parent = $(this).parent().parent().parent();
+    
+  var startedAt = parent.find('.cellared_at').first();
+  var finishedAt = parent.find('.finish_aging_at').first();
+  var finishYearBox = parent.find('.finish_aging_year').first();
+  recalculateFinishDateFromYearAndMonth(finishedAt, startedAt, $(this), finishYearBox);
+});
+
+$('.cellared_at').live('change', function() {
+  var parent = $(this).parent().parent().parent();
+   
+  var finishedAt = parent.find('.finish_aging_at').first();
+  var finishYearBox = parent.find('.finish_aging_year').first();
+  var finishMonthBox = parent.find('.finish_aging_month').first();
+  recalculateFinishDateFromYearAndMonth(finishedAt, $(this), finishMonthBox, finishYearBox);
+});
+
+$('.finish_aging_at').live('change', function() {
+  var parent = $(this).parent().parent().parent();
+
+  var startedAt = parent.find('.cellared_at').first();
+  var finishYearBox = parent.find('.finish_aging_year').first();
+  var finishMonthBox = parent.find('.finish_aging_month').first();
+  recalculateMonthsAndYearFromFinishDate($(this), startedAt, finishMonthBox, finishYearBox);
+});
+
+function recalculateFinishDateFromYearAndMonth(finishDateBox, startDateBox, monthDropDown, yearDropDown) {
+  if(startDateBox.isEmpty()) {
+      return;
+  }
+
+  // Make sure it's in the correct format too
+  var startDate = startDateBox.val();
+  if(!startDate.match(/^\d{4,4}\-\d{2,2}\-\d{2,2}$/)) {
+      throw "Start date is in an incorrect format."
+  }
+
+  var components = startDate.split('-');
+
+  var year = parseInt(components[0]);
+  var month = parseInt(components[1]);
+
+  // Month is the last one -- add time to it
+  var addedMonths = parseInt(monthDropDown.val()) + month;
+  if(addedMonths > 12) {
+      year += 1;
+      addedMonths -= 12;
+  }
+
+  year += parseInt(yearDropDown.val());
+
+  // Now re-assemble this and put it in the finishDateBox
+  finishDateBox.val(year + '-' + addedMonths + '-' + components[2]);
+}
+
+function recalculateMonthsAndYearFromFinishDate(finishDateBox, startDateBox, monthDropDown, yearDropDown) {
+  if(startDateBox.isEmpty()) {
+      return;
+  }
+
+  // Make sure it's in the correct format too
+  var startDate = startDateBox.val();
+  if(!startDate.match(/^\d{4,4}\-\d{2,2}\-\d{2,2}$/)) {
+      throw "Start date is in an incorrect format."
+  }
+
+  // Do the same thing for finishDateBox
+  if(finishDateBox.isEmpty()) {
+      return;
+  }
+
+  // Make sure it's in the correct format too
+  var finishDate = finishDateBox.val();
+  if(!finishDate.match(/^\d{4,4}\-\d{2,2}\-\d{2,2}$/)) {
+      throw "Start date is in an incorrect format."
+  }
+
+  // Now calculate the delta in years and months
+  var startComponents = startDate.split('-');
+  var finishComponents = finishDate.split('-');
+
+  // Whew.
+  yearDropDown.val(parseInt(finishComponents[0]) - parseInt(startComponents[0]));
+  monthDropDown.val(parseInt(finishComponents[1]) - parseInt(startComponents[1]));
+}
