@@ -88,26 +88,12 @@
 
 <% content_for :javascript do %>
 <script type="text/javascript">
-    var states = {};
-    states['US'] = <%== Carmen.states.to_json %>;
+    var statesSelect = $('select#user_state');
 
-    $('select#user_country').live('change', function() {
-        var statesSelect = $('select#user_state');
-        var countryStates = states[$(this).val()];
+    function states_callback(countryStates) {
+      statesSelect.empty();
+      if(countryStates.length > 0){
 
-        if (!countryStates && (typeof statesSelect.attr('disabled') !== 'undefined')) {
-            statesSelect.empty();
-            statesSelect.append($('<option/>').val('').text('No states available for this country.'));
-            statesSelect.attr('disabled', true);
-
-            return;
-        }
-        else if (!countryStates && (typeof statesSelect.attr('disabled') === 'undefined')) {
-            // Don't do anything
-            return;
-        }
-
-        statesSelect.empty();
         for (var i in countryStates) {
             var state = countryStates[i];
 
@@ -119,6 +105,26 @@
         }
 
         statesSelect.removeAttr('disabled');
+      } else {
+        states_error();
+      }
+    }
+
+    function states_error(){
+      statesSelect.empty();
+      statesSelect.append($('<option/>').val('').text('No states available for this country.'));
+      statesSelect.attr('disabled', true);
+    }
+
+    function states_complete(){
+      hoptopus.hideProgress();
+    }
+
+    $('select#user_country').live('change', function() {
+        hoptopus.showProgress("Working...");
+        $.get("<%= utils_states_path %>",{ country: $(this).val() }, states_callback).error(states_error()).complete(states_complete());
     });
+
+
 </script>
 <% end %>

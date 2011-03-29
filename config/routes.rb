@@ -46,6 +46,10 @@ Hoptopus::Application.routes.draw do
 
     root :to => 'lobby#index'
   end
+
+  namespace 'utils' do
+    get 'states' => 'geography#states'
+  end
   
   # Shortcut URLs
   match 'login' => 'auth#login'
