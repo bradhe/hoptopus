@@ -7,7 +7,7 @@
 <% end %>
 
 <div class="profile-info clearfix">
-  <%= gravatar_for @cellar.user, :class => "gravatar", :align => 'left' %>
+  <%= gravatar_for(@cellar.user, base_url(request), :class => "gravatar", :align => 'left', :width => '50px') %>
 
   <div class="user-info">
     <h2><%= @cellar.user.username %></h2>

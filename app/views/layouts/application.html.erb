@@ -54,7 +54,7 @@
     <ul>
     <% if is_logged_in? %>
       <li class="user-info">
-        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username %></a></strong>
+        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, base_url(request), :class => "gravatar inlineimg", :width => "" %> <strong><%= @user.username %></a></strong>
       </li>
  
       <% if @user.is_admin? %>

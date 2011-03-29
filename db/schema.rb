@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110326024004) do
+ActiveRecord::Schema.define(:version => 20110328050606) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(:version => 20110326024004) do
   end
 
   create_table "breweries", :force => true do |t|
-    t.string    "name"
-    t.string    "country"
-    t.string    "state"
-    t.string    "city"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.string    "sanitized_name"
+    t.string   "name"
+    t.string   "country"
+    t.string   "state"
+    t.string   "city"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sanitized_name"
   end
 
   create_table "brews", :force => true do |t|
@@ -137,16 +137,16 @@ ActiveRecord::Schema.define(:version => 20110326024004) do
   end
 
   create_table "uploaded_beer_records", :force => true do |t|
-    t.string    "job_id"
-    t.string    "brewery"
-    t.string    "variety"
-    t.string    "bottle_size"
-    t.string    "quantity"
-    t.string    "brew_style"
-    t.string    "year"
-    t.string    "cellared_at"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "job_id"
+    t.string   "brewery"
+    t.string   "variety"
+    t.string   "bottle_size"
+    t.string   "quantity"
+    t.string   "brew_style"
+    t.string   "year"
+    t.string   "cellared_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20110326024004) do
     t.datetime "last_login_at"
     t.string   "first_name"
     t.string   "last_name"
+    t.boolean  "confirmed"
   end
 
   create_table "wikis", :force => true do |t|
