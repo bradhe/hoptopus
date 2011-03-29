@@ -47,7 +47,7 @@
         <%= f.label :state, 'State/Province:' %>
 
         <% unless @user.state.nil? %>
-          <%= f.select :state, Carmen.states %>
+          <%= f.select :state, Carmen.states(@user.country) %>
         <% else %>
           <%= f.select :state, [], {:include_blank => 'No states available for this country.'}, :disabled => true %>
         <% end %>
