@@ -76,12 +76,8 @@ module ApplicationHelper
     options.merge!(:body => capture(&block))
     render(:partial => partial_name, :locals => options)
   end
-
-  def base_url(request)
-    request.protocol.to_s + request.host + ":" + request.port.to_s
-  end
   
-  def gravatar_for(user, baseurl, options = {})
+  def gravatar_for(user, options = {})
     options = { :alt => 'avatar', :class => 'avatar' }.merge! options
 
     unless options.has_key?(:size) 
@@ -93,7 +89,7 @@ module ApplicationHelper
       image_tag url, options
     elsif user.email
       id = Digest::MD5::hexdigest user.email.strip.downcase
-      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s + '&d=' + CGI::escape(baseurl.to_s + "/images/hoptopus_avatar.png")
+      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s + '&d=' + CGI::escape(absolute_url "/images/hoptopus_avatar.png")
       options.delete :size
       image_tag url, options
     end

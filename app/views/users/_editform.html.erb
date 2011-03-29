@@ -2,7 +2,8 @@
 
   <%= field_set_tag "Login", :class => "preferencegroup" do %>
     <div class="field">
-      <label for="emailbox">Email:</label> <span id="emailbox"><%= @user.email %></span>
+      <label for="emailbox">Email:</label>
+      <span id="emailbox"><%= @user.email_was %></span>
     </div>
     <div class="field">
       <%= f.label :email, 'New Email:' %>

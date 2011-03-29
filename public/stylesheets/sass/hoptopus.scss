@@ -1025,11 +1025,7 @@ html[xmlns] .clearfix {
   top: -3px;
 }
 
-.user-info span.note {
-  display: block;
-  float: left;
-  margin-left: 4pt;
-}
+
 
 #navigation li.user-info a, #navigation li.connect a {
   background-color: transparent;
@@ -1131,3 +1127,4 @@ select.beers.dropdown {
 
 @import "preferences";
 @import "register";
+@import "cellars";
