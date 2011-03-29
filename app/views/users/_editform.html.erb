@@ -84,3 +84,40 @@
   </div>
 
 <% end %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+    var states = {};
+    states['US'] = <%== Carmen.states.to_json %>;
+
+    $('select#user_country').live('change', function() {
+        var statesSelect = $('select#user_state');
+        var countryStates = states[$(this).val()];
+
+        if (!countryStates && (typeof statesSelect.attr('disabled') !== 'undefined')) {
+            statesSelect.empty();
+            statesSelect.append($('<option/>').val('').text('No states available for this country.'));
+            statesSelect.attr('disabled', true);
+
+            return;
+        }
+        else if (!countryStates && (typeof statesSelect.attr('disabled') === 'undefined')) {
+            // Don't do anything
+            return;
+        }
+
+        statesSelect.empty();
+        for (var i in countryStates) {
+            var state = countryStates[i];
+
+            if (typeof(state) != 'object') {
+                continue;
+            }
+
+            statesSelect.append($('<option/>').val(state[1]).text(state[0]));
+        }
+
+        statesSelect.removeAttr('disabled');
+    });
+</script>
+<% end %>
