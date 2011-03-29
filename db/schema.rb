@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110326024004) do
+ActiveRecord::Schema.define(:version => 20110328052908) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -92,6 +92,15 @@ ActiveRecord::Schema.define(:version => 20110326024004) do
   add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
+  create_table "confirmation_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "confirmation_code"
+    t.boolean  "confirmed",         :default => false
+    t.boolean  "expired",           :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "events", :force => true do |t|
     t.integer   "user_id"
     t.timestamp "created_at"
@@ -165,6 +174,7 @@ ActiveRecord::Schema.define(:version => 20110326024004) do
     t.datetime "last_login_at"
     t.string   "first_name"
     t.string   "last_name"
+    t.boolean  "confirmed",                          :default => false
   end
 
   create_table "wikis", :force => true do |t|
