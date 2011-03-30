@@ -52,4 +52,6 @@ Hoptopus::Application.configure do
   end
 
   config.log_level = Logger::WARN
+
+  config.action_mailer.default_url_options = { :host => "hoptopus.com" }
 end

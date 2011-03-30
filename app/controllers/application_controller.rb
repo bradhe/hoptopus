@@ -20,6 +20,16 @@ class ApplicationController < ActionController::Base
   end
   
   def login_user(user)
+    # We should make sure that this user is confirmed. If they're not then we need to deliver an account
+    # confirmation.
+    unless user.confirmed?
+      # Broek this up becase I'm stupid
+      unless ConfirmationRequest.where(:user_id => user.id, :confirmed => false, :expired => false).exists?
+        confirmation_request = ConfirmationRequest.create :user => user
+        Notifications.send_confirmation_request(confirmation_request).deliver
+      end
+    end
+
     @user = user
     
     if session[:user_id] != user.id

@@ -59,8 +59,9 @@ Hoptopus::Application.routes.draw do
   match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
 
   # Users paths
-  match 'users/confirm-email' => 'users#confirm_email', :as => 'confirm_email'
+  match 'users/confirm-email/:confirmation_code' => 'users#confirm_email', :as => 'confirm_email'
   match 'users/send-confirmation' => 'users#send_confirmation', :as => 'send_confirmation'
+  match 'users/confirmation-sent' => 'users#confirmation_sent', :as => 'confirmation_sent'
   
   # Special auth paths
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'

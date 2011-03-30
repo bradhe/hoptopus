@@ -1129,5 +1129,10 @@ select.beers.dropdown {
     outline: none;
 }
 
+div.button {
+    margin-top: 15pt;
+    text-align: center;
+}
+
 @import "preferences";
 @import "register";
