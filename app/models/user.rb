@@ -21,9 +21,11 @@ class User < ActiveRecord::Base
   validates_confirmation_of :email, :message => 'Emails do not match.'
   
   before_create do
-    if password_hash
-      self.password_hash = hash_password(password_hash)
-    end
+    self.password_hash = hash_password(password_hash) if password_hash
+  end
+
+  def confirmed?
+    self.confirmed
   end
 
   def is_admin?
@@ -37,9 +39,7 @@ class User < ActiveRecord::Base
   end
 
   def make_admin
-    unless is_admin?
-      roles << Role::admin_role
-    end
+    roles << Role::admin_role unless is_admin?
   end
 
   def disable

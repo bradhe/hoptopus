@@ -1,6 +1,6 @@
 class AddConfirmedToUsers < ActiveRecord::Migration
   def self.up
-    add_column :users, :confirmed, :boolean
+    add_column :users, :confirmed, :boolean, :default => false
   end
 
   def self.down

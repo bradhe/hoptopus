@@ -1,0 +1,8 @@
+<% content_for :title do %>
+    invalid confirmation code
+<% end %>
+
+<h2>Invalid confirmation code</h2>
+
+<p><strong>The confirmation code that you supplied is expired, invalid, or doesn't belong to you.</strong> This could be because you requested a new confirmation email. Only the latest confirmation email that was sent will work for confirming your account!</p>
+<div class="button"><%= button_to 'Send a New Confirmation Email', send_confirmation_path %></div>
