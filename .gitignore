@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .idea
 .bundle
 db/*.sqlite3
@@ -7,15 +6,3 @@ tmp/**/*
 tmp/Rack*
 tmp/sass-cache*
 .sass-cache
-*.css
-=======
-.idea
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/**/*              
-tmp/Rack*
-tmp/*
-.sass-cache
-public/stylesheets/hoptopus.css
->>>>>>> 0a51e14726c562749a36a22fcb3a9d583002fb2e
