@@ -21,9 +21,10 @@ class ApplicationController < ActionController::Base
   
   def login_user(user)
     # We should make sure that this user is confirmed. If they're not then we need to deliver an account
-    # confirmation.
+    # confirmation. They will automatically get redirected to the "confirm your account" page by the
+    # rest of the app.
     unless user.confirmed?
-      # Broek this up becase I'm stupid
+      # Broke this up because I'm stupid
       unless ConfirmationRequest.where(:user_id => user.id, :confirmed => false, :expired => false).exists?
         confirmation_request = ConfirmationRequest.create :user => user
         Notifications.send_confirmation_request(confirmation_request).deliver
