@@ -4,5 +4,6 @@ db/*.sqlite3
 log/*.log
 tmp/**/*              
 tmp/Rack*
+tmp/pids*
 tmp/sass-cache*
 .sass-cache

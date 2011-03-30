@@ -14,7 +14,7 @@
       <%= label_tag 'username', 'Username:' %>
       
       <span class="value"><%= gravatar_for @matched_user, :size => 20 %> <%= @matched_user.username %> (<%= @matched_user.email %>)</span>
-      <%= hidden_field_tag 'username', @matched_user.username %>
+      <%= hidden_field_tag 'email', @matched_user.email %>
     </div>
     
     <div class="field">
