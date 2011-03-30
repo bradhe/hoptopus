@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(:version => 20110328052908) do
   end
 
   create_table "breweries", :force => true do |t|
-    t.string    "name"
-    t.string    "country"
-    t.string    "state"
-    t.string    "city"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.string    "sanitized_name"
+    t.string   "name"
+    t.string   "country"
+    t.string   "state"
+    t.string   "city"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sanitized_name"
   end
 
   create_table "brews", :force => true do |t|
@@ -146,35 +146,35 @@ ActiveRecord::Schema.define(:version => 20110328052908) do
   end
 
   create_table "uploaded_beer_records", :force => true do |t|
-    t.string    "job_id"
-    t.string    "brewery"
-    t.string    "variety"
-    t.string    "bottle_size"
-    t.string    "quantity"
-    t.string    "brew_style"
-    t.string    "year"
-    t.string    "cellared_at"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "job_id"
+    t.string   "brewery"
+    t.string   "variety"
+    t.string   "bottle_size"
+    t.string   "quantity"
+    t.string   "brew_style"
+    t.string   "year"
+    t.string   "cellared_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email"
-    t.string   "password_hash"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "username"
-    t.boolean  "email_consent",                      :default => false
-    t.string   "country"
-    t.string   "state"
-    t.string   "city"
-    t.boolean  "should_show_own_events",             :default => true
-    t.boolean  "should_receive_email_notifications", :default => true
-    t.integer  "facebook_id"
-    t.datetime "last_login_at"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.boolean  "confirmed",                          :default => false
+    t.string    "email"
+    t.string    "password_hash"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "username"
+    t.boolean   "email_consent",                      :default => false
+    t.string    "country"
+    t.string    "state"
+    t.string    "city"
+    t.boolean   "should_show_own_events",             :default => true
+    t.boolean   "should_receive_email_notifications", :default => true
+    t.integer   "facebook_id"
+    t.datetime  "last_login_at"
+    t.string    "first_name"
+    t.string    "last_name"
+    t.boolean   "confirmed",                          :default => false
   end
 
   create_table "wikis", :force => true do |t|

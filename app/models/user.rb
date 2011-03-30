@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-#  alias_method :confirmed?, :confirmed
-
   has_one :cellar, :dependent => :destroy
   has_many :tastings
   has_many :events
@@ -23,9 +21,7 @@ class User < ActiveRecord::Base
   validates_confirmation_of :email, :message => 'Emails do not match.'
   
   before_create do
-    if password_hash
-      self.password_hash = hash_password(password_hash)
-    end
+    self.password_hash = hash_password(password_hash) if password_hash
   end
 
   def confirmed?
@@ -43,9 +39,7 @@ class User < ActiveRecord::Base
   end
 
   def make_admin
-    unless is_admin?
-      roles << Role::admin_role
-    end
+    roles << Role::admin_role unless is_admin?
   end
 
   def disable
