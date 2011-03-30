@@ -13,13 +13,18 @@ gem 'geokit'
 gem 'acts_as_commentable'
 gem 'resque'
 gem 'uuidtools'
-#gem 'SystemTimer'
 gem 'aws-s3'
 gem 'gravatar'
 gem 'oauth2', :git => 'git://github.com/intridea/oauth2.git'
 gem 'log4r'
 gem 'mocha'
 gem 'haml'
+
+
+# No SystemTimer gem on windows.
+unless RUBY_PLATFORM =~ /win|ming/
+  gem 'SystemTimer'
+end
 
 # Use unicorn as the web server
 # gem 'unicorn'

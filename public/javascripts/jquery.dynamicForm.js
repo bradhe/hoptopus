@@ -213,15 +213,18 @@
   }
 
   $.fn.dynamicForm = function(options) {
+    var forms = [];
     this.each(function() {
       if(!$.dynamicForms) {
         $.dynamicForms = [];
       }
-      
-      $.dynamicForms.push(new DynamicForm(this, options));
+
+      var form = new DynamicForm(this, options);
+      $.dynamicForms.push(form);
+      forms.push(form);
     });
     
-    return $.dynamicForms;
+    return forms;
   };
 
   $(function() {

@@ -30,7 +30,12 @@ Hoptopus::Application.routes.draw do
 
   resources :wiki, :only => :index
   
-  resources :users, :only => :update, :constraints => { :id => /.*/ }
+  resources :users, :only => :update, :constraints => { :id => /.*/ } do
+    collection do
+
+    end
+  end
+  
   resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
     
@@ -46,11 +51,21 @@ Hoptopus::Application.routes.draw do
 
     root :to => 'lobby#index'
   end
+
+  namespace 'utils' do
+    get 'states' => 'geography#states'
+  end
   
   # Shortcut URLs
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
   match 'logout' => 'auth#logout'
+  match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
+
+  # Users paths
+  match 'users/confirm-email/:confirmation_code' => 'users#confirm_email', :as => 'confirm_email'
+  match 'users/send-confirmation' => 'users#send_confirmation', :as => 'send_confirmation'
+  match 'users/confirmation-sent' => 'users#confirmation_sent', :as => 'confirmation_sent'
   
   # Special auth paths
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'

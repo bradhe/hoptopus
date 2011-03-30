@@ -15,12 +15,9 @@
     d = {};
     var pages = [];
     var currentPage = -1;
-    
-    function showPageByNumber(pageNumber) {
-      if(pageNumber == currentPage) {
-        return;
-      }
+    var pageButtons = null;
       
+    function showPageByNumber(pageNumber) {
       // Do some bounds checking too, make sure we're not doing anything funky.
       if(pageNumber < 0) {
         throw "Page number must be greater than or equal to 0.";
@@ -61,40 +58,20 @@
       if(settings.pageSelector) {
         pages = $(elem).find(settings.pageSelector);
       }
-      
+
       // If there are still no pages then we have a fucking problem.
       if(pages.length < 1) {
         throw "No pages found you dumbass!";
       }
-      
-      currentPage = 0;
-      
-      // Okay, we want to remove everything from the elem except the first page.
-      var hidden = pages.slice(1);
-      var l = hidden.length;
-      
-      for(var i = 0; i < l; i++) {
-        $(hidden[i]).hide();
-      }
-      
+
       var div = $('<div/>').addClass('ui-paged-dialog');
       div.append(elem);
       
       // We need to create page buttons for all this.
-      var pageButtonsDiv = $('<div/>').addClass('buttons');
-      d.links = [];
-        
-      for(var i = 0; i < pages.length; i++) {
-        var a = $('<a/>').text(i+1).attr('href', 'javascript:void(0);').data('page_number', i);
-        a.click(function(e) { return d.onPageNumberClicked(e, $(this).data('page_number')); });
-
-        pageButtonsDiv.append(a);
-        d.links.push(a);
-      }
+      pageButtons = $('<div/>').addClass('buttons');
 
       // Highlight the first one.
-      $(d.links[0]).addClass('selected');
-      div.append(pageButtonsDiv);
+      div.append(pageButtons);
       
       // We need to add NEXT and PREV buttons as well.
       var nextButton = $('<button/>').attr('type', 'button').text('Next');
@@ -105,12 +82,17 @@
       // By default the previous button should be hidden.
       prevButton.attr('disabled', true);
       
-      pageButtonsDiv.prepend(prevButton);
-      pageButtonsDiv.append(nextButton);
+      pageButtons.prepend(prevButton);
+      pageButtons.append(nextButton);
       
       // Save this crap for later.
       d.nextButton = nextButton;
       d.prevButton = prevButton;
+
+      d.dialog = div;
+
+      // Finally, rebuild the links for the pages.
+      d.rebuildLinks(pages);
       
       // Show the dialog now.
       $(div).dialog(settings.dialogOptions);
@@ -125,8 +107,55 @@
     };
     
     d.onPageNumberClicked = function(e, pageNumber) {
-      showPageByNumber(pageNumber);
+      if(pageNumber != currentPage) {
+        showPageByNumber(pageNumber);
+      }
+
       return false;
+    };
+
+    d.close = function() {
+      $(d.dialog).dialog('close');
+    };
+
+    d.rebuildLinks = function(newPages) {
+      if(newPages) {
+        pages = newPages;
+      }
+      else {
+        throw "You need to tell me what pages to use to build these links!"
+      }
+
+      if(d.links) {
+        // Remove the current links since there are some defined.
+        var l = d.links.length;
+        
+        for(var i = 0; i < l; i++) {
+          $(d.links[i]).remove();
+        }
+      }
+
+      d.links = [];
+      currentPage = 0;
+
+      // Okay, we want to remove everything from the elem except the first page.
+      var hidden = pages.slice(1);
+      var l = hidden.length;
+
+      for(var i = 0; i < l; i++) {
+        $(hidden[i]).hide();
+      }
+
+      for(var i = 0; i < pages.length; i++) {
+        var a = $('<a/>').text(i+1).attr('href', 'javascript:void(0);').data('page_number', i);
+        a.click(function(e) { return d.onPageNumberClicked(e, $(this).data('page_number')); });
+
+        $(d.nextButton).before(a);
+        d.links.push(a);
+      }
+
+      $(d.links[0]).addClass('selected');
+      showPageByNumber(0);
     };
     
     init();

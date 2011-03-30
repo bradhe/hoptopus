@@ -7,7 +7,7 @@
 <% end %>
 
 <div class="profile-info clearfix">
-  <%= gravatar_for @cellar.user, :class => "gravatar", :align => 'left' %>
+  <%= gravatar_for(@cellar.user, :class => "gravatar", :align => 'left', :width => '50px') %>
 
   <div class="user-info">
     <h2><%= @cellar.user.username %></h2>
@@ -50,7 +50,7 @@
           activity.
         </li>
     <% else %>
-        <% @cellar.user.events.each do |e| %>
+        <% @cellar.user.events.first(15).each do |e| %>
             <%== render_event e %>
         <% end %>
     <% end %>
@@ -67,7 +67,7 @@
           <button type="button" id="new-beer">Add</button>
           <button type="button" id="import-beers">Import</button>
           <button type="button" id="edit-beers" disabled>Edit</button>
-          <!--<button type="button" id="check-out-beers-button" disabled>Check Out</button>-->
+          <!--<button type="button" id="check-out-beers" disabled>Check Out</button>-->
         </div>
     <% end %>
 
@@ -218,50 +218,11 @@
     </div>
 
     <h2 data-tab-handle="preferences">Preferences</h2>
+
     <div id="preferences">
-      <%= form_for(@user) do |f| %>
-          <div class="field">
-            <%= f.check_box :should_show_own_events %>
-            <%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
-          </div>
 
-          <div class="field">
-            <%= f.check_box :email_consent %>
-            <%= f.label :email_consent, "Is it cool by you if hoptopus emails you from time to time for updates and feedback?", :class => 'checkbox-label' %>
-          </div>
+    <%= render 'users/editform' %>
 
-          <div class="field">
-            <%= f.check_box :should_receive_email_notifications %>
-            <%= f.label :should_receive_email_notifications, "Receive notifications about comments and stuff via email?", :class => 'checkbox-label' %>
-          </div>
-
-
-          <h3>Location</h3>
-          <% Carmen.excluded_states = {'US' => ['AE']} %>
-          <div class="field">
-            <%= f.label :country, 'Country:' %>
-            <%= f.select :country, countries_list %>
-          </div>
-
-          <div class="field">
-            <%= f.label :state, 'State/Province:' %>
-
-            <% unless @user.state.nil? %>
-                <%= f.select :state, Carmen.states %>
-            <% else %>
-                <%= f.select :state, [], {:include_blank => 'No states available for this country.'}, :disabled => true %>
-            <% end %>
-          </div>
-
-          <div class="field">
-            <%= f.label :city, 'City:' %>
-            <%= f.text_field :city %>
-          </div>
-
-          <div class="buttons">
-            <button type="submit" id="save-preferences">Save Preferences</button>
-          </div>
-      <% end %>
     </div>
 
     <div class="hidden">
@@ -269,7 +230,8 @@
         <%= render 'beers/add', :beer => Beer.new(:cellar => @cellar, :cellared_at => Time.now),
                    :url => cellar_beers_path(@cellar),
                    :form_element_prefix => 'beer',
-                   :include_form => true %>
+                   :include_form => true,
+                   :include_buttons => true %>
     </div>
     </div>
 <% end %>
@@ -283,41 +245,6 @@
             <% end %>
         </script>
         <script src="/javascripts/brewery-helper.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            var states = {};
-            states['US'] = <%== Carmen.states.to_json %>;
-
-            $('select#user_country').live('change', function() {
-                var statesSelect = $('select#user_state');
-                var countryStates = states[$(this).val()];
-
-                if (!countryStates && (typeof statesSelect.attr('disabled') !== 'undefined')) {
-                    statesSelect.empty();
-                    statesSelect.append($('<option/>').val('').text('No states available for this country.'));
-                    statesSelect.attr('disabled', true);
-
-                    return;
-                }
-                else if (!countryStates && (typeof statesSelect.attr('disabled') === 'undefined')) {
-                    // Don't do anything
-                    return;
-                }
-
-                statesSelect.empty();
-                for (var i in countryStates) {
-                    var state = countryStates[i];
-
-                    if (typeof(state) != 'object') {
-                        continue;
-                    }
-
-                    statesSelect.append($('<option/>').val(state[1]).text(state[0]));
-                }
-
-                statesSelect.removeAttr('disabled');
-            });
-        </script>
     <% end %>
     <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
     <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
@@ -393,7 +320,6 @@
                         hoptopus.showProgress('Adding...')
                     },
                     submitDone: function() {
-                        alert('DONE');
                         hoptopus.hideProgress();
                     },
                     success: function(data) {
@@ -453,7 +379,83 @@
 
             var editCellar = $('#edit-cellar').dynamicForm({
                 success: function(data) {
-                    $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto' } });
+                    var dialogs = $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto', modal: true, resizable: false, title: 'Edit Beers'} });
+                    setupDatePickers();
+                  
+                    var dialog = dialogs[0];
+
+                    // Before the previous button lets insert a bunch of buttons.
+                    var div = $('<div/>').addClass('submit buttons');
+                    var cancelButton = $('<button/>').text('Cancel').click(function() { dialog.close(); }).attr('type', 'button');
+                    var submitButton = $('<button/>').text('Save Beers');
+
+                    div.append(cancelButton);
+                    div.append(submitButton);
+                    $(dialog.prevButton).before(div);
+
+                    // Also, this data should be a dynamic form.
+                    var form = $(dialog.dialog).find('form').first();
+                    var dynamicForm = $(form).dynamicForm({
+                        submitStart: function() {
+                          hoptopus.showProgress('Saving...');
+                        },
+                        submitDone: function() {
+                          hoptopus.hideProgress();
+                        },
+                        success: function(data) {
+                          dialog.close();
+                        },
+                        error: function(errors) {
+                          // Indirection for great victory!
+                          errors = errors['errors'];
+
+                          var errorsDiv= $('<div/>').addClass('errors').html('Some of your updates contain errors! The beers without errors have been saved and removed.<br/>The beers with errors remain here.');
+                          errorsDiv.hide();
+                          $(dialog.prevButton).parent().after(errorsDiv);
+                          errorsDiv.fadeIn('fast');
+
+                          // For each of the errors in the dialog, figure out which ones have errors and which ones don't.
+                          // then rebuild the links at the bottom of the page.
+                          var elements = $(dialog.dialog).find('div.edit.beer');
+                          var l = elements.length;
+                          for(var i = 0; i < l; i++) {
+                              var element = elements[i];
+                              var id = $(element).attr('data-id');
+
+                              if(!id) {
+                                  throw "ID attribute missing from page element.";
+                              }
+
+                              if(id in errors) {
+                                // If there is an errors UL, then empty it and put the errors in. Otherwise,
+                                // create one and add to the errors.
+                                var ul = $(element).find('ul.errors') || $('<ul/>').addClass('errors');
+                                ul.empty();
+
+                                for(var j in errors[id]) {
+                                  ul.append($('<li/>').text(errors[id][j]));
+                                }
+                              }
+                              else {
+                                // Not here, just get rid of it.
+                                $(element).remove();
+                              }
+                          }
+
+                          // Now rebuild all of the links and show the first page.
+                          dialog.rebuildLinks($(dialog.dialog).find('div.edit.beer'));
+
+                          $(dialog.dialog).find('input, select').one('focus', function() {
+                            window.setTimeout(function() {
+                              $(errorsDiv).fadeOut('fast', function() { $(this).remove(); });
+                            }, 1500);
+                          });
+                        }
+                    });
+
+                    submitButton.click(function() {
+                        return dynamicForm[0].submit('<%= cellar_beers_path(@cellar.user.username) %>');
+                    });
                 },
                 error: function() {
                     alert('AWW YAAA');

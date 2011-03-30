@@ -3,7 +3,7 @@
 <head>
   <title><%= yield :title %> / hoptopus</title>
   <%= stylesheet_link_tag :all %>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.tablesorter.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.hoptopus.js" type="text/javascript"></script>
@@ -54,7 +54,7 @@
     <ul>
     <% if is_logged_in? %>
       <li class="user-info">
-        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username %></a></strong>
+        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
       </li>
  
       <% if @user.is_admin? %>

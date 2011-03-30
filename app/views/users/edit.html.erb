@@ -1,0 +1,13 @@
+<% content_for :title do %>
+	<%= "edit me" %>
+<% end %>
+
+<% unless @user.errors.empty? %>
+<ul class="errors">
+	<% @user.errors.each do |element,msg| %>
+		<li><%= msg %></li>
+	<% end %>
+</ul>
+<% end %>
+
+<%= render "users/editform" %>

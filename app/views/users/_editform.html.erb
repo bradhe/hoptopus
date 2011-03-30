@@ -1,0 +1,130 @@
+<%= form_for(@user) do |f| %>
+
+  <%= field_set_tag "Login", :class => "preferencegroup" do %>
+    <div class="field">
+      <label for="emailbox">Email:</label>
+      <span id="emailbox"><%= @user.email_was %></span>
+    </div>
+    <div class="field">
+      <%= f.label :email, 'New Email:' %>
+      <%= f.text_field :email, :value => ""  %>
+    </div>
+    <div class="field">
+      <%= f.label :email, 'Confirm Email:' %>
+      <%= f.text_field :email_confirmation, :value => ""  %>
+    </div>
+  <% end %>
+
+  <%= field_set_tag "Personal", :class => "preferencegroup" do %>
+
+    <div class="field">
+      <%= f.label :username, 'Username:' %>
+      <%= f.text_field :username %>
+    </div>
+
+    <div class="field">
+      <%= f.label :first_name, 'First Name:' %>
+      <%= f.text_field :first_name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :last_name, 'Last Name:' %>
+      <%= f.text_field :last_name %>
+    </div>
+
+  <% end %>
+
+  <%= field_set_tag "Location", :class => "preferencegroup" do %>
+
+    <div id="preferencelocation">
+      <% Carmen.excluded_states = {'US' => ['AE','AA']} %>
+      <div class="field">
+        <%= f.label :country, 'Country:' %>
+        <%= f.select :country, countries_list %>
+      </div>
+
+      <div class="field">
+        <%= f.label :state, 'State/Province:' %>
+
+        <% unless @user.state.nil? %>
+          <%= f.select :state, Carmen.states(@user.country) %>
+        <% else %>
+          <%= f.select :state, [], {:include_blank => 'No states available for this country.'}, :disabled => true %>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :city, 'City:' %>
+        <%= f.text_field :city %>
+      </div>
+    </div>
+
+  <% end %>
+
+  <%= field_set_tag "Notifications", :class => "preferencegroup", :id => "notificationgroup" do %>
+
+    <div class="field">
+      <%= f.check_box :should_show_own_events %>
+      <%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
+    </div>
+
+    <div class="field">
+      <%= f.check_box :email_consent %>
+      <%= f.label :email_consent, "Is it cool if hoptopus emails you for updates and feedback?", :class => 'checkbox-label' %>
+    </div>
+
+    <div class="field">
+      <%= f.check_box :should_receive_email_notifications %>
+      <%= f.label :should_receive_email_notifications, "Receive notifications about comments and stuff via email?", :class => 'checkbox-label' %>
+    </div>
+
+  <% end %>
+
+  <div class="buttons" id="savebutton">
+    <button type="submit" id="save-preferences">Save Preferences</button>
+  </div>
+
+<% end %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+    var statesSelect = $('select#user_state');
+
+    function states_callback(countryStates) {
+      statesSelect.empty();
+      if(countryStates.length > 0){
+
+        for (var i in countryStates) {
+            var state = countryStates[i];
+
+            if (typeof(state) != 'object') {
+                continue;
+            }
+
+            statesSelect.append($('<option/>').val(state[1]).text(state[0]));
+        }
+
+        statesSelect.removeAttr('disabled');
+      } else {
+        states_error();
+      }
+    }
+
+    function states_error(){
+      statesSelect.empty();
+      statesSelect.append($('<option/>').val('').text('No states available for this country.'));
+      statesSelect.attr('disabled', true);
+    }
+
+    function states_complete(){
+      hoptopus.hideProgress();
+    }
+
+    $('select#user_country').live('change', function() {
+        hoptopus.showProgress("Working...");
+        $.get("<%= utils_states_path %>",{ country: $(this).val() }, states_callback).error(states_error()).complete(states_complete());
+    });
+
+
+</script>
+<% end %>

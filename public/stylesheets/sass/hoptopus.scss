@@ -1,6 +1,9 @@
+
 $green: #85af22;
 $brown: #FFE9A8;
 $selected_row_color: #FFFFFF;
+$content_width: 900px;
+$lightgray: #C0C0C0;
 
 html { height: 101%; }
 
@@ -16,10 +19,27 @@ body {
 	background-repeat: repeat-x;
 }
 
-body, p, ol, ul, td {
+body, p, ol, ul, td, input, select {
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-size:	 13px;
 	line-height: 18px;
+}
+
+input, select{
+  border-top: 2px solid $lightgray;
+  border-right: 1px solid $lightgray;
+  border-left: 2px solid $lightgray;
+  border-bottom: 1px solid $lightgray;
+  border-radius: .4em;
+  padding: .3em .3em;
+}
+
+td select, td input {
+  padding: .25em 0;
+}
+
+input[type=file] {
+  border: none;
 }
 
 .letters-list a {
@@ -223,7 +243,7 @@ h2.tastings {
 }
 
 #content {
-	width: 900px;
+	width: $content_width;
 	min-height: 500px;
 }
 
@@ -362,7 +382,19 @@ div.navigation, div.alert {
     height: auto;
 }
 
-h3 {
+fieldset {
+    width: $content_width / 2 - 10px;
+    float: left;
+    border: none;
+    padding-top: 7pt;
+    padding-left: 5pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+fieldset legend, h3 {
+    font-size: 15px;
+    font-weight: bold;
 	margin-top: 5pt;
 	margin-bottom: 5pt;
 	color: #666;
@@ -398,7 +430,7 @@ h3 a:hover {
 }
 
 table.list th {
-	background-color: #ccc;
+	background-color: $lightgray;
 	cursor: url("/cursors/openhand.cur"), default !important;
 }
 
@@ -993,11 +1025,7 @@ html[xmlns] .clearfix {
   top: -3px;
 }
 
-.user-info span.note {
-  display: block;
-  float: left;
-  margin-left: 4pt;
-}
+
 
 #navigation li.user-info a, #navigation li.connect a {
   background-color: transparent;
@@ -1037,6 +1065,11 @@ li.connect span.or {
 
 .ui-dialog .buttons {
     text-align:right;
+}
+
+.ui-dialog div.errors {
+  color: #f00;
+  text-align:center;
 }
 
 .sub.field {
@@ -1091,3 +1124,12 @@ select.beers.dropdown {
 .ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
     outline: none;
 }
+
+div.button {
+    margin-top: 15pt;
+    text-align: center;
+}
+
+@import "preferences";
+@import "register";
+@import "cellars";
