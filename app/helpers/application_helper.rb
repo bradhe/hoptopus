@@ -79,7 +79,7 @@ module ApplicationHelper
   
   def gravatar_for(user, options = {})
     options = { :alt => 'avatar', :class => 'avatar' }.merge! options
-    
+
     unless options.has_key?(:size) 
       options[:size] = 42
     end
@@ -89,7 +89,7 @@ module ApplicationHelper
       image_tag url, options
     elsif user.email
       id = Digest::MD5::hexdigest user.email.strip.downcase
-      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s + '&d=mm'
+      url = 'http://www.gravatar.com/avatar/' + id + '.jpg?r=pg&s=' + options[:size].to_s + '&d=' + CGI::escape(absolute_url "/images/hoptopus_avatar.png")
       options.delete :size
       image_tag url, options
     end
