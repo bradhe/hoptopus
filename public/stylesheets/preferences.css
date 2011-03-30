@@ -1,0 +1,6 @@
+/* Preferences */
+#save-preferences {
+  float: right; }
+
+select#user_country {
+  width: 280px; }
