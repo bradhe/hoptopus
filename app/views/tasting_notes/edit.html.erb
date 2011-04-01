@@ -1,0 +1,28 @@
+<% content_for :title do %>
+	edit <%= @tasting.brew.name %> tasting notes
+<% end %>
+
+<h2>Edit Tasting Notes for <%= @tasting.brew.name %></h2>
+
+<%= form_for([@tasting.brew, @tasting]) do |f| %>
+
+	<div class="field">
+		<span class="label">Tasted On:</span>
+		<span calss="value"><%= @tasting.created_at.strftime "%A %B %d, %Y" %></span>
+	</div>
+
+	<div class="field">
+		<span class="label">Aged:</span>
+		<span calss="value"><%= distance_of_time_in_words(@tasting.cellared_at, @tasting.created_at) %></span>
+	</div>
+
+	<div class="field">
+		<%= f.label :markup, 'Tasting Notes:' %>
+		<%= f.text_area :markup %>
+		<span class="note">Markdown syntax for formatting is applied. I will write a syntax legend at some point.<br/>In the mean time see <a href="http://daringfireball.net/projects/markdown/">Daring Fireball's guide to markdown syntax</a>.
+	</div>
+	
+	<div class="buttons">
+		<button type="submit">Save Tasting Notes</button> <%= link_to 'Back', cellar_path(@tasting.user.username) %>
+	</div>
+<% end %>

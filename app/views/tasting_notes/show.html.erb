@@ -1,0 +1,23 @@
+<% content_for :title do %>
+	<%= @tasting.brew.name %> tasting notes
+<% end %>
+
+<div class="navigation"><%= link_to 'View Beer in Brew Wiki', brew_path(@tasting.brew) %></div>
+
+<h2>Tasting Notes for <%= @tasting.brew.name %></h2>
+
+<div class="brief info">
+	<div class="field">
+		<span class="label">Tasted On:</span>
+		<span calss="value"><%= @tasting.created_at.strftime "%A %B %d, %Y" %></span>
+	</div>
+
+	<div class="field">
+		<span class="label">Aged:</span>
+		<span calss="value"><%= distance_of_time_in_words(@tasting.cellared_at, @tasting.created_at) %></span>
+	</div>
+</div>
+
+<div class="description">
+	<%== @tasting.current_revision.to_html || 'No tasting notes have been entered for this tasting.' %>
+</div>

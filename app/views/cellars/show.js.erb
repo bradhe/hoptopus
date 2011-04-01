@@ -1,0 +1,15 @@
+// Post-process this crap.
+var unprocessed = <%== @cellar.beers.select { |b| b.removed_at.nil? }.to_json(:methods => [:formatted_cellared_at, :bottle_size_name, :formatted_price]) || '{}' %>;
+var cellaredBeers = [];
+for (var i in unprocessed) {
+	cellaredBeers.push(unprocessed[i].beer);
+}
+
+var unprocessedBreweries = <%== @cellar.breweries.to_json %>;
+var processedBreweries = [];
+for (var i in unprocessedBreweries) {
+	processedBreweries.push(unprocessedBreweries[i].brewery);
+}
+
+hoptopus.data('cellared_beers', cellaredBeers);
+hoptopus.data('cellar_breweries', processedBreweries);
