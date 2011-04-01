@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_one :cellar, :dependent => :destroy
-  has_many :tastings
+  has_many :tasting_notes
   has_many :events
   has_many :alerts
   has_and_belongs_to_many :roles

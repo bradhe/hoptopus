@@ -16,26 +16,18 @@ Hoptopus::Application.routes.draw do
       end
 
       resources :comments, :only => [:update, :destroy, :create]
-      resources :tastings, :only => [:new, :create]
+      resources :tasting_notes, :only => [:new, :create]
     end
     
     resources :comments, :only => [:update, :destroy, :create]
   end
 
   resources :brews do
-    resources :tastings, :only => [:show, :update, :destroy, :edit] do
-      resources :comments, :only => [:update, :destroy, :create]
-    end
+    resources :tasting_notes, :only => :show
   end
 
   resources :wiki, :only => :index
-  
-  resources :users, :only => :update, :constraints => { :id => /.*/ } do
-    collection do
-
-    end
-  end
-  
+  resources :users, :only => :update, :constraints => { :id => /.*/ }
   resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
     
@@ -60,7 +52,6 @@ Hoptopus::Application.routes.draw do
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
   match 'logout' => 'auth#logout'
-  match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
 
   # Users paths
   match 'users/confirm-email/:confirmation_code' => 'users#confirm_email', :as => 'confirm_email'
@@ -71,6 +62,7 @@ Hoptopus::Application.routes.draw do
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'
   match 'reset-password/sent' => 'auth#password_reset_confirmation_sent', :as => 'password_reset_confirmation_sent'
   match 'reset-password/:id' => 'auth#confirm_password_reset', :as => 'confirm_password_reset'
+  match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
   
   # These are front end routes.
   match 'contact/sent' => 'contact#sent', :as => 'contact_request_sent'

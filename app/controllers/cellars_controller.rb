@@ -3,6 +3,13 @@ require 'array'
 class CellarsController < ApplicationController
   include UploadParsers
   include AWS::S3
+  
+  before_filter do
+    if params.has_key?(:id) and params[:id].end_with? '.js'
+      params[:id] = params[:id][0..-4] 
+      request.format = :js
+    end
+  end
 
   def import_status
     @cellar = Cellar.find params[:id]
@@ -128,11 +135,11 @@ class CellarsController < ApplicationController
   def show
     if params[:id].nil?
       @cellar = Cellar.find_by_user(@user)
-      @tastings = @user.tastings
+      @tastings = @user.tasting_notes
     else 
       user = User.find_by_username(params[:id])
       @cellar = Cellar.find_by_user(user)
-      @tastings = @cellar.user.tastings
+      @tastings = @cellar.user.tasting_notes
     end
 
     @cellared_beers = @cellar.beers.select { |b| b.removed_at.nil? }.first(25)
@@ -151,6 +158,7 @@ class CellarsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js # show.js.erb
       format.xml  { render :xml => @cellar }
     end
   end

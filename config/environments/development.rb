@@ -24,5 +24,6 @@ Hoptopus::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   config.action_mailer.default_url_options = { :host => "dev.hoptopus.com", :port => 3000 }
+  config.action_controller.asset_host = "http://a.dev.hoptopus.com:3000"
 end
 

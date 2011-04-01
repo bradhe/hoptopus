@@ -24,4 +24,9 @@ class Cellar < ActiveRecord::Base
     brews.each { |b| s << b.brewery_id }
     Brewery.order('name').where('id IN (?)', s.to_a).all
   end
+  
+  # This is the parameter that Rails will use in routing for this model.
+  def to_param
+    user.username unless user.nil?
+  end
 end

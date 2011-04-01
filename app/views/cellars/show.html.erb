@@ -163,10 +163,6 @@
       <th>Tasted</th>
       <th>Aged</th>
       <th class="unsortable"></th>
-      <% if is_users_cellar? %>
-          <th class="unsortable"></th>
-          <th class="unsortable"></th>
-      <% end %>
     </tr>
     </thead>
 
@@ -185,11 +181,7 @@
               <td><%= t.brew.name %></td>
               <td align="center"><%= distance_of_time_in_words(t.created_at, Time.now) %> ago</td>
               <td align="center"><%= distance_of_time_in_words(t.cellared_at, t.created_at) %></td>
-              <td align="center"><%= link_to 'Notes', brew_tasting_path(t.brew, t) %></td>
-              <% if is_users_cellar? %>
-                  <td align="center"><%= link_to 'Edit Notes', edit_brew_tasting_path(t.brew, t) %></td>
-                  <td align="center"><%= button_to 'Delete', brew_tasting_path(t.brew, t), :method => :delete, :confirm => 'You sure?' %></td>
-              <% end %>
+              <td align="center"><%= link_to 'Notes', brew_tasting_note_path(t.brew, t) %></td>
             </tr>
         <% end %>
         </tbody>
@@ -246,10 +238,11 @@
         </script>
         <script src="/javascripts/brewery-helper.js" type="text/javascript"></script>
     <% end %>
-    <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.sortableColumns.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.dynamicForm.js"></script>
-    <script type="text/javascript" src="/javascripts/jquery.pagedDialog.js"></script>
+	<%= javascript_include_tag "/javascripts/hoptopus.grid.js" %>
+	<%= javascript_include_tag "/javascripts/jquery.sortableColumns.js" %>
+	<%= javascript_include_tag "/javascripts/jquery.dynamicForm.js" %>
+	<%= javascript_include_tag "/javascripts/jquery.pagedDialog.js" %>
+	<%= javascript_include_tag cellar_path(@cellar, :format => :js) %>
     
     <script type="text/javascript">
         function makeSortable() {
@@ -263,19 +256,6 @@
             });
 
             table.tablesorter({headers: headers});
-        }
-
-        // Post-process this crap.
-        var unprocessed = <%== @cellar.beers.select { |b| b.removed_at.nil? }.to_json(:methods => [:formatted_cellared_at, :bottle_size_name, :formatted_price]) || '{}' %>;
-        var processed = [];
-        for (var i in unprocessed) {
-            processed.push(unprocessed[i].beer);
-        }
-
-        var unprocessedBreweries = <%== @cellar.breweries.to_json %>;
-        var processedBreweries = [];
-        for (var i in unprocessedBreweries) {
-            processedBreweries.push(unprocessedBreweries[i].brewery);
         }
 
         $(function() {
@@ -305,11 +285,13 @@
                 }
             });
 
-            grid.objects = processed;
-            grid.breweries = processedBreweries;
+            grid.objects = hoptopus.data('cellared_beers');
             grid.rowsShown = 25;
             grid.rowClasses = ['color1', 'color2'];
-
+			
+			// This should be abstracted away from this bullshit.
+            grid.breweries = hoptopus.data('cellar_breweries');
+			
             $('#new-beer').bind('click', function() {
                 var dialog = $('#add-beer-form');
                 dialog.dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Add a Beer to your Cellar'});
@@ -458,7 +440,7 @@
                     });
                 },
                 error: function() {
-                    alert('AWW YAAA');
+                    alert('An error occured while submitting your edit form.');
                 },
                 submitStart: function () {
                     hoptopus.showProgress('Loading...');

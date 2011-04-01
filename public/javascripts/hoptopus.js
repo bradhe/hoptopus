@@ -41,6 +41,17 @@ var hoptopus = (function($) {
             });
         }
     };
+    
+    h.clientData = {};
+    h.data = function(name, data) {
+      if(data) {
+        h.clientData[name] = data;
+        return data;
+      }
+      else {
+        return h.clientData[name];
+      }
+    };
 
 
     h.qsort = function(property, objs, comp) {
