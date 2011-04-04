@@ -174,7 +174,7 @@ ActiveRecord::Schema.define(:version => 20110328052908) do
     t.datetime "last_login_at"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "confirmed",                          :default => false
+    t.boolean  "confirmed"
   end
 
   create_table "wikis", :force => true do |t|

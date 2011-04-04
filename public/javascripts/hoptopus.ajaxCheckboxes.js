@@ -1,11 +1,15 @@
-hoptopus.ajaxCheckboxes = function (buttonName, checkboxClass, callbackFunction){
+hoptopus.ajaxCheckboxes = function (buttonName, checkboxClass, shouldConfirm, callbackFunction){
 
     $("#" + buttonName).click (function() {
-        hoptopus.showProgress("Working...");
-        makeSelectedUserCall($(this).attr("data-url-path"), function (request) {
-            callbackFunction(request);
-            hoptopus.hideProgress();
-        });
+        var shouldContinue = shouldConfirm ? confirm("Are you sure?") : true;
+
+        if(shouldContinue){
+          hoptopus.showProgress("Working...");
+          makeSelectedUserCall($(this).attr("data-url-path"), function (request) {
+              callbackFunction(request);
+              hoptopus.hideProgress();
+          });
+        }
     });
 
     function getValues(){
@@ -21,7 +25,7 @@ hoptopus.ajaxCheckboxes = function (buttonName, checkboxClass, callbackFunction)
         if(data['values'].length > 0) {
             $.ajax({ type: 'POST', url: url, data: data, success: callback, dataType: 'json' });
         } else {
-            alert("You must select at least one person to revoke!");
+            alert("Nothing was selected -- no actions performed");
             hoptopus.hideProgress();
         }
     }

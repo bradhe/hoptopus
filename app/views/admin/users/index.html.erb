@@ -63,7 +63,7 @@
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
 
-hoptopus.ajaxCheckboxes("makeadminbtn","selectuser", function() {
+hoptopus.ajaxCheckboxes("makeadminbtn","selectuser", false, function() {
     $(".selectuser:checked").each (function() {
         var admCell = $(this).parent("td").nextAll(".admincell");
 
@@ -77,7 +77,7 @@ hoptopus.ajaxCheckboxes("makeadminbtn","selectuser", function() {
 });
 
 
-hoptopus.ajaxCheckboxes("revokeadminbtn", "selectuser", function() {
+hoptopus.ajaxCheckboxes("revokeadminbtn", "selectuser", false, function() {
     $(".selectuser:checked").each (function() {
         var admCell = $(this).parent("td").nextAll(".admincell").empty();
         $(this).removeAttr("checked");
@@ -86,7 +86,7 @@ hoptopus.ajaxCheckboxes("revokeadminbtn", "selectuser", function() {
     });
 });
 
-hoptopus.ajaxCheckboxes("deletebtn", "selectuser", function() {
+hoptopus.ajaxCheckboxes("deletebtn", "selectuser", true, function() {
     $(".selectuser:checked").each (function() {
         $(this).parents("tr").first().remove();
     });
