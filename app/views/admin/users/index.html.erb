@@ -99,13 +99,6 @@ hoptopus.ajaxCheckboxes("deletebtn", "selectuser", true, function() {
         b.removeAttr("disabled");
     }
 
-    function getSelectedUsers(){
-        var user_ids = $(".selectuser:checked");
-        var data = { 'selected_users' : []};
-        user_ids.each(function() {data['selected_users'].push($(this).val());});
-        return data;
-    }
-
     function handleRowChange(checkbox) {
         if(checkbox.is(':checked')) checkbox.parents("tr").first().addClass("rowselected");
         else checkbox.parents("tr").first().removeClass("rowselected");
@@ -132,16 +125,6 @@ hoptopus.ajaxCheckboxes("deletebtn", "selectuser", true, function() {
         } else {
             makeAdminButton.show();
             revokeAdminButton.hide();
-        }
-    }
-
-    function makeSelectedUserCall(url,callback) {
-        var data = getSelectedUsers();
-
-        if(data['selected_users'].length > 0) {
-            $.ajax({ type: 'POST', url: url, data: data, success: callback, dataType: 'json' });
-        } else {
-            alert("You must select at least one person to revoke!")
         }
     }
 
