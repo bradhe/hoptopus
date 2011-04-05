@@ -19,20 +19,20 @@ class CreateWikis < ActiveRecord::Migration
       b.save
     end
     
-    Tasting.all.each do |t|
+    TastingNote.all.each do |t|
       t.markup = t.notes
       t.save
     end
     
-    remove_column :tastings, :notes
+    remove_column :tasting_notes, :notes
     remove_column :beers, :notes
     remove_column :brews, :description
   end
 
   def self.down
-    add_column :tastings, :notes, :text
+    add_column :tasting_notes, :notes, :text
     
-    Tasting.all.each do |t|
+    TastingNote.all.each do |t|
       t.notes = t.markup
       t.save
     end

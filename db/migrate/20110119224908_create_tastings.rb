@@ -1,6 +1,6 @@
 class CreateTastings < ActiveRecord::Migration
   def self.up
-    create_table :tastings do |t|
+    create_table :tasting_notes do |t|
       t.integer :beer_id
       t.integer :user_id
 
@@ -9,6 +9,6 @@ class CreateTastings < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :tastings
+    drop_table :tasting_notes
   end
 end

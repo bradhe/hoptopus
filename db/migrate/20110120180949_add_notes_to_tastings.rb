@@ -1,9 +1,9 @@
 class AddNotesToTastings < ActiveRecord::Migration
   def self.up
-    add_column :tastings, :notes, :string
+    add_column :tasting_notes, :notes, :string
   end
 
   def self.down
-    remove_column :tastings, :notes
+    remove_column :tasting_notes, :notes
   end
 end
