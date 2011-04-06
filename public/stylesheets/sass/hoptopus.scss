@@ -1,6 +1,6 @@
-
 $green: #85af22;
 $brown: #FFE9A8;
+$progress_background: #000;
 $selected_row_color: #FFFFFF;
 $content_width: 900px;
 $lightgray: #C0C0C0;
@@ -883,24 +883,27 @@ a.dismiss-alert {
 }
 
 span.progress {
-  background-color: #000;
+  background-color: $progress_background;
   padding: 5pt;
   position: fixed;
   margin-left: auto;
   margin-right: auto;
   font-weight: bold;
   color: #fff;
+  display: block;
+  text-align: center;
+  width: 100%;
 
-    padding-bottom: 7px;
-    padding-top: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 span.progress img {
-    position: relative;
-    top: 3px;
-    margin-right: 10px;
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
 }
 
 table.beers.list {
@@ -1059,7 +1062,7 @@ li.connect span.or {
   background-color: $selected_row_color;
 }
 
-.add-beer.left {
+.add-beer.left, .new-tasting-note.left {
     width: 400px;
 }
 
@@ -1123,6 +1126,11 @@ select.beers.dropdown {
 
 .ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
     outline: none;
+}
+
+.ui-dialog-content h3 {
+	clear: both;
+	display: block;
 }
 
 div.button {

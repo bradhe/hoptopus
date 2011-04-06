@@ -22,11 +22,6 @@
         </div>
 
         <div class="field">
-            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
-        </div>
-
-        <div class="field">
             <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
             <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
         </div>
@@ -40,7 +35,22 @@
             <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
             $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
         </div>
+    </div>
 
+    <div class="add-beer left">
+        <div class="field">
+            <% unless beer.brew.nil? %>
+              <span class="value"><%= beer.name %></span>
+            <% else %>
+              <%= select_tag "#{form_element_prefix}[brew_id]", nil, { :include_blank => "Beer", :disabled => true } %>
+            <% end %>
+        </div>
+
+        <div class="field">
+            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
+            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
+        </div>
+		
         <div class="field">
             <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
             <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date cellared_at" %>
@@ -57,21 +67,24 @@
             </div>
         </div>
     </div>
-
-    <div class="add-beer left">
-        <div class="field">
-            <% unless beer.brew.nil? %>
-              <span class="value"><%= beer.name %></span>
-            <% else %>
-              <%= select_tag "#{form_element_prefix}[brew_id]", nil, { :include_blank => "Beer", :disabled => true } %>
-            <% end %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[markup]", "Notes:" %>
-            <%= text_area_tag "#{form_element_prefix}[markup]", beer.markup %>
-        </div>
-    </div>
+	
+	<% if beer.tasting_notes.empty? %>
+	<h3>Initial Tasting Notes</h3>
+	<% else %>
+	<h3>Tasting Notes</h3>
+	<% end %>
+	
+	<%= form_for(beer.tasting_notes.new, beer) do |f| %>
+	<div class="new-tasting-note left">
+		<div class="field">
+			<%= f.label :appearance_rating, 'Appearance:' %>
+			<%= f.text_box :appearance_rating %>
+	</div>
+	
+	<div class="new-tasting-note left">
+		
+	</div>
+	<% end %>
 </div>
 
 <% if include_buttons %>

@@ -8,7 +8,7 @@
 var hoptopus = (function($) {
     var h = {};
     var currentProgress = null;
-
+    
     h.showProgress = function(text, fn) {
         if(currentProgress) {
           this.hideProgress();
@@ -18,16 +18,38 @@ var hoptopus = (function($) {
 
         var span = $('<span/>').addClass('progress');
         span.append($(progressImg));
-        span.append(text);
-    
-        var left = ($(window).width() / 2) - (span.outerWidth() / 2);
-        span.css('left', left);
+        span.css('z-index', '1000');
+        
+        var textSpan = $('<span/>');
+        
+        if($.isArray(text)) {
+          textSpan.append(text[0]);
+        }
+        else {
+          textSpan.append(text);
+        }
+        
+        span.append(textSpan);
 
         span.hide();
         $('body').prepend(span);
         span.slideDown('fast');
         currentProgress = span;
-
+        
+        // Every few 3 seconds, rotate the text if it's an array.
+        if($.isArray(text)) {
+          var i = 1; // We already displayed the first one.
+          var t = window.setTimeout(function() {
+            if(i < text.length) {
+              textSpan.text(text[i++]);
+            }
+            else {
+              // Should cancel itself.
+              window.clearTimeout(t);
+            }
+          }, 2000);
+        }
+        
         if(fn) {
           fn();
         }
@@ -52,6 +74,38 @@ var hoptopus = (function($) {
         return h.clientData[name];
       }
     };
+    
+    h.load = function(scriptPath, options) {
+      var settings = {
+        async: true,
+        complete: null,
+        started: null
+      };
+      
+      if(options) {
+        $.extend(settings, options);
+      }
+      
+      var script = document.createElement('script');
+      
+      // TODO: Determine if this is even safe...
+      var head = document.getElementsByTagName('head')[0];
+      
+      script.src = scriptPath;
+      script.type = 'text/javascript';
+      script.async = settings.async;
+      
+      if(settings.complete) {
+        script.onload = settings.complete;
+      }
+      
+      if(settings.started) {
+        // Do that callback
+        settings.started();
+      }
+      
+      head.appendChild(script);
+    }
 
 
     h.qsort = function(property, objs, comp) {

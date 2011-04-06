@@ -709,13 +709,16 @@ a.dismiss-alert {
   float: right; }
 
 span.progress {
-  background-color: #000;
+  background-color: black;
   padding: 5pt;
   position: fixed;
   margin-left: auto;
   margin-right: auto;
   font-weight: bold;
   color: #fff;
+  display: block;
+  text-align: center;
+  width: 100%;
   padding-bottom: 7px;
   padding-top: 7px;
   padding-left: 10px;
@@ -842,7 +845,7 @@ li.connect span.or {
 .rowselected {
   background-color: white; }
 
-.add-beer.left {
+.add-beer.left, .new-tasting-note.left {
   width: 400px; }
 
 .ui-dialog .buttons {
@@ -893,6 +896,10 @@ select.beers.dropdown {
 
 .ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
   outline: none; }
+
+.ui-dialog-content h3 {
+  clear: both;
+  display: block; }
 
 div.button {
   margin-top: 15pt;
