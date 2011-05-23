@@ -1,4 +1,7 @@
-class ConfirmationRequest < ActiveRecord::Base
+class ConfirmationRequest
+  include MongoMapper::Document
+
+  key :confirmation_code, String
   belongs_to :user
 
   before_create do

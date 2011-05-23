@@ -33,12 +33,12 @@ class ApplicationController < ActionController::Base
 
     @user = user
     
-    if session[:user_id] != user.id
-      session[:user_id] = user.id
+    if session[:user_id] != user.object_id
+      session[:user_id] = user.object_id
       
       # Update the last login date for this guy
       user.last_login_at = Time.now
-      user.save :validates => false
+      user.save
     end
   end
 

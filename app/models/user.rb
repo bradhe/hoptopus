@@ -1,9 +1,27 @@
-class User < ActiveRecord::Base
+class User
+  include MongoMapper::Document
+  attr_accessor :password
+
+  key :facebook_id, Integer
+  key :username, String
+  key :password_hash, String
+  key :email, String
+  key :first_name, String
+  key :last_name, String
+  key :country, String
+  key :state, String
+  key :city, String
+  key :confirmed, Boolean
+  key :admin, Boolean
+  key :last_login_at, Time
+  key :should_show_own_events, Boolean
+  key :email_consent, Boolean
+  key :should_receive_email_notifications, Boolean
+
   has_one :cellar, :dependent => :destroy
-  has_many :tastings
-  has_many :events
-  has_many :alerts
-  has_and_belongs_to_many :roles
+  many :tastings
+  #many :events
+  #many :alerts
 
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
@@ -14,14 +32,14 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 
   # We do not want to do these for OAuth clients
-  validates_presence_of :password_hash, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_confirmation_of :password_hash, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
 
   validates_confirmation_of :email, :message => 'Emails do not match.'
   
   before_create do
-    self.password_hash = hash_password(password_hash) if password_hash
+    self.password_hash = hash_password(password) if password
   end
 
   def confirmed?
@@ -29,13 +47,7 @@ class User < ActiveRecord::Base
   end
 
   def is_admin?
-    admin_role = Role::admin_role
-  
-    if admin_role.nil?
-      return false
-    end
-    
-    return roles.include? admin_role
+    admin
   end
 
   def make_admin
@@ -58,23 +70,16 @@ class User < ActiveRecord::Base
     self.last_login_at.strftime "%A %B %d, %Y" unless self.last_login_at.nil?
   end
   
-  def hash_password(password)
+  def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end
 
   def self.authenticate_without_password_hash(email, password)
-    if password.nil? or password.empty?
-      return nil
-    end
-
-    # Just hash the fucker and get outta here.
-    password_hash = Digest::SHA256.hexdigest(password)
-
-    return authenticate_with_password_hash(email, password_hash)
+    return authenticate_with_password_hash(email, User.hash_password(password))
   end
 
   def self.authenticate_with_password_hash(email, password_hash)
-    return find(:first, :conditions => "email = '#{email}' AND password_hash = '#{password_hash}'")
+    return User.where(:email => email, :password_hash => password_hash).first
   end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)

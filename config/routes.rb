@@ -5,10 +5,6 @@ Hoptopus::Application.routes.draw do
   match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
 
   resources :cellars, :only => [:index, :show], :constraints => { :id => /.*/ } do
-    member do
-      post 'upload'
-    end
-    
     resources :beers do
       collection do
         post :edit
@@ -18,25 +14,10 @@ Hoptopus::Application.routes.draw do
       resources :comments, :only => [:update, :destroy, :create]
       resources :tastings, :only => [:new, :create]
     end
-    
-    resources :comments, :only => [:update, :destroy, :create]
   end
 
-  resources :brews do
-    resources :tastings, :only => [:show, :update, :destroy, :edit] do
-      resources :comments, :only => [:update, :destroy, :create]
-    end
-  end
-
-  resources :wiki, :only => :index
+  resources :users, :only => :update, :constraints => { :id => /.*/ }
   
-  resources :users, :only => :update, :constraints => { :id => /.*/ } do
-    collection do
-
-    end
-  end
-  
-  resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
     
   namespace 'admin' do

@@ -31,10 +31,10 @@ class UsersController < ApplicationController
 
   def send_confirmation
     # Previous requests need to be set to expired.
-    ConfirmationRequest.where(:user_id => @user.id).each { |c| c.expired = true; c.save }
+    ConfirmationRequest.where(:user_id => @user.object_id).each { |c| c.expired = true; c.save }
     
     # Create a new one...
-    confirmation_request = ConfirmationRequest.create :user => @user
+    confirmation_request = ConfirmationRequest.create(:user => @user)
     Notifications.send_confirmation_request(confirmation_request).deliver
 
     redirect_to confirmation_sent_path
@@ -59,6 +59,6 @@ class UsersController < ApplicationController
 
   private
   def find_valid_confirmation(confirmation_code)
-    ConfirmationRequest.where(:confirmation_code => confirmation_code, :user_id => @user.id, :expired => false, :confirmed => false).first
+    ConfirmationRequest.where(:confirmation_code => confirmation_code, :user_id => @user.object_id, :expired => false, :confirmed => false).first
   end
 end
