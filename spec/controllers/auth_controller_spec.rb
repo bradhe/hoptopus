@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe AuthController do
   before do
-    User.collection.drop
     @user = new_user
   end
 

@@ -2,6 +2,8 @@ class ConfirmationRequest
   include MongoMapper::Document
 
   key :confirmation_code, String
+  key :expired, Boolean, :default => false
+  key :confirmed, Boolean, :default => false
   belongs_to :user
 
   before_create do

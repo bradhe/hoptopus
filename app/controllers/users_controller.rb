@@ -58,6 +58,6 @@ class UsersController < ApplicationController
 
   private
   def find_valid_confirmation(confirmation_code)
-    ConfirmationRequest.where(:confirmation_code => confirmation_code, :user_id => current_user.id.to_s, :expired => false, :confirmed => false).first
+    ConfirmationRequest.where(:confirmation_code => confirmation_code, :user_id => current_user.id, :expired => false, :confirmed => false).first
   end
 end

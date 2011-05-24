@@ -81,8 +81,16 @@
 </div>
   
 <div id="bottom">
-  Copyright 2010 &copy; The Hoptopus People <%= link_to 'Contact', contact_index_path %> | <a href="http://hoptopus.posterous.com/">Blog</a>
+  Copyright 2011 &copy; The Hoptopus People <%= link_to 'Contact', contact_index_path %> | <a href="http://hoptopus.posterous.com/">Blog</a>
 </div>
+
+<% if Rails.env == 'development' %>
+ <h2>Session Information</h2>
+
+ <pre style="text-align: center;">
+<%= session.inspect %>
+ </pre>
+<% end %>
 
 <%= yield :javascript %>
 </body>

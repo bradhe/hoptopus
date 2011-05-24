@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe UsersController do
   before do
-    User.collection.drop
     @user = create_user(:confirmed => false)
   end
 
