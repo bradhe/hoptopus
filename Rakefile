@@ -3,4 +3,6 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
+task :default => :spec
+
 Hoptopus::Application.load_tasks

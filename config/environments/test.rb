@@ -32,4 +32,8 @@ Hoptopus::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  config.action_mailer.default_url_options = { :host => "test.hoptopus.com", :port => 3000 }
 end
+
+# Don't send emails in test
+ActionMailer::Base.delivery_method = :test

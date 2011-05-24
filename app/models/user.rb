@@ -18,7 +18,7 @@ class User
   key :email_consent, Boolean
   key :should_receive_email_notifications, Boolean
 
-  has_one :cellar, :dependent => :destroy
+  one :cellar, :dependent => :destroy
   many :tastings
   #many :events
   #many :alerts
@@ -39,29 +39,25 @@ class User
   validates_confirmation_of :email, :message => 'Emails do not match.'
   
   before_create do
-    self.password_hash = hash_password(password) if password
+    self.password_hash = User.hash_password(password) if password
+  end
+
+  after_create do
+    Cellar.create!(:user => self)
+  end
+
+  def to_param
+    username
   end
 
   def confirmed?
-    self.confirmed
+    confirmed
   end
 
-  def is_admin?
+  def admin?
     admin
   end
 
-  def make_admin
-    roles << Role::admin_role unless is_admin?
-  end
-
-  def disable
-    
-  end
-
-  def revoke_admin
-    roles.delete Role::admin_role
-  end
-  
   def formatted_created_at
     self.created_at.strftime "%A %B %d, %Y" unless self.created_at.nil?
   end

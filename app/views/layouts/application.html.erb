@@ -57,7 +57,7 @@
         <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
       </li>
  
-      <% if @user.is_admin? %>
+      <% if @user.admin? %>
       <li><%= link_to 'Admin', admin_root_path %></li>
       <% end %>
       
