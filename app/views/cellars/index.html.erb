@@ -33,7 +33,7 @@
 				<div class="cellar">
 					<%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
 					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
-					<span class="date-joined">Joined: <%= cellar.created_at.strftime "%Y-%m-%d" %></span>
+					<span class="date-joined">Joined: <%= cellar.created_at %></span>
 					<span class="stats"><%= cellar.beers.count %> beers</span>
 				</div>
 	<% end %>
@@ -48,7 +48,7 @@
 <div id="activity">
 	<ul class="events">
 	<% if @recent_events.nil? or @recent_events.empty? %>
-		<li class="empty">How sad, no one is doing ANYTHING on this site :( Maybe someone should go <%= link_to 'groom the wiki?', wiki_index_path  %></li>
+		<li class="empty">How sad, no one is doing ANYTHING on this site :(</li>
 	<% else %>
 		<% @recent_events.each do |event| %>
 			<%== render_event event %>

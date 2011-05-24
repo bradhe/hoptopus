@@ -14,3 +14,17 @@ def create_user(attributes={})
   u.save!
   u
 end
+
+def new_confirmation_request(attributes={})
+  default_attributes = {
+    
+  }
+
+  ConfirmationRequest.new(default_attributes.merge(attributes.symbolize_keys))
+end
+
+def create_confirmation_request(attributes={}) 
+  c = new_confirmation_request(attributes)
+  c.save!
+  c
+end

@@ -17,6 +17,7 @@ class User
   key :should_show_own_events, Boolean
   key :email_consent, Boolean
   key :should_receive_email_notifications, Boolean
+  timestamps!
 
   one :cellar, :dependent => :destroy
   many :tastings

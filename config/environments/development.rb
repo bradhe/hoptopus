@@ -24,5 +24,13 @@ Hoptopus::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   config.action_mailer.default_url_options = { :host => "dev.hoptopus.com", :port => 3000 }
+
+  config.after_initialize do
+    Date::DATE_FORMATS.merge!(
+      :default => '%m/%d/%Y',
+      :date_time12  => "%m/%d/%Y %I:%M%p",
+      :date_time24  => "%m/%d/%Y %H:%M"
+    )
+  end
 end
 

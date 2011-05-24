@@ -5,6 +5,10 @@ class Cellar
 
   many :beers
   belongs_to :user
+  timestamps!
+
+  scope :newest, sort(:created_at.desc).limit(15)
+  scope :oldest, sort(:created_at).limit(15)
 
   def self.find_by_user(user)
     if user.nil? or user.id < 1
