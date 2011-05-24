@@ -32,9 +32,9 @@ class User
   validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 
   # We do not want to do these for OAuth clients
-  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? and !u.password_hash }
+  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? and !u.password_hash }
+  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| !u.password_hash and u.facebook_id.nil? }
 
   validates_confirmation_of :email, :message => 'Emails do not match.'
   

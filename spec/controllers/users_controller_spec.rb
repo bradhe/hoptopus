@@ -16,14 +16,13 @@ describe UsersController do
       # Ugh...
       obj = Object.new
       obj.should_receive(:update_attribute).with(:confirmed, true)
-
-      @controller.current_user = @user
-      @user.should_receive(:update_attribute).with(:confirmed, true)
-
       @controller.stub(:find_valid_confirmation).and_return(obj)
 
       session[:user_id] = @user.id.to_s
       get :confirm_email, { :confirmation_code => '123aszx' }
+
+      @user.reload
+      @user.confirmed.should be_true
     end
   end
 end

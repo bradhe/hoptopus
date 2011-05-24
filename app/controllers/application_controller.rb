@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_confirmed
-    unless @user.nil? or @user.confirmed?
+    unless current_user.nil? or current_user.confirmed?
       redirect_to unconfirmed_path
     end
   end
