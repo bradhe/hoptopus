@@ -2,6 +2,11 @@ class User
   include MongoMapper::Document
   attr_accessor :password
 
+  one :cellar, :dependent => :destroy
+  many :tastings
+  many :cellars
+  many :events
+  many :alerts
   key :facebook_id, Integer
   key :username, String
   key :password_hash, String
@@ -19,10 +24,7 @@ class User
   key :should_receive_email_notifications, Boolean
   timestamps!
 
-  one :cellar, :dependent => :destroy
-  many :tastings
   #many :events
-  #many :alerts
 
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'

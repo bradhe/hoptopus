@@ -9,10 +9,10 @@
         <div class="field">
             <%= label_tag "#{form_element_prefix}[brewery_id]", "Beer:" %>
 
-            <% unless beer.brew.nil? %>
-                <span class="value"><%= beer.brewery_name %></span>
+            <% unless beer.name %>
+                <span class="value"><%= beer.brewery %></span>
             <% else %>
-                <%= select_tag "#{form_element_prefix}[brewery_id]", options_from_collection_for_select(Brewery.order("name").all, "id", "name"), { :include_blank => "Brewery" } %>
+              <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewer %>
             <% end %>
         </div>
 
@@ -60,10 +60,10 @@
 
     <div class="add-beer left">
         <div class="field">
-            <% unless beer.brew.nil? %>
+            <% unless beer.brew %>
               <span class="value"><%= beer.name %></span>
             <% else %>
-              <%= select_tag "#{form_element_prefix}[brew_id]", nil, { :include_blank => "Beer", :disabled => true } %>
+              <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
             <% end %>
         </div>
 

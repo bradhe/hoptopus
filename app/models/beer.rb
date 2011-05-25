@@ -11,6 +11,7 @@ class Beer
   key :cellared_at, Time
   key :abv, Float
   key :price, Float
+  key :year, Integer
 
   belongs_to :cellar
   has_many :tastings

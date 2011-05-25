@@ -2,10 +2,10 @@ require 'rubygems'
 require 'maruku'
 
 module ApplicationHelper
-	def is_logged_in?
-		not @user.nil?
-	end
-  
+  def is_logged_in?
+    !!@user
+  end
+
   def location_str(params={})
     city = params[:city]
     state = params[:state]
@@ -31,28 +31,28 @@ module ApplicationHelper
     
     return location
   end
-	
-	def full_host
-		host = self.request.host || "hoptopus.com"
-		
-		if (not self.request.port.nil?) and self.request.port != 80
-			host += ':' + self.request.port.to_s
-		end
-		
-		return host
-	end
+
+  def full_host
+    host = self.request.host || "hoptopus.com"
+    
+    if (not self.request.port.nil?) and self.request.port != 80
+      host += ':' + self.request.port.to_s
+    end
+    
+    return host
+  end
   
   def absolute_url(url)
     "http://#{full_host}#{url}"
   end
-	
-	def is_table_sortable?(collection) 
-		if collection.nil?
-			return nil
-		end
-		
-		return collection.empty? ? "" : 'data-sortable="true"'
-	end
+  
+  def is_table_sortable?(collection) 
+    if collection.nil?
+      return nil
+    end
+    
+    return collection.empty? ? "" : 'data-sortable="true"'
+  end
   
   def m(str)
     str.blank? ? "" : Maruku.new(str).to_html
@@ -96,13 +96,15 @@ module ApplicationHelper
   end
 
   def alert(name, options = {}, &block)
-    a = Alert.where('name = ? AND user_id = ?', name, @user.id).first
+    return if @user.nil?
 
-    if a.nil?
-      a = Alert.create(:name => name, :user_id => @user.id)
+    unless alert = @user.alerts.select{|a| a.name == name}.first
+      alert = Alert.new(:name => name)
+      @user.alerts << alert
+      @user.save!
     end
 
-    unless a.dismissed
+    unless alert.dismissed
       options.merge!(:name => name)
       block_to_partial('shared/alert', options, &block)
     end

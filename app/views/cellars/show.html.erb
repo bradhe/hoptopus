@@ -204,17 +204,6 @@
       <div class="info">Please fill out the <a href="/cellar_import_template.csv">cellar template</a> and save it as a
         CSV document.
       </div>
-
-      <% form_for(UploadCellar.new, :url => upload_cellar_path(@cellar), :html => {:multipart => true}) do |f| %>
-          <div class="field">
-            <%= f.label :file, 'File:' %>
-            <%= f.file_field :file %>
-          </div>
-
-          <div class="buttons">
-            <button type="submit">Upload</button>
-          </div>
-      <% end %>
     </div>
 
     <h2 data-tab-handle="preferences">Preferences</h2>

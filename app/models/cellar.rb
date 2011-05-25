@@ -11,14 +11,15 @@ class Cellar
   scope :oldest, sort(:created_at).limit(15)
 
   def self.find_by_user(user)
-    if user.nil? or user.id < 1
-      return nil
-    end
-
-    return Cellar.where(:user_id => user.id).first
+    return nil if user.nil?
+    return Cellar.find_by_user_id(user.id)
   end
 
   def self.find_by_username(username)
-    return Cellar.find_by_user User.find_by_username(username)
+    raise "Deprecated."
+  end
+
+  def breweries
+    self.beers.map{|b| b.brewery}.sort.uniq
   end
 end
