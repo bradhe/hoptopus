@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
   helper :all
   before_filter :restore_session, :ensure_confirmed
 
@@ -19,6 +18,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_authentication
+    redirect_to login_url if current_user.nil?
+  end
+
   def login_user(user)
     # We should make sure that this user is confirmed. If they're not then we need to deliver an account
     # confirmation. They will automatically get redirected to the "confirm your account" page by the
@@ -33,7 +36,7 @@ class ApplicationController < ActionController::Base
 
     self.current_user = user
 
-    session[:user_id] = user.to_param
+    session[:user_id] = user.id.to_s
 
     # Update the last login date for this guy
     user.update_attribute(:last_login_at, Time.now)

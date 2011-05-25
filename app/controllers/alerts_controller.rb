@@ -1,7 +1,7 @@
 class AlertsController < ApplicationController
+  before_filter :require_authentication 
   def dismiss
-    raise session.inspect
-    alert = self.current_user.alerts.select{|a| a.name == params[:name]}.first
+    alert = current_user.alerts.select{|a| a.name == params[:name]}.first
 
     if alert.nil?
       current_user.alerts << Alert.new(:name => name, :dismissed => true)
