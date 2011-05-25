@@ -25,7 +25,7 @@ Time::DATE_FORMATS.merge!(
       obj.distance_of_time_in_words(time, Time.now)
     else
       # We want the "long" format
-      "%B %d %Y"
+      time.strftime "%d %b %Y"
     end
   end
 )

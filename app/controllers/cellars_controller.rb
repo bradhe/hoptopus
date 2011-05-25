@@ -116,8 +116,8 @@ class CellarsController < ApplicationController
       @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
     end
 
-    @newest_cellars = Cellar.order('created_at DESC').limit(25).all.distribute 5
-    @largest_cellars = Cellar.all.sort!{ |a,b| b.beers.count <=> a.beers.count }.first(25).distribute 5
+    @newest_cellars = Cellar.order('created_at DESC').limit(25).all.distribute 4
+    @largest_cellars = Cellar.all.sort!{ |a,b| b.beers.count <=> a.beers.count }.first(25).distribute 4
 
     respond_to do |format|
       format.html # index.html.erb

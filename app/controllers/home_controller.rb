@@ -12,8 +12,8 @@ class HomeController < ApplicationController
 
       @recent_events = []
 
-      @newest_cellars = Cellar.newest.all.distribute(5)
-      @largest_cellars = Cellar.oldest.all.distribute 5
+      @newest_cellars = Cellar.newest.all.distribute(4)
+      @largest_cellars = Cellar.oldest.all.distribute(4)
 
       render :template => 'cellars/index'
     end

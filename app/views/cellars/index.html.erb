@@ -1,58 +1,58 @@
 <% content_for :title do %>
-	all cellars
+  all cellars
 <% end %>
 
 <h2>Cellars</h2>
 
 <h2 data-tab-handle="largest">Largest</h2>
 <div id="largest">
-	<table class="cellars list">
-		<tr>
+  <table class="cellars list">
+    <tr>
 <% @largest_cellars.each do |cellars| %>
-			<td valign="top">
-	<% cellars.each do |cellar| %>
-				<div class="cellar">
-					<%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
-					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
-					<span class="stats"><%= cellar.beers.count %> beers</span>
-				</div>
-	<% end %>
-			</td>
+      <td valign="top">
+  <% cellars.each do |cellar| %>
+        <div class="cellar">
+          <%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
+          <%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
+          <span class="stats"><%= cellar.beers.count %> beers</span>
+        </div>
+  <% end %>
+      </td>
 <% end %>
-		</tr>
-	</table>
+    </tr>
+  </table>
 </div>
 
 <h2 data-tab-handle="newest">Newest</h2>
 <div id="newest">
-	<table class="cellars list">
-		<tr>
+  <table class="cellars list">
+    <tr>
 <% @newest_cellars.each do |cellars| %>
-			<td valign="top">
-	<% cellars.each do |cellar| %>
-				<div class="cellar">
-					<%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
-					<%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
-					<span class="date-joined">Joined: <%= cellar.created_at %></span>
-					<span class="stats"><%= cellar.beers.count %> beers</span>
-				</div>
-	<% end %>
-			</td>
+      <td valign="top">
+  <% cellars.each do |cellar| %>
+        <div class="cellar">
+          <%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
+          <%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
+          <span class="date-joined">Joined: <%= cellar.created_at.to_s %></span>
+          <span class="stats"><%= cellar.beers.count %> beers</span>
+        </div>
+  <% end %>
+      </td>
 <% end %>
-		</tr>
-	</table>
+    </tr>
+  </table>
 </div>
 
 <h2 data-tab-handle="activity">Recent Activity</h2>
 
 <div id="activity">
-	<ul class="events">
-	<% if @recent_events.nil? or @recent_events.empty? %>
-		<li class="empty">How sad, no one is doing ANYTHING on this site :(</li>
-	<% else %>
-		<% @recent_events.each do |event| %>
-			<%== render_event event %>
-		<% end %>
-	<% end %>
-	</ul>
+  <ul class="events">
+  <% if @recent_events.nil? or @recent_events.empty? %>
+    <li class="empty">How sad, no one is doing ANYTHING on this site :(</li>
+  <% else %>
+    <% @recent_events.each do |event| %>
+      <%== render_event event %>
+    <% end %>
+  <% end %>
+  </ul>
 </div>
