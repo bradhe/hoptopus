@@ -13,3 +13,19 @@ ActionMailer::Base.smtp_settings = {
   :authentication => :login,
   :enable_starttls_auto => true
 }
+
+Time::DATE_FORMATS.merge!(
+  :default => lambda do |time|
+    if time.today?
+      # This is going to make baby jeebus cry.
+      obj = Object.new
+      obj.extend ActionView::Helpers::DateHelper
+
+      # This...should...pass right through.
+      obj.distance_of_time_in_words(time, Time.now)
+    else
+      # We want the "long" format
+      "%B %d %Y"
+    end
+  end
+)
