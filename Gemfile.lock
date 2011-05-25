@@ -79,6 +79,8 @@ GEM
       activemodel (~> 3.0)
       activesupport (~> 3.0)
       plucky (~> 0.3.8)
+    mongo_session_store (2.0.0)
+      actionpack (~> 3.0)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -164,6 +166,7 @@ DEPENDENCIES
   log4r
   maruku
   mongo_mapper
+  mongo_session_store
   mongrel
   oauth2!
   rack-rewrite

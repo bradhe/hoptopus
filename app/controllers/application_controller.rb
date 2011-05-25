@@ -33,12 +33,10 @@ class ApplicationController < ActionController::Base
 
     self.current_user = user
 
-    if session[:user_id] != user.id.to_s
-      session[:user_id] = user.id.to_s
+    session[:user_id] = user.to_param
 
-      # Update the last login date for this guy
-      user.update_attribute(:last_login_at, Time.now)
-    end
+    # Update the last login date for this guy
+    user.update_attribute(:last_login_at, Time.now)
   end
 
   def redis

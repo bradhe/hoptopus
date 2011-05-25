@@ -32,8 +32,8 @@
         </div>
 
         <div class="field">
-            <%= label_tag "#{form_element_prefix}[bottle_size_id]", "Bottle Size:" %>
-            <%= select_tag "#{form_element_prefix}[bottle_size_id]", options_from_collection_for_select(BottleSize.order("sort_order").all, :id, :name, beer.bottle_size) %>
+            <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
+            <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
         </div>
 
         <div class="field">
@@ -60,16 +60,11 @@
 
     <div class="add-beer left">
         <div class="field">
-            <% unless beer.brew %>
+            <% unless beer.name %>
               <span class="value"><%= beer.name %></span>
             <% else %>
               <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
             <% end %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[markup]", "Notes:" %>
-            <%= text_area_tag "#{form_element_prefix}[markup]", beer.markup %>
         </div>
     </div>
 </div>

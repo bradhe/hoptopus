@@ -9,6 +9,8 @@ class Beer
   key :brewery, String
   key :quantity, Integer
   key :cellared_at, Time
+  key :bottle_size, String
+  key :finish_aging_at, Time
   key :abv, Float
   key :price, Float
   key :year, Integer
