@@ -61,14 +61,14 @@ class User
     admin
   end
 
-  def formatted_created_at
-    self.created_at.strftime "%A %B %d, %Y" unless self.created_at.nil?
+  def has_alert?(name)
+    User.where(:_id => id.to_s, 'alerts.name' => name).exist?
   end
-  
-  def formatted_last_login_at
-    self.last_login_at.strftime "%A %B %d, %Y" unless self.last_login_at.nil?
+
+  def find_alert(name)
+    alerts.select {|a| a.name == name}.first
   end
-  
+
   def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end

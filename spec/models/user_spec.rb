@@ -31,4 +31,40 @@ describe User do
       @user.errors[:password].should_not be_present
     end
   end
+
+  describe '#has_alert?' do
+    before do
+      @user = create_user
+
+      # Add the alert
+      @user.alerts << Alert.new(:name => 'test_alert')
+      @user.save!
+    end
+
+    it 'should return true if the user has the alert' do
+      @user.has_alert?('test_alert').should be_true
+    end
+
+    it 'should return false if the user does not have the alert' do
+      @user.has_alert?('some_other_alert').should be_false
+    end
+  end
+
+  describe '#find_alert' do
+    before do
+      @user = create_user
+
+      # Add the alert
+      @user.alerts << Alert.new(:name => 'test_alert')
+      @user.save!
+    end
+
+    it 'should return an alert if it exists' do
+      @user.find_alert('test_alert').should be_a_kind_of Alert
+    end
+
+    it 'should return nil if no alert exists' do
+      @user.find_alert('nonexistent_alert').should be_nil
+    end
+  end
 end
