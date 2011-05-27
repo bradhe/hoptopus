@@ -2,6 +2,8 @@ require 'rubygems'
 require 'maruku'
 
 module ApplicationHelper
+  include Hoptopus::DateFormatters
+
   def is_logged_in?
     !!@user
   end

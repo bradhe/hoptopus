@@ -33,7 +33,7 @@
         <div class="cellar">
           <%= gravatar_for cellar.user, :class => "gravatar browsecellaravatar" %>
           <%= link_to cellar.user.username, cellar_path(cellar.user.username) %>
-          <span class="date-joined">Joined: <%= cellar.created_at.to_s %></span>
+          <span class="date-joined">Joined: <%= format_date(cellar.created_at) %></span>
           <span class="stats"><%= cellar.beers.count %> beers</span>
         </div>
   <% end %>

@@ -111,13 +111,13 @@ class CellarsController < ApplicationController
   # GET /cellars.xml
   def index
     if @user.nil? or @user.should_show_own_events
-      @recent_events = Event.order('created_at DESC').limit(15).all
+      @recent_events = []
     else 
-      @recent_events = Event.order('created_at DESC').limit(15).where("user_id != #{@user.id}").all
+      @recent_events = []
     end
 
-    @newest_cellars = Cellar.order('created_at DESC').limit(25).all.distribute 4
-    @largest_cellars = Cellar.all.sort!{ |a,b| b.beers.count <=> a.beers.count }.first(25).distribute 4
+    @newest_cellars = []
+    @largest_cellars = []
 
     respond_to do |format|
       format.html # index.html.erb
