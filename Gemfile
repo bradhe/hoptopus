@@ -2,6 +2,7 @@ source :rubygems
 
 gem 'rake', '0.8.7'
 gem 'rails', '3.0.7'
+gem 'sqlite3'
 gem 'rack-rewrite'
 gem 'maruku'
 gem 'carmen'
@@ -15,9 +16,6 @@ gem 'oauth2', :git => 'git://github.com/intridea/oauth2.git'
 gem 'log4r'
 gem 'haml'
 gem 'sass'
-gem 'mongo_mapper'
-gem 'bson_ext'
-gem 'mongo_session_store'
 
 # No SystemTimer gem on windows.
 unless RUBY_PLATFORM =~ /ming/

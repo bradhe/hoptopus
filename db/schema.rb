@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110328052908) do
+ActiveRecord::Schema.define(:version => 20110527033045) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(:version => 20110328052908) do
     t.datetime "cellared_at"
     t.string   "year"
     t.string   "bottle_size"
-    t.string   "name"
     t.string   "brewery"
     t.datetime "removed_at"
     t.datetime "finish_aging_at"
@@ -115,4 +114,5 @@ ActiveRecord::Schema.define(:version => 20110328052908) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
 end

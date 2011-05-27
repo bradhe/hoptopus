@@ -44,8 +44,6 @@ GEM
       builder
       mime-types
       xml-simple
-    bson (1.3.1)
-    bson_ext (1.3.1)
     builder (2.1.2)
     carmen (0.2.7)
     cgi_multipart_eof_fix (2.5.0)
@@ -73,14 +71,6 @@ GEM
     maruku (0.6.0)
       syntax (>= 1.0.0)
     mime-types (1.16)
-    mongo (1.3.1)
-      bson (>= 1.3.1)
-    mongo_mapper (0.9.1)
-      activemodel (~> 3.0)
-      activesupport (~> 3.0)
-      plucky (~> 0.3.8)
-    mongo_session_store (2.0.0)
-      actionpack (~> 3.0)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -91,8 +81,6 @@ GEM
       gem_plugin (>= 0.2.3)
     multi_json (1.0.2)
     multipart-post (1.1.1)
-    plucky (0.3.8)
-      mongo (~> 1.3)
     polyglot (0.3.1)
     rack (1.2.2)
     rack-mount (0.6.14)
@@ -139,6 +127,7 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
+    sqlite3 (1.3.3)
     syntax (1.0.0)
     thor (0.14.6)
     tilt (1.3.1)
@@ -158,15 +147,12 @@ DEPENDENCIES
   SystemTimer
   acts_as_commentable
   aws-s3
-  bson_ext
   carmen
   geokit
   gravatar
   haml
   log4r
   maruku
-  mongo_mapper
-  mongo_session_store
   mongrel
   oauth2!
   rack-rewrite
@@ -176,4 +162,5 @@ DEPENDENCIES
   rspec (~> 2.5.0)
   rspec-rails
   sass
+  sqlite3
   uuidtools
