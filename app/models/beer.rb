@@ -3,7 +3,7 @@ class Beer < ActiveRecord::Base
   MAXIMUM_BEER_YEAR = Time.new.year + ACCEPTED_YEARS_FROM_TODAY
   YEAR_OF_OLDEST_BEER = 1800
 
-  belongs_to :user
+  belongs_to :cellar
   has_many :tastings
 
   validates_presence_of :cellared_at, :message => "Cellared date is required."

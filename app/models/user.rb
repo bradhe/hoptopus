@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   attr_accessor :password
 
   has_one :cellar, :dependent => :destroy
+  has_many :beers, :through => :cellar
+  has_many :tastings, :through => :beers, :source => :cellar
   has_many :events
   has_many :alerts
 

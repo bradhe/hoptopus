@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
         # This prevents us from overwriting our test thing, but still
         # does the update!
         self.current_user ||= user
+      else
+        session[:user_id] = nil
       end
     rescue ActiveRecord::RecordNotFound => e
-      session[:user_id] = nil
-    else
       session[:user_id] = nil
     end
   end
@@ -60,6 +60,7 @@ class ApplicationController < ActionController::Base
   def current_user
     @user
   end
+  helper_method :current_user
 
   def current_user=(user)
     @user = user

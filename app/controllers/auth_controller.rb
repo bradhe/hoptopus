@@ -3,6 +3,7 @@ class AuthController < ApplicationController
   include ApplicationHelper
 
   skip_before_filter :ensure_confirmed
+  before_filter :require_authentication, :only => [:unconfirmed]
   
   def login
     if request.post?

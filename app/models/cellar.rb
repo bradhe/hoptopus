@@ -5,11 +5,11 @@ class Cellar < ActiveRecord::Base
   belongs_to :user
 
   def self.newest
-    sort('created_at DESC').limit(15)
+    order('created_at DESC').limit(15)
   end
 
   def self.oldest
-    sort(:created_at).limit(15)
+    order(:created_at).limit(15)
   end
 
   def self.find_by_user(user)

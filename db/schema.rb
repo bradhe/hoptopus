@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.string   "country"
     t.string   "state"
     t.string   "city"
+    t.boolean  "admin",                              :default => false
     t.boolean  "should_show_own_events",             :default => true
     t.boolean  "should_receive_email_notifications", :default => true
     t.integer  "facebook_id"

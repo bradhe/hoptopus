@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :ensure_confirmed, :only => [:send_confirmation, :confirm_email, :confirmation_sent]
+  before_filter :require_authentication
 
   def update
     @user = User.find params[:id]
