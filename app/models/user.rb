@@ -1,30 +1,9 @@
-class User
-  include MongoMapper::Document
+class User < ActiveRecord::Base
   attr_accessor :password
 
-  one :cellar, :dependent => :destroy
-  many :tastings
-  many :cellars
-  many :events
-  many :alerts
-  key :facebook_id, Integer
-  key :username, String
-  key :password_hash, String
-  key :email, String
-  key :first_name, String
-  key :last_name, String
-  key :country, String
-  key :state, String
-  key :city, String
-  key :confirmed, Boolean
-  key :admin, Boolean
-  key :last_login_at, Time
-  key :should_show_own_events, Boolean
-  key :email_consent, Boolean
-  key :should_receive_email_notifications, Boolean
-  timestamps!
-
-  #many :events
+  has_one :cellar, :dependent => :destroy
+  has_many :events
+  has_many :alerts
 
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
@@ -62,11 +41,11 @@ class User
   end
 
   def has_alert?(name)
-    User.where(:_id => id.to_s, 'alerts.name' => name).exist?
+    alerts.exists?(:name => name)
   end
 
   def find_alert(name)
-    alerts.select {|a| a.name == name}.first
+    alerts.where(:name => name).first
   end
 
   def self.hash_password(password)

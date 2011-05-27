@@ -1,19 +1,7 @@
-class Beer
-  include MongoMapper::Document
-
+class Beer < ActiveRecord::Base
   ACCEPTED_YEARS_FROM_TODAY = 2
   MAXIMUM_BEER_YEAR = Time.new.year + ACCEPTED_YEARS_FROM_TODAY
   YEAR_OF_OLDEST_BEER = 1800
-
-  key :name, String
-  key :brewery, String
-  key :quantity, Integer
-  key :cellared_at, Time
-  key :bottle_size, String
-  key :finish_aging_at, Time
-  key :abv, Float
-  key :price, Float
-  key :year, Integer
 
   belongs_to :user
   has_many :tastings

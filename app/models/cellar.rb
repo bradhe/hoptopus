@@ -1,14 +1,16 @@
 require 'set'
 
-class Cellar
-  include MongoMapper::Document
-
-  many :beers
+class Cellar < ActiveRecord::Base
+  has_many :beers
   belongs_to :user
-  timestamps!
 
-  scope :newest, sort(:created_at.desc).limit(15)
-  scope :oldest, sort(:created_at).limit(15)
+  def self.newest
+    sort('created_at DESC').limit(15)
+  end
+
+  def self.oldest
+    sort(:created_at).limit(15)
+  end
 
   def self.find_by_user(user)
     return nil if user.nil?

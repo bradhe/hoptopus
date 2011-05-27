@@ -1,8 +1,3 @@
-class Tasting
-  include MongoMapper::EmbeddedDocument
-
+class Tasting < ActiveRecord::Base
   belongs_to :beer
-  key :notes
-  key :tasted_at
-
 end

@@ -3,10 +3,14 @@ class ApplicationController < ActionController::Base
   before_filter :restore_session, :ensure_confirmed
 
   def restore_session
-    if session[:user_id] and user = User.find(session[:user_id])
-      # This prevents us from overwriting our test thing, but still
-      # does the update!
-      self.current_user ||= user
+    begin
+      if session[:user_id] and user = User.find(session[:user_id])
+        # This prevents us from overwriting our test thing, but still
+        # does the update!
+        self.current_user ||= user
+      end
+    rescue ActiveRecord::RecordNotFound => e
+      session[:user_id] = nil
     else
       session[:user_id] = nil
     end
@@ -28,15 +32,15 @@ class ApplicationController < ActionController::Base
     # rest of the app.
     unless user.confirmed?
       # Broke this up because I'm stupid
-      unless ConfirmationRequest.where(:user_id => user.id, :confirmed => false, :expired => false).exist?
-        confirmation_request = ConfirmationRequest.create(:user => user)
+      unless ConfirmationRequest.exists?(:user_id => user.id, :confirmed => false, :expired => false)
+        confirmation_request = ConfirmationRequest.create!(:user => user)
         Notifications.send_confirmation_request(confirmation_request).deliver
       end
     end
 
     self.current_user = user
 
-    session[:user_id] = user.id.to_s
+    session[:user_id] = user.id
 
     # Update the last login date for this guy
     user.update_attribute(:last_login_at, Time.now)

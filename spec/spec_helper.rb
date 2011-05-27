@@ -10,13 +10,5 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   config.mock_with :rspec
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
-  # Since we're using mongo this doesn't actaully do shit.
-  config.use_transactional_fixtures = true
-
-  config.before(:each) do
-    User.collection.drop
-    ConfirmationRequest.collection.drop
-    Cellar.collection.drop
-  end
+  config.use_transactional_examples = true
 end

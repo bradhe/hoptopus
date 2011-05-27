@@ -1,7 +1,3 @@
-class Alert
-  include MongoMapper::EmbeddedDocument
-
+class Alert < ActiveRecord::Base
   belongs_to :user
-  key :name, String
-  key :dismissed, Boolean, :default => false
 end
