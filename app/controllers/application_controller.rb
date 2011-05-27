@@ -53,10 +53,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def ensure_login
-    redirect_to login_path unless current_user
-  end
-
   def current_user
     @user
   end

@@ -9,10 +9,10 @@
         <div class="field">
             <%= label_tag "#{form_element_prefix}[brewery_id]", "Beer:" %>
 
-            <% unless beer.name %>
+            <% if beer.brewery %>
                 <span class="value"><%= beer.brewery %></span>
             <% else %>
-              <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewer %>
+              <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery %>
             <% end %>
         </div>
 
@@ -35,6 +35,17 @@
             <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
             <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
         </div>
+    </div>
+
+    <div class="add-beer left">
+        <div class="field">
+            <%= label_tag "#{form_element_prefix}[name]", "Name:" %>
+            <% if beer.name %>
+              <span class="value"><%= beer.name %></span>
+            <% else %>
+              <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
+            <% end %>
+        </div>
 
         <div class="field">
             <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
@@ -55,16 +66,6 @@
             <div class="sub field">
               <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at" %>
             </div>
-        </div>
-    </div>
-
-    <div class="add-beer left">
-        <div class="field">
-            <% unless beer.name %>
-              <span class="value"><%= beer.name %></span>
-            <% else %>
-              <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
-            <% end %>
         </div>
     </div>
 </div>

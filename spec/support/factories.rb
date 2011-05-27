@@ -28,3 +28,13 @@ def create_confirmation_request(attributes={})
   c.save!
   c
 end
+
+def new_beer(attributes={})
+  default_attributes = {
+    :name => 'Some Beer',
+    :brewery => 'Some Brewery',
+    :cellared_at => Time.now
+  }
+
+  Beer.new default_attributes.merge(attributes.symbolize_keys)
+end
