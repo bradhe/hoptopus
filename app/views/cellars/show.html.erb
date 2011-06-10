@@ -96,7 +96,7 @@
       <td data-filter-for="brewery_name">
         <select name="search[brewery_name]">
           <option value=""></option>
-          <%= options_from_collection_for_select(@cellar.breweries, :name, :name, {:include_blank => true}) %>
+          <%= options_from_collection_for_select(@cellar.breweries, :to_s, :to_s, {:include_blank => true}) %>
         </select>
       </td>
       <td data-filter-for="name"><input type="text" name="search[name]"/></td>

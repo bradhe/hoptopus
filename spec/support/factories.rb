@@ -10,9 +10,18 @@ def new_user(attributes={})
 end
 
 def create_user(attributes={})
-  u = new_user(attributes)
-  u.save!
-  u
+  default_attributes = { 
+    :username => 'test_user',
+    :password => '!!abc123',
+    :password_confirmation => '!!abc123',
+    :email => 'test@test.com'
+  }
+
+  User.create!(default_attributes.merge(attributes.symbolize_keys))
+end
+
+def create_confirmed_user(attributes={})
+  new_user(attributes.merge(:confirmed => true))
 end
 
 def new_confirmation_request(attributes={})

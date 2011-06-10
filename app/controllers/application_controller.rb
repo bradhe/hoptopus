@@ -17,13 +17,15 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_confirmed
-    unless current_user.nil? or current_user.confirmed?
+    unless self.current_user.nil? or self.current_user.confirmed?
       redirect_to unconfirmed_path
     end
   end
 
   def require_authentication
-    redirect_to login_url if current_user.nil?
+    if self.current_user.nil?
+      redirect_to login_url
+    end
   end
 
   def login_user(user)

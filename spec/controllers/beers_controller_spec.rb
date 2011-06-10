@@ -1,16 +1,10 @@
 require 'spec_helper'
 
 describe BeersController do
-  describe '#index' do
-    it 'should not require authentication' do
-      pending
-    end
-  end
-
   describe '#create' do
     before do
-      User.destroy_all
-      @user = create_user
+      @user = create_confirmed_user(:confirmed => true)
+      @controller.current_user = @user
     end
 
     it 'should create a beer if all the required fields are given' do

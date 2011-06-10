@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   end
 
   after_create do
-    Cellar.create!(:user => self)
+    self.cellar = Cellar.create!(:user => self)
   end
 
   def to_param

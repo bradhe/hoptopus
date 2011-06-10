@@ -1,19 +1,9 @@
 class BeersController < ApplicationController
-  before_filter :require_authentication, :except => [:index, :show]
+  before_filter :require_authentication, :except => [:show]
   before_filter :load_cellar
 
-  def index
-    @beers = @cellar.beers.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @beers }
-    end
-  end
-  
   def show
     @beer = @cellar.beers.find(params[:id])
-    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @beers }
@@ -57,10 +47,6 @@ class BeersController < ApplicationController
     @beer = @cellar.beers.new(params[:beer])
     return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
 
-        puts '*'*80
-        puts @beer.errors
-        puts '*'*80
-
     respond_to do |format|
       if @beer.valid?
         @beer.save!
@@ -72,7 +58,6 @@ class BeersController < ApplicationController
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.json { render :json => @beer }
       else
-        
         # Format the dates because fuck it sucks to do in views
         @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
         @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
@@ -156,9 +141,7 @@ class BeersController < ApplicationController
     unless params.has_key? :cellar_id
       raise ArgumentError "Cellar ID is missing from route."
     end
-    
     cellar_id = params[:cellar_id]
-    
     # We can pass either a cellar ID or a username. We really don't want
     # to pass a cellar ID, we prefer username.
     if cellar_id.class == Fixnum or cellar_id.match /^\d+$/
