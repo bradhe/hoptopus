@@ -21,7 +21,7 @@ def create_user(attributes={})
 end
 
 def create_confirmed_user(attributes={})
-  new_user(attributes.merge(:confirmed => true))
+  create_user(attributes.merge(:confirmed => true))
 end
 
 def new_confirmation_request(attributes={})

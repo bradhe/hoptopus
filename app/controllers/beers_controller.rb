@@ -49,15 +49,15 @@ class BeersController < ApplicationController
 
     respond_to do |format|
       if @beer.valid?
-        @beer.save!
         # Record this momentous event.
-        event = current_user.events.new(:source => @beer, :formatter => BeerAddedEventFormatter.new)
-        event.save
+        event = current_user.events.build(:source => @beer, :formatter => BeerAddedEventFormatter)
+        event.save!
 
         # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.json { render :json => @beer }
       else
+        p @beer.errors
         # Format the dates because fuck it sucks to do in views
         @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
         @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?

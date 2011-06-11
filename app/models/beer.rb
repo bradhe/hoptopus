@@ -6,10 +6,10 @@ class Beer < ActiveRecord::Base
   belongs_to :cellar
   has_many :tastings
 
-  validates_presence_of :cellar_id # Required to create!
+  validates_presence_of :cellar_id
   validates_presence_of :cellared_at, :message => "Cellared date is required."
-  validates_numericality_of :year, :message => "Year is invalid. Is must be a four digit number between #{YEAR_OF_OLDEST_BEER} and #{MAXIMUM_BEER_YEAR}.", :only_integer => true, :greater_than => YEAR_OF_OLDEST_BEER, :less_than => MAXIMUM_BEER_YEAR
-  validates_numericality_of :quantity, :message => "Quantity must be a number less than 120.", :less_than => 120
+  validates_numericality_of :year, :message => "Year is invalid. Is must be a four digit number between #{YEAR_OF_OLDEST_BEER} and #{MAXIMUM_BEER_YEAR}.", :only_integer => true, :greater_than => YEAR_OF_OLDEST_BEER, :less_than => MAXIMUM_BEER_YEAR, :allow_nil => true
+  validates_numericality_of :quantity, :message => "Quantity must be a number less than 120.", :less_than => 120, :allow_nil => true
   validates_numericality_of :abv, :message => "ABV must be a decimal less than 150.", :less_than_or_equal_to => 150, :allow_nil => true
   validates_numericality_of :price, :message => "Please supply a valid price.", :allow_nil => true
 end

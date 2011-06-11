@@ -24,9 +24,6 @@
           <li><strong>Upload your cellar.</strong> You can import your cellar under the "Upload Cellar" tab below. This
             will help you get your cellar inventory in place quickly so you can start sharing and trading with people.
           </li>
-          <li><strong>Contribute to the Brew Wiki.</strong> See what beers are currently in the brew wiki and perhaps
-            add some that you don't see. Maybe you will learn something about a beer that you might not have otherwise!
-          </li>
           <li><strong>Browse other peoples' cellars.</strong> See what other people in the hoptopus community are
             cellaring and compare notes on how long you should plan to age your beers.
           </li>
@@ -236,7 +233,7 @@
                 dropdown: $('#columns-button'),
                 columns: <%== @grid_columns.to_json %>,
                 nameFormatter: function(obj) {
-                    return $('<a/>').attr('href', '/cellars/<%= @cellar.id %>/beers/' + obj.id).text(obj.name);
+                    return obj.name;
                 }
             });
 

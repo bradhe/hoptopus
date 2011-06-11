@@ -8,7 +8,10 @@ require 'rspec/rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  config.extend RSpec::SignInAs::ClassMethods
+  config.include RSpec::SignInAs::InstanceMethods
+
   config.mock_with :rspec
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.use_transactional_examples = true
+  config.use_transactional_fixtures = true
 end

@@ -1,0 +1,6 @@
+user1:
+  id: 1
+  username: brad.heller
+  email: brad.heller@gmail.com
+  password_hash: abcdefg
+  confirmed: true
