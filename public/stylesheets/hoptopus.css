@@ -767,8 +767,8 @@ th#brewery {
 th#variety {
   width: 260px; }
 
-th#quantity {
-  width: 70px; }
+th#style {
+  width: 110px; }
 
 #show-more {
   margin-top: 10pt; }
@@ -897,6 +897,25 @@ select.beers.dropdown {
 div.button {
   margin-top: 15pt;
   text-align: center; }
+
+div.pages {
+  margin-top: 10pt;
+  text-align: center; }
+  div.pages span.page-numbers {
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px; }
+  div.pages span.next, div.pages span.prev {
+    display: inline-block;
+    width: 50pt; }
+    div.pages span.next a, div.pages span.prev a {
+      border: 0; }
+  div.pages a {
+    padding: 3pt 4pt;
+    margin: 0 2pt;
+    border: 1px #ccc solid; }
+  div.pages a.selected {
+    background-color: #DFF2B3; }
 
 /* Preferences */
 #save-preferences {

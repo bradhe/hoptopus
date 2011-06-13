@@ -1,0 +1,65 @@
+<h2 data-tab-handle="cellar">Cellar</h2>
+
+<div id="cellar">
+  <div class="buttons info" align="right">
+    <% if is_users_cellar? %>
+      <div class="left">
+        <button type="button" id="new-beer">Add</button>
+        <button type="button" id="import-beers">Import</button>
+        <button type="button" id="edit-beers" disabled>Edit</button>
+        <!--<button type="button" id="check-out-beers" disabled>Check Out</button>-->
+      </div>
+    <% end %>
+    <button type="button" id="clear-filters">Clear Filters</button>
+  </div>
+
+  <%= form_tag(cellar_path(@cellar.user.username), :id => 'edit-cellar') %>
+    <table class="beers list" id="cellared-beers">
+      <thead>
+        <tr>
+          <% if is_logged_in? %>
+            <th class="unsortable" width="25"></th>
+          <% end %>
+          <th width="40" id="year">Year</th>
+          <th id="brewery">Brewery</th>
+          <th id="variety">Variety</th>
+          <th id="style">Style</th>
+        </tr>
+        <tr class="filters">
+          <% if is_logged_in? %>
+            <td></td>
+          <% end %>
+          <td></td>
+          <td data-filter-for="brewery">
+            <select name="search[brewery]">
+              <option value=""></option>
+              <%= options_from_collection_for_select(@cellar.breweries, :to_s, :to_s, {:include_blank => true}) %>
+            </select>
+          </td>
+          <td data-filter-for="name"><input type="text" name="search[name]"/></td>
+          <td></td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%- if @cellar.beers.empty? %>
+          <tr>
+            <td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
+              <%- if is_users_cellar? %>
+                You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
+              <%- else %>
+                There is no beer in this cellar yet.
+              <%- end %>
+            </td>
+          </tr>
+        <%- end %>
+      </tbody>
+    </table>
+  </form>
+  <div class="pages">
+    <span class="prev"></span>
+    <span class="page-numbers"></span>
+    <span class="next"></span>
+  </div>
+</div>
+

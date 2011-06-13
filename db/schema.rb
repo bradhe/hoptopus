@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
 
   create_table "beers", :force => true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "style"
     t.float    "abv"
     t.float    "price"
     t.integer  "quantity"

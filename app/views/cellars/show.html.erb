@@ -54,100 +54,7 @@
   </ul>
 </div>
 
-<h2 data-tab-handle="cellar">Cellar</h2>
-
-<div id="cellar">
-
-  <div class="buttons info" align="right">
-    <% if is_users_cellar? %>
-        <div class="left">
-          <button type="button" id="new-beer">Add</button>
-          <button type="button" id="import-beers">Import</button>
-          <button type="button" id="edit-beers" disabled>Edit</button>
-          <!--<button type="button" id="check-out-beers" disabled>Check Out</button>-->
-        </div>
-    <% end %>
-
-    <span class="info">Drag header to re-order columns.</span>
-    <button type="button" id="columns-button">Select Columns</button>
-    <button type="button" id="clear-filters">Clear Filters</button>
-  </div>
-
-  <%= form_tag(cellar_path(@cellar.user.username), :id => 'edit-cellar') %>
-  <table class="beers list" id="cellared-beers">
-    <thead>
-    <tr>
-      <% if is_logged_in? %>
-          <th class="unsortable" width="25"></th>
-      <% end %>
-      <th width="40" id="year">Year</th>
-      <th id="brewery">Brewery</th>
-      <th id="variety">Variety</th>
-      <th id="quantity">Quantity</th>
-    </tr>
-    <tr class="filters">
-      <% if is_logged_in? %>
-          <td></td>
-      <% end %>
-      <td></td>
-      <td data-filter-for="brewery_name">
-        <select name="search[brewery_name]">
-          <option value=""></option>
-          <%= options_from_collection_for_select(@cellar.breweries, :to_s, :to_s, {:include_blank => true}) %>
-        </select>
-      </td>
-      <td data-filter-for="name"><input type="text" name="search[name]"/></td>
-      <td></td>
-    </tr>
-    </thead>
-
-    <tbody>
-
-    <% if @cellared_beers.empty? %>
-        <tr>
-          <td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
-            <% if is_users_cellar? %>
-                You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
-            <% else %>
-                There is no beer in this cellar yet.
-            <% end %>
-          </td>
-        </tr>
-
-    <% else %>
-
-        <% c = 'color2' %>
-        <% @cellared_beers.each do |b| %>
-            <% c = (c == 'color2' ? 'color1' : 'color2') %>
-
-            <tr data-beer="<%= b.id %>" class="<%= c %>">
-              <% if is_logged_in? %>
-                  <td align="center" valign="middle">
-                    <input type="checkbox" name="beer_id" value="<%= b.id %>"/>
-                  </td>
-              <% end %>
-              <td align="right" class="year"><%= b.year %></td>
-              <td><%= b.brewery %></td>
-              <td><%= b.name %></td>
-              <td><%= b.quantity %></td>
-            </tr>
-
-        <% end %>
-
-    <% end %>
-    </tbody>
-    <% if @beers_left_in_pagination > 0 %>
-        <tfoot>
-        <tr>
-          <td colspan="5" align="center">
-            <button type="button" id="show-more">Show More (<%= @beers_left_in_pagination %>)</button>
-          </td>
-        </tr>
-        </tfoot>
-    <% end %>
-    </table>
-  </form>
-</div>
+<%= render 'list' %>
 
 <% if is_users_cellar? %>
 
@@ -197,19 +104,6 @@
             table.tablesorter({headers: headers});
         }
 
-        // Post-process this crap.
-        var unprocessed = <%== @cellar.beers.select { |b| b.removed_at.nil? }.to_json(:methods => [:formatted_cellared_at, :bottle_size_name, :formatted_price]) || '{}' %>;
-        var processed = [];
-        for (var i in unprocessed) {
-            processed.push(unprocessed[i].beer);
-        }
-
-        var unprocessedBreweries = <%== @cellar.breweries.to_json %>;
-        var processedBreweries = [];
-        for (var i in unprocessedBreweries) {
-            processedBreweries.push(unprocessedBreweries[i].brewery);
-        }
-
         $(function() {
             $('#import-beers').bind('click', function(e) {
                 $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
@@ -218,34 +112,21 @@
             var tbl = $('#cellared-beers').sortableColumns({ showPosition: true });
 
             var grid = hoptopus.grid({
-                columnAdded: function(th) {
-                    // Report to the sortableColumns thinger that a column has been added.
-                    tbl.sortableColumns('addColumn', th);
-                    makeSortable();
-                },
-                columnRemoved: function(th) {
-                    // Report to the sortableColumns thinger that a column has been removed.
-                    tbl.sortableColumns('removeColumn', th);
-                    makeSortable();
-                },
                 sortable: true,
                 table: $('#cellared-beers'),
-                dropdown: $('#columns-button'),
                 columns: <%== @grid_columns.to_json %>,
-                nameFormatter: function(obj) {
-                    return obj.name;
-                }
+                nameFormatter: function(obj) { return obj.name; },
+                pageSize: 25
             });
 
-            grid.objects = processed;
-            grid.breweries = processedBreweries;
-            grid.rowsShown = 25;
+            var beers = <%== cellar_beers_as_json(@cellar) %>;
+            var breweries = <%== @cellar.breweries.to_json %>;
             grid.rowClasses = ['color1', 'color2'];
+            grid.init({beers: beers, breweries: breweries});
 
             $('#new-beer').bind('click', function() {
                 var dialog = $('#add-beer-form');
                 dialog.dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Add a Beer to your Cellar'});
-                
                 dialog.find('form').dynamicForm({
                     errorListSelector: '#add-beer-form ul.errors',
                     submitStart: function() {
@@ -256,7 +137,7 @@
                     },
                     success: function(data) {
                         dialog.dialog('close');
-                        
+
                         // Add this silly row to the silly thing.
                         // TODO: Remove this stupid de-referencing!
                         var tr = grid.addSingleObject(data.beer, {front:true});
@@ -264,41 +145,13 @@
                         // We need to pulse the TR to make it obvious what it is.
                         var bg = tr[0].style.backgroundColor;
                         tr.effect('highlight', {color:'#85af22'}, 1500);
-                        
                         dialog.find('form').each(function() { this.reset(); });
                         dialog.find('ul.errors').empty();
                     }
                 });
             });
 
-            // Note: This has to happen here because we have to use the useable Beers
-            // thinger.
-            $('#show-more').click(function() {
-                // Grab 25 beers off the list and stick them in the table.
-                var n = 25;
-                grid.moreRows(n);
-
-                var l = -1;
-                if (grid.searchResults) {
-                    l = grid.searchResults.length - hoptopus.grid.rowsShown;
-                }
-                else {
-                    l = grid.objects.length - hoptopus.grid.rowsShown;
-                }
-
-                if (l > 0) {
-                    var txt = $('#show-more').text();
-                    txt = txt.replace(/\d+/, l);
-                    $('#show-more').text(txt);
-                }
-                else if (l < 1) {
-                    $('#show-more').hide();
-                }
-            });
-
-            $('#clear-filters').click(function(e) {
-                grid.clearFilters();
-            });
+            $('#clear-filters').click(function(e) { grid.clearFilters(); });
 
             $('#cellared-beers input[type="checkbox"]').click(function() {
                 var checked = $('#cellared-beers input[type="checkbox"]:checked');
@@ -313,7 +166,7 @@
                 success: function(data) {
                     var dialogs = $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto', modal: true, resizable: false, title: 'Edit Beers'} });
                     setupDatePickers();
-                  
+
                     var dialog = dialogs[0];
 
                     // Before the previous button lets insert a bunch of buttons.

@@ -128,15 +128,15 @@ class CellarsController < ApplicationController
   def show
     if params[:id].nil?
       @cellar = Cellar.find_by_user(@user)
-      @tastings = @user.tastings
     else 
       user = User.find_by_username(params[:id])
       @cellar = Cellar.find_by_user(user)
-      @tastings = @cellar.user.tastings
     end
 
-    @cellared_beers = @cellar.beers.select { |b| b.removed_at.nil? }.first(25)
-    @beers_left_in_pagination = @cellar.beers.count - 25
+    # 404 if no user exists.
+    render_404 and return if @cellar.nil?
+
+    @tastings = @cellar.user.tastings
 
     # This hash controls grid columns.
     @grid_columns = { 
@@ -146,7 +146,8 @@ class CellarsController < ApplicationController
       :year => { :id => 'year', :title => 'Year' },
       :quantity => { :id => 'quantity', :title => 'Quantity' },
       :formatted_price => { :id => 'price', :title => 'Price'},
-      :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' }
+      :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' },
+      :style => { :id => 'style', :title => 'Style' }
     }
 
     respond_to do |format|

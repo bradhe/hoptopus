@@ -39,6 +39,7 @@ module Hoptopus
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    config.generators.stylesheet_engine = :sass
     
     ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
       include ActionView::Helpers::RawOutputHelper

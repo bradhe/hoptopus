@@ -48,6 +48,11 @@
         </div>
 
         <div class="field">
+            <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
+            <%= text_field_tag "#{form_element_prefix}[style]", beer.style %>
+        </div>
+
+        <div class="field">
             <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
             $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
         </div>
@@ -72,8 +77,8 @@
 
 <% if include_buttons %>
 <div class="buttons submit">
-    <button type="button" data-close-dialog>Cancel</button>
-    <button type="submit">Add Beer to Cellar</button>
+    <button style="button" data-close-dialog>Cancel</button>
+    <button style="submit">Add Beer to Cellar</button>
 </div>
 <% end %>
 

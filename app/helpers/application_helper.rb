@@ -61,9 +61,7 @@ module ApplicationHelper
   end
   
   def render_event(event)
-    if event.formatter
-      event.formatter.render
-    end
+    event.formatter.render if event.formatter
   end
   
   def format_date(date)

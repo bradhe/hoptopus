@@ -8,3 +8,4 @@ tmp/pids*
 tmp/sass-cache*
 .sass-cache
 *.swp
+tags
