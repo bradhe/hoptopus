@@ -11,11 +11,8 @@
 #   - dist/**/*.js
 #
 src_files:
-  - public/javascripts/prototype.js
-  - public/javascripts/effects.js
-  - public/javascripts/controls.js
-  - public/javascripts/dragdrop.js
-  - public/javascripts/application.js
+  - "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"
+  - "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"
   - public/javascripts/**/*.js
 
 # stylesheets

@@ -586,7 +586,7 @@ hoptopus.grid = function(options) {
   //
   // Add the first pageSize of the beers collection to the
   // table.
-  function populateFirstPage() {
+  g.repopulateTable = function() {
     var tbody = grid.children('tbody');
     tbody.empty();
 
@@ -628,6 +628,7 @@ hoptopus.grid = function(options) {
         }
 
         g.beers = sortTableByColumn(this, column);
+        g.repopulateTable();
       });
     }
 
@@ -660,7 +661,7 @@ hoptopus.grid = function(options) {
     }
 
     // Add a number of rows to the thing.
-    populateFirstPage();
+    this.repopulateTable();
   }
 
   //
