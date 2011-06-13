@@ -141,7 +141,7 @@ class CellarsController < ApplicationController
     # This hash controls grid columns.
     @grid_columns = { 
       :formatted_cellared_at => { :id => 'created-at', :title => 'Cellared' },
-      :brewery_name => { :id => 'brewery', :title => 'Brewery' },
+      :brewery => { :id => 'brewery', :title => 'Brewery' },
       :name => { :id => 'variety', :title => 'Variety' },
       :year => { :id => 'year', :title => 'Year' },
       :quantity => { :id => 'quantity', :title => 'Quantity' },

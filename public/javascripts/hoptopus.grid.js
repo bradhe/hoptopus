@@ -56,7 +56,7 @@ function BreweryFilter(select) {
     
     var found = [];
     for(var i = 0; i < objs.length; i++) {
-      if(objs[i].brewery_name == val) {
+      if(objs[i].brewery == val) {
         found.push(objs[i]);
       }
     }
@@ -366,7 +366,7 @@ hoptopus.grid = function(options) {
         filterTd.attr('data-filter-for', property);
         input.keypress(applyFilters);
       }
-      else if(property == 'brewery_name') { // Brewery
+      else if(property == 'brewery') { // Brewery
         var select = $('<select/>').attr('id', 'search-cellar-brewery');
         filtersIndex[column.id] = filters.push(new BreweryFilter(select));
 
@@ -663,7 +663,7 @@ hoptopus.grid = function(options) {
               }
             }());
         }
-        else if(property == 'brewery_name') {
+        else if(property == 'brewery') {
             var select = $(filterColumns[i].children[0]);
             filter = new BreweryFilter(select);
             select.change(applyFilters);
