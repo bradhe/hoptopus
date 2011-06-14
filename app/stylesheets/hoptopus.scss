@@ -443,9 +443,9 @@ color: #666;
 h2, h2 a {
   margin-bottom: 5pt;
   border-bottom: 1px solid #ccc;
+  color: $green;
   padding-bottom: 5pt;
-color: $green;
-       text-decoration: none;
+  text-decoration: none;
 }
 
 h2 a {
@@ -1016,39 +1016,41 @@ float: left;
        padding-bottom: 0;
 }
 
-#navigation .user-info img {
-position: relative;
-top: -3px;
-}
+#navigation {
+  li.user-info {
+    img {
+      position: relative;
+      top: -3px;
+    }
 
+    strong {
+      margin-left: 5pt;
+    }
+  }
 
+  li.user-info a, li.connect a {
+    background-color: transparent;
+    padding: 0;
+  }
 
-#navigation li.user-info a, #navigation li.connect a {
-  background-color: transparent;
-padding: 0;
-}
-
-#navigation li.user-info strong {
-  margin-left: 5pt;
-}
-
-#navigation li.connect a img {
-border: 0;
-position: relative;
-top: 7px;
+  li.connect a img {
+    border: 0;
+    position: relative;
+    top: 7px;
+  }
 }
 
 li.connect span.or {
   font-weight: bold;
   margin-right: 6pt;
-display: inline-block;
-         font-size: 11pt;
+  display: inline-block;
+  font-size: 11pt;
 }
 
 .centered {
-display: table;
-         margin-left: auto;
-         margin-right: auto;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .rowselected{
@@ -1074,6 +1076,13 @@ display: table;
     width: 355px;
     float: right;
   }
+
+  h3 {
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    border-bottom: 1px solid #ccc;
+    color: $green;
+  }
 }
 
 .ui-dialog .buttons {
@@ -1081,50 +1090,53 @@ display: table;
 }
 
 .ui-dialog div.errors {
-color: #f00;
-       text-align:center;
+  color: #f00;
+  text-align:center;
 }
 
 .sub.field {
   margin-left: 130px;
   margin-top: 4pt;
-  margin-top: 4pt; }
+  margin-top: 4pt; 
+}
+
 select.beers.dropdown {
-width: 100%;
+  width: 100%;
 }
 
 .hidden {
-display: none;
+  display: none;
 }
 
-.ui-paged-dialog .buttons {
-  text-align: center;
-}
+.ui-paged-dialog {
+  .buttons {
+    text-align: center;
+  }
 
-.ui-paged-dialog .buttons.submit {
-  text-align: right;
-}
+  .buttons.submit {
+    text-align: right;
+  }
 
-.ui-paged-dialog .buttons a {
-display: inline-block;
-padding: 2px;
-         padding-left: 5pt;
-         padding-right: 5pt;
+  .buttons a {
+    display: inline-block;
+    padding: 2px;
+    padding-left: 5pt;
+    padding-right: 5pt;
+    background-color: #ebebeb;
+    border: 1px #ccc solid;
+  }
 
-         background-color: #ebebeb;
-border: 1px #ccc solid;
-}
+  .buttons button, .buttons a {
+    margin-right: 5pt;
+  }
 
-.ui-paged-dialog .buttons button, .ui-paged-dialog .buttons a {
-  margin-right: 5pt;
-}
+  .buttons a.selected {
+    background-color: $brown;
+  }
 
-.ui-paged-dialog .buttons a.selected {
-  background-color: $brown;
-}
-
-.ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
-outline: none;
+  .buttons a:focus, .buttons a:active {
+    outline: none;
+  }
 }
 
 div.button {
@@ -1138,8 +1150,8 @@ div.pages {
 
   span.page-numbers {
     display: inline-block;
-   text-align: center;
-  margin: 0 5px;
+    text-align: center;
+    margin: 0 5px;
   }
 
   span.next, span.prev {

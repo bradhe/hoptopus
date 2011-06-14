@@ -361,8 +361,8 @@ table.list td {
 h2, h2 a {
   margin-bottom: 5pt;
   border-bottom: 1px solid #ccc;
-  padding-bottom: 5pt;
   color: #85af22;
+  padding-bottom: 5pt;
   text-decoration: none; }
 
 h2 a {
@@ -808,17 +808,14 @@ html[xmlns] .clearfix {
   margin-bottom: 2pt;
   padding-bottom: 0; }
 
-#navigation .user-info img {
+#navigation li.user-info img {
   position: relative;
   top: -3px; }
-
+#navigation li.user-info strong {
+  margin-left: 5pt; }
 #navigation li.user-info a, #navigation li.connect a {
   background-color: transparent;
   padding: 0; }
-
-#navigation li.user-info strong {
-  margin-left: 5pt; }
-
 #navigation li.connect a img {
   border: 0;
   position: relative;
@@ -849,6 +846,11 @@ li.connect span.or {
 #add-beer-form .add-beer.right {
   width: 355px;
   float: right; }
+#add-beer-form h3 {
+  margin-top: 10pt;
+  margin-bottom: 5pt;
+  border-bottom: 1px solid #ccc;
+  color: #85af22; }
 
 .ui-dialog .buttons {
   text-align: right; }
@@ -870,10 +872,8 @@ select.beers.dropdown {
 
 .ui-paged-dialog .buttons {
   text-align: center; }
-
 .ui-paged-dialog .buttons.submit {
   text-align: right; }
-
 .ui-paged-dialog .buttons a {
   display: inline-block;
   padding: 2px;
@@ -881,13 +881,10 @@ select.beers.dropdown {
   padding-right: 5pt;
   background-color: #ebebeb;
   border: 1px #ccc solid; }
-
 .ui-paged-dialog .buttons button, .ui-paged-dialog .buttons a {
   margin-right: 5pt; }
-
 .ui-paged-dialog .buttons a.selected {
   background-color: #ffe9a8; }
-
 .ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
   outline: none; }
 

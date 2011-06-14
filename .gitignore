@@ -9,3 +9,4 @@ tmp/sass-cache*
 .sass-cache
 *.swp
 tags
+bin/*

@@ -1,92 +1,94 @@
 <% if include_form %>
-<%= form_tag (url) %>
+  <%= form_tag (url) %>
 <% end %>
 
+<ul class="errors"></ul>
+
 <div class="clearfix">
-    <ul class="errors"></ul>
-
-    <div class="add-beer left">
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
-            <% if beer.name %>
-              <span class="value"><%= beer.name %></span>
-            <% else %>
-              <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
-            <% end %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
-            <%= text_field_tag "#{form_element_prefix}[year]", beer.year %>
-        </div>
+  <div class="add-beer left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
+      <% if beer.name %>
+        <span class="value"><%= beer.name %></span>
+      <% else %>
+        <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
+      <% end %>
     </div>
 
-    <div class="add-beer left">
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:" %>
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
+      <%= text_field_tag "#{form_element_prefix}[year]", beer.year %>
+    </div>
+  </div>
 
-            <% if beer.brewery %>
-                <span class="value"><%= beer.brewery %></span>
-            <% else %>
-              <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery %>
-            <% end %>
-        </div>
+  <div class="add-beer right">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:" %>
 
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
-            <%= text_field_tag "#{form_element_prefix}[style]", beer.style %>
-        </div>
+      <% if beer.brewery %>
+        <span class="value"><%= beer.brewery %></span>
+      <% else %>
+        <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery %>
+      <% end %>
     </div>
 
-    <h3>Other Info</h3>
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
+      <%= text_field_tag "#{form_element_prefix}[style]", beer.style %>
+    </div>
+  </div>
+</div>
 
-    <div class="add-beer left">
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
-            <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
-        </div>
+<h3>Other Info</h3>
 
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
-            $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
-            <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
-        </div>
-
+<div class="clearfix">
+  <div class="add-beer left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
+      <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
     </div>
 
-    <div class="add-beer right">
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
-            <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date cellared_at" %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[finish_aging_at]", "Age For:" %>
-          
-            <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, ((beer.finish_aging_at.year - beer.cellared_at.year) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_year' %> years
-            <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, ((beer.finish_aging_at.month - beer.cellared_at.month) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_month' %> months
-
-            <div class="sub field">
-              <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at" %>
-            </div>
-        </div>
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
+      $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
     </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
+      <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
+    </div>
+
+  </div>
+
+  <div class="add-beer right">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
+      <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
+      <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date cellared_at" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[finish_aging_at]", "Age For:" %>
+
+      <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, ((beer.finish_aging_at.year - beer.cellared_at.year) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_year' %> years
+      <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, ((beer.finish_aging_at.month - beer.cellared_at.month) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_month' %> months
+
+      <div class="sub field">
+        <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at" %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <% if include_buttons %>
-<div class="buttons submit">
+  <div class="buttons submit">
     <button style="button" data-close-dialog>Cancel</button>
     <button style="submit">Add Beer to Cellar</button>
-</div>
+  </div>
 <% end %>
 
 <% if include_form %>
