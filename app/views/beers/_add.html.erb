@@ -4,7 +4,7 @@
 
 <div class="clearfix">
     <ul class="errors"></ul>
-  
+
     <div class="add-beer left">
         <div class="field">
             <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
@@ -18,21 +18,6 @@
         <div class="field">
             <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
             <%= text_field_tag "#{form_element_prefix}[year]", beer.year %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
-            <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
-            <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
         </div>
     </div>
 
@@ -51,10 +36,32 @@
             <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
             <%= text_field_tag "#{form_element_prefix}[style]", beer.style %>
         </div>
+    </div>
+
+    <h3>Other Info</h3>
+
+    <div class="add-beer left">
+        <div class="field">
+            <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
+            <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
+        </div>
 
         <div class="field">
             <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
             $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
+        </div>
+
+        <div class="field">
+            <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
+            <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
+        </div>
+
+    </div>
+
+    <div class="add-beer right">
+        <div class="field">
+            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
+            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
         </div>
 
         <div class="field">

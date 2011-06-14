@@ -334,10 +334,6 @@ h3 a {
   text-decoration: none;
   color: #666; }
 
-#add-beer-form span.note {
-  display: block;
-  margin-bottom: 5pt; }
-
 h3 img {
   position: relative;
   top: 2px;
@@ -842,8 +838,17 @@ li.connect span.or {
 .rowselected {
   background-color: white; }
 
-.add-beer.left {
-  width: 400px; }
+#add-beer-form span.note {
+  display: block;
+  margin-bottom: 5pt; }
+#add-beer-form .add-beer.left {
+  width: 355px;
+  float: left; }
+  #add-beer-form .add-beer.left textarea {
+    height: 132px; }
+#add-beer-form .add-beer.right {
+  width: 355px;
+  float: right; }
 
 .ui-dialog .buttons {
   text-align: right; }
@@ -856,14 +861,6 @@ li.connect span.or {
   margin-left: 130px;
   margin-top: 4pt;
   margin-top: 4pt; }
-
-.add-beer textarea {
-  height: 132px; }
-
-.add-beer .left {
-  width: 400px;
-  height: 300px;
-  float: left; }
 
 select.beers.dropdown {
   width: 100%; }

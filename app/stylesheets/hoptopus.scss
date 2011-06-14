@@ -21,7 +21,7 @@ body {
 
 body, p, ol, ul, td, input, select {
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size:	 13px;
+  font-size: 13px;
   line-height: 18px;
 }
 
@@ -31,7 +31,7 @@ input, select{
   border-left: 2px solid $lightgray;
   border-bottom: 1px solid $lightgray;
   border-radius: .4em;
-padding: .3em .3em;
+  padding: .3em .3em;
 }
 
 td select, td input {
@@ -39,14 +39,14 @@ padding: .25em 0;
 }
 
 input[type=file] {
-border: none;
+  border: none;
 }
 
 .letters-list a {
-display: inline-block;
-width: 28px;
-       padding-top: 2px;
-       padding-bottom: 2px;
+  display: inline-block;
+  width: 28px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .letters-list a.selected {
@@ -409,10 +409,6 @@ h3 a {
 color: #666;
 }
 
-#add-beer-form span.note {
-display: block;
-         margin-bottom: 5pt;
-}
 
 h3 img {
 position: relative;
@@ -1059,8 +1055,25 @@ display: table;
   background-color: $selected_row_color;
 }
 
-.add-beer.left {
-width: 400px;
+#add-beer-form {
+  span.note {
+    display: block;
+    margin-bottom: 5pt;
+  }
+
+  .add-beer.left {
+    width: 355px;
+    float: left;
+
+    textarea {
+      height: 132px;
+    }
+  }
+
+  .add-beer.right {
+    width: 355px;
+    float: right;
+  }
 }
 
 .ui-dialog .buttons {
@@ -1076,17 +1089,6 @@ color: #f00;
   margin-left: 130px;
   margin-top: 4pt;
   margin-top: 4pt; }
-
-  .add-beer textarea {
-height: 132px;
-  }
-
-.add-beer .left {
-width: 400px;
-height: 300px;
-float: left;
-}
-
 select.beers.dropdown {
 width: 100%;
 }

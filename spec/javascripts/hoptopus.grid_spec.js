@@ -45,12 +45,16 @@ describe("hoptopus.grid", function() {
     });
   });
 
-  it('should be able to repopulate the body', function() {
-    grid.init({ beers: boringBeers });
+  describe('.repopulateTable', function() {
+    beforeEach(function() {
+      grid.init({ beers: boringBeers });
+      table.find('tbody').empty();
+    });
 
-    table.find('tbody').empty();
-    grid.repopulateTable();
-    expect(table.find("tbody tr").length).toBe(6);
+    it('should be able to repopulate the body', function() {
+      grid.repopulateTable();
+      expect(table.find("tbody tr").length).toEqual(6); // Default page size.
+    });
   });
 
   describe('sorting', function() {
@@ -69,49 +73,25 @@ describe("hoptopus.grid", function() {
     });
 
     it('should sort when header is clicked', function() {
-      var th = table.find('th').first();
-      th.click();
-
-      expect(table.find('tbody td').first().text()).toBe('a');
+      clickFirstHeader(table);
+      expect(table.find('tbody td:first')).toHaveText('a');
     });
 
     it('should set the header to sorted when a header is clicked', function() {
-      var th = table.find('th').first();
-      th.click();
-
-      expect(th).toHaveClass('sorted down');
+      clickFirstHeader(table);
+      expect(firstHeader(table)).toHaveClass('sorted down');
     });
 
     it('should clear other headers sorted status if a different header is clicked', function() {
-      var th = table.find('th').first();
-      th.click();
-
-      expect(th).toHaveClass('sorted');
-
-      // Click the other one...
-      table.find('th').last().click();
-
-      expect(th).not.toHaveClass('sorted');
+      clickFirstHeader(table);
+      clickLastHeader(table);
+      expect(firstHeader(table)).not.toHaveClass('sorted');
     });
   });
 
   describe('pagination', function() {
     beforeEach(function() {
       grid.init({ beers: lotsOfBeers });
-    });
-
-    it('should paginate to the correct page size', function() {
-      var size = table.find('tbody tr').length;
-
-      // Default page size = 25
-      expect(size).toBe(25);
-    });
-
-    it('should paginate to the correct page size', function() {
-      var size = table.find('tbody tr').length;
-
-      // Default page size = 25
-      expect(size).toBe(25);
     });
 
     it('should create pages in the pages thinger', function() {
@@ -128,18 +108,33 @@ describe("hoptopus.grid", function() {
 
     it('should maintain sort order during pagination', function() {
       // Sort, then go to next page
-      var th = table.find('th:first');
-      th.click();
-
-      // Sort down.
-      th.click();
-
-      // Second page
-      var links = $("span.page-numbers a")
-      $(links[1]).click();
+      clickFirstHeader(table);
+      clickFirstHeader(table);
+      goToPage(2);
 
       // Should be 25, the end of hte last page
       expect(table.find('tbody td:first')).toHaveText("25");
     });
   });
+
+  function clickFirstHeader(table) {
+    firstHeader(table).click();
+  }
+
+  function clickLastHeader(table) {
+    lastHeader(table).click();
+  }
+
+  function firstHeader(table) {
+    return table.find('th:first');
+  }
+
+  function lastHeader(table) {
+    return table.find('th:last');
+  }
+
+  function goToPage(number) {
+    var links = $("span.page-numbers a")
+    $(links[number-1]).click();
+  }
 });
