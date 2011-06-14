@@ -68,26 +68,33 @@
       div.append(elem);
       
       // We need to create page buttons for all this.
-      pageButtons = $('<div/>').addClass('buttons');
+      pageButtons = $('<div/>').addClass('pages');
+      pageNumbers = $('<span/>').addClass('page-numbers');
+      prevSpan = $('<span/>').addClass('prev');
+      nextSpan = $('<span/>').addClass('next');
+
+      pageButtons.append(prevSpan);
+      pageButtons.append(pageNumbers);
+      pageButtons.append(nextSpan);
 
       // Highlight the first one.
       div.append(pageButtons);
       
       // We need to add NEXT and PREV buttons as well.
-      var nextButton = $('<button/>').attr('type', 'button').text('Next');
-      var prevButton = $('<button/>').attr('type', 'button').text('Prev');
-      nextButton.click(function(e) { return d.onNextClicked(e) });
-      prevButton.click(function(e) { return d.onPrevClicked(e) });
+      var nextLink = $('<a/>').attr('type', 'javascript:void(0);').html('Next &raquo;');
+      var prevLink = $('<a/>').attr('href', 'javascript:void(0);').html('&laquo; Prev');
+      nextLink.click(function(e) { return d.onNextClicked(e) });
+      prevLink.click(function(e) { return d.onPrevClicked(e) });
       
       // By default the previous button should be hidden.
-      prevButton.attr('disabled', true);
+      prevButton.hide();
       
-      pageButtons.prepend(prevButton);
-      pageButtons.append(nextButton);
+      prevSpan.prepend(prevLink);
+      nextSpan.append(nextLink);
       
       // Save this crap for later.
-      d.nextButton = nextButton;
-      d.prevButton = prevButton;
+      d.nextButton = nextLink;
+      d.prevButton = prevLink;
 
       d.dialog = div;
 

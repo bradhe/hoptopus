@@ -36,6 +36,45 @@ function VarietyFilter(textBox) {
   };
 }
 
+function GenericFilter(textBox, propertyName) {
+  this.textBox = textBox;
+  this.propertyName = propertyName;
+  this.filter = function(objs) {
+    var oc = objs.length;
+    // get the val and clean it up. We will fuzzy-match this stuff.
+    var val = $(this.textBox).val();
+    var clean = val.replace(/\s+/g, '');
+
+    if(!clean) {
+      return objs;
+    }
+
+    clean = clean.toLowerCase();
+
+    var found = [];
+    for(var i = 0; i < objs.length; i++) {
+      if(!(this.propertyName in objs[i])) {
+        continue;
+      }
+
+      var n = objs[i][this.propertyName].replace(/\s+/g, '');
+
+      if(!n) {
+        continue;
+      }
+
+      n = n.toLowerCase();
+
+      // Can appear anywhere in the thing.
+      if(n.indexOf(clean) > -1) {
+        found.push(objs[i]);
+      }
+    }
+
+    return found;
+  };
+}
+
 function BreweryFilter(select) {
   this.select = select;
 
@@ -394,10 +433,7 @@ hoptopus.grid = function(options) {
       }
     }
 
-    var tr = $('<tr/>');
-
-    // TODO: Clean this out, we should use something less domain-specific.
-    tr.attr('data-beer', obj.id);
+    var tr = $('<tr/>').attr('data-beer', obj.id);
 
     if(nextClass) {
       tr.addClass(nextClass);
@@ -423,6 +459,7 @@ hoptopus.grid = function(options) {
           input.click(settings.checkBoxClicked);
         }
 
+        // These are default.
         td.attr('valign', 'middle');
         td.attr('align', 'center');
         td.append(input);
@@ -629,6 +666,17 @@ hoptopus.grid = function(options) {
         var select = $(filterColumns[i].children[0]);
         filter = new BreweryFilter(select);
         select.change(applyFilters);
+      }
+      else {
+        var input = $(filterColumns[i].children[0]);
+        filter = new GenericFilter(input, property);
+        input.keyup(function() {
+          var t = null;
+          return function() {
+            if(t) { window.clearTimeout(t); }
+            t = window.setTimeout(applyFilters, 75);
+          }
+        }());
       }
 
       if(filter) {

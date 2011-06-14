@@ -24,7 +24,7 @@ class Cellar < ActiveRecord::Base
   end
 
   def breweries
-    self.beers.map{|b| b.brewery}.sort.uniq
+    self.beers.map{|b| b.brewery}.sort {|a,b| a.downcase <=> b.downcase}.uniq
   end
 
   def to_param
