@@ -68,8 +68,8 @@ var hoptopus = (function($) {
       }
     }
 
-    bottom = h.qsort(property, bottom, comp);
-    top = h.qsort(property, top, comp);
+    bottom = hoptopus.qsort(property, bottom, comp);
+    top = hoptopus.qsort(property, top, comp);
 
     var t = [];
     for(var i = 0; i < bottom.length; i++) {

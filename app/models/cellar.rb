@@ -14,14 +14,20 @@ class Cellar < ActiveRecord::Base
 
   def self.find_by_user(user)
     return nil if user.nil?
-    return Cellar.find_by_user_id(user.id)
+    Cellar.find_by_user_id(user.id)
   end
 
   def self.find_by_username(username)
-    raise "Deprecated."
+    u = User.find_by_username(username)
+    return nil if u.nil?
+    u.cellar
   end
 
   def breweries
     self.beers.map{|b| b.brewery}.sort.uniq
+  end
+
+  def to_param
+    self.user.username
   end
 end

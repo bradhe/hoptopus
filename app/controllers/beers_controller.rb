@@ -6,7 +6,7 @@ class BeersController < ApplicationController
     @beer = @cellar.beers.find(params[:id])
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @beers }
+      format.json { render :json => @beer }
     end
   end
 
@@ -25,11 +25,11 @@ class BeersController < ApplicationController
 
   def edit
     if request.post?
-      unless params.has_key? :beer_id
-        raise ArgumentError "Beer IDs are missing. You need to specify the IDs of beers you want to operate on."
+      unless params.has_key? :selected_beers
+        raise ArgumentError, "Beer IDs are missing. You need to specify the IDs of beers you want to operate on."
       end
 
-      @beers = params[:beer_id].map { |i| Beer.find i }
+      @beers = params[:selected_beers].map { |i| Beer.find(i) }
 
       respond_to do |format|
         format.html { render :partial => 'beers/multiedit' }

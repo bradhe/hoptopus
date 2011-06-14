@@ -96,7 +96,8 @@ hoptopus.grid = function(options) {
     rowClasses: ['color1','color2'],
     fadeInRows: false,
     pageSize: 25,
-    pagesList: 'div.pages'
+    pagesList: 'div.pages',
+    checkBoxClicked: null
   };
 
   // Merge objects
@@ -148,6 +149,8 @@ hoptopus.grid = function(options) {
     return objs;
   }
 
+  var allObjects = null;
+
   function applyFilters() {
     // Bind this thing.
     var tbody = grid.find('tbody');
@@ -156,7 +159,7 @@ hoptopus.grid = function(options) {
     var n = 25; // TODO: Fix this so that it's not static.
 
     var l = filters.length
-      var targets = g.beers;
+    var targets = allObjects || g.beers;
 
     for(var i = 0; i < l; i++) {
       targets = filters[i].filter(targets);
@@ -171,45 +174,20 @@ hoptopus.grid = function(options) {
       tr.append(td);
       tbody.append(tr);
 
-      // Also hide the button
-      grid.find('tfoot button').hide();
+      // Clear the buttons and everything
+      $("#pages span.page-numbers").empty();
+      $("#pages span.next").empty();
+      $("#pages span.prev").empty();
     }
     else {
-      // Now that that's complete we need to sort the columns
-      // again.
-      var l = targets.length;
-      var stickInQueue = false;
-      if(l > n) {
-        l = n;
-        stickInQueue = true;
+      // Save all these if they have not been saved before.
+      if(allObjects == null) {
+        allObjects = g.beers;
       }
 
-      if(sortedColumn) {
-        targets = sortTableByColumn([], sortedColumn, targets);
-      }
-      else {
-        for(var i = 0; i < l; i++) {
-          addObjectRow(targets[i], tbody);
-        }
-      }
-
-      // Take all the others and put them in the search results queue.
-      if(stickInQueue) {
-        g.searchResults = targets.slice(n);
-
-        // Set up the "more" bit.
-        var btn = grid.find('tfoot button');
-        var txt = btn.text();
-        txt = txt.replace(/\d{1,}/, g.searchResults.length);
-        btn.text(txt);
-        btn.show();
-
-        // Set the rowsShown bit too
-        g.rowsShown = n;
-      }
-      else {
-        grid.find('tfoot button').hide();
-      }
+      g.beers = targets;
+      g.repopulateTable();
+      g.resetSort();
     }
   }
 
@@ -440,6 +418,11 @@ hoptopus.grid = function(options) {
       var td = $('<td/>');
       if(typeof(column) == 'object' && 'checkbox' in column) {
         var input = $('<input/>').attr('type', 'checkbox').attr('name', 'selected_beers').val(obj.id);
+
+        if($.isFunction(settings.checkBoxClicked)) {
+          input.click(settings.checkBoxClicked);
+        }
+
         td.attr('valign', 'middle');
         td.attr('align', 'center');
         td.append(input);
@@ -538,6 +521,8 @@ hoptopus.grid = function(options) {
     var numberPages = getNumberOfPages();
 
     var span = grid.parent().parent().find(settings.pagesList).find('span.page-numbers');
+    span.empty();
+
     for(var i = 0; i < numberPages; i++) {
       var a = $('<a/>').attr('href', 'javascript:void(0);').text(i+1);
       span.append(a);
@@ -572,6 +557,10 @@ hoptopus.grid = function(options) {
     }
 
     createPages();
+  }
+
+  g.resetSort = function() {
+    grid.find('th').removeClass('sorted up down');
   }
 
   g.sortBy = function(id, direction) {
@@ -610,7 +599,7 @@ hoptopus.grid = function(options) {
           sortDirection = 'up';
         }
 
-        headers.removeClass('sorted');
+        g.resetSort();
         $(this).addClass('sorted ' + sortDirection);
 
         var id = this.id;
@@ -658,7 +647,8 @@ hoptopus.grid = function(options) {
       filters[i].clear();
     }
 
-    applyFilters();
+    g.beers = allObjects;
+    allObjects = null;
   };
 
   //

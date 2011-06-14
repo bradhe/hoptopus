@@ -104,6 +104,18 @@
             table.tablesorter({headers: headers});
         }
 
+        function checkBoxClicked() {
+            var checked = $('#cellared-beers input:checkbox').filter(':checked');
+            var editBeers = $('#edit-beers');
+
+            if (editBeers.is(':disabled') && checked.length > 0) {
+              editBeers.removeAttr('disabled');
+            }
+            else if(checked.length < 1 && editBeers.is(':enabled')) {
+              editBeers.attr('disabled', true);
+            }
+        }
+
         $(function() {
             $('#import-beers').bind('click', function(e) {
                 $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
@@ -116,7 +128,8 @@
                 table: $('#cellared-beers'),
                 columns: <%== @grid_columns.to_json %>,
                 nameFormatter: function(obj) { return obj.name; },
-                pageSize: 25
+                pageSize: 25,
+                checkBoxClicked: checkBoxClicked
             });
 
             var beers = <%== cellar_beers_as_json(@cellar) %>;
@@ -153,14 +166,7 @@
 
             $('#clear-filters').click(function(e) { grid.clearFilters(); });
 
-            $('#cellared-beers input[type="checkbox"]').click(function() {
-                var checked = $('#cellared-beers input[type="checkbox"]:checked');
-                var editBeers = $('#edit-beers');
-
-                if (editBeers.is(':disabled') && checked.length > 0) {
-                    editBeers.removeAttr('disabled');
-                }
-            });
+            $('#cellared-beers input:checkbox').click(checkBoxClicked);
 
             var editCellar = $('#edit-cellar').dynamicForm({
                 success: function(data) {
@@ -196,6 +202,7 @@
 
                           var errorsDiv= $('<div/>').addClass('errors').html('Some of your updates contain errors! The beers without errors have been saved and removed.<br/>The beers with errors remain here.');
                           errorsDiv.hide();
+
                           $(dialog.prevButton).parent().after(errorsDiv);
                           errorsDiv.fadeIn('fast');
 
@@ -239,11 +246,11 @@
                     });
 
                     submitButton.click(function() {
-                        return dynamicForm[0].submit('<%= cellar_beers_path(@cellar.user.username) %>');
+                        return dynamicForm[0].submit('<%= cellar_beers_path(@cellar) %>');
                     });
                 },
                 error: function() {
-                    alert('AWW YAAA');
+                     alert("An error occured while preparing your beers.");
                 },
                 submitStart: function () {
                     hoptopus.showProgress('Loading...');
@@ -255,7 +262,7 @@
             });
 
             $('#edit-beers').click(function() {
-                editCellar[0].submit('<%= edit_cellar_beers_path(@cellar.user.username) %>');
+                editCellar[0].submit('<%= edit_cellar_beers_path(@cellar) %>');
             });
         });
     </script>
