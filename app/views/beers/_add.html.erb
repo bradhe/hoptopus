@@ -17,7 +17,7 @@
 
     <div class="field">
       <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
-      <%= text_field_tag "#{form_element_prefix}[year]", beer.year %>
+      <%= text_field_tag "#{form_element_prefix}[year]", beer.year, :class => 'year' %>
     </div>
   </div>
 
@@ -34,7 +34,7 @@
 
     <div class="field">
       <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
-      <%= text_field_tag "#{form_element_prefix}[style]", beer.style %>
+      <%= text_field_tag "#{form_element_prefix}[style]", beer.style, :class => 'style' %>
     </div>
   </div>
 </div>
@@ -45,17 +45,17 @@
   <div class="add-beer left">
     <div class="field">
       <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
-      <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size %>
+      <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size, :class => 'bottle-size' %>
     </div>
 
     <div class="field">
       <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
-      $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
+      $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price, :class => 'price' %>
     </div>
 
     <div class="field">
       <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
-      <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
+      <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv, :class => 'abv' %> %
     </div>
 
   </div>
@@ -63,7 +63,7 @@
   <div class="add-beer right">
     <div class="field">
       <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-      <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
+      <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity, :class => 'quantity' %>
     </div>
 
     <div class="field">

@@ -73,6 +73,10 @@ function GenericFilter(textBox, propertyName) {
 
     return found;
   };
+
+  this.clear = function() {
+    $(this.textBox).val('');
+  };
 }
 
 function BreweryFilter(select) {
@@ -200,6 +204,11 @@ hoptopus.grid = function(options) {
     var l = filters.length
     var targets = allObjects || g.beers;
 
+    // Save all these if they have not been saved before.
+    if(allObjects == null) {
+      allObjects = g.beers;
+    }
+
     for(var i = 0; i < l; i++) {
       targets = filters[i].filter(targets);
     }
@@ -219,11 +228,6 @@ hoptopus.grid = function(options) {
       $("#pages span.prev").empty();
     }
     else {
-      // Save all these if they have not been saved before.
-      if(allObjects == null) {
-        allObjects = g.beers;
-      }
-
       g.beers = targets;
       g.repopulateTable();
       g.resetSort();
@@ -697,6 +701,7 @@ hoptopus.grid = function(options) {
 
     g.beers = allObjects;
     allObjects = null;
+    g.repopulateTable();
   };
 
   //

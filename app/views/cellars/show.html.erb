@@ -182,7 +182,7 @@
 
                     div.append(cancelButton);
                     div.append(submitButton);
-                    $(dialog.prevButton).before(div);
+                    $(dialog.prevButton).parent().parent().before(div);
 
                     // Also, this data should be a dynamic form.
                     var form = $(dialog.dialog).find('form').first();

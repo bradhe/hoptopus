@@ -488,29 +488,29 @@ ul.all-cellars {
   display: inline-block; }
 
 button, input[type="submit"] {
-  background-image: url("/images/gray-button.png");
-  background-repeat: repeat-x;
-  background-positiion: center;
-  border: 1px #d6d6d6 solid;
-  color: #333;
-  text-shadow: 1px 1px 1px #d6d6d6;
-  outline: none;
+  -moz-box-shadow: inset 0 1px 1px #ffffd1;
+  -webkit-box-shadow: inset 0 1px 1px #ffffd1;
+  box-shadow: inset 0 1px 1px #ffffd1;
+  border: 1px solid #e2e2e2;
+  background: #f0e6af;
   padding-top: 2pt;
-  padding-bottom: 2pt; }
-
-button[disabled], input[disabled], button[disabled]:focus, input[disabled]:focus, button[disabled]:active, input[disabled]:active {
-  background-image: none;
-  outline: none;
-  color: #ccc;
-  text-shadow: none; }
-
-button:focus, input[type="submit"]:focus {
-  outline: none;
-  border: 1px #85af22 solid; }
-
-button:active, input[type="submit"]:active, button.down {
-  background-image: url("/images/gray-button-down.png");
-  color: #999; }
+  padding-bottom: 2pt;
+  font-size: 1.0em; }
+  button[disabled], button[disabled]:focus, button[disabled]:active, input[type="submit"][disabled], input[type="submit"][disabled]:focus, input[type="submit"][disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px #ebebeb;
+    -webkit-box-shadow: inset 0 1px 1px #ebebeb;
+    box-shadow: inset 0 1px 1px #ebebeb;
+    border: 1px solid #e2e2e2;
+    background: #e2e2e2;
+    outline: none;
+    color: #ccc;
+    text-shadow: none; }
+  button:active, input[type="submit"]:active {
+    -moz-box-shadow: inset 0 1px 1px #f0e6af;
+    -webkit-box-shadow: inset 0 1px 1px #f0e6af;
+    box-shadow: inset 0 1px 1px #f0e6af;
+    border: 1px solid #e2e2e2;
+    background: #ffffd1; }
 
 table[data-sortable] th, th.unsorted {
   background-image: url("/images/unsorted.png");
@@ -523,46 +523,44 @@ th.unsortable {
   background-image: none;
   padding-right: 0; }
 
-th.headerSortDown, th.sorted.down {
+th.sorted.down {
   background-image: url("/images/sort-down.png");
   background-color: #ffe9a8;
   background-repeat: no-repeat;
   background-position: right center; }
 
-th.headerSortUp, th.sorted.up {
+th.sorted.up {
   background-image: url("/images/sort-up.png");
   background-color: #ffe9a8;
   background-repeat: no-repeat;
   background-position: right center; }
-
-.tabs h2 {
-  display: inline-block;
-  margin: 0;
-  padding: 10pt;
-  padding-top: 5pt;
-  padding-bottom: 5pt;
-  border-bottom: 0;
-  font-size: 10pt;
-  border-top: 1px #ebebeb solid;
-  border-left: 1px #ebebeb solid;
-  border-right: 1px #ebebeb solid;
-  margin-right: 5pt;
-  position: relative;
-  top: 1px;
-  z-index: 10;
-  cursor: pointer; }
-
-.tabs h2.open {
-  border-bottom: 1px #fff solid;
-  border-top: 1px #ccc solid;
-  border-left: 1px #ccc solid;
-  border-right: 1px #ccc solid; }
 
 .tabs {
   border-bottom: 1px #ccc solid;
   z-index: 20;
   margin-bottom: 10pt;
   padding-left: 10pt; }
+  .tabs h2 {
+    display: inline-block;
+    margin: 0;
+    padding: 10pt;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+    border-bottom: 0;
+    font-size: 10pt;
+    border-top: 1px #ebebeb solid;
+    border-left: 1px #ebebeb solid;
+    border-right: 1px #ebebeb solid;
+    margin-right: 5pt;
+    position: relative;
+    top: 1px;
+    z-index: 10;
+    cursor: pointer; }
+  .tabs h2.open {
+    border-bottom: 1px #fff solid;
+    border-top: 1px #ccc solid;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid; }
 
 textarea.notes {
   height: 150px; }
@@ -715,7 +713,8 @@ span.progress {
   padding-bottom: 7px;
   padding-top: 7px;
   padding-left: 10px;
-  padding-right: 10px; }
+  padding-right: 10px;
+  z-index: 9999; }
 
 span.progress img {
   position: relative;
@@ -835,26 +834,31 @@ li.connect span.or {
 .rowselected {
   background-color: white; }
 
-#add-beer-form span.note {
+#add-beer-form span.note, div.edit.beer span.note {
   display: block;
   margin-bottom: 5pt; }
-#add-beer-form .add-beer.left {
+#add-beer-form .add-beer.left, div.edit.beer .add-beer.left {
   width: 355px;
   float: left; }
-  #add-beer-form .add-beer.left textarea {
+  #add-beer-form .add-beer.left textarea, div.edit.beer .add-beer.left textarea {
     height: 132px; }
-#add-beer-form .add-beer.right {
+#add-beer-form .add-beer.right, div.edit.beer .add-beer.right {
   width: 355px;
   float: right; }
-#add-beer-form h3 {
+#add-beer-form h3, div.edit.beer h3 {
   margin-top: 10pt;
   margin-bottom: 5pt;
   border-bottom: 1px solid #ccc;
   color: #85af22; }
+#add-beer-form input.abv, div.edit.beer input.abv {
+  width: 50px; }
+#add-beer-form input.price, div.edit.beer input.price {
+  width: 75px; }
+#add-beer-form input.bottle-size, div.edit.beer input.bottle-size {
+  width: 100px; }
 
 .ui-dialog .buttons {
   text-align: right; }
-
 .ui-dialog div.errors {
   color: #f00;
   text-align: center; }
@@ -870,23 +874,8 @@ select.beers.dropdown {
 .hidden {
   display: none; }
 
-.ui-paged-dialog .buttons {
-  text-align: center; }
-.ui-paged-dialog .buttons.submit {
-  text-align: right; }
-.ui-paged-dialog .buttons a {
-  display: inline-block;
-  padding: 2px;
-  padding-left: 5pt;
-  padding-right: 5pt;
-  background-color: #ebebeb;
-  border: 1px #ccc solid; }
-.ui-paged-dialog .buttons button, .ui-paged-dialog .buttons a {
-  margin-right: 5pt; }
-.ui-paged-dialog .buttons a.selected {
-  background-color: #ffe9a8; }
-.ui-paged-dialog .buttons a:focus, .ui-paged-dialog .buttons a:active {
-  outline: none; }
+.ui-paged-dialog div.pages {
+  margin-bottom: 5pt; }
 
 div.button {
   margin-top: 15pt;

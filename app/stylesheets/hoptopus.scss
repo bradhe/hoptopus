@@ -1,17 +1,32 @@
-
 $green: #85af22;
+$green-highlight: $green+#222;
 $brown: #FFE9A8;
+$brown-highlight: $brown+#222;
+$tan: #f0e6af;
+$tan-highlight: $tan+#222;
+$grey: #e2e2e2;
+$grey-highlight: #ebebeb;
+$dark-grey: #ccc;
 $selected_row_color: #FFFFFF;
 $content_width: 900px;
 $lightgray: #C0C0C0;
+
+@mixin buttonize($base: $grey, $highlight: $grey-highlight, $shadow: $grey) {
+  -moz-box-shadow: inset 0 1px 1px $highlight;
+  -webkit-box-shadow: inset 0 1px 1px $highlight;
+  box-shadow: inset 0 1px 1px $highlight;
+
+  border: 1px solid $shadow;
+  background: $base;
+}
 
 html { height: 101%; }
 
 body { background-color: #fff; color: #333; }
 
 body, body * {
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -597,44 +612,32 @@ color: $green;
 }
 
 .right {
-float: right;
-display: inline-block;
+  float: right;
+  display: inline-block;
 }
 
 .left {
-float: left;
-display: inline-block;
+  float: left;
+  display: inline-block;
 }
 
 button, input[type="submit"] {
-  background-image: url('/images/gray-button.png');
-  background-repeat: repeat-x;
-  background-positiion: center;
-border: 1px #d6d6d6 solid;
-color: #333;
-       text-shadow: 1px 1px 1px #d6d6d6;
-outline: none;
+  @include buttonize($tan, $tan-highlight, $grey);
+  padding-top: 2pt;
+  padding-bottom: 2pt;
+  font-size: 1.0em;
 
-         padding-top: 2pt;
-         padding-bottom: 2pt;
+  &[disabled], &[disabled]:focus, &[disabled]:active {
+    @include buttonize($grey, $grey-highlight, $grey);
+    outline: none;
+    color: #ccc;
+    text-shadow: none;
+  }
+
+  &:active {
+    @include buttonize($tan-highlight, $tan, $grey);
+  }
 }
-
-button[disabled], input[disabled], button[disabled]:focus, input[disabled]:focus, button[disabled]:active, input[disabled]:active {
-  background-image: none;
-outline: none;
-color: #ccc;
-       text-shadow: none;
-}
-
-button:focus, input[type="submit"]:focus {
-outline: none;
-border: 1px $green solid;
-       }
-
-button:active, input[type="submit"]:active, button.down {
-         background-image: url('/images/gray-button-down.png');
-color: #999;
-       }
 
 table[data-sortable] th, th.unsorted {
   background-image: url('/images/unsorted.png');
@@ -649,46 +652,18 @@ th.unsortable {
   padding-right: 0;
 }
 
-th.headerSortDown, th.sorted.down {
+th.sorted.down {
   background-image: url('/images/sort-down.png');
   background-color: $brown;
   background-repeat: no-repeat;
   background-position: right center;
 }
 
-th.headerSortUp, th.sorted.up {
+th.sorted.up {
   background-image: url('/images/sort-up.png');
   background-color: $brown;
   background-repeat: no-repeat;
   background-position: right center;
-}
-
-.tabs h2 {
-display: inline-block;
-margin: 0;
-padding: 10pt;
-         padding-top: 5pt;
-         padding-bottom: 5pt;
-         border-bottom: 0;
-         font-size: 10pt;
-         border-top: 1px #ebebeb solid;
-         border-left: 1px #ebebeb solid;
-         border-right: 1px #ebebeb solid;
-         margin-right: 5pt;
-
-position: relative;
-top: 1px;
-
-     z-index: 10;
-
-cursor: pointer;
-}
-
-.tabs h2.open {
-  border-bottom: 1px #fff solid;
-  border-top: 1px #ccc solid;
-  border-left: 1px #ccc solid;
-  border-right: 1px #ccc solid;
 }
 
 .tabs {
@@ -697,6 +672,33 @@ cursor: pointer;
 
   margin-bottom: 10pt;
   padding-left: 10pt;
+
+  h2 { 
+    display: inline-block;
+    margin: 0;
+    padding: 10pt;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+    border-bottom: 0;
+    font-size: 10pt;
+
+    border-top: 1px #ebebeb solid;
+    border-left: 1px #ebebeb solid;
+    border-right: 1px #ebebeb solid;
+
+    margin-right: 5pt;
+    position: relative;
+    top: 1px;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  h2.open {
+    border-bottom: 1px #fff solid;
+    border-top: 1px #ccc solid;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid;
+  }
 }
 
 textarea.notes {
@@ -1057,7 +1059,7 @@ li.connect span.or {
   background-color: $selected_row_color;
 }
 
-#add-beer-form {
+#add-beer-form, div.edit.beer {
   span.note {
     display: block;
     margin-bottom: 5pt;
@@ -1083,15 +1085,29 @@ li.connect span.or {
     border-bottom: 1px solid #ccc;
     color: $green;
   }
+
+  input.abv {
+    width: 50px;
+  }
+
+  input.price {
+    width: 75px;
+  }
+
+  input.bottle-size {
+    width: 100px;
+  }
 }
 
-.ui-dialog .buttons {
-  text-align:right;
-}
+.ui-dialog {
+  .buttons {
+    text-align:right;
+  }
 
-.ui-dialog div.errors {
-  color: #f00;
-  text-align:center;
+  div.errors {
+    color: #f00;
+    text-align:center;
+  }
 }
 
 .sub.field {
@@ -1109,33 +1125,8 @@ select.beers.dropdown {
 }
 
 .ui-paged-dialog {
-  .buttons {
-    text-align: center;
-  }
-
-  .buttons.submit {
-    text-align: right;
-  }
-
-  .buttons a {
-    display: inline-block;
-    padding: 2px;
-    padding-left: 5pt;
-    padding-right: 5pt;
-    background-color: #ebebeb;
-    border: 1px #ccc solid;
-  }
-
-  .buttons button, .buttons a {
-    margin-right: 5pt;
-  }
-
-  .buttons a.selected {
-    background-color: $brown;
-  }
-
-  .buttons a:focus, .buttons a:active {
-    outline: none;
+  div.pages {
+    margin-bottom: 5pt;
   }
 }
 
