@@ -23,8 +23,8 @@ unless RUBY_PLATFORM =~ /ming/
 end
 
 group :development, :test do
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', '~>2.5.0'
+  gem 'rspec-rails', '~>2.5.0'
   gem 'mongrel'
   gem 'jasmine'
 end

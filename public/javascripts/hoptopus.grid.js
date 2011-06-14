@@ -119,57 +119,30 @@ hoptopus.grid = function(options) {
   g.breweries = [];
   g.rowsShown = 0;
 
-  function sortTableByColumn(th, column, objs) {
-    var needsSort = true;
+  function sortTableByColumn(th, column, objs, direction) {
+    var p = column.property;
+    var comp = StringComparator;
 
-    // Clear the other objects that have sortable columns.
-    if(sortedColumn != column) {
-      // Clear this and get the new objects.
-      grid.find('thead th.sorted').addClass('unsorted').removeClass('sorted');
-      $(th).removeClass('unsorted').addClass('sorted down');
-
-      if(!objs) {
-        objs = g.beers;
-      }
+    // TODO: This is gross. We should have a better way of determining data type.
+    if(p == 'year') {
+      comp = NumericComparator;
     }
-    else if(sortedColumn) {
-      if($(th).hasClass('down')) {
-        $(th).removeClass('down');
-        $(th).addClass('up');
-      }
-      else {
-        $(th).removeClass('up');
-        $(th).addClass('down');
-      }
 
-      if(!objs) {
-        objs = g.beers.reverse();
-      }
-
-      needsSort = false;
-    }
-    else if(!objs) {
+    if(objs == null) {
       objs = g.beers;
     }
 
-    if(needsSort) {
-      sortedColumn = column;
+    // Look up special cases for thing. If P starts with "formatted_" 
+    // then strip that // and return a date comparator if it has a 
+    // "_at" at the end.
+    if(p.indexOf('formatted_') == 0) {
+      p = p.substring('formatted_'.length);
+    }
 
-      var p = column.property;
-      var comp = StringComparator;
+    objs = hoptopus.qsort(p, objs, comp);
 
-      // TODO: This is gross. We should have a better way of determining data type.
-      if(p == 'year') {
-        comp = NumericComparator;
-      }
-
-      // Look up special cases for thing. If P starts with "formatted_" then strip that
-      // and return a date comparator if it has a "_at" at the end.
-      if(p.indexOf('formatted_') == 0) {
-        p = p.substring('formatted_'.length);
-      }
-
-      objs = hoptopus.qsort(p, objs, comp);
+    if(direction == 'up') {
+      objs = objs.reverse();
     }
 
     return objs;
@@ -601,6 +574,24 @@ hoptopus.grid = function(options) {
     createPages();
   }
 
+  g.sortBy = function(id, direction) {
+    var column = null;
+
+    for(var i in columns) {
+      var c = columns[i];
+      if(c.id == id) {
+        column = c;
+        break;
+      }
+    }
+
+    if(!column) {
+      throw "No column with ID " + id + " was found.";
+    }
+
+    g.beers = sortTableByColumn(this, column, null, direction);
+  }
+
   g.init = function(options) {
     g.beers = options.beers;
     g.breweries = options.breweries;
@@ -609,25 +600,21 @@ hoptopus.grid = function(options) {
 
     if(settings.sortable) {
       headers.addClass('unsorted');
-
-      // Set up for sorting.
       headers.click(function() {
+        var sortDirection = 'down';
+
+        if($(this).hasClass('sorted up')) {
+          sortDirection = 'down';
+        }
+        else if($(this).hasClass('sorted down')) {
+          sortDirection = 'up';
+        }
+
+        headers.removeClass('sorted');
+        $(this).addClass('sorted ' + sortDirection);
+
         var id = this.id;
-        var column = null;
-
-        for(var i in columns) {
-          var c = columns[i];
-          if(c.id == id) {
-            column = c;
-            break;
-          }
-        }
-
-        if(!column) {
-          throw "No column with ID " + id + " was found.";
-        }
-
-        g.beers = sortTableByColumn(this, column);
+        g.sortBy(id, sortDirection);
         g.repopulateTable();
       });
     }
