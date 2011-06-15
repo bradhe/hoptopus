@@ -1,5 +1,5 @@
 module BeersHelper
-  def ratable_field_tags(name, initial_value=nil, params={})
+  def star_rating_field_tags(name, initial_value=nil, params={})
     min, max = 1,5
     max = params[:max].to_i if params.has_key? :max
     min = params[:min].to_i if params.has_key? :min

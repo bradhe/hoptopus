@@ -84,6 +84,57 @@
   </div>
 </div>
 
+<div class="tasting-notes">
+  <% if beer.tasting_notes.empty? %>
+    <h3>Initial Tasting Notes</h3>
+  <% else %>
+    <h3>New Tasting Notes</h3>
+  <% end %>
+
+  <div class="new-tasting-note left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][appearance_rating]", 'Appearance:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][appearance_rating]" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][pour_rating]", 'Pour:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][pour_rating]" %>
+    </div>
+  </div>
+
+  <div class="new-tasting-note left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][taste_rating]", 'Taste:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][taste_rating]" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][mouthfeel_rating]", 'Mouthfeel:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][mouthfeel_rating]" %>
+    </div>
+  </div>
+
+  <div class="new-tasting-note left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][aroma_rating]", 'Aroma:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][aroma_rating]" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[tasting_note][drinkability_rating]", 'Drinkability:' %>
+      <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][drinkability_rating]" %>
+    </div>
+  </div>
+
+  <div class="new-tasting-note">
+    <%= label_tag "#{form_element_prefix}[tasting_note][preference_rating]", "Overall:" %>
+    <%= star_rating_field_tags "#{form_element_prefix}[tasting_note][preference_rating]", nil, :max => 20 %>
+
+    <%= text_area_tag "#{form_element_prefix}[tasting_note][notes]" %>
+  </div>
+</div>
+
 <% if include_buttons %>
   <div class="buttons submit">
     <button style="button" data-close-dialog>Cancel</button>
