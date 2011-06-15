@@ -254,8 +254,8 @@ $(function() {
       }
   });
 
-  setupDatePickers();
-
+  hoptopus.initJavascriptControls(document);
+    
   // Add dismiss buttons for alerts
   $('div.alert').each(function() {  
     var img = new Image();

@@ -93,12 +93,12 @@ ActiveRecord::Schema.define(:version => 20110331213955) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "confirmation_requests", :force => true do |t|
-    t.integer   "user_id"
-    t.string    "confirmation_code"
-    t.boolean   "confirmed",         :default => false
-    t.boolean   "expired",           :default => false
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.integer  "user_id"
+    t.string   "confirmation_code"
+    t.boolean  "confirmed",         :default => false
+    t.boolean  "expired",           :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "events", :force => true do |t|
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20110331213955) do
     t.integer   "mouthfeel_rating",    :default => 0
     t.integer   "drinkability_rating", :default => 0
     t.integer   "preference_rating",   :default => 0
+    t.text      "notes"
   end
 
   create_table "uploaded_beer_records", :force => true do |t|

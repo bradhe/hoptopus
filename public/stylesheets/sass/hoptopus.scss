@@ -611,16 +611,16 @@ ul.all-cellars {
 }
 
 button, input[type="submit"] {
-	background-image: url('/images/gray-button.png');
+    background-image: url('/images/gray-button.png');
 	background-repeat: repeat-x;
-  background-positiion: center;
+    background-positiion: center;
 	border: 1px #d6d6d6 solid;
 	color: #333;
-  text-shadow: 1px 1px 1px #d6d6d6;
+    text-shadow: 1px 1px 1px #d6d6d6;
 	outline: none;
   
-  padding-top: 2pt;
-  padding-bottom: 2pt;
+    padding-top: 2pt;
+    padding-bottom: 2pt;
 }
 
 button[disabled], input[disabled], button[disabled]:focus, input[disabled]:focus, button[disabled]:active, input[disabled]:active {
@@ -1062,8 +1062,16 @@ li.connect span.or {
   background-color: $selected_row_color;
 }
 
-.add-beer.left, .new-tasting-note.left {
+.add-beer.left {
     width: 400px;
+}
+
+.new-tasting-note.left {
+    width: 266px;
+}
+
+div.ratable {
+    display: inline;
 }
 
 .ui-dialog .buttons {
@@ -1131,6 +1139,15 @@ select.beers.dropdown {
 .ui-dialog-content h3 {
 	clear: both;
 	display: block;
+}
+
+.ui-dialog-content textarea {
+    height: 200px;
+    margin-top: 5pt;
+}
+
+.ui-dialog-content label {
+    font-weight: bold;
 }
 
 div.button {

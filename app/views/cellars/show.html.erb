@@ -366,9 +366,8 @@ $(function() {
     var editCellar = $('#edit-cellar').dynamicForm({
         success: function(data) {
             var dialogs = $(data).pagedDialog({ pageSelector: 'div.edit.beer', dialogOptions: { width: 'auto', height: 'auto', modal: true, resizable: false, title: 'Edit Beers'} });
-            setupDatePickers();
-          
             var dialog = dialogs[0];
+            hoptopus.initJavascriptControls(dialog);
 
             // Before the previous button lets insert a bunch of buttons.
             var div = $('<div/>').addClass('submit buttons');

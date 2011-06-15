@@ -48,7 +48,7 @@
 
         <div class="field">
             <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
+            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity || 1 %>
         </div>
 		
         <div class="field">
@@ -67,24 +67,87 @@
             </div>
         </div>
     </div>
+
+    <% unless beer.tasting_notes.empty? %>
+    <h3>Tasting Notes</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Age</th>
+          <th>Appearance</th>
+          <th>Taste</th>
+          <th>Aroma</th>
+          <th>Overall</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% beer.tasting_notes.each do |t| %>
+        <tr>
+          <td></td>
+          <td><%= t.appearance_rating %></td>
+          <td><%= t.taste_rating %></td>
+          <td><%= t.aroma_rating %></td>
+          <td><%= t.preference_rating %></td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <%= m t.notes %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <% end %>
 	
 	<% if beer.tasting_notes.empty? %>
 	<h3>Initial Tasting Notes</h3>
 	<% else %>
-	<h3>Tasting Notes</h3>
+	<h3>New Tasting Notes</h3>
 	<% end %>
 	
-	<%= form_for(beer.tasting_notes.new, beer) do |f| %>
 	<div class="new-tasting-note left">
 		<div class="field">
-			<%= f.label :appearance_rating, 'Appearance:' %>
-			<%= f.text_box :appearance_rating %>
+			<%= label_tag "#{form_element_prefix}[tasting_note][appearance_rating]", 'Appearance:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][appearance_rating]" %>
+        </div>
+      
+        <div class="field">
+			<%= label_tag "#{form_element_prefix}[tasting_note][pour_rating]", 'Pour:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][pour_rating]" %>
+        </div>
 	</div>
 	
 	<div class="new-tasting-note left">
-		
+		<div class="field">
+			<%= label_tag "#{form_element_prefix}[tasting_note][taste_rating]", 'Taste:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][taste_rating]" %>
+        </div>
+
+        <div class="field">
+			<%= label_tag "#{form_element_prefix}[tasting_note][mouthfeel_rating]", 'Mouthfeel:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][mouthfeel_rating]" %>
+        </div>
 	</div>
-	<% end %>
+
+    <div class="new-tasting-note left">
+		<div class="field">
+			<%= label_tag "#{form_element_prefix}[tasting_note][aroma_rating]", 'Aroma:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][aroma_rating]" %>
+        </div>
+
+        <div class="field">
+			<%= label_tag "#{form_element_prefix}[tasting_note][drinkability_rating]", 'Drinkability:' %>
+            <%= ratable_field_tags "#{form_element_prefix}[tasting_note][drinkability_rating]" %>
+        </div>
+	</div>
+
+    <div class="new-tasting-note">
+      <%= label_tag "#{form_element_prefix}[tasting_note][preference_rating]", "Overall:" %>
+      <%= ratable_field_tags "#{form_element_prefix}[tasting_note][preference_rating]", nil, :max => 20 %>
+
+      <%= text_area_tag "#{form_element_prefix}[tasting_note][notes]" %>
+    </div>
 </div>
 
 <% if include_buttons %>

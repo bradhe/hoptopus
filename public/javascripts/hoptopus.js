@@ -150,5 +150,62 @@ var hoptopus = (function($) {
         return t;
     };
 
+    // Preload the star images for ratables
+    var starImg = new Image();
+    starImg.src = '/images/star.png';
+
+    var emptyStarImg = new Image();
+    emptyStarImg.src = '/images/star_empty.png';
+
+    h.initJavascriptControls = function(selector) {
+        $('.ratable').each(function() {
+            var input = $(this).children('input');
+             
+            $(this).children('a[data-val]').each(function() {
+                var img = $(emptyStarImg).clone();
+                
+                $(this).empty();
+                $(this).append(img);
+
+                $(this).click(function() {
+                    input.val($(this).attr('data-val'));
+
+                    // Set all of the stars next to this to empty and all
+                    // of the stars before this to show
+                    var next = $(this).next('a');
+                    while(next.length > 0) {
+                        var img = next.children('img');
+                        img.attr('src', '/images/star_empty.png');
+
+                        next = next.next('a');
+                    }
+
+                    var prev = $(this);
+                    while(prev.length > 0) {
+                        var img = prev.children('img');
+                        img.attr('src', '/images/star.png');
+
+                        prev = prev.prev('a');
+                    }
+                });
+            });
+        });
+
+        $('input.date').datepicker({
+            dateFormat: 'yy-mm-dd',
+            showButtonPanel: true,
+            buttonImage: "/images/calendar.png",
+            buttonImageOnly: false,
+            changeYear: true,
+            changeMonth: true
+        }).each(function() {
+            if(!$(this).data('has_img')) {
+              var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
+              $(this).after(img);
+              $(this).data('has_img', true);
+            }
+        });
+    };
+
   return h;
 }(jQuery));

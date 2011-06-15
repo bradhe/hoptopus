@@ -1,6 +1,6 @@
 class RenameTastingsToTastingNotes < ActiveRecord::Migration
   def self.up
-    #rename_table :tastings, :tasting_notes
+    rename_table :tastings, :tasting_notes
     
     # We need to update all of the events
     Event.where(:source_type => 'Tasting').each { |e| e.update_attribute(:source_type, 'TastingNote') }
@@ -13,6 +13,7 @@ class RenameTastingsToTastingNotes < ActiveRecord::Migration
     add_column :tasting_notes, :mouthfeel_rating, :integer, :default => 0
     add_column :tasting_notes, :drinkability_rating, :integer, :default => 0
     add_column :tasting_notes, :preference_rating, :integer, :default => 0
+    add_column :tasting_notes, :notes, :text
   end
 
   def self.down
@@ -24,6 +25,7 @@ class RenameTastingsToTastingNotes < ActiveRecord::Migration
     remove_column :tasting_notes, :mouthfeel_rating
     remove_column :tasting_notes, :drinkability_rating
     remove_column :tasting_notes, :preference_rating
+    remove_column :tasting_notes, :notes
     
     Event.where(:source_type => 'TastingNote').each { |e| e.update_attribute(:source_type, 'Tasting') }
     

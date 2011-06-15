@@ -81,22 +81,26 @@ class BeersController < ApplicationController
     # We just need to ignore any brewery ids sent across for now. We get brewery from brew.
     params[:beer].delete(:brewery_id) if params[:beer].has_key? :brewery_id
 
+    tasting_note = params[:beer].delete :tasting_note
+
     @beer = @cellar.beers.new(params[:beer])
     @beer.brew = brew unless brew.nil?
-    
+
     if @beer.valid?
       @beer.name = @beer.brew.name
       @beer.brewery_name = @beer.brew.brewery.name
     end
     
-    return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
+    return_to = @cellar.user == @user ? root_url : cellar_path(@cellar)
     
     respond_to do |format|
       if @beer.save
         # Record this momentous event.
         event = Event.new :user => @cellar.user, :source => @beer, :formatter => BeerAddedEventFormatter.new
         event.save
-        
+
+        create_tasting_note tasting_note, @beer
+
         # Now respond, boy!
         format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
         format.xml  { render :xml => @beer, :status => :created, :location => @beer }
@@ -154,11 +158,8 @@ class BeersController < ApplicationController
         params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
       end
       
-      @beer = Beer.find(params[:id])
+      @beer = Beer.find params[:id]
 
-      # We need to keep track of this for a bit...
-      quantity = @beer.quantity
-      
       respond_to do |format|
         if @beer.update_attributes(params[:beer])
           format.html { redirect_to(cellar_beer_path(@cellar, @beer), :notice => "#{@beer.brew.name} has been updated!") }
@@ -199,5 +200,19 @@ class BeersController < ApplicationController
       else
         @cellar = Cellar.find_by_username cellar_id
       end
+    end
+
+    def create_tasting_note(hash, beer)
+      unless hash
+        return # Don't do anything if the hash is empty.
+      end
+      
+      tasting_note = TastingNote.new hash
+      tasting_note.brew = @beer.brew
+      tasting_note.user = @beer.user
+      tastgin_note.cellared_at = @beer.cellared_at
+
+      # Don't care if this doesn't get saved really.
+      tasting_note.save
     end
 end

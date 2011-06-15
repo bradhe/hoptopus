@@ -8,7 +8,8 @@ class Beer < ActiveRecord::Base
 
   belongs_to :brew
   belongs_to :cellar
-  has_many :tasting_notes
+  has_one :user, :through => :cellar
+  has_many :tasting_notes, :through => :brew, :include => :user
   belongs_to :bottle_size
   
   validates_presence_of :brew_id, :message => "Please select a beer."

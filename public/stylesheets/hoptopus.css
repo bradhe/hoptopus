@@ -845,8 +845,14 @@ li.connect span.or {
 .rowselected {
   background-color: white; }
 
-.add-beer.left, .new-tasting-note.left {
+.add-beer.left {
   width: 400px; }
+
+.new-tasting-note.left {
+  width: 266px; }
+
+div.ratable {
+  display: inline; }
 
 .ui-dialog .buttons {
   text-align: right; }
@@ -900,6 +906,13 @@ select.beers.dropdown {
 .ui-dialog-content h3 {
   clear: both;
   display: block; }
+
+.ui-dialog-content textarea {
+  height: 200px;
+  margin-top: 5pt; }
+
+.ui-dialog-content label {
+  font-weight: bold; }
 
 div.button {
   margin-top: 15pt;
