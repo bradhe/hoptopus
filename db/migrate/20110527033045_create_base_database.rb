@@ -104,6 +104,22 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.datetime "created_at"
       t.datetime "updated_at"
     end
+
+    create_table "tasting_notes", :force => true do |t|
+      t.integer   "user_id"
+      t.timestamp "created_at"
+      t.timestamp "updated_at"
+      t.integer   "beer_id"
+      t.timestamp "cellared_at"
+      t.integer   "pour_rating",         :default => 0
+      t.integer   "aroma_rating",        :default => 0
+      t.integer   "taste_rating",        :default => 0
+      t.integer   "appearance_rating",   :default => 0
+      t.integer   "mouthfeel_rating",    :default => 0
+      t.integer   "drinkability_rating", :default => 0
+      t.integer   "preference_rating",   :default => 0
+      t.text      "notes"
+    end
   end
 
   def self.down
@@ -126,5 +142,7 @@ class CreateBaseDatabase < ActiveRecord::Migration
     drop_table "beers"
 
     drop_table "alerts"
+
+    drop_table "tasting_notes"
   end
 end
