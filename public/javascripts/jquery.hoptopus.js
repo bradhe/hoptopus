@@ -254,7 +254,7 @@ $(function() {
       }
   });
 
-  setupDatePickers();
+  hoptopus.initJavascriptControls(document);
 
   // Add dismiss buttons for alerts
   $('div.alert').each(function() {  
