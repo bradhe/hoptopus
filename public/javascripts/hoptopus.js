@@ -4,7 +4,7 @@
  * Date: 3/21/11
  * Time: 12:14 AM
  * To change this template use File | Settings | File Templates.
- */
+*/
 var hoptopus = (function($) {
   var h = {};
   var currentProgress = null;
@@ -18,15 +18,37 @@ var hoptopus = (function($) {
 
     var span = $('<span/>').addClass('progress');
     span.append($(progressImg));
-    span.append(text);
-  
-    var left = ($(window).width() / 2) - (span.outerWidth() / 2);
-    span.css('left', left);
+    span.css('z-index', '1000');
+
+    var textSpan = $('<span/>');
+
+    if($.isArray(text)) {
+      textSpan.append(text[0]);
+    }
+    else {
+      textSpan.append(text);
+    }
+
+    span.append(textSpan);
 
     span.hide();
     $('body').prepend(span);
     span.slideDown('fast');
     currentProgress = span;
+
+    // Every few 3 seconds, rotate the text if it's an array.
+    if($.isArray(text)) {
+      var i = 1; // We already displayed the first one.
+      var t = window.setTimeout(function() {
+        if(i < text.length) {
+          textSpan.text(text[i++]);
+        }
+        else {
+          // Should cancel itself.
+          window.clearTimeout(t);
+        }
+      }, 2000);
+    }
 
     if(fn) {
       fn();
@@ -41,6 +63,49 @@ var hoptopus = (function($) {
       });
     }
   };
+
+  h.clientData = {};
+  h.data = function(name, data) {
+    if(data) {
+      h.clientData[name] = data;
+      return data;
+    }
+    else {
+      return h.clientData[name];
+    }
+  };
+
+  h.load = function(scriptPath, options) {
+    var settings = {
+      async: true,
+      complete: null,
+      started: null
+    };
+
+    if(options) {
+      $.extend(settings, options);
+    }
+
+    var script = document.createElement('script');
+
+    // TODO: Determine if this is even safe...
+    var head = document.getElementsByTagName('head')[0];
+
+    script.src = scriptPath;
+    script.type = 'text/javascript';
+    script.async = settings.async;
+
+    if(settings.complete) {
+      script.onload = settings.complete;
+    }
+
+    if(settings.started) {
+      // Do that callback
+      settings.started();
+    }
+
+    head.appendChild(script);
+  }
 
 
   h.qsort = function(property, objs, comp) {
@@ -83,6 +148,63 @@ var hoptopus = (function($) {
     }
 
     return t;
+  };
+
+  // Preload the star images for ratables
+  var starImg = new Image();
+  starImg.src = '/images/star.png';
+
+  var emptyStarImg = new Image();
+  emptyStarImg.src = '/images/star_empty.png';
+
+  h.initJavascriptControls = function(selector) {
+    $('.ratable').each(function() {
+      var input = $(this).children('input');
+
+      $(this).children('a[data-val]').each(function() {
+        var img = $(emptyStarImg).clone();
+
+        $(this).empty();
+        $(this).append(img);
+
+        $(this).click(function() {
+          input.val($(this).attr('data-val'));
+
+          // Set all of the stars next to this to empty and all
+          // of the stars before this to show
+          var next = $(this).next('a');
+          while(next.length > 0) {
+            var img = next.children('img');
+            img.attr('src', '/images/star_empty.png');
+
+            next = next.next('a');
+          }
+
+          var prev = $(this);
+          while(prev.length > 0) {
+            var img = prev.children('img');
+            img.attr('src', '/images/star.png');
+
+            prev = prev.prev('a');
+          }
+        });
+      });
+    });
+
+    $('input.date').datepicker({
+      dateFormat: 'yy-mm-dd',
+      showButtonPanel: true,
+      buttonImage: "/images/calendar.png",
+      buttonImageOnly: false,
+      changeYear: true,
+      changeMonth: true
+    }).each(function() {
+      if(!$(this).data('has_img')) {
+        var img = $('<img/>').attr('src', '/images/calendar.png').addClass('datepicker');
+        $(this).after(img);
+        $(this).data('has_img', true);
+      }
+    });
   };
 
   return h;

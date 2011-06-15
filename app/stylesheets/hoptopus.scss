@@ -1165,6 +1165,20 @@ div.pages {
   }
 }
 
+div.star-rating {
+  width: 266px;
+}
+
+div.star-rating.beer_tasting_note_preference_rating {
+  width: auto;
+}
+
+.new-tasting-note textarea {
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+  height: 150px;
+}
+
 @import "preferences";
 @import "register";
 @import "cellars";
