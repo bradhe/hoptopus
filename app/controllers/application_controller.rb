@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
 
   def require_authentication
     if self.current_user.nil?
+      session[:redirect_from] = request.url
       redirect_to login_url
     end
   end

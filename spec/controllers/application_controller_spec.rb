@@ -73,4 +73,10 @@ describe ApplicationController do
       @controller.restore_session
     end
   end
+
+  describe '#require_authentication' do
+    it 'should stick the requested path session' do
+      pending
+    end
+  end
 end

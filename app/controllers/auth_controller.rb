@@ -12,24 +12,24 @@ class AuthController < ApplicationController
 
     unless @user.nil?
       login_user @user
-      redirect_to cellar_path(@user.username)
+      redirect_to(session.delete(:redirected_from) || cellar_path(@user))
     end
   end
-  
+
   def logout
     session[:user_id] = nil
     redirect_to root_path
   end
-  
+
   def register
     @new_user = User.new 
-    
+
     if request.post?
       @new_user = User.new(params[:user])
 
       if @new_user.valid? and @new_user.save!
         login_user @new_user
-        
+
         # Alert that there was a registration
         Notifications.user_registered(@new_user).deliver
 
