@@ -75,6 +75,22 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.boolean  "confirmed",      :default => false
   end
 
+  create_table "tasting_notes", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "beer_id"
+    t.datetime "cellared_at"
+    t.integer  "pour_rating",         :default => 0
+    t.integer  "aroma_rating",        :default => 0
+    t.integer  "taste_rating",        :default => 0
+    t.integer  "appearance_rating",   :default => 0
+    t.integer  "mouthfeel_rating",    :default => 0
+    t.integer  "drinkability_rating", :default => 0
+    t.integer  "preference_rating",   :default => 0
+    t.text     "notes"
+  end
+
   create_table "tastings", :force => true do |t|
     t.integer  "user_id"
     t.integer  "beer_id"
