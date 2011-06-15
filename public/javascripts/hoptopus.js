@@ -158,7 +158,7 @@ var hoptopus = (function($) {
   emptyStarImg.src = '/images/star_empty.png';
 
   h.initJavascriptControls = function(selector) {
-    $('.ratable').each(function() {
+    $('.star-rating').each(function() {
       var input = $(this).children('input');
 
       $(this).children('a[data-val]').each(function() {
