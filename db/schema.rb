@@ -21,26 +21,26 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
   end
 
   create_table "beers", :force => true do |t|
+    t.integer  "cellar_id"
     t.string   "name"
     t.string   "style"
     t.float    "abv"
     t.float    "price"
     t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "cellar_id"
     t.datetime "cellared_at"
     t.string   "year"
     t.string   "bottle_size"
     t.string   "brewery"
     t.datetime "removed_at"
     t.datetime "finish_aging_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "cellars", :force => true do |t|
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "confirmation_requests", :force => true do |t|
@@ -54,11 +54,11 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
 
   create_table "events", :force => true do |t|
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "source_type"
     t.integer  "source_id"
     t.string   "formatter_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "newsletter_signups", :force => true do |t|
@@ -70,17 +70,13 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
   create_table "password_reset_attempts", :force => true do |t|
     t.integer  "user_id"
     t.string   "security_token"
+    t.boolean  "confirmed",      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "confirmed",      :default => false
   end
 
   create_table "tasting_notes", :force => true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.integer  "beer_id"
-    t.datetime "cellared_at"
     t.integer  "pour_rating",         :default => 0
     t.integer  "aroma_rating",        :default => 0
     t.integer  "taste_rating",        :default => 0
@@ -89,14 +85,8 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.integer  "drinkability_rating", :default => 0
     t.integer  "preference_rating",   :default => 0
     t.text     "notes"
-  end
-
-  create_table "tastings", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "beer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "cellared_at"
   end
 
   create_table "uploaded_beer_records", :force => true do |t|

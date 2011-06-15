@@ -4,6 +4,7 @@ class Beer < ActiveRecord::Base
   YEAR_OF_OLDEST_BEER = 1800
 
   belongs_to :cellar
+  has_one :user, :through => :cellar
   has_many :tasting_notes
 
   validates_presence_of :cellar_id
@@ -12,4 +13,8 @@ class Beer < ActiveRecord::Base
   validates_numericality_of :quantity, :message => "Quantity must be a number less than 120.", :less_than => 120, :allow_nil => true
   validates_numericality_of :abv, :message => "ABV must be a decimal less than 150.", :less_than_or_equal_to => 150, :allow_nil => true
   validates_numericality_of :price, :message => "Please supply a valid price.", :allow_nil => true
+
+  after_create do
+    Event.create!(:user => self.user, :source => self, :formatter => BeerAddedEventFormatter)
+  end
 end

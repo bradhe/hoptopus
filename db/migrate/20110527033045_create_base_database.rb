@@ -4,18 +4,16 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.integer  "user_id"
       t.string   "name"
       t.boolean  "dismissed",  :default => false
-      t.datetime "created_at"
-      t.datetime "updated_at"
+      t.timestamps
     end
 
     create_table "beers", :force => true do |t|
+      t.integer  "cellar_id"
       t.string   "name"
       t.string   "style"
       t.float    "abv"
       t.float    "price"
       t.integer  "quantity"
-      t.datetime "created_at"
-      t.datetime "updated_at"
       t.integer  "cellar_id"
       t.datetime "cellared_at"
       t.string   "year"
@@ -24,12 +22,12 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.string   "brewery"
       t.datetime "removed_at"
       t.datetime "finish_aging_at"
+      t.timestamps
     end
 
     create_table "cellars", :force => true do |t|
-      t.datetime "created_at"
-      t.datetime "updated_at"
       t.integer  "user_id"
+      t.timestamps
     end
 
     create_table "confirmation_requests", :force => true do |t|
@@ -37,31 +35,27 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.string   "confirmation_code"
       t.boolean  "confirmed",         :default => false
       t.boolean  "expired",           :default => false
-      t.datetime "created_at"
-      t.datetime "updated_at"
+      t.timestamps
     end
 
     create_table "events", :force => true do |t|
       t.integer  "user_id"
-      t.datetime "created_at"
-      t.datetime "updated_at"
       t.string   "source_type"
       t.integer  "source_id"
       t.string   "formatter_type"
+      t.timestamps
     end
 
     create_table "newsletter_signups", :force => true do |t|
       t.string   "email"
-      t.datetime "created_at"
-      t.datetime "updated_at"
+      t.timestamps
     end
 
     create_table "password_reset_attempts", :force => true do |t|
       t.integer  "user_id"
       t.string   "security_token"
-      t.datetime "created_at"
-      t.datetime "updated_at"
       t.boolean  "confirmed",      :default => false
+      t.timestamps
     end
 
     create_table "uploaded_beer_records", :force => true do |t|
@@ -73,8 +67,7 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.string   "brew_style"
       t.string   "year"
       t.string   "cellared_at"
-      t.datetime "created_at"
-      t.datetime "updated_at"
+      t.timestamps
     end
 
     create_table "users", :force => true do |t|
@@ -93,16 +86,11 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.integer  "facebook_id"
       t.datetime "last_login_at"
       t.boolean  "confirmed",                          :default => false
-      t.datetime "created_at"
-      t.datetime "updated_at"
+      t.timestamps
     end
 
     create_table "tasting_notes", :force => true do |t|
-      t.integer   "user_id"
-      t.timestamp "created_at"
-      t.timestamp "updated_at"
       t.integer   "beer_id"
-      t.timestamp "cellared_at"
       t.integer   "pour_rating",         :default => 0
       t.integer   "aroma_rating",        :default => 0
       t.integer   "taste_rating",        :default => 0
@@ -111,6 +99,7 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.integer   "drinkability_rating", :default => 0
       t.integer   "preference_rating",   :default => 0
       t.text      "notes"
+      t.timestamps
     end
   end
 
@@ -118,8 +107,6 @@ class CreateBaseDatabase < ActiveRecord::Migration
     drop_table "users"
 
     drop_table "uploaded_beer_records"
-
-    drop_table "tastings"
 
     drop_table "password_reset_attempts"
 

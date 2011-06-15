@@ -44,20 +44,19 @@ class BeersController < ApplicationController
   def create
     # This is kind of gross, but cleans up nicely.
     params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)] if params[:beer][:price] =~ /^\$/
-    @beer = @cellar.beers.new(params[:beer])
-    return_to = @cellar.user == @user ? root_url : cellars_path(@cellar)
+
+    tasting_note_hash = params[:beer].delete(:tasting_note) || {}
+    @beer = @cellar.beers.create(params[:beer])
 
     respond_to do |format|
       if @beer.valid?
-        # Record this momentous event.
-        event = current_user.events.build(:source => @beer, :formatter => BeerAddedEventFormatter)
-        event.save!
+        # Create a new tasting note if one was given.
+        @beer.tasting_notes.create(tasting_note_hash) unless tasting_note_hash.empty?
 
         # Now respond, boy!
-        format.html { redirect_to(return_to, :notice => 'Beer was successfully created.') }
+        format.html { redirect_to(cellar_path(@cellar), :notice => 'Beer was successfully created.') }
         format.json { render :json => @beer }
       else
-        p @beer.errors
         # Format the dates because fuck it sucks to do in views
         @years = (@beer.finish_aging_at.year - @beer.cellared_at.year) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?
         @months = ((@beer.finish_aging_at.month - @beer.cellared_at.month) % 12) unless @beer.cellared_at.nil? or @beer.finish_aging_at.nil?

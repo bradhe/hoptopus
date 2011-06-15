@@ -2,8 +2,6 @@ class User < ActiveRecord::Base
   attr_accessor :password
 
   has_one :cellar, :dependent => :destroy
-  has_many :beers, :through => :cellar
-  has_many :tastings, :through => :beers, :source => :cellar
   has_many :events
   has_many :alerts
 
@@ -50,6 +48,14 @@ class User < ActiveRecord::Base
     alerts.where(:name => name).first
   end
 
+  def tasting_notes
+    cellar.tasting_notes
+  end
+
+  def beers
+    cellar.beers
+  end
+
   def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end
@@ -74,7 +80,7 @@ class User < ActiveRecord::Base
       User.create!(:name => data["name"], :email => data["email"], :password => Devise.friendly_token)
     end
   end
-  
+
   private
     def destroy_cellar
       self.cellar.destroy

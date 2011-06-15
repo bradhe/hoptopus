@@ -73,7 +73,7 @@ module Hoptopus
       end
     end
     
-    class BrewTastedEventFormatter < EventFormatterBase
+    class BeerTastedEventFormatter < EventFormatterBase
       def initialize(event)
         @css_class = 'brew-tasted'
         super(event)

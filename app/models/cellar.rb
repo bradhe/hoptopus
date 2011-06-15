@@ -2,6 +2,7 @@ require 'set'
 
 class Cellar < ActiveRecord::Base
   has_many :beers
+  has_many :tasting_notes, :through => :beers
   belongs_to :user
 
   def self.newest
