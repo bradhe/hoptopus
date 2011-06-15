@@ -136,7 +136,7 @@ class CellarsController < ApplicationController
     # 404 if no user exists.
     render_404 and return if @cellar.nil?
 
-    @tastings = @cellar.user.tastings
+    @tastings = @cellar.user.tasting_notes
 
     # This hash controls grid columns.
     @grid_columns = { 

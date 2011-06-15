@@ -66,6 +66,11 @@ div.field, div.actions, div.buttons {
   margin-bottom: 10px; }
 
 .homepage-register, .homepage-lookaround {
+  -moz-box-shadow: inset 0 1px 1px #a7d144;
+  -webkit-box-shadow: inset 0 1px 1px #a7d144;
+  box-shadow: inset 0 1px 1px #a7d144;
+  border: 1px solid #85af22;
+  background: #85af22;
   font-size: 14pt;
   margin-top: 5pt;
   padding: 20pt;
@@ -74,15 +79,12 @@ div.field, div.actions, div.buttons {
   display: inline-block; }
 
 .homepage-register {
-  background-image: url("/images/green-button.png");
-  background-repeat: repeat-x;
-  background-color: #85af22;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
   color: #ffe9a8;
   text-decoration: none;
-  text-shadow: 1px 1px 1px #000;
-  border: 1px #5f6946 solid;
-  border-top: 1px #adca67 solid;
-  border-left: 1px #adca67 solid; }
+  text-shadow: 1px 1px 1px #000; }
 
 .homepage-register:hover, .homepage-lookaround:hover {
   color: #666; }
@@ -96,19 +98,15 @@ span.beta {
   text-shadow: -1px -1px 1px #cccccc; }
 
 .homepage-lookaround {
+  -moz-box-shadow: inset 0 1px 1px #ffffd1;
+  -webkit-box-shadow: inset 0 1px 1px #ffffd1;
+  box-shadow: inset 0 1px 1px #ffffd1;
+  border: 1px solid #f0e6af;
+  background: #f0e6af;
   margin-top: 0;
-  padding: 10pt;
-  padding-left: 20pt;
-  padding-right: 20pt;
-  color: #ebebeb;
-  background-color: #ffe9a8;
-  background-image: url("/images/yellow-button.png");
-  background-repeat: repeat-x;
-  text-decoration: none;
-  text-shadow: 1px 1px 1px #999;
-  border: 1px #fce397 solid;
-  border-top: 1px #fff solid;
-  border-left: 1px #fff solid; }
+  padding: 10pt 20pt;
+  color: black;
+  text-shadow: 1px 1px 1px #999; }
 
 span.or {
   display: block;

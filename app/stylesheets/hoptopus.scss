@@ -7,9 +7,15 @@ $tan-highlight: $tan+#222;
 $grey: #e2e2e2;
 $grey-highlight: #ebebeb;
 $dark-grey: #ccc;
+$black: #000;
+$white: #fff;
+$lightgray: #C0C0C0;
+
+// Element-specific colors
 $selected_row_color: #FFFFFF;
 $content_width: 900px;
-$lightgray: #C0C0C0;
+$progress-bg: $black;
+$progress-fg: $white;
 
 @mixin buttonize($base: $grey, $highlight: $grey-highlight, $shadow: $grey) {
   -moz-box-shadow: inset 0 1px 1px $highlight;
@@ -18,6 +24,12 @@ $lightgray: #C0C0C0;
 
   border: 1px solid $shadow;
   background: $base;
+}
+
+@mixin rounded-corners($radius: 5px) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
 }
 
 html { height: 101%; }
@@ -83,8 +95,8 @@ ul.notes, .alert ul {
 
 pre {
   background-color: #eee;
-padding: 10px;
-         font-size: 11px;
+  padding: 10px;
+  font-size: 11px;
 }
 
 a { color: #000; }
@@ -95,62 +107,50 @@ div.field, div.actions, div.buttons {
 }
 
 .homepage-register, .homepage-lookaround {
+  @include buttonize($green, $green-highlight, $green);
   font-size: 14pt;
   margin-top: 5pt;
-padding: 20pt;
-         padding-left: 40pt;
-         padding-right: 40pt;
+  padding: 20pt;
+  padding-left: 40pt;
+  padding-right: 40pt;
 
-display: inline-block;
+  display: inline-block;
 }
 
 .homepage-register {
-  background-image: url('/images/green-button.png');
-  background-repeat: repeat-x;
-  background-color: $green;
-color: $brown;
-       text-decoration: none;
-       text-shadow: 1px 1px 1px #000;
-border: 1px #5f6946 solid;
-        border-top: 1px #adca67 solid;
-        border-left: 1px #adca67 solid;
+  @include rounded-corners(10px);
+  color: $brown;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #000;
 }
 
 .homepage-register:hover, .homepage-lookaround:hover {
-color: #666;
+  color: #666;
 }
 
 span.beta {
-color: #fff;
-       font-size: 10pt;
-position: relative;
-top: 4px;
-left: -20px;
-      text-shadow: -1px -1px 1px #ccc;
+  color: #fff;
+  font-size: 10pt;
+  position: relative;
+  top: 4px;
+  left: -20px;
+  text-shadow: -1px -1px 1px #ccc;
 }
 
 .homepage-lookaround {
+  @include buttonize($tan, $tan-highlight, $tan);
   margin-top: 0;
-padding: 10pt;
-         padding-left: 20pt;
-         padding-right: 20pt;
-color: #ebebeb;
-       background-color: $brown;
-       background-image: url('/images/yellow-button.png');
-       background-repeat: repeat-x;
-       text-decoration: none;
-       text-shadow: 1px 1px 1px #999;
-border: 1px #fce397 solid;
-        border-top: 1px #fff solid;
-        border-left: 1px #fff solid;
+  padding: 10pt 20pt;
+  color: $black;
+  text-shadow: 1px 1px 1px #999;
 }
 
 span.or {
-display: block;
-         font-size: 14pt;
-         font-weight: bold;
-         margin-bottom: 5pt;
-         margin-top: 5pt;
+  display: block;
+  font-size: 14pt;
+  font-weight: bold;
+  margin-bottom: 5pt;
+  margin-top: 5pt;
 }
 
 .reset-password, .reset-password .field  {
