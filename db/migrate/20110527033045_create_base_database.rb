@@ -64,14 +64,6 @@ class CreateBaseDatabase < ActiveRecord::Migration
       t.boolean  "confirmed",      :default => false
     end
 
-    create_table "tastings", :force => true do |t|
-      t.integer  "user_id"
-      t.integer  "beer_id"
-      t.datetime "created_at"
-      t.datetime "updated_at"
-      t.datetime "cellared_at"
-    end
-
     create_table "uploaded_beer_records", :force => true do |t|
       t.string   "job_id"
       t.string   "brewery"

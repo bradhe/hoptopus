@@ -4,6 +4,6 @@ module BeersHelper
     max = params[:max].to_i if params.has_key? :max
     min = params[:min].to_i if params.has_key? :min
 
-    render 'beers/ratable', :max => max, :min => min, :tag_name => name, :initial_value => initial_value
+    render 'beers/star_rating', :max => max, :min => min, :tag_name => name, :initial_value => initial_value
   end
 end

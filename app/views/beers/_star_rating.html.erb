@@ -1,4 +1,4 @@
-<div class="ratable <%= tag_name.gsub(/\W+/,'_') %>">
+<div class="star-rating <%= tag_name.gsub(/\W+/,'_') %>">
     <%= hidden_field_tag tag_name, initial_value %>
 
     <% (min..max).each do |i| %>

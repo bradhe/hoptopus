@@ -4,7 +4,7 @@ class Beer < ActiveRecord::Base
   YEAR_OF_OLDEST_BEER = 1800
 
   belongs_to :cellar
-  has_many :tastings
+  has_many :tasting_notes
 
   validates_presence_of :cellar_id
   validates_presence_of :cellared_at, :message => "Cellared date is required."
