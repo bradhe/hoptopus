@@ -10,4 +10,4 @@ tmp/sass-cache*
 *.swp
 tags
 bin/*
-public/stylesheets/*
+public/stylesheets/*.css

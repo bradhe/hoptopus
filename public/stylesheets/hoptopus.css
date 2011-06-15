@@ -77,6 +77,16 @@ div.field, div.actions, div.buttons {
   padding-left: 40pt;
   padding-right: 40pt;
   display: inline-block; }
+  .homepage-register:active, .homepage-lookaround:active {
+    -moz-box-shadow: inset 0 1px 1px #85af22;
+    -webkit-box-shadow: inset 0 1px 1px #85af22;
+    box-shadow: inset 0 1px 1px #85af22;
+    background: #a7d144; }
+  .homepage-register[disabled], .homepage-register[disabled]:focus, .homepage-register[disabled]:active, .homepage-lookaround[disabled], .homepage-lookaround[disabled]:focus, .homepage-lookaround[disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+    -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+    box-shadow: inset 0 1px 1px #e2e2e2;
+    background: #ebebeb; }
 
 .homepage-register {
   -moz-border-radius: 10px;
@@ -107,6 +117,16 @@ span.beta {
   padding: 10pt 20pt;
   color: black;
   text-shadow: 1px 1px 1px #999; }
+  .homepage-lookaround:active {
+    -moz-box-shadow: inset 0 1px 1px #f0e6af;
+    -webkit-box-shadow: inset 0 1px 1px #f0e6af;
+    box-shadow: inset 0 1px 1px #f0e6af;
+    background: #ffffd1; }
+  .homepage-lookaround[disabled], .homepage-lookaround[disabled]:focus, .homepage-lookaround[disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+    -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+    box-shadow: inset 0 1px 1px #e2e2e2;
+    background: #ebebeb; }
 
 span.or {
   display: block;
@@ -368,16 +388,32 @@ h2 a {
   outline: none; }
 
 div.login, div.reset-password {
-  margin-top: 15pt;
-  background-color: #ffe9a8;
-  border-radius: 5pt;
   -moz-border-radius: 5pt;
   -webkit-border-radius: 5pt;
+  border-radius: 5pt;
+  margin-top: 15pt;
+  background-color: #f0e6af;
   padding: 5pt;
-  border: 1px #ffbf00 solid;
+  border: 1px #cec48d solid;
   margin-left: auto;
   margin-right: auto;
   display: table; }
+  div.login input.login, div.reset-password input.login {
+    -moz-box-shadow: inset 0 1px 1px #a7d144;
+    -webkit-box-shadow: inset 0 1px 1px #a7d144;
+    box-shadow: inset 0 1px 1px #a7d144;
+    border: 1px solid #85af22;
+    background: #85af22; }
+    div.login input.login:active, div.reset-password input.login:active {
+      -moz-box-shadow: inset 0 1px 1px #85af22;
+      -webkit-box-shadow: inset 0 1px 1px #85af22;
+      box-shadow: inset 0 1px 1px #85af22;
+      background: #a7d144; }
+    div.login input.login[disabled], div.login input.login[disabled]:focus, div.login input.login[disabled]:active, div.reset-password input.login[disabled], div.reset-password input.login[disabled]:focus, div.reset-password input.login[disabled]:active {
+      -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+      -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+      box-shadow: inset 0 1px 1px #e2e2e2;
+      background: #ebebeb; }
 
 div.login p {
   margin-bottom: 10pt; }
@@ -494,21 +530,16 @@ button, input[type="submit"] {
   padding-top: 2pt;
   padding-bottom: 2pt;
   font-size: 1.0em; }
-  button[disabled], button[disabled]:focus, button[disabled]:active, input[type="submit"][disabled], input[type="submit"][disabled]:focus, input[type="submit"][disabled]:active {
-    -moz-box-shadow: inset 0 1px 1px #ebebeb;
-    -webkit-box-shadow: inset 0 1px 1px #ebebeb;
-    box-shadow: inset 0 1px 1px #ebebeb;
-    border: 1px solid #e2e2e2;
-    background: #e2e2e2;
-    outline: none;
-    color: #ccc;
-    text-shadow: none; }
   button:active, input[type="submit"]:active {
     -moz-box-shadow: inset 0 1px 1px #f0e6af;
     -webkit-box-shadow: inset 0 1px 1px #f0e6af;
     box-shadow: inset 0 1px 1px #f0e6af;
-    border: 1px solid #e2e2e2;
     background: #ffffd1; }
+  button[disabled], button[disabled]:focus, button[disabled]:active, input[type="submit"][disabled], input[type="submit"][disabled]:focus, input[type="submit"][disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+    -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+    box-shadow: inset 0 1px 1px #e2e2e2;
+    background: #ebebeb; }
 
 table[data-sortable] th, th.unsorted {
   background-image: url("/images/unsorted.png");
@@ -701,17 +732,15 @@ a.dismiss-alert {
   float: right; }
 
 span.progress {
-  background-color: #000;
+  background-color: black;
   padding: 5pt;
   position: fixed;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
   font-weight: bold;
-  color: #fff;
-  padding-bottom: 7px;
-  padding-top: 7px;
-  padding-left: 10px;
-  padding-right: 10px;
+  color: white;
+  padding: 7px 10px;
   z-index: 9999; }
 
 span.progress img {
@@ -874,6 +903,8 @@ select.beers.dropdown {
 
 .ui-paged-dialog div.pages {
   margin-bottom: 5pt; }
+.ui-paged-dialog div.buttons button {
+  margin-left: 5pt; }
 
 div.button {
   margin-top: 15pt;

@@ -4,6 +4,7 @@ $brown: #FFE9A8;
 $brown-highlight: $brown+#222;
 $tan: #f0e6af;
 $tan-highlight: $tan+#222;
+$dark-tan: $tan - #222;
 $grey: #e2e2e2;
 $grey-highlight: #ebebeb;
 $dark-grey: #ccc;
@@ -24,6 +25,20 @@ $progress-fg: $white;
 
   border: 1px solid $shadow;
   background: $base;
+
+  &:active {
+    -moz-box-shadow: inset 0 1px 1px $base;
+    -webkit-box-shadow: inset 0 1px 1px $base;
+    box-shadow: inset 0 1px 1px $base;
+    background: $highlight;
+  }
+
+  &[disabled], &[disabled]:focus, &[disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px $grey;
+    -webkit-box-shadow: inset 0 1px 1px $grey;
+    box-shadow: inset 0 1px 1px $grey;
+    background: $grey-highlight;
+  }
 }
 
 @mixin rounded-corners($radius: 5px) {
@@ -469,20 +484,19 @@ outline: none;
 }
 
 div.login, div.reset-password {
+  @include rounded-corners(5pt);
   margin-top: 15pt;
-  background-color: $brown;
+  background-color: $tan;
+  padding: 5pt;
 
-  border-radius: 5pt;
-  -moz-border-radius: 5pt;
-  -webkit-border-radius: 5pt;
+  border: 1px $dark-tan solid;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
 
-padding: 5pt;
-
-border: 1px #ffbf00 solid;
-
-        margin-left: auto;
-        margin-right: auto;
-display: table;
+  input.login {
+    @include buttonize($green, $green-highlight, $green)
+  }
 }
 
 div.login p {
@@ -627,16 +641,6 @@ button, input[type="submit"] {
   padding-bottom: 2pt;
   font-size: 1.0em;
 
-  &[disabled], &[disabled]:focus, &[disabled]:active {
-    @include buttonize($grey, $grey-highlight, $grey);
-    outline: none;
-    color: #ccc;
-    text-shadow: none;
-  }
-
-  &:active {
-    @include buttonize($tan-highlight, $tan, $grey);
-  }
 }
 
 table[data-sortable] th, th.unsorted {
@@ -881,17 +885,15 @@ float: right;
 }
 
 span.progress {
-  background-color: #000;
+  background-color: $progress-bg;
   padding: 5pt;
   position: fixed;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
   font-weight: bold;
-  color: #fff;
-  padding-bottom: 7px;
-  padding-top: 7px;
-  padding-left: 10px;
-  padding-right: 10px;
+  color: $progress-fg;
+  padding: 7px 10px;
   z-index: 9999;
 }
 
@@ -1127,6 +1129,10 @@ select.beers.dropdown {
 .ui-paged-dialog {
   div.pages {
     margin-bottom: 5pt;
+  }
+  
+  div.buttons button {
+    margin-left: 5pt;
   }
 }
 
