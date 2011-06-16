@@ -248,7 +248,7 @@ textarea {
 #navigation li {
   margin-left: 5pt; }
 
-#navigation a, .navigation a {
+#navigation a {
   color: #333;
   display: inline-block;
   padding: 4px;
@@ -260,9 +260,34 @@ textarea {
   background-color: #fff;
   text-decoration: none; }
 
-#navigation a:hover, #navigation a:focus, .navigation a:hover, .navigation a:focus {
+#navigation a:hover, #navigation a:focus {
   background-color: #ffe9a8;
   color: #85af22; }
+
+.navigation a {
+  -moz-box-shadow: inset 0 1px 1px white;
+  -webkit-box-shadow: inset 0 1px 1px white;
+  box-shadow: inset 0 1px 1px white;
+  border: 1px solid #e2e2e2;
+  background: #ebebeb;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 2pt 5pt;
+  margin: 2pt;
+  display: inline-block;
+  text-decoration: none;
+  font-style: normal; }
+  .navigation a:active {
+    -moz-box-shadow: inset 0 1px 1px #ebebeb;
+    -webkit-box-shadow: inset 0 1px 1px #ebebeb;
+    box-shadow: inset 0 1px 1px #ebebeb;
+    background: white; }
+  .navigation a[disabled], .navigation a[disabled]:focus, .navigation a[disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+    -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+    box-shadow: inset 0 1px 1px #e2e2e2;
+    background: #ebebeb; }
 
 .navigation .controls {
   float: right; }
@@ -344,6 +369,10 @@ fieldset legend, h3 {
   margin-top: 5pt;
   margin-bottom: 5pt;
   color: #666; }
+
+h3 {
+  color: #85af22;
+  margin-bottom: 10pt; }
 
 table.list {
   width: 100%; }
@@ -775,13 +804,14 @@ table.beers.list th.sortable-right {
   .select-columns input {
     margin-right: 3pt; }
 
-#cellared-beers tr.filters select, #cellared-beers tr.filters input {
-  width: 100%; }
-
 #cellared-beers tr.filters {
   background-color: #ebebeb; }
   #cellared-beers tr.filters select, #cellared-beers tr.filters input {
     width: 100%; }
+#cellared-beers tbody tr {
+  cursor: pointer; }
+#cellared-beers tbody tr td:first-child {
+  cursor: auto; }
 
 th#brewery {
   width: 240px; }
@@ -939,6 +969,27 @@ div.star-rating.beer_tasting_note_preference_rating {
   margin-top: 5pt;
   margin-bottom: 5pt;
   height: 150px; }
+
+.beer-info, .tasting-note {
+  width: 100%; }
+  .beer-info .left, .beer-info .right, .tasting-note .left, .tasting-note .right {
+    width: 50%; }
+  .beer-info .third, .tasting-note .third {
+    float: left;
+    width: 33%; }
+    .beer-info .third span.label, .tasting-note .third span.label {
+      color: #cccccc; }
+  .beer-info .clearfix, .tasting-note .clearfix {
+    width: 100%; }
+  .beer-info .label, .tasting-note .label {
+    font-weight: bold; }
+
+.tasting-note {
+  border-bottom: 1px #e2e2e2 solid;
+  padding-bottom: 5pt; }
+
+.tasting-note:last-child {
+  border-bottom: none; }
 
 /* Preferences */
 #save-preferences {

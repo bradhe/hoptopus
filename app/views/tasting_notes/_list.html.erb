@@ -1,0 +1,57 @@
+<div class="tasting-note">
+  <div class="clearfix">
+    <div class="left aged field">
+      <span class="label">Aged for:</span>
+      <span class="value"><%= distance_of_time_in_words(tasting_note.created_at, tasting_note.beer.cellared_at) %></span>
+    </div>
+
+    <div class="right field">
+      <span class="label">Preference:</span>
+      <span class="value"><%= tasting_note.preference_rating %></span>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <div class="third">
+      <div class="field">
+        <span class="label">Appearance:</span>
+        <span class="value"><%= tasting_note.appearance_rating %></span>
+      </div>
+
+      <div class="field">
+        <span class="label">Pour:</span>
+        <span class="value"><%= tasting_note.pour_rating %></span>
+      </div>
+    </div>
+
+    <div class="third">
+      <div class="field">
+        <span class="label">Taste:</span>
+        <span class="value"><%= tasting_note.taste_rating %></span>
+      </div>
+
+      <div class="field">
+        <span class="label">Mouthfeel:</span>
+        <span class="value"><%= tasting_note.mouthfeel_rating %></span>
+      </div>
+    </div>
+
+    <div class="third">
+      <div class="field">
+        <span class="label">Aroma:</span>
+        <span class="value"><%= tasting_note.aroma_rating %></span>
+      </div>
+
+      <div class="field">
+        <span class="label">Drinkability:</span>
+        <span class="value"><%= tasting_note.drinkability_rating %></span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="label">Notes:</div>
+  <div class="note">
+    <%= simple_format(tasting_note.notes) %>
+  </div>
+</div>

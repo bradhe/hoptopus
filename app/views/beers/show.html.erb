@@ -1,63 +1,73 @@
 <% content_for :title do %>
-	<%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %>
+  <%= beer_title(@beer) %>
 <% end %>
 
 <div class="navigation">
-  <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) %>
-  <%= link_to 'View Brew Wiki Entry', brew_path(@beer.brew) %>
-	
-	<% if @beer.cellar.user == @user %>
-    <div class="controls">
-		<%= link_to 'Edit Beer & Notes', edit_cellar_beer_path(@beer.cellar, @beer) %>
+  <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) + '#cellar' %>
+</div>
+
+<h2><%= beer_title(@beer) %></h2>
+
+<div class="clearfix beer-info">
+  <div class="left">
+    <div class="field">
+      <span class="label">Name:</span> <span class="value"><%= @beer.name %></span>
     </div>
-	<% end %>
-</div>
 
-<h2><%= (@beer.year ? @beer.year + " " : "") + @beer.brew.name %></h2>
-
-<div class="brief info">
-	<div class="field">
-		<span class="label">Name:</span> <span class="value"><%= @beer.name %></span>
-	</div>
-	
-	<div class="field">
-		<span class="label">Brewery:</span> <span class="value"><%= @beer.brewery_name %></span>
-	</div>
-	
-	<div class="field">
-		<span class="label">Type:</span> <span class="value"><%= @beer.brew.brew_type.name %></span>
-	</div>
-	
-	<div class="field">
-		<span class="label">Location:</span>
-		<span class="value"><%= brew_location @beer.brew %></span>
-	</div>
-	
-	<div class="field">
-	  <span class="label">ABV:</span> <span class="value"><%= @beer.abv || 'Unknown' %></span>
-	</div>
-
-	<div class="field">
-	  <span class="label">Price:</span> <span class="value"><%= @beer.price || 'Unknown' %></span>
-	</div>
-
-	<div class="field">
-	  <span class="label">Size:</span> <span class="value"><%= @beer.bottle_size.name %></span>
-	</div>
-
-	<div class="field">
-	  <span class="label">Quantity in Cellar:</span> <span class="value"><%= @beer.quantity %></span>
-	</div>
-    
     <div class="field">
-	  <span class="label">Cellared On:</span> <span class="value"><%= @formatted_cellared_at %></span>
-	</div>
-    
+      <span class="label">Year:</span> <span class="value"><%= @beer.year %></span>
+    </div>
+  </div>
+
+  <div class="right">
     <div class="field">
-	  <span class="label">Aging Complete:</span> <span class="value"><%= @formatted_finish_aging_at %></span>
-	</div>
+      <span class="label">Brewery:</span> <span class="value"><%= @beer.brewery %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Style:</span> <span class="value"><%= @beer.style %></span>
+    </div>
+  </div>
 </div>
 
-<div class="description">
-	<%== @beer.current_revision.to_html || "No notes have been added for this beer." %>
+<h3>Other Info</h3>
+
+<div class="clearfix beer-info">
+  <div class="left">
+    <div class="field">
+      <span class="label">Bottle Size:</span> <span class="value"><%= @beer.bottle_size %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Price:</span> <span class="value"><%= @beer.price ? number_to_currency(@beer.price) : 'Unknown' %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">ABV:</span> <span class="value"><%= @beer.abv ? number_to_percentage(@beer.abv, :precision => 2) : 'Unknown' %></span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="field">
+      <span class="label">Quantity in Cellar:</span> <span class="value"><%= @beer.quantity %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Cellared On:</span> <span class="value"><%= format_date(@beer.cellared_at) %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Aging Complete:</span> <span class="value"><%= format_date(@beer.finish_aging_at) %></span>
+    </div>
+  </div>
 </div>
+
+<h3>Tasting Notes</h3>
+
+<%- if @beer.tasting_notes.empty? %>
+  <div class="empty">No tasting notes have been filed for this beer yet.</div>
+<%- else %>
+  <%- @beer.tasting_notes.each do |tasting_note| %>
+    <%= render 'tasting_notes/list', :tasting_note => tasting_note %>
+  <%- end %>
+<%- end %>

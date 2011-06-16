@@ -140,7 +140,8 @@ hoptopus.grid = function(options) {
     fadeInRows: false,
     pageSize: 25,
     pagesList: 'div.pages',
-    checkBoxClicked: null
+    checkBoxClicked: null,
+    rowClicked: null
   };
 
   // Merge objects
@@ -484,6 +485,10 @@ hoptopus.grid = function(options) {
         if(style[k]) {
           td.attr(k, style[k]);
         }
+      }
+
+      if($.isFunction(settings.rowClicked)) {
+        td.click(settings.rowClicked);
       }
 
       tr.append(td);

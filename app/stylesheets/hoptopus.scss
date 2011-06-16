@@ -292,7 +292,7 @@ height: 325px;
   list-style-type: none;
 
   li {
-display: inline;
+    display: inline;
   }
 }
 
@@ -310,28 +310,38 @@ display: inline;
   margin-left: 5pt;
 }
 
-#navigation a, .navigation a {
-color: #333;
-display: inline-block;
-padding: 4px;
-         padding-left: 7pt;
-         padding-right: 7pt;
+#navigation a {
+  color: #333;
+  display: inline-block;
+  padding: 4px;
+  padding-left: 7pt;
+  padding-right: 7pt;
 
-         border-radius: 3px;
-         -moz-border-radius: 3px;
-         -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
 
-         background-color: #fff;
-         text-decoration: none;
+  background-color: #fff;
+  text-decoration: none;
 }
 
-#navigation a:hover, #navigation a:focus, .navigation a:hover, .navigation a:focus {
+#navigation a:hover, #navigation a:focus {
   background-color: $brown;
-color: $green;
+  color: $green;
+}
+
+.navigation a {
+  @include buttonize($grey-highlight, $white, $grey);
+  @include rounded-corners;
+  padding: 2pt 5pt;
+  margin: 2pt;
+  display: inline-block;
+  text-decoration: none;
+  font-style: normal;
 }
 
 .navigation .controls {
-float: right;
+  float: right;
 }
 
 label {
@@ -427,7 +437,12 @@ fieldset legend, h3 {
   font-weight: bold;
   margin-top: 5pt;
   margin-bottom: 5pt;
-color: #666;
+  color: #666;
+}
+
+h3 {
+  color: $green;
+  margin-bottom: 10pt;
 }
 
 table.list {
@@ -447,7 +462,7 @@ top: 2px;
 }
 
 h3 a, #navigation a {
-outline: none;
+  outline: none;
 }
 
 h3 a:hover {
@@ -457,7 +472,7 @@ color: #666;
 
 table.list th {
   background-color: $lightgray;
-cursor: url("/cursors/openhand.cur"), default !important;
+  cursor: url("/cursors/openhand.cur"), default !important;
 }
 
 table.list td {
@@ -926,9 +941,9 @@ table.beers.list {
 }
 
 .sortable-handle {
-opacity: 0.8;
-         -moz-opacity: 0.8;
-filter:alpha(opacity=80);
+  opacity: 0.8;
+  -moz-opacity: 0.8;
+  filter:alpha(opacity=80);
 }
 
 .select-columns {
@@ -945,15 +960,23 @@ filter:alpha(opacity=80);
   }
 }
 
-#cellared-beers tr.filters select, #cellared-beers tr.filters input {
-width: 100%;
-}
+#cellared-beers {
+  tr.filters {
+    background-color: #ebebeb;
 
-#cellared-beers tr.filters {
-  background-color: #ebebeb;
+    select,input {
+      width: 100%;
+    }
+  }
 
-  select,input {
-width: 100%;
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+
+    tr td:first-child {
+      cursor: auto;
+    }
   }
 }
 
@@ -1183,6 +1206,40 @@ div.star-rating.beer_tasting_note_preference_rating {
   margin-top: 5pt;
   margin-bottom: 5pt;
   height: 150px;
+}
+
+.beer-info, .tasting-note {
+  width: 100%;
+
+  .left, .right {
+    width: 50%;
+  }
+
+  .third {
+    float: left;
+    width: 33%;
+
+    span.label {
+      color: $dark-grey;
+    }
+  }
+
+  .clearfix {
+    width: 100%;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+}
+
+.tasting-note {
+  border-bottom: 1px $grey solid;
+  padding-bottom: 5pt;
+}
+
+.tasting-note:last-child {
+  border-bottom: none;
 }
 
 @import "preferences";

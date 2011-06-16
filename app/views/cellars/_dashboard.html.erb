@@ -1,0 +1,14 @@
+<h2 data-tab-handle="activity">Recent Activity</h2>
+<div id="activity">
+  <ul class="events">
+    <% if @cellar.user.events.empty? %>
+        <li class="empty"><%= is_users_cellar? ? "You don't" : @cellar.user.username + " doesn't" %> have any recent
+          activity.
+        </li>
+    <% else %>
+        <% @cellar.user.events.first(15).each do |e| %>
+            <%== render_event e %>
+        <% end %>
+    <% end %>
+  </ul>
+</div>

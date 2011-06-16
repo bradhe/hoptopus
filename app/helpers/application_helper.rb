@@ -30,45 +30,39 @@ module ApplicationHelper
     else
       location = 'Unknown'
     end
-    
+
     return location
   end
 
   def full_host
     host = self.request.host || "hoptopus.com"
-    
+
     if (not self.request.port.nil?) and self.request.port != 80
       host += ':' + self.request.port.to_s
     end
-    
+
     return host
   end
-  
+
   def absolute_url(url)
     "http://#{full_host}#{url}"
   end
-  
+
   def is_table_sortable?(collection) 
-    if collection.nil?
-      return nil
-    end
-    
-    return collection.empty? ? "" : 'data-sortable="true"'
+    return nil if collection.nil? or collection.empty?
+    'data-sortable="true"'
   end
-  
+
   def m(str)
     str.blank? ? "" : Maruku.new(str).to_html
   end
-  
+
   def render_event(event)
     event.formatter.render if event.formatter
   end
-  
+
   def format_date(date)
-    if date.nil?
-      return ''
-    end
-    
+    return '' if date.nil?
     date.strftime "%Y-%m-%d"
   end
 
@@ -76,7 +70,7 @@ module ApplicationHelper
     options.merge!(:body => capture(&block))
     render(:partial => partial_name, :locals => options)
   end
-  
+
   def gravatar_for(user, options = {})
     options = { :alt => 'avatar', :class => 'avatar' }.merge! options
 
@@ -108,5 +102,9 @@ module ApplicationHelper
       options.merge!(:name => name)
       block_to_partial('shared/alert', options, &block)
     end
+  end
+
+  def beer_title(beer)
+    "#{beer.year} #{beer.name}".strip
   end
 end
