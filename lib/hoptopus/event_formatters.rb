@@ -81,8 +81,9 @@ module Hoptopus
 
       def format_message(e)
         username = e.user.username
+        beer_name = (e.source.beer.year ? e.source.beer.year + ' ' : '') + e.source.beer.name
 
-        "[#{username}](/cellars/#{username}) added tasting notes for #{e.source.beer.name}"
+        "[#{username}](/cellars/#{username}) added tasting notes for [#{beer_name}](/cellars/#{e.user.username}/beers/#{e.source.beer.id})"
       end
     end
   end

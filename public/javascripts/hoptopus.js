@@ -9,6 +9,21 @@ var hoptopus = (function($) {
   var h = {};
   var currentProgress = null;
 
+  h.showAlert = function(text, timeout) {
+    var span = $('<span/>').addClass('alert');
+    span.text(text);
+
+    span.hide();
+    $('body').prepend(span);
+    span.slideDown('fast');
+
+    window.setTimeout(function() {
+      span.slideUp('fast', function() {
+        $(this).remove();
+      });
+    }, timeout || 3000);
+  };
+
   h.showProgress = function(text, fn) {
     if(currentProgress) {
       this.hideProgress();
@@ -18,7 +33,6 @@ var hoptopus = (function($) {
 
     var span = $('<span/>').addClass('progress');
     span.append($(progressImg));
-    span.css('z-index', '1000');
 
     var textSpan = $('<span/>');
 

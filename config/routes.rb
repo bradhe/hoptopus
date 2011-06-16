@@ -12,14 +12,14 @@ Hoptopus::Application.routes.draw do
       end
 
       resources :comments, :only => [:update, :destroy, :create]
-      resources :tastings, :only => [:new, :create]
+      resources :tasting_notes, :only => [:create]
     end
   end
 
   resources :users, :only => :update, :constraints => { :id => /.*/ }
-  
+
   resources :contact, :only => [:index, :create]
-    
+
   namespace 'admin' do
     resources :users do
       collection do
@@ -36,7 +36,7 @@ Hoptopus::Application.routes.draw do
   namespace 'utils' do
     get 'states' => 'geography#states'
   end
-  
+
   # Shortcut URLs
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'

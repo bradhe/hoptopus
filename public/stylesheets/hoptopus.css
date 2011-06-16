@@ -264,7 +264,7 @@ textarea {
   background-color: #ffe9a8;
   color: #85af22; }
 
-.navigation a {
+.navigation a, .navigation button {
   -moz-box-shadow: inset 0 1px 1px white;
   -webkit-box-shadow: inset 0 1px 1px white;
   box-shadow: inset 0 1px 1px white;
@@ -276,14 +276,13 @@ textarea {
   padding: 2pt 5pt;
   margin: 2pt;
   display: inline-block;
-  text-decoration: none;
-  font-style: normal; }
-  .navigation a:active {
+  text-decoration: none; }
+  .navigation a:active, .navigation button:active {
     -moz-box-shadow: inset 0 1px 1px #ebebeb;
     -webkit-box-shadow: inset 0 1px 1px #ebebeb;
     box-shadow: inset 0 1px 1px #ebebeb;
     background: white; }
-  .navigation a[disabled], .navigation a[disabled]:focus, .navigation a[disabled]:active {
+  .navigation a[disabled], .navigation a[disabled]:focus, .navigation a[disabled]:active, .navigation button[disabled], .navigation button[disabled]:focus, .navigation button[disabled]:active {
     -moz-box-shadow: inset 0 1px 1px #e2e2e2;
     -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
     box-shadow: inset 0 1px 1px #e2e2e2;
@@ -344,12 +343,14 @@ h1 img {
 div.navigation, div.alert {
   background-color: #ffe9a8;
   padding: 5pt;
-  border-radius: 5pt;
   -moz-border-radius: 5pt;
   -webkit-border-radius: 5pt;
-  font-style: italic;
+  border-radius: 5pt;
   margin-bottom: 5pt;
   color: #666; }
+
+div.alert {
+  font-style: italic; }
 
 .tab.cellar {
   height: auto; }
@@ -760,17 +761,23 @@ div.dropdown li {
 a.dismiss-alert {
   float: right; }
 
-span.progress {
-  background-color: black;
+span.progress, span.alert {
   padding: 5pt;
   position: fixed;
   width: 100%;
   text-align: center;
   margin: 0 auto;
   font-weight: bold;
-  color: white;
   padding: 7px 10px;
   z-index: 9999; }
+
+span.alert {
+  background-color: #f0e6af;
+  color: black; }
+
+span.progress {
+  background-color: black;
+  color: white; }
 
 span.progress img {
   position: relative;
@@ -986,10 +993,12 @@ div.star-rating.beer_tasting_note_preference_rating {
 
 .tasting-note {
   border-bottom: 1px #e2e2e2 solid;
-  padding-bottom: 5pt; }
-
-.tasting-note:last-child {
-  border-bottom: none; }
+  padding-bottom: 5pt;
+  margin-top: 5pt; }
+  .tasting-note:first-child {
+    margin-top: 0; }
+  .tasting-note:last-child {
+    border-bottom: none; }
 
 /* Preferences */
 #save-preferences {

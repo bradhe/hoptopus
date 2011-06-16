@@ -4,6 +4,7 @@
 
 <div class="navigation">
   <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) + '#cellar' %>
+  <button type="button" id="new-tasting-note">New Tasting Note</button>
 </div>
 
 <h2><%= beer_title(@beer) %></h2>
@@ -67,7 +68,60 @@
 <%- if @beer.tasting_notes.empty? %>
   <div class="empty">No tasting notes have been filed for this beer yet.</div>
 <%- else %>
-  <%- @beer.tasting_notes.each do |tasting_note| %>
-    <%= render 'tasting_notes/list', :tasting_note => tasting_note %>
-  <%- end %>
+  <div id="tasting-notes">
+    <%- @beer.tasting_notes.each do |tasting_note| %>
+      <%= render 'tasting_notes/list', :tasting_note => tasting_note %>
+    <%- end %>
+  </div>
+<%- end %>
+
+<div class="hidden">
+  <div id="new-tasting-note-form">
+    <%= render 'tasting_notes/new', :form_element_prefix => 'tasting_note' %>
+
+    <div class="buttons">
+      <button class="cancel">Cancel</button>
+      <button class="submit">Create Tasting Note</button>
+    </div>
+  </div>
+</div>
+
+<%- content_for :javascript do %>
+    <script type="text/javascript" src="/javascripts/jquery.dynamicForm.js"></script>
+
+    <script type="text/javascript">
+$(function() {
+  $('#new-tasting-note').bind('click', function() {
+    var dialog = $('#new-tasting-note-form');
+    dialog.dialog({modal: true, width: 'auto', height: 'auto', resizeable: false, title: 'Add a Tasting Note'});
+
+    dialog.find('button.cancel').click(function() {
+      dialog.dialog('close');
+    });
+
+    var form = dialog.dynamicForm({
+      submitStart: function() {
+        hoptopus.showProgress('Adding Tasting Note...');
+      },
+      submitDone: function() {
+        hoptopus.hideProgress();
+      },
+      success: function(data) {
+        dialog.dialog('close');
+        dialog.find('input').val('');
+        dialog.find('textarea').val('');
+
+        hoptopus.showAlert('Tasting Note Added.');
+        $('#tasting-notes').append(data);
+      },
+      responseType: 'html'
+    });
+
+    dialog.find('.buttons .submit').click(function() {
+      form[0].submit('<%= cellar_beer_tasting_notes_path(@cellar, @beer) %>');
+    });
+  });
+});
+
+    </script>
 <%- end %>

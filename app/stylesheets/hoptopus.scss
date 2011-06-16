@@ -17,6 +17,8 @@ $selected_row_color: #FFFFFF;
 $content_width: 900px;
 $progress-bg: $black;
 $progress-fg: $white;
+$alert-bg: $tan;
+$alert-fg: $black;
 
 @mixin buttonize($base: $grey, $highlight: $grey-highlight, $shadow: $grey) {
   -moz-box-shadow: inset 0 1px 1px $highlight;
@@ -330,14 +332,15 @@ display: inline;
   color: $green;
 }
 
-.navigation a {
-  @include buttonize($grey-highlight, $white, $grey);
-  @include rounded-corners;
-  padding: 2pt 5pt;
-  margin: 2pt;
-  display: inline-block;
-  text-decoration: none;
-  font-style: normal;
+.navigation {
+  a, button {
+    @include buttonize($grey-highlight, $white, $grey);
+    @include rounded-corners;
+    padding: 2pt 5pt;
+    margin: 2pt;
+    display: inline-block;
+    text-decoration: none;
+  }
 }
 
 .navigation .controls {
@@ -383,11 +386,11 @@ color: #ccc;
 }
 
 .byline {
-display: block;
-         text-align: right;
-color: #666;
-       font-style: italic;
-       border-bottom: 1px solid #ccc;
+  display: block;
+  text-align: right;
+  color: #666;
+  font-style: italic;
+  border-bottom: 1px solid #ccc;
 }
 
 #comments .comment {
@@ -406,16 +409,16 @@ color: #666;
 
 div.navigation, div.alert {
   background-color: $brown;
-padding: 5pt;
+  padding: 5pt;
 
-         border-radius: 5pt;
-         -moz-border-radius: 5pt;
-         -webkit-border-radius: 5pt;
+  @include rounded-corners(5pt);
 
-         font-style: italic;
+  margin-bottom: 5pt;
+  color: #666;
+}
 
-         margin-bottom: 5pt;
-color: #666;
+div.alert {
+  font-style: italic;
 }
 
 .tab.cellar {
@@ -655,7 +658,6 @@ button, input[type="submit"] {
   padding-top: 2pt;
   padding-bottom: 2pt;
   font-size: 1.0em;
-
 }
 
 table[data-sortable] th, th.unsorted {
@@ -899,17 +901,25 @@ a.dismiss-alert {
 float: right;
 }
 
-span.progress {
-  background-color: $progress-bg;
+span.progress, span.alert {
   padding: 5pt;
   position: fixed;
   width: 100%;
   text-align: center;
   margin: 0 auto;
   font-weight: bold;
-  color: $progress-fg;
   padding: 7px 10px;
   z-index: 9999;
+}
+
+span.alert {
+  background-color: $alert-bg;
+  color: $alert-fg;
+}
+
+span.progress {
+  background-color: $progress-bg;
+  color: $progress-fg;
 }
 
 span.progress img {
@@ -1236,10 +1246,15 @@ div.star-rating.beer_tasting_note_preference_rating {
 .tasting-note {
   border-bottom: 1px $grey solid;
   padding-bottom: 5pt;
-}
+  margin-top: 5pt;
 
-.tasting-note:last-child {
-  border-bottom: none;
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 @import "preferences";
