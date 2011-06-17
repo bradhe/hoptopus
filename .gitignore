@@ -11,3 +11,4 @@ tmp/sass-cache*
 tags
 bin/*
 public/stylesheets/*.css
+config/database.yml
