@@ -27,4 +27,5 @@ group :development, :test do
   gem 'rspec-rails', '~>2.5.0'
   gem 'mongrel'
   gem 'jasmine'
+  gem 'capistrano'
 end
