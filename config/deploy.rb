@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 set :application, "hoptopus"
 set :repository,  "git@github.com:bradhe/hoptopus.git"
 
@@ -34,5 +36,9 @@ namespace :deploy do
     system "ssh -i #{aws_private_key_path} ubuntu@#{domain} \"sudo mkdir /home/#{user}/.ssh\""
     system "ssh -i #{aws_private_key_path} ubuntu@#{domain} \"sudo chown -R #{user}:#{user} /home/#{user}/.ssh\""
     system "scp -i #{aws_private_key_path} config/deploy_sudoers ubuntu@#{domain}:/etc/sudoers"
+  end
+
+  task :before_symlink do
+    run "ln -nfs #{shared_path}/database.yml #{release_path}/config/database.yml"
   end
 end
