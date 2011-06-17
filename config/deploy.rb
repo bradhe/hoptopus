@@ -3,15 +3,15 @@ set :repository,  "git@github.com:bradhe/hoptopus.git"
 
 set :scm, :git
 
-role :web, "ec2-50-19-13-135.compute-1.amazonaws.com"
-role :app, "ec2-50-19-13-135.compute-1.amazonaws.com"
-role :db,  "ec2-50-19-13-135.compute-1.amazonaws.com"
+role :web, "ec2.hoptopus.com"
+role :app, "ec2.hoptopus.com"
+role :db,  "ec2.hoptopus.com"
 
 set :deploy_to, '/www/hoptopus'
 
 set :use_sudo, false
-set :user, 'deploy'
-set :password, '!!abc123'
+#set :user, 'deploy'
+#set :password, '!!abc123'
 set :application, "hoptopus.com"
 set :domain, "ec2-50-19-13-135.compute-1.amazonaws.com"
 
