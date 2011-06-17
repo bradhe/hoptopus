@@ -9,7 +9,9 @@ role :web, "ec2.hoptopus.com"
 role :app, "ec2.hoptopus.com"
 role :db,  "ec2.hoptopus.com", :primary => true
 
+set :branch, 'revival-effort'
 set :deploy_to, '/www/hoptopus'
+set :deply_via, :remote_cache
 
 set :use_sudo, false
 #set :user, 'deploy'
