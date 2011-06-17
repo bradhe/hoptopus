@@ -1,3 +1,5 @@
+require 'csv'
+# Custom array shit
 require 'array'
 
 class CellarsController < ApplicationController
@@ -5,7 +7,7 @@ class CellarsController < ApplicationController
   include AWS::S3
 
   def import_status
-    @cellar = Cellar.find params[:id]
+    @cellar = Cellar.find(params[:id])
     status = redis["cellar_import:#{@cellar.user_id}:status"].to_i
 
     if status == 2
@@ -21,92 +23,46 @@ class CellarsController < ApplicationController
     end
   end
 
-  def import_failed
-  end
+  def import
+    @cellar = Cellar.find_by_username(params[:id])
+    raise "Import file cannot be nil" if params[:import_file].nil?
 
-  def confirm_import
-    # We need to get all the records by job ID
-    @cellar = Cellar.find params[:id]
-    job_id = redis["cellar_import:#{@cellar.user_id}:job_id"]
+    values = CSV.read(params[:import_file].tempfile.path)
+    headers = values.shift.map(&:downcase).map{ |h| h.gsub(/[\s\W]+/, '_').to_sym }
 
-    if request.post? and not params[:done]
-      # Update the posted records
-      records = params[:records].map do |r| 
-        attributes = r[1]
-        record = UploadedBeerRecord.find(attributes[:id])
+    values.each do |beer|
+      h = Hash[*headers.zip(beer).flatten]
 
-        # Delete ID for now
-        attributes.delete(:id)
-        record.update_attributes(attributes)
+      # We need to keep track of this...
+      cellared_at = h.delete(:cellared_at) || ''
+
+      # Make sure this doesn't explode...
+      h[:name] ||= ''
+
+      # Also try to parse a year if one can be done.
+      if match = h[:name].strip.match(/^\d{4}|\d{4}$/)
+        # In case we need to abort the process...
+        original_name = h[:name]
+
+        h[:name] = h[:name].strip.gsub(/[- ]*\d{4}$/, '').strip.gsub(/^\d{4}/, '').strip
+        h[:year] = match[0].to_i
+
+        # Make sure it falls within a valid range
+        if h[:year] < 1970 or h[:year] > 2013
+          h[:name] = original_name
+          h.delete :year
+        end
       end
-    elsif request.post? and params[:done]
-      # We're done so we need to schedule this job for import
-      # and show the next interstitial
-      Resque.enqueue(ProcessConfirmedImport, job_id, @cellar.user_id)
 
-      respond_to do |format|
-        format.html { render :template => 'cellars/processing' }
-      end
-
-      # Get outta here
-      return
-    end
-
-    @uploaded_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').all
-
-    unless params[:p].nil?
-      p = params[:p].to_i
-      all_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').all      
-      @uploaded_records = all_records[p, 25]
-      @total_records = all_records.count
-    else
-      @uploaded_records = UploadedBeerRecord.where(:job_id => job_id).order('brewery').first(25)
-      @total_records = UploadedBeerRecord.where(:job_id => job_id).count
-    end
-    
-    respond_to do |format|
-      format.html
-    end
-  end
-  
-  def import_confirmed
-    cellar = Cellar.find params[:id]
-    uploaded_records = params[:records].map { |r| UploadedRecord.new(r[1]) }
-    errors = []
-    
-    # Get all the breweries
-    Thread.new do
-      process_upload uploaded_records
-    end
-    
-    respond_to do |format|
-      format.html { redirect_to cellar_path cellar.user.username }
-    end
-  end
-  
-  def upload
-    @cellar = Cellar.find params[:id]
-    @cellar_upload = UploadCellar.new params[:upload_cellar]
-
-    respond_to do |format|
-      if @cellar_upload.valid?
-        # Parse all this crap
-        file_name = File.basename(@cellar_upload.file.tempfile.path)
-        S3Object.store file_name, @cellar_upload.file.tempfile, 'hoptopus'
-
-        # Fire the job.
-        Resque.enqueue(ImportCellar, file_name, @cellar.user_id)
-
-        # Mark cellar as "importing"
-        redis["cellar_import:#{@cellar.user_id}:status"] = 0
-        
-        format.html { render :template => 'cellars/importing' }
-      else
-        format.html # upload.html.erb
+      unless @cellar.beers.exists?(h)
+        h[:cellared_at] = Time.parse(cellared_at)
+        @cellar.beers.create!(h)
       end
     end
+
+    redirect_to cellar_path(@cellar)
   end
-  
+
   # GET /cellars
   # GET /cellars.xml
   def index

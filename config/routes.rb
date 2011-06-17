@@ -14,6 +14,10 @@ Hoptopus::Application.routes.draw do
       resources :comments, :only => [:update, :destroy, :create]
       resources :tasting_notes, :only => [:create]
     end
+
+    member do
+      post :import
+    end
   end
 
   resources :users, :only => :update, :constraints => { :id => /.*/ }

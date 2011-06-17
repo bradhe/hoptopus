@@ -11,6 +11,7 @@ $dark-grey: #ccc;
 $black: #000;
 $white: #fff;
 $lightgray: #C0C0C0;
+$red: #f00;
 
 // Element-specific colors
 $selected_row_color: #FFFFFF;
@@ -19,6 +20,8 @@ $progress-bg: $black;
 $progress-fg: $white;
 $alert-bg: $tan;
 $alert-fg: $black;
+$error-bg: $red;
+$error-fg: $white;
 
 @mixin buttonize($base: $grey, $highlight: $grey-highlight, $shadow: $grey) {
   -moz-box-shadow: inset 0 1px 1px $highlight;
@@ -901,7 +904,7 @@ a.dismiss-alert {
 float: right;
 }
 
-span.progress, span.alert {
+span.progress, span.alert, span.error {
   padding: 5pt;
   position: fixed;
   width: 100%;
@@ -920,6 +923,11 @@ span.alert {
 span.progress {
   background-color: $progress-bg;
   color: $progress-fg;
+}
+
+body span.error {
+  background-color: $error-bg;
+  color: $error-fg;
 }
 
 span.progress img {
@@ -1143,6 +1151,12 @@ li.connect span.or {
     color: #f00;
     text-align:center;
   }
+
+  div.tasting-note {
+    border-bottom: none;
+    padding-bottom: 0;
+    width: 650px;
+  }
 }
 
 .sub.field {
@@ -1204,10 +1218,6 @@ div.pages {
   }
 }
 
-div.star-rating {
-  width: 266px;
-}
-
 div.star-rating.beer_tasting_note_preference_rating {
   width: auto;
 }
@@ -1254,6 +1264,20 @@ div.star-rating.beer_tasting_note_preference_rating {
 
   &:last-child {
     border-bottom: none;
+  }
+}
+
+#import-cellar {
+  .field {
+    margin-top: 15pt;
+
+    label {
+      width: 75px;
+    }
+  }
+
+  .buttons {
+    text-align: right;
   }
 }
 

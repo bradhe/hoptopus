@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   attr_accessor :password
 
   has_one :cellar, :dependent => :destroy
-  has_many :events
+  has_many :events, :order => 'created_at DESC'
   has_many :alerts
 
   validates_presence_of :email, :message => 'Please provide an email address.'

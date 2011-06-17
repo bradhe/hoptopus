@@ -1,0 +1,25 @@
+<div id="import-cellar">
+  <div class="note">Upload a CSV file of your cellar and we'll do the rest.</div>
+
+  <form action="<%= import_cellar_path(@cellar) %>" method="POST" enctype="multipart/form-data">
+    <div class="field">
+      <label for="import-file">File:</label>
+      <input type="file" id="import-file" name="import_file" />
+    </div>
+
+    <div class="buttons">
+      <button class="cancel" type="button">Cancel</button>
+      <button class="submit" type="submit">Import</button>
+    </div>
+  </form>
+</div>
+
+<%- content_for :javascript do %>
+  <script type="text/javascript">
+    $(function() {
+      $("#import-cellar button.cancel").click(function() {
+        $("#import-cellar").dialog('close');
+      });
+    });
+  </script>
+<%- end %>

@@ -6,6 +6,7 @@ class Beer < ActiveRecord::Base
   belongs_to :cellar
   has_one :user, :through => :cellar
   has_many :tasting_notes
+  has_many :events, :as => :source, :dependent => :destroy
 
   validates_presence_of :cellar_id
   validates_presence_of :cellared_at, :message => "Cellared date is required."

@@ -1,6 +1,5 @@
 (function($) {
   function DynamicForm(form, options) {
-    var elements = $(form).find('input, select, textarea');
     var d = {};
 
     var settings = {
@@ -19,7 +18,8 @@
       // The type of data to expect from the server. JSON will automatically parse the string to an object.
       responseType: 'json',
       // Automatically hook up the submit event for the form element.
-      autoWireSubmit: true
+      autoWireSubmit: true,
+      contentType: null
     };
 
     if(options) {
@@ -30,6 +30,8 @@
     settings.responseType = settings.responseType.toLowerCase();
 
     function getData() {
+      var elements = $(form).find('input, select, textarea');
+
       // Gather up all of the element's values and stick
       // them in to a payload to send over the wire.
       var l = elements.length;
@@ -159,6 +161,7 @@
         url: action,
         type: method,
         data: data,
+        contentType: settings.contentType || 'application/x-www-form-urlencoded',
         beforeSend: function() {
             // TODO: Make sure that buttons that SHOULD be disabled don't end up un-disabled.
             $(form).find('input[type="submit"], button[type="submit"]').attr('disabled', true);
@@ -182,10 +185,13 @@
                 json = JSON.parse(jqXHR.responseText);
               }
               catch(err) {
-                throw "Failed to parse JSON message '" + jqXHR.responseText + "' Error: " + err;
+                // Just fail I guess...
+                //throw "Failed to parse JSON message '" + jqXHR.responseText + "' Error: " + err;
               }
 
-              populateErrorList(json);
+              if(json != null) {
+                populateErrorList(json);
+              }
 
               // Send across the errors too.
               if($.isFunction(settings.error)) {

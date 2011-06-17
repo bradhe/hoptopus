@@ -24,6 +24,21 @@ var hoptopus = (function($) {
     }, timeout || 3000);
   };
 
+  h.showError = function(text, timeout) {
+    var span = $('<span/>').addClass('error');
+    span.text(text);
+
+    span.hide();
+    $('body').prepend(span);
+    span.slideDown('fast');
+
+    window.setTimeout(function() {
+      span.slideUp('fast', function() {
+        $(this).remove();
+      });
+    }, timeout || 3000);
+  };
+
   h.showProgress = function(text, fn) {
     if(currentProgress) {
       this.hideProgress();

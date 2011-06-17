@@ -569,6 +569,11 @@ hoptopus.grid = function(options) {
     var span = grid.parent().parent().find(settings.pagesList).find('span.page-numbers');
     span.empty();
 
+    // Don't create pages unless there is more than one.
+    if(numberPages < 2) {
+      return;
+    }
+
     for(var i = 0; i < numberPages; i++) {
       var a = $('<a/>').attr('href', 'javascript:void(0);').text(i+1);
       span.append(a);

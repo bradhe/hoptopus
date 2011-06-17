@@ -8,11 +8,7 @@
   <div class="add-beer left">
     <div class="field">
       <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
-      <% if beer.name %>
-        <span class="value"><%= beer.name %></span>
-      <% else %>
-        <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
-      <% end %>
+      <%= text_field_tag "#{form_element_prefix}[name]", beer.name %>
     </div>
 
     <div class="field">
@@ -24,12 +20,7 @@
   <div class="add-beer right">
     <div class="field">
       <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:" %>
-
-      <% if beer.brewery %>
-        <span class="value"><%= beer.brewery %></span>
-      <% else %>
-        <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery %>
-      <% end %>
+      <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery %>
     </div>
 
     <div class="field">

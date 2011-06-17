@@ -761,7 +761,7 @@ div.dropdown li {
 a.dismiss-alert {
   float: right; }
 
-span.progress, span.alert {
+span.progress, span.alert, span.error {
   padding: 5pt;
   position: fixed;
   width: 100%;
@@ -777,6 +777,10 @@ span.alert {
 
 span.progress {
   background-color: black;
+  color: white; }
+
+body span.error {
+  background-color: red;
   color: white; }
 
 span.progress img {
@@ -926,6 +930,10 @@ li.connect span.or {
 .ui-dialog div.errors {
   color: #f00;
   text-align: center; }
+.ui-dialog div.tasting-note {
+  border-bottom: none;
+  padding-bottom: 0;
+  width: 650px; }
 
 .sub.field {
   margin-left: 130px;
@@ -966,9 +974,6 @@ div.pages {
   div.pages a.selected {
     background-color: #DFF2B3; }
 
-div.star-rating {
-  width: 266px; }
-
 div.star-rating.beer_tasting_note_preference_rating {
   width: auto; }
 
@@ -999,6 +1004,13 @@ div.star-rating.beer_tasting_note_preference_rating {
     margin-top: 0; }
   .tasting-note:last-child {
     border-bottom: none; }
+
+#import-cellar .field {
+  margin-top: 15pt; }
+  #import-cellar .field label {
+    width: 75px; }
+#import-cellar .buttons {
+  text-align: right; }
 
 /* Preferences */
 #save-preferences {

@@ -65,6 +65,8 @@
         <button class="submit">Create Tasting Note</button>
       </div>
     </div>
+
+    <%= render 'import' %>
   </div>
 <% end %>
 
@@ -203,6 +205,14 @@ $(function() {
     });
 
     $('#clear-filters').click(function(e) { grid.clearFilters(); });
+
+    $('#import-beers').click(function() {
+      $('#import-cellar').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Import your Beer Collection'});
+
+      $('#import-cellar button.cancel').click(function() {
+        $('#import-cellar').dialog('close');
+      });
+    });
 
     $('#cellared-beers input:checkbox').click(checkBoxClicked);
 
