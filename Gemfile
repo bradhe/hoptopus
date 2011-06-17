@@ -2,7 +2,6 @@ source :rubygems
 
 gem 'rake', '0.8.7'
 gem 'rails', '3.0.7'
-gem 'sqlite3'
 gem 'rack-rewrite'
 gem 'maruku'
 gem 'carmen'
@@ -28,4 +27,5 @@ group :development, :test do
   gem 'mongrel'
   gem 'jasmine'
   gem 'capistrano'
+  gem 'sqlite3'
 end
