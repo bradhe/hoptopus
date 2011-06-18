@@ -438,7 +438,8 @@ hoptopus.grid = function(options) {
       }
     }
 
-    var tr = $('<tr/>').attr('data-beer', obj.id);
+    var tr = $('<tr/>');
+    tr.attr('data-beer', obj.id);
 
     if(nextClass) {
       tr.addClass(nextClass);
