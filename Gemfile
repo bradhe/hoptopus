@@ -29,3 +29,7 @@ group :development, :test do
   gem 'capistrano'
   gem 'sqlite3'
 end
+
+group :production, :staging do
+  gem 'mysql'
+end
