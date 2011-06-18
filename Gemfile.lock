@@ -9,6 +9,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    SystemTimer (1.2.3)
     abstract (1.0.0)
     actionmailer (3.0.7)
       actionpack (= 3.0.7)
@@ -169,13 +170,14 @@ GEM
     uuidtools (2.1.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
-    xml-simple (1.0.16)
+    xml-simple (1.1.0)
 
 PLATFORMS
   ruby
   x86-mingw32
 
 DEPENDENCIES
+  SystemTimer
   acts_as_commentable
   aws-s3
   capistrano

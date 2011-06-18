@@ -18,7 +18,7 @@ gem 'sass'
 
 # No SystemTimer gem on windows.
 unless RUBY_PLATFORM =~ /ming/
-#  gem 'SystemTimer'
+  gem 'SystemTimer'
 end
 
 group :development, :test do
