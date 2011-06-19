@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
       Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
     end
   end
-  
+
   def current_user
     @user
   end
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   def current_user=(user)
     @user = user
   end
-  
+
   def render_404
     render :file => "404", :layout => false, :status => 404
   end

@@ -242,16 +242,22 @@ clear: both;
 }
 
 #error_explanation {
-width: 450px;
-border: 2px solid red;
-padding: 7px;
-         padding-bottom: 0;
-         margin-bottom: 20px;
-         background-color: #f0f0f0;
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
 }
 
 #cellars {
   padding-left: 15pt;
+}
+
+#cellar {
+  .buttons .left {
+    margin-right: 5pt;
+  }
 }
 
 h2.tastings {
@@ -779,19 +785,26 @@ float: left;
 }
 
 table.cellars.list td {
-width: 12.5%;
+  width: 12.5%;
 }
 
 .cellar span.date-joined, .cellar span.stats {
-display: block;
-         font-size: 9pt;
-color: #666;
-       font-style: italic;
 }
 
 .cellar {
   margin-bottom: 5pt;
-height: 63px;
+  height: 63px;
+
+  span.date-joined, span.stats {
+    display: block;
+    font-size: 9pt;
+    color: #666;
+    font-style: italic;
+  }
+
+  .buttons .left {
+    margin-right: 15pt;
+  }
 }
 
 .newsletter {

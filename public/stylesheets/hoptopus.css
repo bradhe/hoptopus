@@ -200,6 +200,9 @@ div.reset-password {
 #cellars {
   padding-left: 15pt; }
 
+#cellar .buttons .left {
+  margin-right: 5pt; }
+
 h2.tastings {
   margin-top: 10pt; }
 
@@ -667,15 +670,16 @@ textarea.notes {
 table.cellars.list td {
   width: 12.5%; }
 
-.cellar span.date-joined, .cellar span.stats {
-  display: block;
-  font-size: 9pt;
-  color: #666;
-  font-style: italic; }
-
 .cellar {
   margin-bottom: 5pt;
   height: 63px; }
+  .cellar span.date-joined, .cellar span.stats {
+    display: block;
+    font-size: 9pt;
+    color: #666;
+    font-style: italic; }
+  .cellar .buttons .left {
+    margin-right: 15pt; }
 
 .newsletter h2, .newsletter span.note {
   border-bottom: 0;

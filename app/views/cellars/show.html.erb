@@ -94,6 +94,7 @@ function checkBoxClicked() {
     var checked = $('#cellared-beers input:checkbox').filter(':checked');
     var editBeers = $('#edit-beers');
     var newTastingNote = $('#new-tasting-note');
+    var checkOutBeers = $('#check-out-beers');
 
     if (editBeers.is(':disabled') && checked.length > 0) {
       editBeers.removeAttr('disabled');
@@ -105,12 +106,18 @@ function checkBoxClicked() {
     // Only one tasting note at a time.
     if(checked.length > 1) {
       newTastingNote.attr('disabled', true);
+
+      if(checkOutBeers.is(':disabled')) {
+        checkOutBeers.removeAttr('disabled');
+      }
     }
     else if(checked.length > 0) {
       newTastingNote.removeAttr('disabled');
+      checkOutBeers.removeAttr('disabled');
     }
     else {
       newTastingNote.attr('disabled', true);
+      checkOutBeers.attr('disabled', true);
     }
 }
 

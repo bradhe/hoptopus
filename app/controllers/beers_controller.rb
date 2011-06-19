@@ -123,15 +123,13 @@ class BeersController < ApplicationController
   end
 
   def destroy
-    @beer = Beer.find(params[:id])
-
-    # Beers don't get deleted, they just get removed from the cellar.
-    @beer.removed_at = Time.now
-    @beer.save!
+    @beers = params[:selected_beers].map { |i| @cellar.beers.find(i) }
+    @beers.each do |b|
+      b.update_attribute(:removed_at, Time.now)
+    end
 
     respond_to do |format|
-      format.html { redirect_to(cellar_path(@user.username)) }
-      format.xml  { head :ok }
+      format.json { render :json => true }
     end
   end
 
