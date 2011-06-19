@@ -155,6 +155,16 @@
       if(!method) {
         method = $(form).attr('method') || 'POST';
       }
+      else if(typeof(method) == 'string') {
+        if(method.toUpperCase() == 'DELETE') {
+          method = 'POST';
+          data['_method'] = 'delete'
+        }
+        else if(method.toUpperCase() == 'PUT'){
+          method = 'POST';
+          data['_method'] = 'put'
+        }
+      }
 
       // Whew, this is crazyness.
       $.ajax({

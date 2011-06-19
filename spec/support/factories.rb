@@ -55,3 +55,8 @@ def create_cellar(attributes={})
 
   Cellar.create(default_attributes.merge(attributes.symbolize_keys))
 end
+
+def new_beer(attributes={})
+  default_attributes = { }
+  Beer.new(default_attributes.merge(attributes.symbolize_keys))
+end

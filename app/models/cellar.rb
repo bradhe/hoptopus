@@ -28,6 +28,14 @@ class Cellar < ActiveRecord::Base
     self.beers.map{|b| b.brewery}.sort {|a,b| a.downcase <=> b.downcase}.uniq
   end
 
+  def active_beers
+    beers.reject { |b| b.removed_at }
+  end
+
+  def removed_beers
+    beers.select { |b| b.removed_at }
+  end
+
   def to_param
     self.user.username
   end

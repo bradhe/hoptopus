@@ -131,7 +131,7 @@ class BeersController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render :json => true }
+      format.json { render :json => @beers.map(&:id) }
     end
   end
 

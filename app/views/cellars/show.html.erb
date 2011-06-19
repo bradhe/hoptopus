@@ -313,8 +313,36 @@ $(function() {
         responseType: 'html'
     });
 
+    var deleteFromCellar = $('#edit-cellar').dynamicForm({
+        success: function(data) {
+          // Remove these from the cellar and repopulate.
+          for(var i = 0; i < data.length; i++) {
+            grid.removeObjectById(data[i]);
+          }
+
+          grid.repopulateTable();
+        },
+        error: function() {
+           alert("We're sorry but an error occured while checking out your beers.");
+        },
+        submitStart: function () {
+            hoptopus.showProgress('Checking Out Beers...');
+        },
+        submitDone: function() {
+            hoptopus.hideProgress();
+        },
+        responseType: 'html'
+    });
+
     $('#edit-beers').click(function() {
-        editCellar[0].submit('<%= edit_cellar_beers_path(@cellar) %>');
+      editCellar[0].submit('<%= edit_cellar_beers_path(@cellar) %>');
+    });
+
+    $('#check-out-beers').click(function() {
+      count = $('#edit-cellar').find('input:checked').length;
+      if(confirm("Are you sure you want to remove " + count + " beer"+(count > 1 ? 's' : '')+' from your cellar?')) {
+        deleteFromCellar[0].submit('<%= cellar_beer_path(@cellar) %>', 'DELETE');
+      }
     });
 });
     </script>
