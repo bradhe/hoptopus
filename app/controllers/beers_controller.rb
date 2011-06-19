@@ -51,7 +51,9 @@ class BeersController < ApplicationController
     respond_to do |format|
       if @beer.valid?
         # Create a new tasting note if one was given.
-        @beer.tasting_notes.create(tasting_note_hash) unless tasting_note_hash.empty?
+        # Clean out all the empty tasting note fields.
+        tasting_note_hash = tasting_note_hash.reject { |k,v| v.empty? }
+        @beer.tasting_notes.create!(tasting_note_hash) unless tasting_note_hash.empty?
 
         # Now respond, boy!
         format.html { redirect_to(cellar_path(@cellar), :notice => 'Beer was successfully created.') }
