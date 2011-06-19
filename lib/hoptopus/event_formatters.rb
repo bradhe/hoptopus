@@ -1,5 +1,5 @@
 module Hoptopus
-	module EventFormatters
+  module EventFormatters
     class EventFormatterBase 
       include ActionView::Helpers::TagHelper
 

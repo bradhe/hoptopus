@@ -34,6 +34,7 @@ module CellarsHelper
 
   private
   def find_most_popular(arr)
+    return nil if arr.empty?
     arr.inject(Hash.new(0)) {|h,i| h[i] += 1; h }.sort_by { |k,v| v }.last.first
   end
 end
