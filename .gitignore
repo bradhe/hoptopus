@@ -7,3 +7,6 @@ tmp/Rack*
 tmp/pids*
 tmp/sass-cache*
 .sass-cache
+tags
+bin
+*.swp
