@@ -1299,6 +1299,14 @@ div.star-rating.beer_tasting_note_preference_rating {
   }
 }
 
+.dashboard {
+  .stats {
+    display: block;
+
+    .left, .right { width: 50% }
+  }
+}
+
 @import "preferences";
 @import "register";
 @import "cellars";

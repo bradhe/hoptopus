@@ -1020,6 +1020,11 @@ div.star-rating.beer_tasting_note_preference_rating {
 #import-cellar .buttons {
   text-align: right; }
 
+.dashboard .stats {
+  display: block; }
+  .dashboard .stats .left, .dashboard .stats .right {
+    width: 50%; }
+
 /* Preferences */
 #save-preferences {
   float: right; }

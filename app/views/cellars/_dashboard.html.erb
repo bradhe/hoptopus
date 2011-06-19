@@ -1,5 +1,37 @@
-<h2 data-tab-handle="activity">Recent Activity</h2>
-<div id="activity">
+<h2 data-tab-handle="dashboard">Dashboard</h2>
+<div id="dashboard">
+  <h3>Statistics</h3>
+  <div class="stats clearfix">
+    <div class="left">
+      <div class="field">
+        <strong>Beers currently in cellar:</strong> <%= @cellar.active_beers.size %>
+      </div>
+
+      <div class="field">
+        <strong>All beers ever added:</strong> <%= @cellar.beers.size %>
+      </div>
+
+      <div class="field">
+        <strong>Oldest beer by year:</strong> <%= oldest_beer(@cellar) %>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="field">
+        <strong>Favorite brewery:</strong> <%= favorite_brewery(@cellar) %>
+      </div>
+
+      <div class="field">
+        <strong>Favorite beer:</strong> <%= favorite_beer(@cellar) %>
+      </div>
+
+      <div class="field">
+        <strong>Favorite style:</strong> <%= favorite_style(@cellar) %>
+      </div>
+    </div>
+  </div>
+
+  <h3>Recent Activity</h3>
   <ul class="events">
     <% if @cellar.user.events.empty? %>
         <li class="empty"><%= is_users_cellar? ? "You don't" : @cellar.user.username + " doesn't" %> have any recent
