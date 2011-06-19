@@ -1,0 +1,58 @@
+<% content_for :title do %>
+  import failed
+<% end %>
+
+<div class="navigation">
+  <%= link_to 'Back to Cellar', cellar_path(@cellar) %>
+  <button type="button" id="import-beers">Re-import File</button>
+</div>
+
+<h2>There was a problem with your import.</h2>
+
+<h3>Invalid Columns</h3>
+
+<p>To fix this problem, edit your file and change these invalid column names to something in the valid column names list below.</p>
+
+<ul>
+  <%- @invalid_columns.sort.each do |c| %>
+    <li><%= c %></li>
+  <%- end %>
+</ul>
+
+<h3>Valid Columns</h3>
+<p>These are the possible column names. Note that the import is case insensitive.</p>
+
+<ul>
+  <%- Beer.importable_column_names.each do |c| %>
+    <li><%= c.gsub('_', ' ').titlecase %></li>
+  <%- end %>
+</ul>
+
+<h3>Your Valid Columns</h3>
+<%- unless @valid_columns.empty? %>
+  <p>These are the columns in your file that were valid and can be imported after you fix the above.</p>
+
+  <ul>
+    <%- @valid_columns.each do |c| %>
+      <li><%= c %></li>
+    <%- end %>
+  </ul>
+<%- else %>
+  <p><strong>All of the columns you tried to import are invalid.</strong></p>
+<%- end %>
+
+<div class="hidden">
+  <%= render 'import' %>
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $('#import-beers').click(function() {
+      $('#import-cellar').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Import your Beer Collection'});
+
+      $('#import-cellar button.cancel').click(function() {
+        $('#import-cellar').dialog('close');
+      });
+    });
+  </script>
+<%- end %>

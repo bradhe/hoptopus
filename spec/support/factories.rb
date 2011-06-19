@@ -47,3 +47,11 @@ def new_beer(attributes={})
 
   Beer.new default_attributes.merge(attributes.symbolize_keys)
 end
+
+def create_cellar(attributes={})
+  default_attributes = {
+    :user_id => create_user.id
+  }
+
+  Cellar.create(default_attributes.merge(attributes.symbolize_keys))
+end

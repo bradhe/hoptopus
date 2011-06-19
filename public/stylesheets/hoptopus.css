@@ -18,6 +18,10 @@ body, p, ol, ul, td, input, select {
   font-size: 13px;
   line-height: 18px; }
 
+ul, ol {
+  padding-left: 17pt;
+  margin: 10pt 0; }
+
 input, select {
   border-top: 2px solid silver;
   border-right: 1px solid silver;

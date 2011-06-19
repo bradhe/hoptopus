@@ -1,4 +1,6 @@
 class Beer < ActiveRecord::Base
+  attr_accessor :imported
+
   ACCEPTED_YEARS_FROM_TODAY = 2
   MAXIMUM_BEER_YEAR = Time.new.year + ACCEPTED_YEARS_FROM_TODAY
   YEAR_OF_OLDEST_BEER = 1800
@@ -16,6 +18,17 @@ class Beer < ActiveRecord::Base
   validates_numericality_of :price, :message => "Please supply a valid price.", :allow_nil => true
 
   after_create do
-    Event.create!(:user => self.user, :source => self, :formatter => BeerAddedEventFormatter)
+    unless imported?
+      Event.create!(:user => self.user, :source => self, :formatter => BeerAddedEventFormatter)
+    end
+  end
+
+  def imported?
+    @imported ||= false
+    @imported
+  end
+
+  def self.importable_column_names
+    Beer.column_names.sort - ['id', 'created_at', 'updated_at', 'cellar_id', 'removed_at']
   end
 end

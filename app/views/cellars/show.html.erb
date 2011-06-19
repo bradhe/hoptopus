@@ -125,10 +125,6 @@ function beerClicked() {
 }
 
 $(function() {
-    $('#import-beers').bind('click', function(e) {
-        $('div.tabs h2[data-tab-handle="upload-cellar"]').click();
-    });
-
     var grid = hoptopus.grid({
         sortable: true,
         table: $('#cellared-beers'),

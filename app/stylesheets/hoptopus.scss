@@ -72,6 +72,11 @@ body, p, ol, ul, td, input, select {
   line-height: 18px;
 }
 
+ul, ol {
+  padding-left: 17pt;
+  margin: 10pt 0;
+}
+
 input, select{
   border-top: 2px solid $lightgray;
   border-right: 1px solid $lightgray;

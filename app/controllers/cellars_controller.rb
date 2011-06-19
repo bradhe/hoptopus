@@ -23,12 +23,23 @@ class CellarsController < ApplicationController
     end
   end
 
+  include ActionView::Helpers::TextHelper
   def import
     @cellar = Cellar.find_by_username(params[:id])
     raise "Import file cannot be nil" if params[:import_file].nil?
 
     values = CSV.read(params[:import_file].tempfile.path)
-    headers = values.shift.map(&:downcase).map{ |h| h.gsub(/[\s\W]+/, '_').to_sym }
+
+    headers = values.shift
+    if @invalid_columns = validate_import_columns(headers)
+      @valid_columns = headers - @invalid_columns
+      render 'cellars/import/invalid_columns' and return
+    end
+
+    # Otherwise, it looks good!
+    headers = headers.map(&:downcase).map{ |h| h.gsub(/[\s\W]+/, '_').to_sym }
+
+    success, failure, skipped = 0, 0, 0
 
     values.each do |beer|
       h = Hash[*headers.zip(beer).flatten]
@@ -54,13 +65,30 @@ class CellarsController < ApplicationController
         end
       end
 
-      unless @cellar.beers.exists?(h)
-        h[:cellared_at] = Time.parse(cellared_at)
-        @cellar.beers.create!(h)
+      begin
+        if @cellar.beers.exists?(h)
+          skipped += 1
+        else
+          h[:cellared_at] = Time.parse(cellared_at)
+
+          # Keep from creating events.
+          h[:imported] = true
+
+          @cellar.beers.create!(h)
+          success += 1
+        end
+      rescue => e
+        # Just log import failure
+        failure += 1
       end
     end
 
-    redirect_to cellar_path(@cellar)
+    notice = ['Import successful!']
+    notice << "#{pluralize(success, "beer")} imported." if(success > 0)
+    notice << "#{pluralize(skipped, "beer")} skipped because they already exist or are duplicates." if(skipped > 0)
+    notice << "Failed to import #{pluralize(failure, "beer")}" if(failure > 0)
+
+    redirect_to cellar_path(@cellar), :notice => notice.join(' ')
   end
 
   # GET /cellars
@@ -110,5 +138,20 @@ class CellarsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @cellar }
     end
+  end
+
+  def validate_import_columns(headers)
+    keys = headers.map(&:downcase).map{ |h| h.gsub(/[\s\W]+/, '_').to_sym }
+    hash = Hash[*keys.zip(headers).flatten]
+
+    invalid_columns = invalid_import_columns(hash.keys.map(&:to_s))
+
+    # Sorry to anyone that sees this in the future
+    return nil if invalid_columns.empty?
+    invalid_columns.map { |key| hash[key.to_sym] }
+  end
+
+  def invalid_import_columns(cols)
+    cols - Beer.importable_column_names
   end
 end

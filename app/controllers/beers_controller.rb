@@ -73,7 +73,7 @@ class BeersController < ApplicationController
       unless params.has_key? :beer
         raise ArgumentError "Need a beers hash!"
       end
-      
+
       beers = params[:beer].map { |k,v| Beer.find k }
       errors = beers.map { |b| {b.id => b.errors} unless b.update_attributes(params[:beer][b.id.to_s]) }
 
@@ -88,7 +88,7 @@ class BeersController < ApplicationController
       end
 
       errors = errors_copy
-      
+
       respond_to do |format|
         if errors.empty?
           # No errors, hurray! We have to render SOMETHING tho or else jQuery gets all pissy.
@@ -99,17 +99,17 @@ class BeersController < ApplicationController
       end
     else
       # UPDATE A SINGLE BEER
-      
+
       # This is kind of gross, but cleans up nicely.
       if params[:beer][:price] =~ /^\$/
         params[:beer][:price] = params[:beer][:price][1,(params[:beer][:price].length - 1)]
       end
-      
+
       @beer = Beer.find(params[:id])
 
       # We need to keep track of this for a bit...
       quantity = @beer.quantity
-      
+
       respond_to do |format|
         if @beer.update_attributes(params[:beer])
           format.html { redirect_to(cellar_beer_path(@cellar, @beer), :notice => "#{@beer.brew.name} has been updated!") }
@@ -124,7 +124,7 @@ class BeersController < ApplicationController
 
   def destroy
     @beer = Beer.find(params[:id])
-    
+
     # Beers don't get deleted, they just get removed from the cellar.
     @beer.removed_at = Time.now
     @beer.save!
@@ -134,7 +134,7 @@ class BeersController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private 
   def load_cellar
     unless params.has_key? :cellar_id
