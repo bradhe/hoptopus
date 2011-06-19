@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     cellar.beers
   end
 
+  def time_zone
+    'Pacific Time (US & Canada)'
+  end
+
   def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end

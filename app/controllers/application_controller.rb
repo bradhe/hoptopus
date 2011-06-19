@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   helper :all
-  before_filter :restore_session, :ensure_confirmed
+  before_filter :restore_session, :ensure_confirmed, :restore_time_zone
 
   def restore_session
     begin
@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     rescue ActiveRecord::RecordNotFound => e
       session[:user_id] = nil
     end
+  end
+
+  def restore_time_zone
+    Time.zone = current_user.time_zone if current_user
   end
 
   def ensure_confirmed
