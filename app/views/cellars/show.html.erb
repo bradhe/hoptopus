@@ -17,17 +17,17 @@
 
 <% if is_users_cellar? %>
   <% alert 'welcome' do %>
-      <h3>Welcome to Hoptopus!</h3>
-      <p>There are a few things you can do to get up and running quickly with hoptopus.<p>
+    <h3>Welcome to Hoptopus!</h3>
+    <p>There are a few things you can do to get up and running quickly with hoptopus.<p>
 
-      <ul>
-        <li><strong>Upload your cellar.</strong> You can import your cellar under the "Upload Cellar" tab below. This
-          will help you get your cellar inventory in place quickly so you can start sharing and trading with people.
-        </li>
-        <li><strong>Browse other peoples' cellars.</strong> See what other people in the hoptopus community are
-          cellaring and compare notes on how long you should plan to age your beers.
-        </li>
-      </ul>
+    <ul>
+      <li><strong>Upload your cellar.</strong> You can import your cellar under the "Upload Cellar" tab below. This
+        will help you get your cellar inventory in place quickly so you can start sharing and trading with people.
+      </li>
+      <li><strong>Browse other peoples' cellars.</strong> See what other people in the hoptopus community are
+        cellaring and compare notes on how long you should plan to age your beers.
+      </li>
+    </ul>
   <% end %>
 
   <%= alert 'my_cellar' do %>
@@ -142,7 +142,7 @@ $(function() {
         rowClicked: beerClicked
     });
 
-    var beers = <%== cellar_beers_as_json(@cellar) %>;
+    var beers = <%== active_beers_as_json(@cellar) %>;
     var breweries = <%== @cellar.breweries.to_json %>;
     grid.rowClasses = ['color1', 'color2'];
     grid.init({beers: beers, breweries: breweries});

@@ -46,7 +46,7 @@
       </thead>
 
       <tbody>
-        <%- if @cellar.beers.empty? %>
+        <%- if @cellar.active_beers.empty? %>
           <tr>
             <td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
               <%- if is_users_cellar? %>

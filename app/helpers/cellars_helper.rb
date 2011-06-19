@@ -11,7 +11,7 @@ module CellarsHelper
     return "http://" + full_host + "/cellars/" + @cellar.user.username
   end
 
-  def cellar_beers_as_json(cellar)
-    cellar.beers.map(&:as_json).map{|b|b['beer']}.to_json
+  def active_beers_as_json(cellar)
+    cellar.active_beers.map(&:as_json).map{|b|b['beer']}.to_json
   end
 end
