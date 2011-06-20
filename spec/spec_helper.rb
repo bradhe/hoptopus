@@ -11,7 +11,8 @@ RSpec.configure do |config|
   config.extend RSpec::SignInAs::ClassMethods
   config.include RSpec::SignInAs::InstanceMethods
 
-  config.mock_with :rspec
+  #config.mock_with :rspec
+  config.mock_with :mocha
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
 end

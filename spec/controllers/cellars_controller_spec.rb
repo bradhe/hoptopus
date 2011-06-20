@@ -3,9 +3,9 @@ require 'spec_helper'
 def mock_file_upload(file_name)
   full_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'fixtures', 'cellar_import', file_name))
 
-  uploader = mock(Object, :original_path => full_path, :content_type => 'text/csv')
-  tempfile_mock = mock(Object, :path => full_path)
-  uploader.stub(:tempfile).and_return(tempfile_mock)
+  uploader = stub(:original_path => full_path, :content_type => 'text/csv')
+  tempfile_mock = stub(:path => full_path)
+  uploader.stubs(:tempfile).returns(tempfile_mock)
 
   def uploader.read
     File.read(original_path)

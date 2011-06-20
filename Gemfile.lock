@@ -88,6 +88,7 @@ GEM
     maruku (0.6.0)
       syntax (>= 1.0.0)
     mime-types (1.16)
+    mocha (0.9.12)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -188,6 +189,7 @@ DEPENDENCIES
   jasmine
   log4r
   maruku
+  mocha
   mongrel
   mysql
   oauth2!

@@ -7,15 +7,15 @@ describe AuthController do
 
   describe '#login' do
     it 'should call login_user when there is a successful login' do
-      User.stub(:authenticate_without_password_hash).and_return(@user)
-      @controller.should_receive(:login_user).with(@user)
+      User.stubs(:authenticate_without_password_hash).returns(@user)
+      @controller.expects(:login_user).with(@user)
 
       post :login
     end
 
     it 'should redirect to the users cellar on successful login' do
-      User.stub(:authenticate_without_password_hash).and_return(@user)
-      @controller.stub(:login_user) # don't do anything -- this might send an email.
+      User.stubs(:authenticate_without_password_hash).returns(@user)
+      @controller.stubs(:login_user) # don't do anything -- this might send an email.
       post :login
       @response.should be_redirect
     end
@@ -41,10 +41,10 @@ describe AuthController do
   describe '#register' do
     it 'should not try to save if the model is invalid' do
       obj = Object.new # mock model
-      obj.should_receive(:valid?).and_return false
-      obj.should_not_receive(:save!)
+      obj.expects(:valid?).returns false
+      obj.expects(:save!).never
 
-      User.stub(:new).and_return obj
+      User.stubs(:new).returns obj
 
       post :register
       @response.should render_template('register')
@@ -59,12 +59,12 @@ describe AuthController do
         :email_confirmation => 'test@test.com' 
       }
 
-      # Stub login incase it's called too
-      @controller.stub(:login_user)
+      # stubs login incase it's called too
+      @controller.stubs(:login_user)
 
       fake_email = Object.new
-      fake_email.stub(:deliver)
-      Notifications.stub(:user_registered).and_return(fake_email)
+      fake_email.stubs(:deliver)
+      Notifications.stubs(:user_registered).returns(fake_email)
 
       lambda {
         post :register, { :user => user }
