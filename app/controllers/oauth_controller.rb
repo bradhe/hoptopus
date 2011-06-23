@@ -2,7 +2,7 @@ class OauthController < ApplicationController
   before_filter :ensure_hoptopus_domain
 
   def facebook_connect
-    redirect_to client.auth_code.authorize_url(:redirect_uri => facebook_return_url, :scope => 'email,offline_access')
+    redirect_to client.web_server.authorize_url(:redirect_uri => facebook_return_url, :scope => 'email,offline_access')
   end
 
   def facebook_register
@@ -63,7 +63,7 @@ class OauthController < ApplicationController
       return
     end
 
-    access_token = client.auth_code.get_token(params[:code], :redirect_uri => facebook_return_url)
+    access_token = client.web_server.get_access_token(params[:code], :redirect_uri => facebook_return_url)
     facebook = JSON.parse access_token.get('/me')
 
     # Do login stuff here.
