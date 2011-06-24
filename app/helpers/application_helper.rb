@@ -107,4 +107,8 @@ module ApplicationHelper
   def beer_title(beer)
     "#{beer.year} #{beer.name}".strip
   end
+
+  def date(d)
+    d ? d.strftime("%Y-%m-%d") : nil
+  end
 end

@@ -5,6 +5,7 @@
 
     var settings = {
       pageSelector: null,
+      pageChanged: null,
       dialogOptions: null
     };
 
@@ -34,7 +35,6 @@
 
       // Change current page.
       $(d.links[currentPage]).addClass('selected');
-
       $(pages[currentPage]).show();
 
       // If the current page is now the last page or the first page disable the prev or next button.
@@ -50,6 +50,10 @@
       }
       else if(d.nextButton && d.nextButton.is(':hidden')) {
         d.nextButton.show();
+      }
+
+      if($.isFunction(settings.pageChanged)) {
+        settings.pageChanged();
       }
     }
 
