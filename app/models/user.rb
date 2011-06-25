@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessor :password
+  attr_accessor :password, :use_short_validation
 
   has_one :cellar, :dependent => :destroy
   has_many :events, :order => 'created_at DESC'
@@ -14,9 +14,9 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 
   # We do not want to do these for OAuth clients
-  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? and !u.password_hash }
-  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? and !u.password_hash }
-  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| !u.password_hash and u.facebook_id.nil? }
+  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.confirm_password? }
+  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.confirm_password? }
+  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.confirm_password? }
 
   validates_confirmation_of :email, :message => 'Emails do not match.'
   
@@ -54,6 +54,14 @@ class User < ActiveRecord::Base
 
   def beers
     cellar.beers
+  end
+
+  def use_short_validation?
+    user_short_validation
+  end
+
+  def confirm_password?
+    !(!!facebook_id or !!password_hash or use_short_validation?)
   end
 
   def time_zone
