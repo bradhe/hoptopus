@@ -30,6 +30,24 @@ describe User do
       @user.should be_valid
       @user.errors[:password].should_not be_present
     end
+
+    it 'should require a password if use_short_validation is true' do
+      @user.password = nil
+      @user.password_confirmation = nil
+      @user.use_short_validation = true
+
+      @user.should_not be_valid
+      @user.errors[:password].length.should == 1
+    end
+
+    it 'should require a password confirmation if use_short_validation is false' do
+      @user.password = "test_password"
+      @user.password_confirmation = nil
+      @user.use_short_validation = false
+
+      @user.should_not be_valid
+      @user.errors[:password_confirmation].length.should == 1
+    end
   end
 
   describe '#has_alert?' do

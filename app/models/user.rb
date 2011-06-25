@@ -8,18 +8,19 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
   validates_length_of :username, :in => 4..16, :message => 'Usernames must be between 4 and 16 characters long.'
-  validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!'
+  validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!', :if => Proc.new { |u| u.confirm_email? }
   validates_format_of :username, :with => /^\S+$/, :message => 'No spaces allowed in username.'
   validates_uniqueness_of :email, :case_sensitive => false, :message => 'There is already an account with that email address.'
   validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 
   # We do not want to do these for OAuth clients
-  validates_presence_of :password, :message => 'Please provide a password.', :if => Proc.new { |u| u.confirm_password? }
-  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => Proc.new { |u| u.confirm_password? }
-  validates_length_of :password, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.confirm_password? }
+  validates_presence_of :password, :message => 'Please provide a password.', :if => :require_password?
+  validates_length_of :password, :minimum => 4, :allow_nil => true, :message => 'Passwords must be at least 4 characters long.', :if => :require_password?
+  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => :confirm_password?
+  validates_presence_of :password_confirmation, :message => 'Please confirm your password.', :if => :confirm_password?
 
   validates_confirmation_of :email, :message => 'Emails do not match.'
-  
+
   before_create do
     self.password_hash = User.hash_password(password) if password
   end
@@ -57,11 +58,19 @@ class User < ActiveRecord::Base
   end
 
   def use_short_validation?
-    user_short_validation
+    use_short_validation
   end
 
   def confirm_password?
-    !(!!facebook_id or !!password_hash or use_short_validation?)
+    require_password? and !use_short_validation?
+  end
+
+  def require_password?
+    !facebook_id and !password_hash
+  end
+
+  def confirm_email?
+    use_short_validation?
   end
 
   def time_zone
