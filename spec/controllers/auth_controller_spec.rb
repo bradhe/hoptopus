@@ -39,12 +39,9 @@ describe AuthController do
   end
 
   describe '#register' do
-    it 'should not try to save if the model is invalid' do
-      obj = Object.new # mock model
-      obj.expects(:valid?).returns false
-      obj.expects(:save!).never
-
-      User.stubs(:new).returns obj
+    it 'should re-render the register template if the model is invalid' do
+      obj = mock(:valid? => false)
+      User.stubs(:create).returns obj
 
       post :register
       @response.should render_template('register')

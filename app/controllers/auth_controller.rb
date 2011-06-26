@@ -26,7 +26,7 @@ class AuthController < ApplicationController
 
     if request.post?
       # Use short validation from now on.
-      params[:user][:use_short_validation] = true
+      params[:user][:use_short_validation] = true if params[:user]
       @new_user = User.create(params[:user])
 
       if @new_user.valid?
