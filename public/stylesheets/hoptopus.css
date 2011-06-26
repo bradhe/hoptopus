@@ -517,35 +517,63 @@ ul.all-cellars {
 .color1 {
   background-color: #dff2b3; }
 
-.more-info p.note {
-  margin-bottom: 0; }
-
 .color2 {
   background-color: #f2e4b3; }
 
-.more-info p.note, .more-info p.tag {
-  font-size: 16pt;
-  line-height: 24pt;
-  font-style: normal;
-  overflow: hidden; }
+.more-info {
+  overflow: hidden;
+  padding-left: 5pt; }
+  .more-info p.note, .more-info h2.tag {
+    font-size: 16pt;
+    line-height: 24pt;
+    font-style: normal;
+    overflow: hidden;
+    margin-bottom: 0;
+    border-bottom: none; }
+  .more-info h2.tag {
+    color: #cec48d; }
+  .more-info span.note {
+    font-size: 10pt;
+    color: #999;
+    line-height: 17pt; }
+  .more-info ul {
+    overflow: hidden;
+    padding-left: 35px;
+    margin-top: 0; }
+  .more-info li {
+    margin-top: 5pt;
+    line-height: 14pt; }
+  .more-info .signup {
+    margin-top: 20px; }
+    .more-info .signup label {
+      font-weight: bold; }
+    .more-info .signup .buttons {
+      text-align: right; }
 
-.more-info p.tag {
-  margin-bottom: 0; }
-
-.more-info span.note {
-  font-size: 10pt;
-  color: #999;
-  line-height: 17pt; }
-
-.more-info ul {
-  margin-left: 25pt; }
-
-.more-info li {
-  margin-top: 10pt;
-  font-size: 14pt;
-  line-height: 16pt;
-  font-style: italic;
-  color: #85af22; }
+.newsletter {
+  float: left;
+  position: relative;
+  top: -100px;
+  left: 10px; }
+  .newsletter h2, .newsletter span.note {
+    border-bottom: 0;
+    display: block;
+    clear: both;
+    margin-bottom: 3px; }
+  .newsletter h2 {
+    margin-bottom: 0;
+    font-size: 20pt; }
+  .newsletter img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block; }
+  .newsletter .newsletter span.note {
+    margin-bottom: 5pt; }
+  .newsletter .newsletter span.error {
+    display: block;
+    color: #f00; }
+  .newsletter input {
+    width: 225px; }
 
 .second {
   margin-top: 20pt; }
@@ -680,34 +708,6 @@ table.cellars.list td {
     font-style: italic; }
   .cellar .buttons .left {
     margin-right: 15pt; }
-
-.newsletter h2, .newsletter span.note {
-  border-bottom: 0;
-  display: block;
-  clear: both; }
-.newsletter h2 {
-  margin-bottom: 0;
-  font-size: 20pt; }
-.newsletter img {
-  margin-left: auto;
-  margin-right: auto;
-  display: block; }
-
-.newsletter span.note {
-  margin-bottom: 5pt; }
-
-.newsletter span.error {
-  display: block;
-  color: #f00; }
-
-.newsletter {
-  margin-top: 20pt;
-  display: table;
-  margin-left: auto;
-  margin-right: auto; }
-
-.newsletter input {
-  width: 225px; }
 
 .editable input {
   border: 0;

@@ -7,21 +7,43 @@
 <div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
 
 <div class="more-info">
-    <p class="tag">Hoptopus makes it easy for you to get the most out of your beer cellar!</p>
-    
-    <span class="note">Track your beer collection. Share tasting and aging notes. Track where your beers are in the aging process. Discover new beers with recomendations and reviews from other users.</span>
-    
+    <h2 class="tag">Hoptopus makes it easy for you to get the most out of your beer cellar!</h2>
+
+    <ul>
+      <li>Track your beer collection.</li>
+      <li>Share tasting and aging notes.</li>
+      <li>Track where your beers are in the aging process.</li>
+      <li>Discover new beers with recomendations and reviews from other users.</li>
+    </ul>
+
     <div class="signup">
-        <%= link_to 'Create a Free Account!', register_path, :class => 'homepage-register' %>
-        
-        <span class="or">or</span>
-        
-        <%= link_to 'Have a Look Around!', cellars_path, :class => 'homepage-lookaround' %>
+      <h3>Create Your Free Hoptopus Account</h3>
+        <% form_for(User.new, :url => register_path) do |f| %>
+          <%= f.hidden_field :email_consent, :value => true %>
+
+          <div class="field">
+            <%= f.label :username, "Username:" %>
+            <%= f.text_field :username %>
+          </div>
+
+          <div class="field">
+            <%= f.label :email, "Email Address:" %>
+            <%= f.email_field :email %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password, "Password:" %>
+            <%= f.password_field :password %>
+          </div>
+
+          <div class="buttons">
+            <%= submit_tag 'Register' %>
+          </div>
+        <% end %>
     </div>
 </div>
 
 <div class="newsletter">
-  <h2>Keep Up with Hoptopus</h2>
   <span class="note">Sign up for the hoptopus newsletter!</span>
 
   <div class="wrapper">

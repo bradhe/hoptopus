@@ -25,9 +25,11 @@ class AuthController < ApplicationController
     @new_user = User.new 
 
     if request.post?
-      @new_user = User.new(params[:user])
+      # Use short validation from now on.
+      params[:user][:use_short_validation] = true
+      @new_user = User.create(params[:user])
 
-      if @new_user.valid? and @new_user.save!
+      if @new_user.valid?
         login_user @new_user
 
         # Alert that there was a registration

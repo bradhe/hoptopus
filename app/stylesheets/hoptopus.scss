@@ -616,42 +616,97 @@ ul.all-cellars {
   background-color: #dff2b3;
 }
 
-.more-info p.note {
-  margin-bottom: 0;
-}
-
 .color2 {
   background-color: #f2e4b3;
 }
 
-.more-info p.note, .more-info p.tag{
-  font-size: 16pt;
-  line-height: 24pt;
-  font-style: normal;
-overflow: hidden;
+.more-info {
+  overflow: hidden;
+  padding-left: 5pt;
+
+  p.note, h2.tag{
+    font-size: 16pt;
+    line-height: 24pt;
+    font-style: normal;
+    overflow: hidden;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  h2.tag {
+    color: $dark-tan;
+  }
+
+  span.note {
+    font-size: 10pt;
+    color: #999;
+    line-height: 17pt;
+  }
+
+  ul {
+    overflow: hidden;
+    padding-left: 35px;
+    margin-top: 0;
+  }
+
+  li {
+    margin-top: 5pt;
+    line-height: 14pt;
+  }
+
+  .signup {
+    margin-top: 20px;
+
+    label {
+      font-weight: bold;
+    }
+
+    .buttons {
+      text-align: right;
+    }
+  }
 }
 
-.more-info p.tag {
-  margin-bottom: 0;
+.newsletter {
+  float: left;
+  position: relative;
+  top: -100px;
+  left: 10px;
+
+  h2, span.note {
+    border-bottom: 0;
+    display: block;
+    clear: both;
+    margin-bottom: 3px;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-size: 20pt;
+  }
+
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .newsletter span.note {
+    margin-bottom: 5pt;
+  }
+
+  .newsletter span.error {
+    display: block;
+    color: #f00;
+  }
+
+  input {
+    width: 225px;
+  }
 }
 
 
-.more-info span.note {
-  font-size: 10pt;
-color: #999;
-       line-height: 17pt;
-}
-.more-info ul {
-  margin-left: 25pt;
-}
 
-.more-info li {
-  margin-top: 10pt;
-  font-size: 14pt;
-  line-height: 16pt;
-  font-style: italic;
-color: $green;
-}
 
 .second {
   margin-top: 20pt;
@@ -805,45 +860,6 @@ table.cellars.list td {
   .buttons .left {
     margin-right: 15pt;
   }
-}
-
-.newsletter {
-  h2, span.note {
-    border-bottom: 0;
-display: block;
-clear: both;
-  }
-
-  h2 {
-    margin-bottom: 0;
-    font-size: 20pt;
-  }
-
-  img {
-    margin-left: auto;
-    margin-right: auto;
-display: block;
-  }
-}
-
-.newsletter span.note {
-  margin-bottom: 5pt;
-}
-
-.newsletter span.error {
-display: block;
-color: #f00;
-}
-
-.newsletter {
-  margin-top: 20pt;
-display: table;
-         margin-left: auto;
-         margin-right: auto;
-}
-
-.newsletter input {
-width: 225px;
 }
 
 .editable input {
