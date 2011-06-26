@@ -90,7 +90,8 @@ class OauthController < ApplicationController
     @client ||= OAuth2::Client.new(
       '54b28e424661a9bbd0b3d4848d1d19e9', 
       '3fc612064afc4075d9656eb1c6debf12', 
-      :site => 'https://graph.facebook.com'
+      :site => 'https://graph.facebook.com',
+      :ssl => {:ca_path => '/etc/ssl/certs' } # Patch for production enviros
     )
   end
 
