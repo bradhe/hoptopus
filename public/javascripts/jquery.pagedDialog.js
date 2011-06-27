@@ -76,6 +76,9 @@
       prevSpan = $('<span/>').addClass('prev');
       nextSpan = $('<span/>').addClass('next');
 
+      // Save for later
+      settings.pageNumbers = pageNumbers;
+
       pageButtons.append(prevSpan);
       pageButtons.append(pageNumbers);
       pageButtons.append(nextSpan);
@@ -129,6 +132,8 @@
     };
 
     d.rebuildLinks = function(newPages, container) {
+      container = container || settings.pageNumbers;
+
       if(newPages) {
         pages = newPages;
       }
@@ -139,7 +144,7 @@
       if(d.links) {
         // Remove the current links since there are some defined.
         var l = d.links.length;
-        
+
         for(var i = 0; i < l; i++) {
           $(d.links[i]).remove();
         }

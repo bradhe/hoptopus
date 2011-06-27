@@ -6,17 +6,22 @@ class OauthController < ApplicationController
   end
 
   def facebook_register
-    if request.post? and @new_user = User.create(session[:registration])
-      @new_user.save!
-      Notifications.user_registered(@new_user).deliver
+    if request.post?
+      @new_user = User.new(session[:registration].merge(params[:user]))
 
-      # Also clean up their session.
-      session.delete(:registration)
+      if @new_user.valid?
+        @new_user.save!
 
-      # Finally, log in the guy.
-      login_user(@new_user)
+        Notifications.user_registered(@new_user).deliver
 
-      redirect_to root_path
+        # Also clean up their session.
+        session.delete(:registration)
+
+        # Finally, log in the guy.
+        login_user(@new_user)
+
+        redirect_to root_path
+      end
     elsif request.post?
       # Clear this to prevent some strange behavior.
       @new_user.username = nil

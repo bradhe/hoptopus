@@ -755,5 +755,20 @@ hoptopus.grid = function(options) {
     g.beers = arrayRemove(g.beers, idx);
   };
 
+  g.updateObjects = function(objs) {
+    var len = this.beers.length;
+    var idx = -1;
+
+
+    for(var i = 0; i < objs.length; i++) {
+      for(var j = 0; j < len; j++) {
+        if(objs[i].id == this.beers[j].id) {
+          this.beers[j] = objs[i];
+          break;
+        }
+      }
+    }
+  };
+
   return g;
 }

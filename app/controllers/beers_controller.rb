@@ -94,7 +94,7 @@ class BeersController < ApplicationController
       respond_to do |format|
         if errors.empty?
           # No errors, hurray! We have to render SOMETHING tho or else jQuery gets all pissy.
-          format.json { render :json => {:success => true}, :status => :ok }
+          format.json { render :json => beers, :status => :ok }
         else
           format.json { render :json => { :errors => errors }, :status => :unprocessable_entity }
         end

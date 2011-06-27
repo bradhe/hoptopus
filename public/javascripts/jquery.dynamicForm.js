@@ -97,6 +97,36 @@
       return data;
     }
 
+    function onError(jqXHR, textStatus, errorThrown) {
+      if(settings.responseType == 'json') {
+        // Get the response text and turn it in to JSON.
+        var json = null;
+
+        try {
+          json = JSON.parse(jqXHR.responseText);
+        }
+        catch(err) {
+          // Just fail I guess...
+          //throw "Failed to parse JSON message '" + jqXHR.responseText + "' Error: " + err;
+        }
+
+        if(json != null) {
+          populateErrorList(json);
+        }
+
+        // Send across the errors too.
+        if($.isFunction(settings.error)) {
+          settings.error(json);
+        }
+      }
+      else {
+        // Send across the errors too.
+        if($.isFunction(settings.error)) {
+            settings.error(jqXHR.responseText);
+        }
+      }
+    }
+
     function populateErrorList(errors) {
       if(!settings.autoShowErrors || !settings.errorListSelector || !errors) {
         return false;
@@ -186,35 +216,7 @@
             settings.success(data, request, status);
           }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            if(settings.responseType == 'json') {
-              // Get the response text and turn it in to JSON.
-              var json = null;
-
-              try {
-                json = JSON.parse(jqXHR.responseText);
-              }
-              catch(err) {
-                // Just fail I guess...
-                //throw "Failed to parse JSON message '" + jqXHR.responseText + "' Error: " + err;
-              }
-
-              if(json != null) {
-                populateErrorList(json);
-              }
-
-              // Send across the errors too.
-              if($.isFunction(settings.error)) {
-                  settings.error(json);
-              }
-            }
-            else {
-              // Send across the errors too.
-              if($.isFunction(settings.error)) {
-                  settings.error(jqXHR.responseText);
-              }
-            }
-        }
+        error: onError
       });
 
       return false;
