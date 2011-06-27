@@ -24,10 +24,10 @@
         <th>Email Address</th>
         <th>Joined Date</th>
         <th>Last Login Date</th>
-		<th>Confirmed?</th>
+        <th>Confirmed?</th>
       </tr>
     </thead>
-    
+
     <tbody>
       <% c = 'color2' %>
       <% @users.each do |u| %>
@@ -38,9 +38,9 @@
         <td align="center" class="admincell"><%= image_tag('/images/check.png', {}) if u.admin?  %></td>
         <td><%= u.username %></td>
         <td><%= u.email %></td>
-        <td><%= u.created_at %></td>
-        <td><%= u.last_login_at %></td>
-		<td align="center"><%= image_tag('/images/check.png', {}) if u.confirmed? %></td>
+        <td><%= format_date(u.created_at) %></td>
+        <td><%= format_date(u.last_login_at) %></td>
+        <td align="center"><%= image_tag('/images/check.png', {}) if u.confirmed? %></td>
       </tr>
       <% end %>
     </tbody>
