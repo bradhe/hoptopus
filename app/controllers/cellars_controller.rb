@@ -100,8 +100,8 @@ class CellarsController < ApplicationController
       @recent_events = []
     end
 
-    @newest_cellars = Cellar.newest.all.distribute(4)
-    @largest_cellars = Cellar.oldest.all.distribute(4)
+    @newest_cellars = Cellar.newest.first(25).distribute(5)
+    @largest_cellars = Cellar.largest.first(25).distribute(5)
 
     respond_to do |format|
       format.html # index.html.erb

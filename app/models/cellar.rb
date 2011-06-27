@@ -13,6 +13,10 @@ class Cellar < ActiveRecord::Base
     order(:created_at).limit(15)
   end
 
+  def self.largest
+    all.sort!{ |a,b| b.beers.count <=> a.beers.count }
+  end
+
   def self.find_by_user(user)
     return nil if user.nil?
     Cellar.find_by_user_id(user.id)
