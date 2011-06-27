@@ -184,14 +184,10 @@ $(function() {
        },
        success: function(data) {
            dialog.dialog('close');
+           grid.beers.push(data.beer);
+           grid.repopulateTable();
 
-           // Add this silly row to the silly thing.
-           // TODO: Remove this stupid de-referencing!
-           var tr = grid.addSingleObject(data.beer, {front:true});
-
-           // We need to pulse the TR to make it obvious what it is.
-           var bg = tr[0].style.backgroundColor;
-           tr.effect('highlight', {color:'#85af22'}, 1500);
+           // Clear errors.
            dialog.find('form').each(function() { this.reset(); });
            dialog.find('ul.errors').empty();
 
