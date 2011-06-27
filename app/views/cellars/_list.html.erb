@@ -11,7 +11,7 @@
       <div class="left">
         <button type="button" id="edit-beers" disabled>Edit Selected</button>
         <button type="button" id="new-tasting-note" disabled>New Tasting Note</button>
-        <button type="button" id="check-out-beers" disabled>Check Out Selected</button>
+        <button type="button" id="check-out-beers" disabled>Remove Selected</button>
       </div>
     <% end %>
     <button type="button" id="clear-filters">Clear Filters</button>
@@ -50,9 +50,9 @@
           <tr>
             <td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
               <%- if is_users_cellar? %>
-                You haven't added any beer to your cellar yet! User the "Add Beer to your Cellar" tab to add beer.
+                You haven't added any beer to your cellar yet! Click "Add Beer" to get started.
               <%- else %>
-                There is no beer in this cellar yet.
+                There are no beer in this cellar.
               <%- end %>
             </td>
           </tr>

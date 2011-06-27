@@ -10,5 +10,5 @@ tmp/sass-cache*
 *.swp
 tags
 bin/*
-public/stylesheets/*.css
+public/stylesheets/*
 config/database.yml

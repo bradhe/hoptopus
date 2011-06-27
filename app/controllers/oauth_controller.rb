@@ -33,9 +33,8 @@ class OauthController < ApplicationController
 
   def associate_facebook_with_account
     email, password = params[:email], params[:password]
-    user = User.authenticate_without_password_hash email, password
 
-    if user
+    if user = User.authenticate_without_password_hash(email, password)
       user.facebook_id = session[:registration][:facebook_id]
       user.save!
 

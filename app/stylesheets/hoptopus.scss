@@ -46,6 +46,23 @@ $error-fg: $white;
   }
 }
 
+@mixin gradient-top-bottom($top-color,$bottom-color) {
+  /* fallback */
+  background-color: $top-color;
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, $top-color, $bottom-color);
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, top, bottom, from($top-color), to($bottom-color));
+
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-linear-gradient(top, $top-color, $bottom-color);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, $top-color, $bottom-color);
+}
+
 @mixin rounded-corners($radius: 5px) {
   -moz-border-radius: $radius;
   -webkit-border-radius: $radius;
@@ -84,6 +101,16 @@ input, select{
   border-bottom: 1px solid $lightgray;
   border-radius: .4em;
   padding: .3em .3em;
+  outline: none;
+
+  @include gradient-top-bottom($white, $grey-highlight);
+
+  &:focus {
+    border-top: 2px solid $tan;
+    border-right: 1px solid $tan;
+    border-left: 2px solid $tan;
+    border-bottom: 1px solid $tan;
+  }
 }
 
 td select, td input {
@@ -184,6 +211,45 @@ display: table;
          margin-right: auto;
 }
 
+img.facebook {
+  width: 35px;
+  height: 35px;
+}
+
+.facebook.field {
+  font-weight: bold;
+  margin-bottom: 10pt;
+
+  .label, label {
+    width: 170px;
+    font-weight: normal;
+  }
+
+  .label {
+    text-align: right;
+    margin-bottom: 10pt;
+
+    img {
+      position: relative;
+      top: 17px;
+      margin-right: 10px;
+      border: 1px $dark-grey solid;
+      background-color: $grey-highlight;
+      padding: 2pt;
+
+    }
+  }
+
+  p.note {
+    width: 397px;
+    font-weight: normal;
+  }
+}
+
+.facebook.centered {
+  margin-top: 20pt;
+}
+
 img.datepicker {
 position: relative;
 top: 2px;
@@ -261,6 +327,10 @@ clear: both;
 }
 
 h2.tastings {
+  margin-top: 10pt;
+}
+
+h2.register-facebook, h3.register-facebook {
   margin-top: 10pt;
 }
 
@@ -361,9 +431,9 @@ display: inline;
   float: right;
 }
 
-label {
-display: inline-block;
-width: 125px;
+label, span.label {
+  display: inline-block;
+  width: 125px;
 }
 
 #top h1, h1 a {
@@ -515,19 +585,44 @@ h2 a {
 outline: none;
 }
 
-div.login, div.reset-password {
-  @include rounded-corners(5pt);
-  margin-top: 15pt;
-  background-color: $tan;
-  padding: 5pt;
-
-  border: 1px $dark-tan solid;
+div.auth {
+  margin-top: 10pt;
   margin-left: auto;
   margin-right: auto;
-  display: table;
 
-  input.login {
-    @include buttonize($green, $green-highlight, $green)
+  div.login, div.register {
+    width: 420px;
+  }
+
+  input {
+    width: 214px;
+
+    &.submit {
+      width: auto;
+    }
+  }
+
+  div.login {
+    margin-top: 22px;
+
+    input.login {
+      @include buttonize($green, $green-highlight, $green)
+    }
+  }
+
+  div.register {
+    padding-right: 10pt;
+    margin-right: 10pt;
+    border-right: 1px $tan solid;
+
+    form#new_user {
+      float: none;
+      margin-left: none;
+    }
+
+    .buttons {
+      text-align: right;
+    }
   }
 }
 
@@ -654,24 +749,44 @@ ul.all-cellars {
     line-height: 14pt;
   }
 
-  .signup {
-    margin-top: 20px;
+  p.tour {
+    text-align: center;
+    padding-top: 5pt;
 
-    label {
-      font-weight: bold;
-    }
+    a {
+      @include rounded-corners;
+      @include buttonize($green, $green-highlight);
+      padding: 8pt 20pt;
+      font-size: 16pt;
+      text-decoration: none;
 
-    .buttons {
-      text-align: right;
+      &:hover {
+        color: $green-highlight;
+      }
     }
+  }
+}
+
+.front-page.signup {
+  text-align: center;
+  float: right;
+  position: relative;
+  right: 92px;
+
+  label {
+    font-weight: bold;
+  }
+
+  .buttons {
+    text-align: right;
   }
 }
 
 .newsletter {
   float: left;
   position: relative;
-  top: -100px;
-  left: 10px;
+  top: 20px;
+  left: 65px;
 
   h2, span.note {
     border-bottom: 0;
@@ -931,7 +1046,8 @@ color: #f00;
 }
 
 .logo {
-border: 1px #86673F solid;
+  border: 1px #86673F solid;
+  background-color: $tan;
 }
 
 a.dismiss-alert {
@@ -1156,7 +1272,7 @@ li.connect span.or {
     float: right;
   }
 
-  h3 {
+  h3, h3 a {
     margin-top: 10pt;
     margin-bottom: 5pt;
     border-bottom: 1px solid #ccc;
@@ -1174,6 +1290,10 @@ li.connect span.or {
   input.bottle-size {
     width: 100px;
   }
+
+  input.beer, input.brewery {
+    width: 400px;
+  }
 }
 
 .ui-dialog {
@@ -1189,7 +1309,26 @@ li.connect span.or {
   div.tasting-note {
     border-bottom: none;
     padding-bottom: 0;
-    width: 650px;
+    min-width: 650px;
+
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+  }
+}
+
+#remove-beers {
+  width: 650px;
+
+  label {
+    width: auto;
+  }
+
+  p.note {
+    margin-left: 18px;
+    width: 600px;
+    margin-bottom: 20pt;
   }
 }
 
@@ -1320,6 +1459,10 @@ div.star-rating.beer_tasting_note_preference_rating {
     display: block;
 
     .left, .right { width: 50% }
+  }
+
+  p.stats.note {
+    margin-bottom: 10pt;
   }
 }
 

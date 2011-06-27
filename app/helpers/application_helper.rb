@@ -74,11 +74,8 @@ module ApplicationHelper
   def gravatar_for(user, options = {})
     options = { :alt => 'avatar', :class => 'avatar' }.merge! options
 
-    unless options.has_key?(:size) 
-      options[:size] = 42
-    end
-
     if user.facebook_id
+      #TODO: Remove duplicate code...removing it breaks some shit.
       url = "http://graph.facebook.com/#{user.facebook_id}/picture"
       image_tag url, options
     elsif user.email
@@ -87,6 +84,15 @@ module ApplicationHelper
       options.delete :size
       image_tag url, options
     end
+  end
+
+  def facebook_avatar(facebook_id, options={})
+    default_options = { 
+      :class => 'facebook'
+    }
+
+    url = "http://graph.facebook.com/#{facebook_id}/picture"
+    image_tag url, options.merge(default_options)
   end
 
   def alert(name, options = {}, &block)
@@ -110,5 +116,10 @@ module ApplicationHelper
 
   def date(d)
     d ? d.strftime("%Y-%m-%d") : nil
+  end
+
+  def user_owns_cellar?(cellar)
+    return false unless current_user
+    cellar == current_user.cellar
   end
 end

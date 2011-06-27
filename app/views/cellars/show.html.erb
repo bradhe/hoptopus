@@ -66,6 +66,25 @@
       </div>
     </div>
 
+    <div id="remove-beers">
+      <div class="field">
+        <input type="radio" name="remove-type" value="remove" id="remove-cellar-only" checked="checked">
+        <label for="remove-from-history">Remove from cellar and but keep in cellar history.</label>
+        <p class="note">Use this option when you have drank a beer that is in your cellar.</p>
+      </div>
+
+      <div class="field">
+        <input type="radio" name="remove-type" value="destroy" id="remove-from-history">
+        <label for="remove-from-history">Remove from cellar and remove from cellar history.</label>
+        <p class="note">Use this option when you accidentally add a beer or the wrong beer to your cellar.</p>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="close">Cancel</button>
+        <button type="button" class="confirm">Confirm and Remove</button>
+      </div>
+    </div>
+
     <%= render 'import' %>
   </div>
 <% end %>
@@ -150,6 +169,11 @@ $(function() {
     $('#new-beer').bind('click', function() {
         var dialog = $('#add-beer-form');
         dialog.dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Add a Beer to your Cellar'});
+        dialog.find('button.close').click(function() {
+          dialog.dialog('close');
+          return false;
+        });
+
         dialog.find('form').dynamicForm({
             errorListSelector: '#add-beer-form ul.errors',
             submitStart: function() {
@@ -233,36 +257,70 @@ $(function() {
         responseType: 'html'
     });
 
-    var deleteFromCellar = $('#edit-cellar').dynamicForm({
-        success: function(data) {
-          // Remove these from the cellar and repopulate.
-          for(var i = 0; i < data.length; i++) {
-            grid.removeObjectById(data[i]);
-          }
-
-          grid.repopulateTable();
-        },
-        error: function() {
-           alert("We're sorry but an error occured while checking out your beers.");
-        },
-        submitStart: function () {
-            hoptopus.showProgress('Checking Out Beers...');
-        },
-        submitDone: function() {
-            hoptopus.hideProgress();
-        },
-        responseType: 'html'
-    });
-
     $('#edit-beers').click(function() {
       editCellar[0].submit('<%= edit_cellar_beers_path(@cellar) %>');
     });
 
     $('#check-out-beers').click(function() {
-      count = $('#edit-cellar').find('input:checked').length;
-      if(confirm("Are you sure you want to remove " + count + " beer"+(count > 1 ? 's' : '')+' from your cellar?')) {
-        deleteFromCellar[0].submit('<%= cellar_beer_path(@cellar) %>', 'DELETE');
-      }
+        $('#remove-beers').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Remove Beer(s) from your Cellar.'});
+        $('#remove-beers button.close').click(function() {
+          $('#remove-beers').dialog('close');
+        });
+
+        $('#remove-beers button.confirm').click(function() {
+          var data = {};
+          var checkboxes = $('#cellared-beers').find('input:checked');
+          var selectedBeers = [];
+
+          for(var i = 0; i < checkboxes.length; i++) {
+            if(checkboxes[i] == undefined) {
+              continue;
+            }
+
+            selectedBeers.push(checkboxes[i].value);
+          }
+
+          var method = 'remove';
+
+          // Only delete if this is expclicitly clicked.
+          if($('#remove-from-history').is(':checked')) {
+            method = 'destroy';
+          }
+
+          // Ideally only remove or destroy
+          data[method] = selectedBeers;
+          data['_method'] = 'DELETE';
+
+          hoptopus.showProgress('Removing beer(s)...');
+          $.ajax({
+            url: '<%= cellar_beer_path(@cellar) %>',
+            type: 'POST',
+            data: data,
+            success: function(data) {
+              // Remove each data point from the thinger.
+              hoptopus.hideProgress();
+
+              for(var i = 0; i < data.length; i++) {
+                grid.removeObjectById(data[i]);
+              }
+
+              grid.repopulateTable();
+
+              var message = "1 beer was removed from your cellar.";
+
+              if(selectedBeers.length > 1) {
+                message = selectedBeers.length.toString() + " beers were removed from your cellar.";
+              }
+
+              $('#remove-beers').dialog('close');
+              hoptopus.showAlert(message);
+            },
+            error: function() {
+              hoptopus.hideProgress();
+              hoptopus.showError('Removing beers from your cellar failed. They will remain in your cellar.');
+            }
+          });
+        });
     });
 });
 

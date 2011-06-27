@@ -5,23 +5,23 @@
 <h2>We couldn't find a hoptopus account associated with your facebook account!</h2>
 
 <% if @matched_user %>
-<h3>But we did find a hoptopus account with your email address.</h3>
+<h3 class="register-facebook">But we did find a hoptopus account with your email address.</h3>
 <p>Enter your hoptopus account's password below and it will be associated with your facebook account.</p>
 
 <div class="centered">
   <%= form_tag(associate_facebook_with_hoptopus_account_path) do |f| %>
-    <div class="field">
-      <%= label_tag 'username', 'Username:' %>
-      
-      <span class="value"><%= gravatar_for @matched_user, :size => 20 %> <%= @matched_user.username %> (<%= @matched_user.email %>)</span>
-      <%= hidden_field_tag 'email', @matched_user.email %>
+    <%= hidden_field_tag :email, @matched_user.email %>
+
+    <div class="facebook field">
+      <span class="label"><%= gravatar_for(@matched_user, :size => 35) %></span>
+      <span class="value"><%= @matched_user.username %> (<%= @matched_user.email %>)</span>
     </div>
-    
-    <div class="field">
-      <%= label_tag 'password', 'Password:' %>
+
+    <div class="facebook field">
+      <%= label_tag 'password', 'Hoptopus Password:' %>
       <%= password_field_tag 'password' %>
     </div>
-    
+
     <div class="buttons">
       <button type="submit">Associate Account</button>
     </div>
@@ -30,21 +30,32 @@
 
 <% else %>
 
-<h3>Create a new hoptopus account</h3>
+<h3 class="register-facebook">Create a new hoptopus account</h3>
 <p>You won't be able to do anything else unless you select a username first!</p>
 
 <div class="centered">
   <% unless @new_user.errors.empty? %>
   <ul class="errors">
     <% @new_user.errors.each do |element,msg| %>
-		<li><%= msg %></li>
-  	<% end %>
+      <li><%= msg %></li>
+    <% end %>
   </ul>
   <% end %>
 
   <%= form_for @new_user, :url => facebook_register_path do |f| %>
-    <%= f.label :username, 'Username:' %>
-    <%= f.text_field :username %>
+    <div class="facebook field">
+      <span class="label"><%= facebook_avatar(session[:registration][:facebook_id], :size => 20) %></span>
+      <span class="value"><%= session[:registration][:email] %></span>
+    </div>
+
+    <div class="facebook field">
+      <%= f.label :username, 'Select a Username:' %>
+      <%= f.text_field :username %>
+    </div>
+
+    <div class="facebook field">
+      <p class="note">Since you are registering through Facebook you do not need to create a password!</p>
+    </div>
 
     <div class="buttons">
       <button type="submit">Set Username</button>
@@ -52,21 +63,21 @@
   <% end %>
 </div>
 
-<h3>Already have a hoptopus account?</h3>
-<p>Supply your credentials here link your hoptopus account with your facebook account!</p>
+<h3 class="register-facebook">Already have a Hoptopus account?</h3>
+<p>Supply your Hoptopus credentials here to link your Hoptopus account with your Facebook account.</p>
 
-<div class="centered">
+<div class="facebook centered">
   <%= form_tag(associate_facebook_with_hoptopus_account_path) do |f| %>
     <div class="field">
       <%= label_tag 'username', 'Username:' %>
       <%= text_field_tag 'username' %>
     </div>
-    
+
     <div class="field">
       <%= label_tag 'password', 'Password:' %>
       <%= password_field_tag 'password' %>
     </div>
-    
+
     <div class="buttons">
       <button type="submit">Associate Account</button>
     </div>

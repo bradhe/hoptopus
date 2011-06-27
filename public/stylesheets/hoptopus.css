@@ -28,7 +28,23 @@ input, select {
   border-left: 2px solid silver;
   border-bottom: 1px solid silver;
   border-radius: .4em;
-  padding: .3em .3em; }
+  padding: .3em .3em;
+  outline: none;
+  /* fallback */
+  background-color: white;
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, white, #ebebeb);
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, top, bottom, from(white), to(#ebebeb));
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-linear-gradient(top, white, #ebebeb);
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, white, #ebebeb); }
+  input:focus, select:focus {
+    border-top: 2px solid #f0e6af;
+    border-right: 1px solid #f0e6af;
+    border-left: 2px solid #f0e6af;
+    border-bottom: 1px solid #f0e6af; }
 
 td select, td input {
   padding: .25em 0; }
@@ -144,6 +160,33 @@ span.or {
   margin-left: auto;
   margin-right: auto; }
 
+img.facebook {
+  width: 35px;
+  height: 35px; }
+
+.facebook.field {
+  font-weight: bold;
+  margin-bottom: 10pt; }
+  .facebook.field .label, .facebook.field label {
+    width: 170px;
+    font-weight: normal; }
+  .facebook.field .label {
+    text-align: right;
+    margin-bottom: 10pt; }
+    .facebook.field .label img {
+      position: relative;
+      top: 17px;
+      margin-right: 10px;
+      border: 1px #cccccc solid;
+      background-color: #ebebeb;
+      padding: 2pt; }
+  .facebook.field p.note {
+    width: 397px;
+    font-weight: normal; }
+
+.facebook.centered {
+  margin-top: 20pt; }
+
 img.datepicker {
   position: relative;
   top: 2px;
@@ -204,6 +247,9 @@ div.reset-password {
   margin-right: 5pt; }
 
 h2.tastings {
+  margin-top: 10pt; }
+
+h2.register-facebook, h3.register-facebook {
   margin-top: 10pt; }
 
 #error_explanation h2 {
@@ -298,7 +344,7 @@ textarea {
 .navigation .controls {
   float: right; }
 
-label {
+label, span.label {
   display: inline-block;
   width: 125px; }
 
@@ -424,33 +470,43 @@ h2 a {
   border-bottom: none;
   outline: none; }
 
-div.login, div.reset-password {
-  -moz-border-radius: 5pt;
-  -webkit-border-radius: 5pt;
-  border-radius: 5pt;
-  margin-top: 15pt;
-  background-color: #f0e6af;
-  padding: 5pt;
-  border: 1px #cec48d solid;
+div.auth {
+  margin-top: 10pt;
   margin-left: auto;
-  margin-right: auto;
-  display: table; }
-  div.login input.login, div.reset-password input.login {
-    -moz-box-shadow: inset 0 1px 1px #a7d144;
-    -webkit-box-shadow: inset 0 1px 1px #a7d144;
-    box-shadow: inset 0 1px 1px #a7d144;
-    border: 1px solid #85af22;
-    background: #85af22; }
-    div.login input.login:active, div.reset-password input.login:active {
-      -moz-box-shadow: inset 0 1px 1px #85af22;
-      -webkit-box-shadow: inset 0 1px 1px #85af22;
-      box-shadow: inset 0 1px 1px #85af22;
-      background: #a7d144; }
-    div.login input.login[disabled], div.login input.login[disabled]:focus, div.login input.login[disabled]:active, div.reset-password input.login[disabled], div.reset-password input.login[disabled]:focus, div.reset-password input.login[disabled]:active {
-      -moz-box-shadow: inset 0 1px 1px #e2e2e2;
-      -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
-      box-shadow: inset 0 1px 1px #e2e2e2;
-      background: #ebebeb; }
+  margin-right: auto; }
+  div.auth div.login, div.auth div.register {
+    width: 420px; }
+  div.auth input {
+    width: 214px; }
+    div.auth input.submit {
+      width: auto; }
+  div.auth div.login {
+    margin-top: 22px; }
+    div.auth div.login input.login {
+      -moz-box-shadow: inset 0 1px 1px #a7d144;
+      -webkit-box-shadow: inset 0 1px 1px #a7d144;
+      box-shadow: inset 0 1px 1px #a7d144;
+      border: 1px solid #85af22;
+      background: #85af22; }
+      div.auth div.login input.login:active {
+        -moz-box-shadow: inset 0 1px 1px #85af22;
+        -webkit-box-shadow: inset 0 1px 1px #85af22;
+        box-shadow: inset 0 1px 1px #85af22;
+        background: #a7d144; }
+      div.auth div.login input.login[disabled], div.auth div.login input.login[disabled]:focus, div.auth div.login input.login[disabled]:active {
+        -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+        -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+        box-shadow: inset 0 1px 1px #e2e2e2;
+        background: #ebebeb; }
+  div.auth div.register {
+    padding-right: 10pt;
+    margin-right: 10pt;
+    border-right: 1px #f0e6af solid; }
+    div.auth div.register form#new_user {
+      float: none;
+      margin-left: none; }
+    div.auth div.register .buttons {
+      text-align: right; }
 
 div.login p {
   margin-bottom: 10pt; }
@@ -543,18 +599,49 @@ ul.all-cellars {
   .more-info li {
     margin-top: 5pt;
     line-height: 14pt; }
-  .more-info .signup {
-    margin-top: 20px; }
-    .more-info .signup label {
-      font-weight: bold; }
-    .more-info .signup .buttons {
-      text-align: right; }
+  .more-info p.tour {
+    text-align: center;
+    padding-top: 5pt; }
+    .more-info p.tour a {
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      -moz-box-shadow: inset 0 1px 1px #a7d144;
+      -webkit-box-shadow: inset 0 1px 1px #a7d144;
+      box-shadow: inset 0 1px 1px #a7d144;
+      border: 1px solid #e2e2e2;
+      background: #85af22;
+      padding: 8pt 20pt;
+      font-size: 16pt;
+      text-decoration: none; }
+      .more-info p.tour a:active {
+        -moz-box-shadow: inset 0 1px 1px #85af22;
+        -webkit-box-shadow: inset 0 1px 1px #85af22;
+        box-shadow: inset 0 1px 1px #85af22;
+        background: #a7d144; }
+      .more-info p.tour a[disabled], .more-info p.tour a[disabled]:focus, .more-info p.tour a[disabled]:active {
+        -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+        -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+        box-shadow: inset 0 1px 1px #e2e2e2;
+        background: #ebebeb; }
+      .more-info p.tour a:hover {
+        color: #a7d144; }
+
+.front-page.signup {
+  text-align: center;
+  float: right;
+  position: relative;
+  right: 92px; }
+  .front-page.signup label {
+    font-weight: bold; }
+  .front-page.signup .buttons {
+    text-align: right; }
 
 .newsletter {
   float: left;
   position: relative;
-  top: -100px;
-  left: 10px; }
+  top: 20px;
+  left: 65px; }
   .newsletter h2, .newsletter span.note {
     border-bottom: 0;
     display: block;
@@ -764,7 +851,8 @@ div.dropdown li {
   font-style: italic; }
 
 .logo {
-  border: 1px #86673F solid; }
+  border: 1px #86673F solid;
+  background-color: #f0e6af; }
 
 a.dismiss-alert {
   float: right; }
@@ -921,7 +1009,7 @@ li.connect span.or {
 #add-beer-form .add-beer.right, div.edit.beer .add-beer.right {
   width: 355px;
   float: right; }
-#add-beer-form h3, div.edit.beer h3 {
+#add-beer-form h3, #add-beer-form h3 a, div.edit.beer h3, div.edit.beer h3 a {
   margin-top: 10pt;
   margin-bottom: 5pt;
   border-bottom: 1px solid #ccc;
@@ -932,6 +1020,8 @@ li.connect span.or {
   width: 75px; }
 #add-beer-form input.bottle-size, div.edit.beer input.bottle-size {
   width: 100px; }
+#add-beer-form input.beer, #add-beer-form input.brewery, div.edit.beer input.beer, div.edit.beer input.brewery {
+  width: 400px; }
 
 .ui-dialog .buttons {
   text-align: right; }
@@ -941,7 +1031,19 @@ li.connect span.or {
 .ui-dialog div.tasting-note {
   border-bottom: none;
   padding-bottom: 0;
+  min-width: 650px; }
+  .ui-dialog div.tasting-note textarea {
+    width: 100%;
+    height: 150px; }
+
+#remove-beers {
   width: 650px; }
+  #remove-beers label {
+    width: auto; }
+  #remove-beers p.note {
+    margin-left: 18px;
+    width: 600px;
+    margin-bottom: 20pt; }
 
 .sub.field {
   margin-left: 130px;
@@ -1024,6 +1126,8 @@ div.star-rating.beer_tasting_note_preference_rating {
   display: block; }
   .dashboard .stats .left, .dashboard .stats .right {
     width: 50%; }
+.dashboard p.stats.note {
+  margin-bottom: 10pt; }
 
 /* Preferences */
 #save-preferences {
@@ -1033,10 +1137,6 @@ select#user_country {
   width: 280px; }
 
 /* Register */
-form#new_user {
-  margin-left: 50px;
-  float: left; }
-
 #register_title {
   margin-bottom: 1em; }
 

@@ -700,7 +700,9 @@ hoptopus.grid = function(options) {
     }
 
     // Add a number of rows to the thing.
-    this.repopulateTable();
+    if(this.beers.length > 0) {
+      this.repopulateTable();
+    }
   }
 
   //
@@ -710,8 +712,11 @@ hoptopus.grid = function(options) {
       filters[i].clear();
     }
 
-    g.beers = allObjects;
-    allObjects = null;
+    if(allObjects != null) {
+      g.beers = allObjects;
+      allObjects = null;
+    }
+
     g.repopulateTable();
   };
 

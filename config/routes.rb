@@ -71,11 +71,11 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
   match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
-  # Wiki paths
-  match 'wiki/:type(/:id)', :controller => 'wiki', :action => 'list'
-  
+  # Home paths
+  match 'tour' => 'home#tour', :as => 'tour'
+
   root :to => "home#index"
-  
+
   # This needs to be a the bottom!!!
   match '*path', :controller => 'application', :action => 'render_404'
 end

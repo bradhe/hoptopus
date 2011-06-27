@@ -4,7 +4,10 @@
 
 <div class="navigation">
   <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) + '#cellar' %>
-  <button type="button" id="new-tasting-note">New Tasting Note</button>
+
+  <%- if user_owns_cellar?(@beer.cellar) %>
+    <button type="button" id="new-tasting-note">New Tasting Note</button>
+  <%- end %>
 </div>
 
 <h2><%= beer_title(@beer) %></h2>

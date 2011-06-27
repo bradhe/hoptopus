@@ -125,13 +125,24 @@ class BeersController < ApplicationController
   end
 
   def destroy
-    @beers = params[:selected_beers].map { |i| @cellar.beers.find(i) }
-    @beers.each do |b|
-      b.update_attribute(:removed_at, Time.now)
+    if params[:remove]
+      @removed_beers = params[:remove].map { |i| @cellar.beers.find(i) }
+      @removed_beers.each do |b|
+        b.update_attribute(:removed_at, Time.now)
+      end
+
+      @beer_ids = @removed_beers.map(&:id)
+    end
+
+    if params[:destroy]
+      @deleted_beers = params[:destroy].map { |i| @cellar.beers.find(i) }
+      @beer_ids ||= []
+      @beer_ids = @beer_ids.push(@deleted_beers.map(&:id)).flatten
+      @deleted_beers.map { |b| b.destroy }
     end
 
     respond_to do |format|
-      format.json { render :json => @beers.map(&:id) }
+      format.json { render :json => @beer_ids }
     end
   end
 
