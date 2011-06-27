@@ -529,6 +529,10 @@ hoptopus.grid = function(options) {
   }
 
   function getNumberOfPages() {
+    if(g.beers.length < settings.pageSize) {
+      return 0;
+    }
+
     return Math.round(g.beers.length / settings.pageSize) + (g.beers.length % settings.pageSize > 0 ? 1 : 0);
   }
 

@@ -68,8 +68,8 @@
           if(!data[pre]) {
             data[pre] = {};
           }
-          // Otherwise just assume it's an object I guess.
 
+          // Otherwise just assume it's an object I guess.
           if(data[pre][post] && !$.isArray(data[pre][post])) {
             data[pre][post] = [data[pre][post], val];
           }
