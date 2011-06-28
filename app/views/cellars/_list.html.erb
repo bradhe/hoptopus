@@ -8,7 +8,7 @@
         <button type="button" id="import-beers">Import</button>
       </div>
 
-      <div class="left">
+      <div class="left beers">
         <button type="button" id="edit-beers" disabled>Edit Selected</button>
         <button type="button" id="new-tasting-note" disabled>New Tasting Note</button>
         <button type="button" id="check-out-beers" disabled>Remove Selected</button>
@@ -31,7 +31,7 @@
         </tr>
         <tr class="filters">
           <% if is_logged_in? %>
-            <td></td>
+            <td class="check-all"><input type="checkbox" id="check-all-boxes" /></td>
           <% end %>
           <td></td>
           <td data-filter-for="brewery">

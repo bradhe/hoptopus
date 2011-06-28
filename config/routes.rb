@@ -9,6 +9,7 @@ Hoptopus::Application.routes.draw do
       collection do
         post :edit
         put :update
+        delete :destroy
       end
 
       resources :comments, :only => [:update, :destroy, :create]

@@ -1,0 +1,41 @@
+<% content_for :title do %>
+  import failed
+<% end %>
+
+<div class="navigation">
+  <%= link_to 'Back to Cellar', cellar_path(@cellar) %>
+  <button type="button" id="import-beers">Re-import File</button>
+</div>
+
+<h2>There was a problem with your import.</h2>
+
+<h3>We could not read the file you uploaded.</h3>
+
+<p>Please check to make sure that the file you uploaded is a CSV (Comma delimited) file.</p>
+<h3>How to save a spreadsheet as CSV in Excel</h3>
+
+<ol>
+  <li>Click on the "File" menu and select "Save As..."
+  <li>Select "CSV (Comma delimited)" from the "Save as type:" dropdown at the bottom of the dialog.</li>
+  <li>Click the "OK" button if an alert pops up.</li>
+  <li>If and when prompted click the "Yes" button.</li>
+  <li>Upload the file you just saved here!</li>
+</ol>
+
+<div class="hidden">
+  <%= render 'import' %>
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(function() {
+      $('#import-beers').click(function() {
+        $('#import-cellar').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Import your Beer Collection'});
+
+        $('#import-cellar button.cancel').click(function() {
+          $('#import-cellar').dialog('close');
+        });
+      });
+    });
+  </script>
+<%- end %>

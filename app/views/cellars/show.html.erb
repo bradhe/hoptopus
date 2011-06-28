@@ -174,6 +174,17 @@ $(function() {
     return false;
   });
 
+  $('#check-all-boxes').click(function() {
+    if($(this).is(':checked')) {
+      $('#cellared-beers tbody input:checkbox').not(':checked').click();
+    }
+    else {
+      $('#cellared-beers tbody input:checkbox').filter(':checked').click();
+      // SHould always disable...
+      $('div.buttons div.beers button').attr('disabled', true);
+    }
+  });
+
   var dynamicForm = newBeerDialog.find('form').dynamicForm({
      errorListSelector: '#add-beer-form ul.errors',
      submitStart: function() {
@@ -263,7 +274,7 @@ $(function() {
     });
   });
 
-  $('#cellared-beers input:checkbox').click(checkBoxClicked);
+  $('#cellared-beers tbody input:checkbox').click(checkBoxClicked);
 
   var editCellar = $('#edit-cellar').dynamicForm({
       success: editFormSuccess,
@@ -283,66 +294,68 @@ $(function() {
     editCellar[0].submit('<%= edit_cellar_beers_path(@cellar) %>');
   });
 
+  $('#remove-beers button.close').click(function() {
+    $('#remove-beers').dialog('close');
+  });
+
+  $('#remove-beers button.confirm').click(function() {
+    var data = {};
+    var checkboxes = $('#cellared-beers tbody input:checked');
+    var selectedBeers = [];
+
+    for(var i = 0; i < checkboxes.length; i++) {
+      if(checkboxes[i] == undefined) {
+        continue;
+      }
+
+      selectedBeers.push(checkboxes[i].value);
+    }
+
+    var method = 'remove';
+
+    // Only delete if this is expclicitly clicked.
+    if($('#remove-from-history').is(':checked')) {
+      method = 'destroy';
+    }
+
+    // Ideally only remove or destroy
+    data[method] = selectedBeers;
+    data['_method'] = 'DELETE';
+
+    hoptopus.showProgress('Removing beer(s)...');
+    $.ajax({
+      url: '<%= cellar_beers_path(@cellar) %>',
+      type: 'POST',
+      data: data,
+      success: function(data) {
+        // Remove each data point from the thinger.
+        hoptopus.hideProgress();
+
+        for(var i = 0; i < data.length; i++) {
+          grid.removeObjectById(data[i]);
+        }
+
+        grid.repopulateTable();
+
+        var message = "1 beer was removed from your cellar.";
+
+        if(selectedBeers.length > 1) {
+          message = selectedBeers.length.toString() + " beers were removed from your cellar.";
+        }
+
+        $('#remove-beers').dialog('close');
+        $('#check-all-boxes').removeAttr('checked');
+        hoptopus.showAlert(message);
+      },
+      error: function() {
+        hoptopus.hideProgress();
+        hoptopus.showError('Removing beers from your cellar failed. They will remain in your cellar.');
+      }
+    });
+  });
+
   $('#check-out-beers').click(function() {
     $('#remove-beers').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Remove Beer(s) from your Cellar.'});
-    $('#remove-beers button.close').click(function() {
-      $('#remove-beers').dialog('close');
-    });
-
-    $('#remove-beers button.confirm').click(function() {
-      var data = {};
-      var checkboxes = $('#cellared-beers').find('input:checked');
-      var selectedBeers = [];
-
-      for(var i = 0; i < checkboxes.length; i++) {
-        if(checkboxes[i] == undefined) {
-          continue;
-        }
-
-        selectedBeers.push(checkboxes[i].value);
-      }
-
-      var method = 'remove';
-
-      // Only delete if this is expclicitly clicked.
-      if($('#remove-from-history').is(':checked')) {
-        method = 'destroy';
-      }
-
-      // Ideally only remove or destroy
-      data[method] = selectedBeers;
-      data['_method'] = 'DELETE';
-
-      hoptopus.showProgress('Removing beer(s)...');
-      $.ajax({
-        url: '<%= cellar_beer_path(@cellar) %>',
-        type: 'POST',
-        data: data,
-        success: function(data) {
-          // Remove each data point from the thinger.
-          hoptopus.hideProgress();
-
-          for(var i = 0; i < data.length; i++) {
-            grid.removeObjectById(data[i]);
-          }
-
-          grid.repopulateTable();
-
-          var message = "1 beer was removed from your cellar.";
-
-          if(selectedBeers.length > 1) {
-            message = selectedBeers.length.toString() + " beers were removed from your cellar.";
-          }
-
-          $('#remove-beers').dialog('close');
-          hoptopus.showAlert(message);
-        },
-        error: function() {
-          hoptopus.hideProgress();
-          hoptopus.showError('Removing beers from your cellar failed. They will remain in your cellar.');
-        }
-      });
-    });
   });
 
   function editFormSuccess(data) {
@@ -391,6 +404,9 @@ $(function() {
         if(beers.length > 0) {
           grid.updateObjects(beers);
           grid.repopulateTable();
+
+          // Make sure to clear the "all checked" thing if it's checked
+          $('#check-all-boxes').removeAttr('checked');
         }
 
         hoptopus.showAlert('Beer(s) saved.');

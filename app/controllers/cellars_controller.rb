@@ -26,9 +26,17 @@ class CellarsController < ApplicationController
   include ActionView::Helpers::TextHelper
   def import
     @cellar = Cellar.find_by_username(params[:id])
-    raise "Import file cannot be nil" if params[:import_file].nil?
 
-    values = CSV.read(params[:import_file].tempfile.path)
+    # Did the give us a file?
+    unless params[:import_file]
+      render 'cellars/import/file_read_failed' and return
+    end
+
+    begin
+      values = CSV.read(params[:import_file].tempfile.path)
+    rescue => e
+      render 'cellars/import/file_read_failed' and return
+    end
 
     headers = values.shift
     if @invalid_columns = validate_import_columns(headers)

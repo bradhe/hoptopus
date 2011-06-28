@@ -469,28 +469,6 @@ color: #ccc;
        min-height: 100px;
 }
 
-.byline {
-  display: block;
-  text-align: right;
-  color: #666;
-  font-style: italic;
-  border-bottom: 1px solid #ccc;
-}
-
-#comments .comment {
-
-  padding-top: 5pt;
-  padding-bottom: 5pt;
-}
-
-#comments h2 {
-  border-bottom: 0;
-}
-
-#comments h1, #comments h2, #comments h3, #comments h4 {
-  margin-bottom: 5pt;
-}
-
 div.navigation, div.alert {
   background-color: $brown;
   padding: 5pt;
@@ -530,6 +508,7 @@ fieldset legend, h3 {
 h3 {
   color: $green;
   margin-bottom: 10pt;
+  margin-top: 10pt;
 }
 
 table.list {
@@ -1135,6 +1114,14 @@ table.beers.list {
     select,input {
       width: 100%;
     }
+
+    td {
+      text-align: center;
+
+      &.check-all input {
+        width: auto;
+      }
+    }
   }
 
   tbody {
@@ -1395,6 +1382,15 @@ div.star-rating.beer_tasting_note_preference_rating {
   width: auto;
 }
 
+div.star-rating img {
+  border: 0;
+  outline: none;
+
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
 .new-tasting-note textarea {
   margin-top: 5pt;
   margin-bottom: 5pt;
@@ -1451,6 +1447,27 @@ div.star-rating.beer_tasting_note_preference_rating {
 
   .buttons {
     text-align: right;
+  }
+
+  ol {
+    width: 650px;
+  }
+
+  h4 {
+    margin-top: 10pt;
+    text-size: 1.2em;
+    color: $dark-grey;
+  }
+
+  .field {
+    label {
+      width: auto;
+      margin-right: 25px;
+    }
+  }
+
+  div.columns {
+    margin-right: 40px;
   }
 }
 

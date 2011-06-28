@@ -9,9 +9,7 @@
 
 <h2>There was a problem with your import.</h2>
 
-<h3>Invalid Columns</h3>
-
-<p>To fix this problem, edit your file and change these invalid column names to something in the valid column names list below.</p>
+<h3>We found some invalid columns in your file.</h3>
 
 <ul>
   <%- @invalid_columns.sort.each do |c| %>
@@ -19,12 +17,13 @@
   <%- end %>
 </ul>
 
+<p>To fix this problem, edit your file and change these invalid column names to names that match the list below.</p>
+
 <h3>Valid Columns</h3>
-<p>These are the possible column names. Note that the import is case insensitive.</p>
 
 <ul>
   <%- Beer.importable_column_names.each do |c| %>
-    <li><%= c.gsub('_', ' ').titlecase %></li>
+    <li><%= c.gsub('_', ' ').titleize %></li>
   <%- end %>
 </ul>
 
@@ -38,7 +37,7 @@
     <%- end %>
   </ul>
 <%- else %>
-  <p><strong>All of the columns you tried to import are invalid.</strong></p>
+  <p>All of the columns you tried to import are invalid.</p>
 <%- end %>
 
 <div class="hidden">
@@ -47,11 +46,13 @@
 
 <% content_for :javascript do %>
   <script type="text/javascript">
-    $('#import-beers').click(function() {
-      $('#import-cellar').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Import your Beer Collection'});
+    $(function() {
+      $('#import-beers').click(function() {
+        $('#import-cellar').dialog({modal:true, width: 'auto', height: 'auto', resizable: false, title: 'Import your Beer Collection'});
 
-      $('#import-cellar button.cancel').click(function() {
-        $('#import-cellar').dialog('close');
+        $('#import-cellar button.cancel').click(function() {
+          $('#import-cellar').dialog('close');
+        });
       });
     });
   </script>

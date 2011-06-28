@@ -7,7 +7,7 @@ class Beer < ActiveRecord::Base
 
   belongs_to :cellar
   has_one :user, :through => :cellar
-  has_many :tasting_notes
+  has_many :tasting_notes, :dependent => :destroy
   has_many :events, :as => :source, :dependent => :destroy
 
   validates_presence_of :cellar_id
@@ -34,5 +34,9 @@ class Beer < ActiveRecord::Base
 
   def self.importable_column_names
     Beer.column_names.sort - ['id', 'created_at', 'updated_at', 'cellar_id', 'removed_at']
+  end
+
+  def self.required_column_names
+    ['name', 'brewery', 'year']
   end
 end
