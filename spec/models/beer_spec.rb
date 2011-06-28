@@ -14,4 +14,18 @@ describe Beer do
       }.should_not change(Event, :count).by(1)
     end
   end
+
+  describe 'validation' do
+    it 'should allow apostraphes in the brewery' do
+      b = Beer.new(:brewery => "MacTarnahan's Brewing Co.")
+      b.valid? # Trigger
+      b.errors[:brewery].should_not be_present
+    end
+
+    it 'should allow apostraphes in the name' do
+      b = Beer.new(:name => "Hale's Cream Stout")
+      b.valid? # Trigger
+      b.errors[:name].should_not be_present
+    end
+  end
 end
