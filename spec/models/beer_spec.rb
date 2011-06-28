@@ -27,5 +27,17 @@ describe Beer do
       b.valid? # Trigger
       b.errors[:name].should_not be_present
     end
+
+    it 'should allow dashes in the brewery' do
+      b = Beer.new(:brewery => "Weizen-Bock")
+      b.valid? # Trigger
+      b.errors[:brewery].should_not be_present
+    end
+
+    it 'should allow apostraphes in the name' do
+      b = Beer.new(:name => "Weizen-Bock")
+      b.valid? # Trigger
+      b.errors[:name].should_not be_present
+    end
   end
 end
