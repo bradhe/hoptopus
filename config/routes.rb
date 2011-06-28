@@ -35,6 +35,10 @@ Hoptopus::Application.routes.draw do
       end
     end
 
+    resource :lobby do
+      get :boom
+    end
+
     root :to => 'lobby#index'
   end
 
