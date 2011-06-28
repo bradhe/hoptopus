@@ -357,6 +357,12 @@ label, span.label {
   text-decoration: none;
   text-shadow: -1px -1px 1px #fff5d7; }
 
+#top h1 {
+  float: left; }
+
+#top .clearfix {
+  width: 100%; }
+
 h1 img {
   position: relative;
   top: 8px; }

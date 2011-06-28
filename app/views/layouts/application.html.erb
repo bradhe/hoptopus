@@ -49,29 +49,32 @@
 <body>
 
 <div id="top">
-  <h1><a href="<%= absolute_url root_path %>"><img src="/images/little-hoptopus.png" alt="it's the hoptopus!" border="0" class="logo" /> hoptopus <span class="beta">beta!</span></a></h1>
+  <div class="clearfix">
+    <h1><a href="<%= absolute_url root_path %>"><img src="/images/little-hoptopus.png" alt="it's the hoptopus!" border="0" class="logo" /> hoptopus <span class="beta">beta!</span></a></h1>
 
-  <div id="navigation">
-    <ul>
-    <% if is_logged_in? %>
-      <li class="user-info">
-        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
-      </li>
- 
-      <% if @user.admin? %>
-      <li><%= link_to 'Admin', admin_root_path %></li>
+    <div id="navigation">
+      <ul>
+      <% if is_logged_in? %>
+        <li class="user-info">
+          <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
+        </li>
+
+        <% if @user.admin? %>
+          <li><%= link_to 'Admin', admin_root_path %></li>
+        <% end %>
+
+        <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
+        <li><%= link_to 'Browse Cellars', root_path %></li>
+        <li><%= link_to 'Logout', logout_path %></li>
+      <% else %>
+        <li><%= link_to 'Browse Cellars', cellars_path %></li>
+        <li><%= link_to 'Register', register_path %></li>
+        <li><%= link_to 'Login', login_path %></li>
+        <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
       <% end %>
-      
-      <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
-      <li><%= link_to 'Browse Cellars', root_path %></li>
-      <li><%= link_to 'Logout', logout_path %></li>
-    <% else %>
-      <li><%= link_to 'Browse Cellars', cellars_path %></li>
-      <li><%= link_to 'Register', register_path %></li>
-      <li><%= link_to 'Login', login_path %></li>
-      <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
-    <% end %>
-    </ul>
+      </ul>
+    </div>
+
   </div>
 </div>
 
