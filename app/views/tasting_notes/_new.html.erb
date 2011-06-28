@@ -1,0 +1,49 @@
+<div class="tasting-note">
+  <div class="clearfix">
+    <div class="third">
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[appearance_rating]", 'Appearance:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[appearance_rating]" %>
+      </div>
+
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[pour_rating]", 'Pour:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[pour_rating]" %>
+      </div>
+    </div>
+
+    <div class="third">
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[taste_rating]", 'Taste:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[taste_rating]" %>
+      </div>
+
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[mouthfeel_rating]", 'Mouthfeel:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[mouthfeel_rating]" %>
+      </div>
+    </div>
+
+    <div class="third">
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[aroma_rating]", 'Aroma:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[aroma_rating]" %>
+      </div>
+
+      <div class="field">
+        <%= label_tag "#{form_element_prefix}[drinkability_rating]", 'Drinkability:' %>
+        <%= star_rating_field_tags "#{form_element_prefix}[drinkability_rating]" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label_tag "#{form_element_prefix}[preference_rating]", "Overall:" %>
+    <%= star_rating_field_tags "#{form_element_prefix}[preference_rating]", nil, :max => 20 %>
+  </div>
+
+  <div class="field">
+    <%= label_tag "#{form_element_prefix}[notes]", "Notes:" %>
+    <%= text_area_tag "#{form_element_prefix}[notes]" %>
+  </div>
+</div>

@@ -1,0 +1,1569 @@
+$green: #85af22;
+$green-highlight: $green+#222;
+$brown: #FFE9A8;
+$brown-highlight: $brown+#222;
+$tan: #f0e6af;
+$tan-highlight: $tan+#222;
+$dark-tan: $tan - #222;
+$grey: #e2e2e2;
+$grey-highlight: #ebebeb;
+$dark-grey: #ccc;
+$black: #000;
+$white: #fff;
+$lightgray: #C0C0C0;
+$red: #f00;
+
+// Element-specific colors
+$selected_row_color: #FFFFFF;
+$content_width: 900px;
+$progress-bg: $black;
+$progress-fg: $white;
+$alert-bg: $tan;
+$alert-fg: $black;
+$error-bg: $red;
+$error-fg: $white;
+
+@mixin buttonize($base: $grey, $highlight: $grey-highlight, $shadow: $grey) {
+  -moz-box-shadow: inset 0 1px 1px $highlight;
+  -webkit-box-shadow: inset 0 1px 1px $highlight;
+  box-shadow: inset 0 1px 1px $highlight;
+
+  border: 1px solid $shadow;
+  background: $base;
+
+  &:active {
+    -moz-box-shadow: inset 0 1px 1px $base;
+    -webkit-box-shadow: inset 0 1px 1px $base;
+    box-shadow: inset 0 1px 1px $base;
+    background: $highlight;
+  }
+
+  &[disabled], &[disabled]:focus, &[disabled]:active {
+    -moz-box-shadow: inset 0 1px 1px $grey;
+    -webkit-box-shadow: inset 0 1px 1px $grey;
+    box-shadow: inset 0 1px 1px $grey;
+    background: $grey-highlight;
+  }
+}
+
+@mixin gradient-top-bottom($top-color,$bottom-color) {
+  /* fallback */
+  background-color: $top-color;
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, $top-color, $bottom-color);
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, top, bottom, from($top-color), to($bottom-color));
+
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-linear-gradient(top, $top-color, $bottom-color);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, $top-color, $bottom-color);
+}
+
+@mixin rounded-corners($radius: 5px) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+html { height: 101%; }
+
+body { background-color: #fff; color: #333; }
+
+body, body * {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('/images/stripe.png');
+  background-repeat: repeat-x;
+}
+
+body, p, ol, ul, td, input, select {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+ul, ol {
+  padding-left: 17pt;
+  margin: 10pt 0;
+}
+
+input, select{
+  border-top: 2px solid $lightgray;
+  border-right: 1px solid $lightgray;
+  border-left: 2px solid $lightgray;
+  border-bottom: 1px solid $lightgray;
+  border-radius: .4em;
+  padding: .3em .3em;
+  outline: none;
+
+  @include gradient-top-bottom($white, $grey-highlight);
+
+  &:focus {
+    border-top: 2px solid $tan;
+    border-right: 1px solid $tan;
+    border-left: 2px solid $tan;
+    border-bottom: 1px solid $tan;
+  }
+}
+
+td select, td input {
+padding: .25em 0;
+}
+
+input[type=file] {
+  border: none;
+}
+
+.letters-list a {
+  display: inline-block;
+  width: 28px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.letters-list a.selected {
+  background-color: $brown;
+}
+
+.letters-list {
+  text-align: center;
+}
+
+ul.notes, .alert ul {
+  margin-left: 15pt;
+  margin-top: 5pt;
+}
+
+.alert h3 {
+  margin-top: 0;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a { color: #000; }
+a:hover { color: $green; }
+
+div.field, div.actions, div.buttons {
+  margin-bottom: 10px;
+}
+
+.homepage-register, .homepage-lookaround {
+  @include buttonize($green, $green-highlight, $green);
+  font-size: 14pt;
+  margin-top: 5pt;
+  padding: 20pt;
+  padding-left: 40pt;
+  padding-right: 40pt;
+
+  display: inline-block;
+}
+
+.homepage-register {
+  @include rounded-corners(10px);
+  color: $brown;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #000;
+}
+
+.homepage-register:hover, .homepage-lookaround:hover {
+  color: #666;
+}
+
+span.beta {
+  color: #fff;
+  font-size: 10pt;
+  position: relative;
+  top: 4px;
+  left: -20px;
+  text-shadow: -1px -1px 1px #ccc;
+}
+
+.homepage-lookaround {
+  @include buttonize($tan, $tan-highlight, $tan);
+  margin-top: 0;
+  padding: 10pt 20pt;
+  color: $black;
+  text-shadow: 1px 1px 1px #999;
+}
+
+span.or {
+  display: block;
+  font-size: 14pt;
+  font-weight: bold;
+  margin-bottom: 5pt;
+  margin-top: 5pt;
+}
+
+.reset-password, .reset-password .field  {
+display: table;
+         margin-left: auto;
+         margin-right: auto;
+}
+
+img.facebook {
+  width: 35px;
+  height: 35px;
+}
+
+.facebook.field {
+  font-weight: bold;
+  margin-bottom: 10pt;
+
+  .label, label {
+    width: 170px;
+    font-weight: normal;
+  }
+
+  .label {
+    text-align: right;
+    margin-bottom: 10pt;
+
+    img {
+      position: relative;
+      top: 17px;
+      margin-right: 10px;
+      border: 1px $dark-grey solid;
+      background-color: $grey-highlight;
+      padding: 2pt;
+
+    }
+  }
+
+  p.note {
+    width: 397px;
+    font-weight: normal;
+  }
+}
+
+.facebook.centered {
+  margin-top: 20pt;
+}
+
+img.datepicker {
+position: relative;
+top: 2px;
+     margin-left: 3px;
+}
+
+div.reset-password {
+width: auto !important;
+}
+
+.reset-password .field {
+display: table;
+}
+
+.notice {
+color: green;
+       background-color: #DFF2B3;
+padding: 5pt;
+
+         border-radius: 5pt;
+         -moz-border-radius: 5pt;
+         -webkit-border-radius: 5pt;
+
+         font-weight: bold;
+         margin-bottom: 5pt;
+}
+
+.description p {
+  margin-bottom: 10pt;
+}
+
+.brief {
+float: right;
+       font-style: normal !important;
+       font-size: 9pt;
+       margin-left: 5pt;
+       margin-bottom: 5pt;
+}
+
+.brief .label {
+  font-weight: bold;
+}
+
+.brief .field {
+  margin-bottom: 0;
+}
+
+.field_with_errors {
+padding: 2px;
+         background-color: red;
+display: inline-block;
+}
+
+.recent-tastings {
+clear: both;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#cellars {
+  padding-left: 15pt;
+}
+
+#cellar {
+  .buttons .left {
+    margin-right: 5pt;
+  }
+}
+
+h2.tastings {
+  margin-top: 10pt;
+}
+
+h2.register-facebook, h3.register-facebook {
+  margin-top: 10pt;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+padding: 5px 5px 5px 15px;
+         font-size: 12px;
+margin: -7px;
+        margin-bottom: 0px;
+        background-color: #c00;
+color: #fff;
+}
+
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+#error_explanation ul {
+  margin-left: 15px;
+}
+
+#top, #bottom {
+width: 920px;
+}
+
+#content {
+width: $content_width;
+       min-height: 500px;
+}
+
+textarea {
+display: block;
+width: 100%;
+height: 325px;
+}
+
+#content, #top, #bottom {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navigation ,.navigation ul{
+  list-style-type: none;
+
+  li {
+    display: inline;
+  }
+}
+
+#navigation {
+float: right;
+       margin-top: 5pt;
+       margin-right: 5pt;
+}
+
+#navigation ul, #navigation li {
+display: inline;
+}
+
+#navigation li {
+  margin-left: 5pt;
+}
+
+#navigation a {
+  color: #333;
+  display: inline-block;
+  padding: 4px;
+  padding-left: 7pt;
+  padding-right: 7pt;
+
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+
+  background-color: #fff;
+  text-decoration: none;
+}
+
+#navigation a:hover, #navigation a:focus {
+  background-color: $brown;
+  color: $green;
+}
+
+.navigation {
+  a, button {
+    @include buttonize($grey-highlight, $white, $grey);
+    @include rounded-corners;
+    padding: 2pt 5pt;
+    margin: 2pt;
+    display: inline-block;
+    text-decoration: none;
+  }
+}
+
+.navigation .controls {
+  float: right;
+}
+
+label, span.label {
+  display: inline-block;
+  width: 125px;
+}
+
+#top h1, h1 a {
+  color: #86673F;
+  display: inline-block;
+  margin-left: 5pt;
+  margin-top: 2pt;
+  padding-bottom: 3pt;
+  text-decoration: none;
+  text-shadow: -1px -1px 1px #FFF5D7;
+}
+
+#top h1 {
+  float: left;
+}
+
+#top .clearfix {
+  width: 100%;
+}
+
+h1 img {
+position: relative;
+top: 8px;
+}
+
+.content-wrapper {
+  background-image: url('/images/faded-top.png');
+  background-position: center top;
+  background-repeat: no-repeat;
+  padding-top: 15px;
+
+  min-height: 200px;
+}
+
+#bottom {
+color: #ccc;
+       border-top: 1px dashed #EBEBEB;
+       padding-top: 5pt;
+       margin-top: 5pt;
+       text-align: center;
+       min-height: 100px;
+}
+
+div.navigation, div.alert {
+  background-color: $brown;
+  padding: 5pt;
+
+  @include rounded-corners(5pt);
+
+  margin-bottom: 5pt;
+  color: #666;
+}
+
+div.alert {
+  font-style: italic;
+}
+
+.tab.cellar {
+height: auto;
+}
+
+fieldset {
+width: $content_width / 2 - 10px;
+float: left;
+border: none;
+        padding-top: 7pt;
+        padding-left: 5pt;
+        margin-top: 5px;
+        margin-bottom: 5px;
+}
+
+fieldset legend, h3 {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+  color: #666;
+}
+
+h3 {
+  color: $green;
+  margin-bottom: 10pt;
+  margin-top: 10pt;
+}
+
+table.list {
+width: 100%;
+}
+
+h3 a {
+  text-decoration: none;
+color: #666;
+}
+
+
+h3 img {
+position: relative;
+top: 2px;
+     margin-right: 2pt;
+}
+
+h3 a, #navigation a {
+  outline: none;
+}
+
+h3 a:hover {
+  background-color: transparent;
+color: #666;
+}
+
+table.list th {
+  background-color: $lightgray;
+  cursor: url("/cursors/openhand.cur"), default !important;
+}
+
+table.list td {
+  padding-left: 2pt;
+  padding-right: 2pt;
+}
+
+.empty, .note{
+color: #666;
+       font-style: italic;
+}
+
+h2, h2 a {
+  margin-bottom: 5pt;
+  border-bottom: 1px solid #ccc;
+  color: $green;
+  padding-bottom: 5pt;
+  text-decoration: none;
+}
+
+h2 a {
+  border-bottom: none;
+outline: none;
+}
+
+div.auth {
+  margin-top: 10pt;
+  margin-left: auto;
+  margin-right: auto;
+
+  div.login, div.register {
+    width: 420px;
+  }
+
+  input {
+    width: 214px;
+
+    &.submit {
+      width: auto;
+    }
+  }
+
+  div.login {
+    margin-top: 22px;
+
+    input.login {
+      @include buttonize($green, $green-highlight, $green)
+    }
+  }
+
+  div.register {
+    padding-right: 10pt;
+    margin-right: 10pt;
+    border-right: 1px $tan solid;
+
+    form#new_user {
+      float: none;
+      margin-left: none;
+    }
+
+    .buttons {
+      text-align: right;
+    }
+  }
+}
+
+div.login p {
+  margin-bottom: 10pt;
+}
+
+button, input[type="submit"] {
+  padding-left: 10pt;
+  padding-right: 10pt;
+}
+
+div.login .buttons {
+  text-align: right;
+}
+
+ul.errors {
+  margin-left: 15pt;
+  margin-bottom: 5pt;
+color: #f00;
+}
+
+#email_consent {
+  margin-left: 2px;
+}
+
+#beer_year, #beer_quantity, #beer_abv, #beer_price, #beer_size, #brew_abv, #brew_ibus {
+width: 72px;
+}
+
+label.checkbox-label {
+width: auto;
+}
+
+.timestamp.note {
+float: right;
+color: #bbb;
+}
+
+#beer_quantity, #beer_abv, #beer_price, #brew_abv, #brew_ibus  {
+  text-align: right;
+}
+
+#beer_cellared_at, #beer_finish_aging_at {
+width: 125px;
+}
+
+label, span.label {
+  text-align: left;
+}
+
+.events li {
+padding: 5pt;
+         list-style-position: inside;
+}
+
+.events p {
+display: inline;
+}
+
+.events li.brew-tasted {
+  list-style-image: url('/images/beer.png');
+}
+
+.events li.brew-added, .events li.beer-added {
+  list-style-image: url('/images/bullet_add.png');
+}
+
+.events li.brew-edited {
+  list-style-image: url('/images/edited.png');
+}
+
+.events li.empty {
+  list-style-type: none;
+}
+
+h2.cellars {
+  margin-top: 10pt;
+}
+
+ul.all-cellars {
+  margin-left: 15pt;
+}
+
+.color1 {
+  background-color: #dff2b3;
+}
+
+.color2 {
+  background-color: #f2e4b3;
+}
+
+.more-info {
+  overflow: hidden;
+  padding-left: 5pt;
+
+  p.note, h2.tag{
+    font-size: 16pt;
+    line-height: 24pt;
+    font-style: normal;
+    overflow: hidden;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  h2.tag {
+    color: $dark-tan;
+  }
+
+  span.note {
+    font-size: 10pt;
+    color: #999;
+    line-height: 17pt;
+  }
+
+  ul {
+    overflow: hidden;
+    padding-left: 35px;
+    margin-top: 0;
+  }
+
+  li {
+    margin-top: 5pt;
+    line-height: 14pt;
+  }
+
+  p.tour {
+    text-align: center;
+    padding-top: 15pt;
+
+    a {
+      @include rounded-corners;
+      @include buttonize($green, $green-highlight);
+      padding: 8pt 40pt;
+      font-size: 16pt;
+      text-decoration: none;
+
+      &:hover {
+        color: $green-highlight;
+      }
+    }
+  }
+}
+
+.front-page.signup {
+  text-align: center;
+  float: right;
+  position: relative;
+  top: -15px;
+  right: 92px;
+
+  label {
+    font-weight: bold;
+  }
+
+  .buttons {
+    text-align: right;
+  }
+}
+
+.newsletter {
+  float: left;
+  position: relative;
+  top: 25px;
+  left: 65px;
+
+  h2, span.note {
+    border-bottom: 0;
+    display: block;
+    clear: both;
+    margin-bottom: 3px;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-size: 20pt;
+  }
+
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .newsletter span.note {
+    margin-bottom: 5pt;
+  }
+
+  .newsletter span.error {
+    display: block;
+    color: #f00;
+  }
+
+  input {
+    width: 225px;
+  }
+}
+
+
+
+
+.second {
+  margin-top: 20pt;
+}
+
+.right {
+  float: right;
+  display: inline-block;
+}
+
+.left {
+  float: left;
+  display: inline-block;
+}
+
+button, input[type="submit"] {
+  @include buttonize($tan, $tan-highlight, $grey);
+  padding-top: 2pt;
+  padding-bottom: 2pt;
+  font-size: 1.0em;
+}
+
+table[data-sortable] th, th.unsorted {
+  background-image: url('/images/unsorted.png');
+  background-position: right center;
+  background-repeat: no-repeat;
+  padding-right: 10pt;
+  padding-left: 10pt;
+}
+
+th.unsortable {
+  background-image: none;
+  padding-right: 0;
+}
+
+th.sorted.down {
+  background-image: url('/images/sort-down.png');
+  background-color: $brown;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+th.sorted.up {
+  background-image: url('/images/sort-up.png');
+  background-color: $brown;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.tabs {
+  border-bottom: 1px #ccc solid;
+  z-index: 20;
+
+  margin-bottom: 10pt;
+  padding-left: 10pt;
+
+  h2 { 
+    display: inline-block;
+    margin: 0;
+    padding: 10pt;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+    border-bottom: 0;
+    font-size: 10pt;
+
+    border-top: 1px #ebebeb solid;
+    border-left: 1px #ebebeb solid;
+    border-right: 1px #ebebeb solid;
+
+    margin-right: 5pt;
+    position: relative;
+    top: 1px;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  h2.open {
+    border-bottom: 1px #fff solid;
+    border-top: 1px #ccc solid;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid;
+  }
+}
+
+textarea.notes {
+height: 150px;
+}
+
+.wiki, .description {
+overflow: hidden;
+}
+
+.wiki blockquote, .description blockquote {
+  font-style: italic;
+  margin-left: 10pt;
+  padding-left: 5pt;
+  border-left: 2px #ccc solid;
+}
+
+.wiki h1, .description h1 {
+  font-size: 16pt;
+}
+
+.wiki h1, .description h1,.wiki h2, .description h2,.wiki h3, .description h3,.wiki h4, .description h4 {
+  margin-bottom: 5pt;
+}
+
+.wiki h1, .description h1 {
+  font-size: 14pt;
+color: $green;
+}
+.wiki h2, .description h2 {
+  font-size: 12pt;
+color: #666;
+}
+.wiki h3, .description h3 {
+  font-size: 11pt;
+color: $green;
+}
+
+.wiki ul, .description ul {
+  padding-left: 20pt;
+}
+
+.the-hoptopus {
+float: left;
+}
+
+.signup {
+  text-align: center;
+}
+
+table.cellars.list td {
+  width: 12.5%;
+}
+
+.cellar span.date-joined, .cellar span.stats {
+}
+
+.cellar {
+  margin-bottom: 5pt;
+  height: 63px;
+
+  span.date-joined, span.stats {
+    display: block;
+    font-size: 9pt;
+    color: #666;
+    font-style: italic;
+  }
+
+  .buttons .left {
+    margin-right: 15pt;
+  }
+}
+
+.editable input {
+border: 0;
+width: 100%;
+background: transparent;
+}
+
+.editable td.year input {
+width: 40px;
+       text-align: center;
+}
+
+.editable tbody td {
+  border-bottom: 1px #ccc solid;
+  border-right: 1px #ccc solid;
+}
+
+.editable td.year {
+  border-collapse: separate;
+  border-left: 1px #ccc solid;
+}
+
+.editable input:focus {
+outline: none;
+}
+
+.editable tfoot td {
+  padding-top: 5pt;
+}
+
+.editable input.date {
+width: 70px;
+}
+
+div.dropdown {
+position: absolute;
+          background-color: #ebebeb;
+          overflow-y: auto;
+          max-height: 300px;
+
+          border-left: 1px #ccc solid;
+          border-right: 1px #ccc solid;
+          border-bottom: 1px #ccc solid;
+}
+
+div.dropdown a, div.dropdown span {
+  padding-left: 5pt;
+display: block;
+}
+
+div.dropdown a:hover {
+  background-color: #fff;
+}
+
+div.dropdown li {
+display: block;
+}
+
+.editable td.brewery, .editable td.brew {
+  background-image: url('/images/dropdown.png');
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+.editable .new input {
+color: #f00;
+       font-style: italic;
+}
+
+.logo {
+  border: 1px #86673F solid;
+  background-color: $tan;
+}
+
+a.dismiss-alert {
+float: right;
+}
+
+span.progress, span.alert, span.error {
+  padding: 5pt;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  font-weight: bold;
+  padding: 7px 10px;
+  z-index: 9999;
+}
+
+span.alert {
+  background-color: $alert-bg;
+  color: $alert-fg;
+}
+
+span.progress {
+  background-color: $progress-bg;
+  color: $progress-fg;
+}
+
+body span.error {
+  background-color: $error-bg;
+  color: $error-fg;
+}
+
+span.progress img {
+position: relative;
+top: 3px;
+     margin-right: 10px;
+}
+
+table.beers.list {
+  th.sortable-over {
+    background-color: #aaa;
+  }
+
+  th.sortable-over {
+    background-color: #aaa;
+  }
+
+  th.sortable-left {
+    background-image: url('/images/left-arrow.gif');
+    background-position: left center;
+    background-repeat: no-repeat;
+  }
+
+  th.sortable-right {
+    background-image: url('/images/right-arrow.gif');
+    background-position: right center;
+    background-repeat: no-repeat;
+  }
+}
+
+.sortable-handle {
+  opacity: 0.8;
+  -moz-opacity: 0.8;
+  filter:alpha(opacity=80);
+}
+
+.select-columns {
+  padding-top: 3pt;
+  padding-left: 5pt;
+  padding-right: 5pt;
+
+  div {
+    margin-bottom: 3pt;
+  }
+
+  input {
+    margin-right: 3pt;
+  }
+}
+
+#cellared-beers {
+  tr.filters {
+    background-color: #ebebeb;
+
+    select,input {
+      width: 100%;
+    }
+
+    td {
+      text-align: center;
+
+      &.check-all input {
+        width: auto;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+
+    tr td:first-child {
+      cursor: auto;
+    }
+  }
+}
+
+th#brewery {
+width: 240px;
+}
+
+th#variety {
+width: 260px;
+}
+
+th#style {
+width: 110px;
+}
+
+#show-more {
+  margin-top: 10pt;
+}
+
+img.gravatar {
+float: left;
+padding: 2pt;
+border: 1px #ccc solid;
+        background-color: #ebebeb;
+}
+
+img.browsecellaravatar {
+height: 3em;
+float: left;
+margin: 0 4px 2px 0;
+}
+
+img.inlineimg {
+height: 1.5em;
+top: 1px;
+}
+
+.clearfix:after {
+content: ".";
+display: block;
+clear: both;
+visibility: hidden;
+            line-height: 0;
+height: 0;
+}
+
+.clearfix {
+display: inline-block;
+}
+
+html[xmlns] .clearfix {
+display: block;
+}
+
+* html .clearfix {
+height: 1%;
+}
+
+.profile-info h2 {
+float: left;
+       border-bottom: none;
+       margin-left: 3pt;
+       margin-bottom: 2pt;
+       padding-bottom: 0;
+}
+
+#navigation {
+  li.user-info {
+    img {
+      position: relative;
+      top: -3px;
+    }
+
+    strong {
+      margin-left: 5pt;
+    }
+  }
+
+  li.user-info a, li.connect a {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  li.connect a img {
+    border: 0;
+    position: relative;
+    top: 7px;
+  }
+}
+
+li.connect span.or {
+  font-weight: bold;
+  margin-right: 6pt;
+  display: inline-block;
+  font-size: 11pt;
+}
+
+.centered {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rowselected{
+  background-color: $selected_row_color;
+}
+
+#add-beer-form, div.edit.beer {
+  span.note {
+    display: block;
+    margin-bottom: 5pt;
+  }
+
+  .add-beer.left {
+    width: 355px;
+    float: left;
+
+    textarea {
+      height: 132px;
+    }
+  }
+
+  .add-beer.right {
+    width: 355px;
+    float: right;
+  }
+
+  h3, h3 a {
+    margin-top: 10pt;
+    margin-bottom: 5pt;
+    border-bottom: 1px solid #ccc;
+    color: $green;
+  }
+
+  input.abv {
+    width: 50px;
+  }
+
+  input.price {
+    width: 75px;
+  }
+
+  input.bottle-size {
+    width: 100px;
+  }
+
+  input.beer, input.brewery {
+    width: 400px;
+  }
+}
+
+.ui-dialog {
+  .buttons {
+    text-align:right;
+  }
+
+  div.errors {
+    color: #f00;
+    text-align:center;
+  }
+
+  div.tasting-note {
+    border-bottom: none;
+    padding-bottom: 0;
+    min-width: 650px;
+
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+  }
+}
+
+#remove-beers {
+  width: 650px;
+
+  label {
+    width: auto;
+  }
+
+  p.note {
+    margin-left: 18px;
+    width: 600px;
+    margin-bottom: 20pt;
+  }
+}
+
+.sub.field {
+  margin-left: 130px;
+  margin-top: 4pt;
+  margin-top: 4pt; 
+}
+
+select.beers.dropdown {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.ui-paged-dialog {
+  div.pages {
+    margin-bottom: 5pt;
+  }
+  
+  div.buttons button {
+    margin-left: 5pt;
+  }
+}
+
+div.button {
+  margin-top: 15pt;
+  text-align: center;
+}
+
+div.pages {
+  margin-top: 10pt;
+  text-align: center;
+
+  span.page-numbers {
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px;
+  }
+
+  span.next, span.prev {
+    display: inline-block;
+    width: 50pt;
+
+    a {
+      border: 0;
+    }
+  }
+
+  a {
+    padding: 3pt 4pt;
+    margin: 0 2pt;
+    border: 1px #ccc solid;
+  }
+
+  a.selected {
+    background-color: #DFF2B3;
+  }
+}
+
+div.star-rating.beer_tasting_note_preference_rating {
+  width: auto;
+}
+
+div.star-rating img {
+  border: 0;
+  outline: none;
+
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
+.new-tasting-note textarea {
+  margin-top: 5pt;
+  margin-bottom: 5pt;
+  height: 150px;
+}
+
+.beer-info, .tasting-note {
+  width: 100%;
+
+  .left, .right {
+    width: 50%;
+  }
+
+  .third {
+    float: left;
+    width: 33%;
+
+    span.label {
+      color: $dark-grey;
+    }
+  }
+
+  .clearfix {
+    width: 100%;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+}
+
+.tasting-note {
+  border-bottom: 1px $grey solid;
+  padding-bottom: 5pt;
+  margin-top: 5pt;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+#import-cellar {
+  .field {
+    margin-top: 15pt;
+
+    label {
+      width: 75px;
+    }
+  }
+
+  .buttons {
+    text-align: right;
+  }
+
+  ol {
+    width: 650px;
+  }
+
+  h4 {
+    margin-top: 10pt;
+    text-size: 1.2em;
+    color: $dark-grey;
+  }
+
+  .field {
+    label {
+      width: auto;
+      margin-right: 25px;
+    }
+  }
+
+  div.columns {
+    margin-right: 40px;
+  }
+}
+
+.dashboard {
+  .stats {
+    display: block;
+
+    .left, .right { width: 50% }
+  }
+
+  p.stats.note {
+    margin-bottom: 10pt;
+  }
+}
+
+.bene {
+  overflow: hidden;
+  padding-right: 10pt;
+
+  p {
+    line-height: 16pt;
+  }
+
+  &.left-shot {
+    padding-left: 10pt;
+    padding-right: 0;
+
+    p {
+      margin-bottom: 10pt;
+    }
+  }
+
+  ul {
+    margin-left: 10pt;
+  }
+}
+
+div.screenshot {
+  padding: 5pt;
+  background-color: $grey;
+  border: 1px $dark-grey solid;
+  float: left;
+
+  &.right {
+    float: right;
+  }
+
+  span.caption {
+    font-size: 0.8em;
+    font-style: italic;
+    display: block;
+    margin-left: 5pt;
+  }
+}
+img.screenshot {
+  border: 1px $black solid;
+}
+
+h3 {
+  margin-top: 20pt;
+}
+
+div.centered.call {
+  margin-top: 20pt;
+  margin-bottom: 20pt;
+
+  a {
+    @include buttonize($green, $green-highlight, $green);
+    font-size: 14pt;
+    padding: 20pt;
+    padding-left: 40pt;
+    padding-right: 40pt;
+    display: inline-block;
+    text-decoration: none;
+    @include rounded-corners;
+
+    &:hover {
+      color: $green-highlight;
+    }
+  }
+}
+
+.register-form {
+  overflow: hidden;
+  padding-left: 10pt;
+}
+
+@import "preferences";
+@import "register";
+@import "cellars";

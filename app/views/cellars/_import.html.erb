@@ -1,0 +1,57 @@
+<div id="import-cellar">
+  <h3>How does it work?</h3>
+  <p>Importing your cellar contents from a spreadsheet is easy.</p>
+  <ol>
+    <li>Make sure you have the <strong>correct names in the first row</strong>. Valid column names are listed below.</li>
+    <li>Save the sheet as a CSV (Comma delimited) file.</li>
+    <li>Upload it here!</li>
+  </ol>
+
+  <h3>Valid column names</h3>
+  <p>Your columns can have any of the following names. Some columns are required in every upload.</p>
+  <p class="note">Note: The column names are not case sensitive.</p>
+
+  <div class="clearfix">
+    <div class="left columns">
+      <h4>Required Columns</h4>
+      <ul>
+        <%- Beer.required_column_names.each do |c| %>
+          <li><%= c.titleize %></li>
+        <%- end %>
+      </ul>
+    </div>
+
+    <div class="left columns">
+      <h4>Optional Columns</h4>
+      <ul>
+        <%- (Beer.importable_column_names - Beer.required_column_names).each do |c| %>
+          <li><%= c.titleize %></li>
+        <%- end %>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Upload your cellar contents file</h3>
+
+  <form action="<%= import_cellar_path(@cellar) %>" method="POST" enctype="multipart/form-data">
+    <div class="field">
+      <label for="import-file">File to Import:</label>
+      <input type="file" id="import-file" name="import_file" />
+    </div>
+
+    <div class="buttons">
+      <button class="cancel" type="button">Cancel</button>
+      <button class="submit" type="submit">Import</button>
+    </div>
+  </form>
+</div>
+
+<%- content_for :javascript do %>
+  <script type="text/javascript">
+    $(function() {
+      $("#import-cellar button.cancel").click(function() {
+        $("#import-cellar").dialog('close');
+      });
+    });
+  </script>
+<%- end %>

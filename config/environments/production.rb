@@ -51,7 +51,7 @@ Hoptopus::Application.configure do
     ActiveRecord::Base.send :include, Hoptopus::Has::Formatter
   end
 
-  config.log_level = Logger::WARN
+  config.log_level = :warn
 
   config.action_mailer.default_url_options = { :host => "hoptopus.com" }
 end

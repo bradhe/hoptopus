@@ -1,84 +1,96 @@
 <% if include_form %>
-<%= form_tag (url) %>
+  <%= form_tag (url) %>
 <% end %>
 
-<div class="clearfix">
-    <ul class="errors"></ul>
-  
-    <div class="add-beer left">
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[brewery_id]", "Beer:" %>
+<ul class="errors"></ul>
 
-            <% unless beer.brew.nil? %>
-                <span class="value"><%= beer.brewery_name %></span>
-            <% else %>
-                <%= select_tag "#{form_element_prefix}[brewery_id]", options_from_collection_for_select(Brewery.order("name").all, "id", "name"), { :include_blank => "Brewery" } %>
-            <% end %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
-            <%= text_field_tag "#{form_element_prefix}[year]", beer.year %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
-            <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
-            <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv %> %
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[bottle_size_id]", "Bottle Size:" %>
-            <%= select_tag "#{form_element_prefix}[bottle_size_id]", options_from_collection_for_select(BottleSize.order("sort_order").all, :id, :name, beer.bottle_size) %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
-            $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
-            <%= text_field_tag "#{form_element_prefix}[cellared_at]", beer.cellared_at ? beer.cellared_at.strftime("%Y-%m-%d") : nil, :class => "date cellared_at" %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[finish_aging_at]", "Age For:" %>
-          
-            <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, ((beer.finish_aging_at.year - beer.cellared_at.year) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_year' %> years
-            <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, ((beer.finish_aging_at.month - beer.cellared_at.month) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_month' %> months
-
-            <div class="sub field">
-              <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at" %>
-            </div>
-        </div>
-    </div>
-
-    <div class="add-beer left">
-        <div class="field">
-            <% unless beer.brew.nil? %>
-              <span class="value"><%= beer.name %></span>
-            <% else %>
-              <%= select_tag "#{form_element_prefix}[brew_id]", nil, { :include_blank => "Beer", :disabled => true } %>
-            <% end %>
-        </div>
-
-        <div class="field">
-            <%= label_tag "#{form_element_prefix}[markup]", "Notes:" %>
-            <%= text_area_tag "#{form_element_prefix}[markup]", beer.markup %>
-        </div>
-    </div>
+<div class="field">
+  <div class="field">
+    <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:" %>
+    <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery, :tabindex => 1, :class => 'brewery' %>
+  </div>
 </div>
+
+<div class="field">
+  <div class="field">
+    <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
+    <%= text_field_tag "#{form_element_prefix}[name]", beer.name, :tabindex => 2, :class => 'beer' %>
+  </div>
+</div>
+
+<div class="clearfix">
+  <div class="add-beer left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
+      <%= text_field_tag "#{form_element_prefix}[year]", beer.year, :class => 'year', :tabindex => 3 %>
+    </div>
+  </div>
+
+  <div class="add-beer right">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[style]", "Style:" %>
+      <%= text_field_tag "#{form_element_prefix}[style]", beer.style, :class => 'style', :tabindex => 4 %>
+    </div>
+  </div>
+</div>
+
+<h3>Other Info</h3>
+
+<div class="clearfix">
+  <div class="add-beer left">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[bottle_size]", "Bottle Size:" %>
+      <%= text_field_tag "#{form_element_prefix}[bottle_size]", beer.bottle_size, :class => 'bottle-size', :tabindex => 5 %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[price]", "Price:" %>
+      $ <%= text_field_tag "#{form_element_prefix}[price]", beer.price, :class => 'price', :tabindex => 7 %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[abv]", "ABV:" %>
+      <%= text_field_tag "#{form_element_prefix}[abv]", beer.abv, :class => 'abv', :tabindex => 9 %> %
+    </div>
+
+  </div>
+
+  <div class="add-beer right">
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[quantity]", "Quantity:" %>
+      <%= text_field_tag "#{form_element_prefix}[quantity]", beer.quantity, :class => 'quantity', :tabindex => 6 %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
+      <%= text_field_tag "#{form_element_prefix}[cellared_at]", date(beer.cellared_at), :class => "date cellared_at", :tabindex => 8 %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "#{form_element_prefix}[finish_aging_at]", "Age For:" %>
+
+      <%= select_tag "beer_finish_aging_year", options_for_select((0..50).to_a, ((beer.finish_aging_at.year - beer.cellared_at.year) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_year', :tabindex => 10 %> years
+      <%= select_tag "beer_finish_aging_month", options_for_select((0..11).to_a, ((beer.finish_aging_at.month - beer.cellared_at.month) unless beer.finish_aging_at.nil?)), :class => 'finish_aging_month', :tabindex => 11 %> months
+
+      <div class="sub field">
+        <%= text_field_tag "#{form_element_prefix}[finish_aging_at]", beer.finish_aging_at ? beer.finish_aging_at.strftime("%Y-%m-%d") : nil, :class => "date finish_aging_at", :tabindex => 12 %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- unless beer.persisted? %>
+  <h3 data-hideable="new-tasting-note">Initial Tasting Notes</h3>
+  <div id="new-tasting-note">
+  <%= render 'tasting_notes/new', :form_element_prefix => "#{form_element_prefix}[tasting_note]" %>
+  </div>
+<%- end %>
 
 <% if include_buttons %>
-<div class="buttons submit">
-    <button type="button" data-close-dialog>Cancel</button>
-    <button type="submit">Add Beer to Cellar</button>
-</div>
+  <div class="buttons submit">
+    <button style="button" class="close" tabindex="14">Cancel</button>
+    <button style="submit" class="submit" tabindex="13">Add Beer to Cellar</button>
+  </div>
 <% end %>
 
 <% if include_form %>

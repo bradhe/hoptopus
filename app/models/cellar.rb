@@ -1,27 +1,46 @@
 require 'set'
 
 class Cellar < ActiveRecord::Base
-  acts_as_commentable
-
   has_many :beers
-  has_many :brews, :through => :beers, :select => 'DISTINCT brews.*' 
+  has_many :tasting_notes, :through => :beers
   belongs_to :user
 
+  def self.newest
+    order('created_at DESC').limit(15)
+  end
+
+  def self.oldest
+    order(:created_at).limit(15)
+  end
+
+  def self.largest
+    all.sort!{ |a,b| b.beers.count <=> a.beers.count }
+  end
+
   def self.find_by_user(user)
-    if user.nil? or user.id < 1
-      return nil
-    end
-    
-    return Cellar.where(:user_id => user.id).first
+    return nil if user.nil?
+    Cellar.find_by_user_id(user.id)
   end
 
   def self.find_by_username(username)
-    return Cellar.find_by_user User.find_by_username(username)
+    u = User.find_by_username(username)
+    return nil if u.nil?
+    u.cellar
   end
-  
+
   def breweries
-    s = Set.new
-    brews.each { |b| s << b.brewery_id }
-    Brewery.order('name').where('id IN (?)', s.to_a).all
+    self.beers.map{|b| b.brewery}.sort {|a,b| a.downcase <=> b.downcase}.uniq
+  end
+
+  def active_beers
+    beers.reject { |b| b.removed_at }
+  end
+
+  def removed_beers
+    beers.select { |b| b.removed_at }
+  end
+
+  def to_param
+    self.user.username
   end
 end

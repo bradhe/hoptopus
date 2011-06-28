@@ -1,32 +1,57 @@
 <% content_for :title do %>
-	hoptopus: the easy way to share your tasting notes and what's in you beer cellar
+  hoptopus: the easy way to track and share what's in you beer cellar
 <% end %>
 
-<h2>The easy way to share your tasting notes and what's in your beer cellar.</h2>
-
-<div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
+<h2>The easy way to track and share what's in your beer cellar.</h2>
 
 <div class="more-info">
-    <p class="tag">Hoptopus makes it easy for you to get the most out of your beer cellar!</p>
-    
-    <span class="note">Meet other beer aficionados. Share tasting and aging notes. Track where your beers are in the aging process. Discover new beers with recomendations and reviews from other users.</span>
-    
-    <div class="signup">
-        <%= link_to 'Create a Free Account!', register_path, :class => 'homepage-register' %>
-        
-        <span class="or">or</span>
-        
-        <%= link_to 'Have a Look Around!', cellars_path, :class => 'homepage-lookaround' %>
-    </div>
+    <div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
+    <h2 class="tag">Hoptopus makes it easy for you to get the most out of your beer cellar!</h2>
+
+    <ul>
+      <li>Track your beer collection.</li>
+      <li>Share tasting and aging notes.</li>
+      <li>Track where your beers are in the aging process.</li>
+      <li>Discover new beers with recomendations and reviews from other users.</li>
+    </ul>
+
+    <p class="tour">
+      <%= link_to 'Take a Tour!', tour_path %>
+    </p>
+</div>
+
+<div class="front-page signup">
+  <h3>Create Your Free Hoptopus Account!</h3>
+    <% form_for(User.new, :url => register_path) do |f| %>
+      <%= f.hidden_field :email_consent, :value => true %>
+
+      <div class="field">
+        <%= f.label :username, "Username:" %>
+        <%= f.text_field :username %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email, "Email Address:" %>
+        <%= f.email_field :email %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, "Password:" %>
+        <%= f.password_field :password %>
+      </div>
+
+      <div class="buttons">
+        <%= submit_tag 'Register' %>
+      </div>
+    <% end %>
 </div>
 
 <div class="newsletter">
-	<h2>Keep Up with Hoptopus</h2>
-	<span class="note">Sign up for the hoptopus newsletter!</span>
-	
-	<div class="wrapper">
-		<input type="text" name="email" id="email" /> <button type="button" id="signup">Signup</button>
-	</div>
+  <span class="note">Sign up for the hoptopus newsletter!</span>
+
+  <div class="wrapper">
+    <input type="text" name="email" id="email" /> <button type="button" id="signup">Signup</button>
+  </div>
 </div>
 
 <% content_for :javascript do %>
@@ -37,11 +62,11 @@ progressImg.src = '/images/progress-small.gif';
 $(function() {
   $('#signup').bind('click', function() {
     var emailInput = $('#email');
-    
+
     if(emailInput.isEmpty()) {
       return;
     }
-    
+
     var wrapper = $(this).parents('.wrapper');
     var parent = wrapper.parent();
 
@@ -59,7 +84,7 @@ $(function() {
             var errors = JSON.parse(data.responseText);
             var span = $('<span/>').addClass('error').text(errors.message.email);
             wrapper.append(span);
-            
+
             $('#signup').click(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
             $('#email').keypress(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
           },
@@ -68,7 +93,7 @@ $(function() {
               var span = $('<span/>').addClass('note').text('Hurray! Thanks for signing up.');
               span.appendTo(parent);
               span.fadeIn('fast');
-            });					
+            });
           }
         });
       });

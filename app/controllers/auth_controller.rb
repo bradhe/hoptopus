@@ -3,38 +3,39 @@ class AuthController < ApplicationController
   include ApplicationHelper
 
   skip_before_filter :ensure_confirmed
+  before_filter :require_authentication, :only => [:unconfirmed]
   
   def login
-    @user = User.authenticate_without_password_hash(params[:email], params[:password])
+    if request.post?
+      @user = User.authenticate_without_password_hash(params[:email], params[:password])
+    end
 
     unless @user.nil?
       login_user @user
-      redirect_to cellar_path @user.username
+      redirect_to(session.delete(:redirected_from) || cellar_path(@user))
     end
   end
-  
+
   def logout
     session[:user_id] = nil
     redirect_to root_path
   end
-  
+
   def register
     @new_user = User.new 
-    
-    if request.post?
-      @new_user = User.new(params[:user])
 
-      if @new_user.valid? and @new_user.save
+    if request.post?
+      # Use short validation from now on.
+      params[:user][:use_short_validation] = true if params[:user]
+      @new_user = User.create(params[:user])
+
+      if @new_user.valid?
         login_user @new_user
-        
-        # Also create a cellar for this user.
-        cellar = Cellar.new(:user => @new_user)
-        cellar.save
-        
+
         # Alert that there was a registration
         Notifications.user_registered(@new_user).deliver
 
-        redirect_to cellar_path @new_user.username
+        redirect_to cellar_path(@new_user)
       end
     end
   end

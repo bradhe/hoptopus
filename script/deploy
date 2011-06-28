@@ -1,0 +1,4 @@
+#!/bin/bash
+
+git_branch=`git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"`
+cap -s branch=$git_branch deploy

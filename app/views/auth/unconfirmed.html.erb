@@ -4,7 +4,7 @@
 
 <h2>Before you continue...</h2>
 
-<p><strong>Please confirm your account.</strong> You should have received a confirmation email at the address that you registered with (<strong><%= @user.email %></strong>). Click the link in that email to confirm your account!</p>
+<p><strong>Please confirm your account.</strong> You should have received a confirmation email at the address that you registered with (<strong><%= current_user.email %></strong>). Click the link in that email to confirm your account!</p>
 
 <p style="margin-top: 10pt;">You could be being requested to confirm your email address because you haven't logged in in a while. If that's the case then an email has automatically been sent to your email address already!</p>
 <div class="button"><%= button_to "Resend Confirmation Email", send_confirmation_path %></div>

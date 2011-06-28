@@ -2,7 +2,7 @@
 .bundle
 db/*.sqlite3
 log/*.log
-tmp/**/*              
+tmp/**/*
 tmp/Rack*
 tmp/pids*
 tmp/sass-cache*
@@ -10,3 +10,6 @@ tmp/sass-cache*
 tags
 bin
 *.swp
+tags
+public/stylesheets/*
+config/database.yml

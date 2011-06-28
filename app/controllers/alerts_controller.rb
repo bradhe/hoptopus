@@ -1,17 +1,16 @@
 class AlertsController < ApplicationController
+  before_filter :require_authentication 
   def dismiss
-    name = params[:name]
-
-    alert = Alert.where('name = ? AND user_id = ?', name, @user.id).first
+    alert = current_user.alerts.select{|a| a.name == params[:name]}.first
 
     if alert.nil?
-      a = Alert.create(:name => name, :user_id => @user.id)
-      a.dismissed = true
-      a.save!
+      current_user.alerts << Alert.new(:name => name, :dismissed => true)
     else
       alert.dismissed = true
-      alert.save!
     end
+
+    # Done!
+    alert.save!
 
     respond_to do |format|
       format.json { render :nothing => true }

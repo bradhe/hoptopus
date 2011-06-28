@@ -3,76 +3,79 @@
 <head>
   <title><%= yield :title %> / hoptopus</title>
   <%= stylesheet_link_tag :all %>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js" type="text/javascript"></script>
+  <link rel="icon" type="image/ico" href="/favicon.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.tablesorter.min.js" type="text/javascript"></script>
   <script src="/javascripts/jquery.hoptopus.js" type="text/javascript"></script>
   <script src="/javascripts/hoptopus.js" type="text/javascript"></script>
 
-<% # This is shit that we only want to display in prod. Why aren't there comments in erb? %>
-<% if Rails.env.production? %>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-20887375-1']);
-    _gaq.push(['_trackPageview']);
+<%- if Rails.env.production? %>
+  <%- unless is_admin? %>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20887375-1']);
+      _gaq.push(['_trackPageview']);
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-  
-  <script type="text/javascript">
-    var is_ssl = ("https:" == document.location.protocol);
-    var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-    document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
 
-  <script type="text/javascript" charset="utf-8">
-    var feedback_widget_options = {};
-    feedback_widget_options.display = "overlay";  
-    feedback_widget_options.company = "hoptopus";
-    feedback_widget_options.placement = "right";
-    feedback_widget_options.color = "#85AF22";
-    feedback_widget_options.style = "idea";
-    var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-  </script>
-<% end %>
-<% # End production-only shit. %>
+    <script type="text/javascript">
+      var is_ssl = ("https:" == document.location.protocol);
+      var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+      document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+      var feedback_widget_options = {};
+      feedback_widget_options.display = "overlay";  
+      feedback_widget_options.company = "hoptopus";
+      feedback_widget_options.placement = "right";
+      feedback_widget_options.color = "#85AF22";
+      feedback_widget_options.style = "idea";
+      var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+    </script>
+  <%- end %>
+<%- end %>
 
   <%= csrf_meta_tag %>
 
+  <%= yield :javascript %>
 </head>
 
 <body>
 
 <div id="top">
-  <h1><a href="<%= absolute_url root_path %>"><img src="/images/little-hoptopus.png" alt="it's the hoptopus!" border="0" class="logo" /> hoptopus <span class="beta">beta!</span></a></h1>
+  <div class="clearfix">
+    <h1><a href="<%= absolute_url root_path %>"><img src="/images/little-hoptopus.png" alt="it's the hoptopus!" border="0" class="logo" /> hoptopus <span class="beta">beta!</span></a></h1>
 
-  <div id="navigation">
-    <ul>
-    <% if is_logged_in? %>
-      <li class="user-info">
-        <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
-      </li>
- 
-      <% if @user.is_admin? %>
-      <li><%= link_to 'Admin', admin_root_path %></li>
+    <div id="navigation">
+      <ul>
+      <% if is_logged_in? %>
+        <li class="user-info">
+          <a href="<%= cellar_path(@user.username) + '#preferences' %>"><%= gravatar_for @user, :class => "gravatar inlineimg" %> <strong><%= @user.username_was %></a></strong>
+        </li>
+
+        <% if @user.admin? %>
+          <li><%= link_to 'Admin', admin_root_path %></li>
+        <% end %>
+
+        <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
+        <li><%= link_to 'Browse Cellars', root_path %></li>
+        <li><%= link_to 'Logout', logout_path %></li>
+      <% else %>
+        <li><%= link_to 'Browse Cellars', cellars_path %></li>
+        <li><%= link_to 'Register', register_path %></li>
+        <li><%= link_to 'Login', login_path %></li>
+        <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
       <% end %>
-      
-      <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
-      <li><%= link_to 'Browse Cellars', root_path %></li>
-      <li><%= link_to 'Brew Wiki', wiki_index_path %></li>
-      <li><%= link_to 'Logout', logout_path %></li>
-    <% else %>
-      <li><%= link_to 'Browse Cellars', cellars_path %></li>
-	  <li><%= link_to 'Brew Wiki', wiki_index_path  %></li>
-      <li><%= link_to 'Register', register_path %></li>
-      <li><%= link_to 'Login', login_path %></li>
-      <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
-    <% end %>
-    </ul>
+      </ul>
+    </div>
+
   </div>
 </div>
 
@@ -83,9 +86,16 @@
 </div>
   
 <div id="bottom">
-  Copyright 2010 &copy; The Hoptopus People <%= link_to 'Contact', contact_index_path %> | <a href="http://hoptopus.posterous.com/">Blog</a>
+  Copyright 2011 &copy; The Hoptopus People <%= link_to 'Contact', contact_index_path %> | <a href="http://hoptopus.posterous.com/">Blog</a>
 </div>
 
-<%= yield :javascript %>
+<% if Rails.env == 'development' %>
+ <h2>Session Information</h2>
+
+ <pre style="text-align: center;">
+<%= session.inspect %>
+ </pre>
+<% end %>
+
 </body>
 </html>

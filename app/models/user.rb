@@ -1,80 +1,92 @@
 class User < ActiveRecord::Base
+  attr_accessor :password, :use_short_validation
+
   has_one :cellar, :dependent => :destroy
-  has_many :tastings
-  has_many :events
+  has_many :events, :order => 'created_at DESC'
   has_many :alerts
-  has_and_belongs_to_many :roles
 
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'
   validates_length_of :username, :in => 4..16, :message => 'Usernames must be between 4 and 16 characters long.'
-  validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!'
+  validates_format_of :email, :with => /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/, :message => 'That is not an email address!', :if => Proc.new { |u| u.confirm_email? }
   validates_format_of :username, :with => /^\S+$/, :message => 'No spaces allowed in username.'
   validates_uniqueness_of :email, :case_sensitive => false, :message => 'There is already an account with that email address.'
   validates_uniqueness_of :username, :case_sensitive => false, :message => 'There is already an account with that username.'
 
   # We do not want to do these for OAuth clients
-  validates_presence_of :password_hash, :message => 'Please provide a password.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_confirmation_of :password_hash, :message => 'Passwords do not match.', :if => Proc.new { |u| u.facebook_id.nil? }
-  validates_length_of :password_hash, :minimum => 4, :message => 'Passwords must be at least 4 characters long.', :if => Proc.new { |u| u.facebook_id.nil? }
+  validates_presence_of :password, :message => 'Please provide a password.', :if => :require_password?
+  validates_length_of :password, :minimum => 4, :allow_nil => true, :message => 'Passwords must be at least 4 characters long.', :if => :require_password?
+  validates_confirmation_of :password, :message => 'Passwords do not match.', :if => :confirm_password?
+  validates_presence_of :password_confirmation, :message => 'Please confirm your password.', :if => :confirm_password?
 
   validates_confirmation_of :email, :message => 'Emails do not match.'
-  
+
   before_create do
-    self.password_hash = hash_password(password_hash) if password_hash
+    self.password_hash = User.hash_password(password) if password
+  end
+
+  after_create do
+    self.cellar = Cellar.create!(:user => self)
+  end
+
+  def to_param
+    username
   end
 
   def confirmed?
-    self.confirmed
+    confirmed
   end
 
-  def is_admin?
-    admin_role = Role::admin_role
-  
-    if admin_role.nil?
-      return false
-    end
-    
-    return roles.include? admin_role
+  def admin?
+    admin
   end
 
-  def make_admin
-    roles << Role::admin_role unless is_admin?
+  def has_alert?(name)
+    alerts.exists?(:name => name)
   end
 
-  def disable
-    
+  def find_alert(name)
+    alerts.where(:name => name).first
   end
 
-  def revoke_admin
-    roles.delete Role::admin_role
+  def tasting_notes
+    cellar.tasting_notes
   end
-  
-  def formatted_created_at
-    self.created_at.strftime "%A %B %d, %Y" unless self.created_at.nil?
+
+  def beers
+    cellar.beers
   end
-  
-  def formatted_last_login_at
-    self.last_login_at.strftime "%A %B %d, %Y" unless self.last_login_at.nil?
+
+  def use_short_validation?
+    use_short_validation
   end
-  
-  def hash_password(password)
+
+  def confirm_password?
+    require_password? and !use_short_validation?
+  end
+
+  def require_password?
+    !facebook_id and !password_hash
+  end
+
+  def confirm_email?
+    use_short_validation?
+  end
+
+  def time_zone
+    'Pacific Time (US & Canada)'
+  end
+
+  def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end
 
   def self.authenticate_without_password_hash(email, password)
-    if password.nil? or password.empty?
-      return nil
-    end
-
-    # Just hash the fucker and get outta here.
-    password_hash = Digest::SHA256.hexdigest(password)
-
-    return authenticate_with_password_hash(email, password_hash)
+    return authenticate_with_password_hash(email, User.hash_password(password))
   end
 
   def self.authenticate_with_password_hash(email, password_hash)
-    return find(:first, :conditions => "email = '#{email}' AND password_hash = '#{password_hash}'")
+    return User.where('(email = ? OR username = ?) AND password_hash = ?', email, email, password_hash).first
   end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
@@ -89,7 +101,7 @@ class User < ActiveRecord::Base
       User.create!(:name => data["name"], :email => data["email"], :password => Devise.friendly_token)
     end
   end
-  
+
   private
     def destroy_cellar
       self.cellar.destroy

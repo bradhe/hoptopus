@@ -1,25 +1,56 @@
 <% content_for :title do %>
-	login
+ login or register
 <% end %>
 
-<div class="login">
-	<p class="note">No account? <%= link_to 'Register', '/register' %></p>
+<h2>Login to your Hoptopus account!</h2>
+<div class="centered">
+  <div class="auth clearfix">
+    <div class="register left">
+       <h3>Don't have a Hoptopus account? Create one now!</h3>
+       <% form_for(User.new, :url => register_path) do |f| %>
+         <%= f.hidden_field :email_consent, :value => true %>
 
-	<% if request.post? and @user.nil? %>
-		<ul class="errors">
-			<li>Invalid username or password.</li>
-		</ul>
-	<% end %>
+         <div class="field">
+           <%= f.label :username, "Username:" %>
+           <%= f.text_field :username %>
+         </div>
 
-  <% @login_postback_url ||= '/login' %>
-  
-	<% form_tag @login_postback_url, :method => 'post' do %>
-		<div class="field"><%= label_tag :email, "E-Mail Address:" %> <%= text_field_tag :email %></div>
+         <div class="field">
+           <%= f.label :email, "Email Address:" %>
+           <%= f.email_field :email %>
+         </div>
 
-		<div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
+         <div class="field">
+           <%= f.label :password, "Password:" %>
+           <%= f.password_field :password %>
+         </div>
 
-		<div class="buttons">
-			<span class="note"><%= link_to 'Reset Password', request_password_reset_path %></span> <%= submit_tag 'Login' %>
-		</div>
-	<% end %>
+         <div class="buttons">
+           <%= submit_tag 'Register', :class => 'submit' %>
+         </div>
+       <% end %>
+    </div>
+
+    <div class="login left">
+      <h3>Login</h3>
+      <% if request.post? and @user.nil? %>
+        <ul class="errors">
+          <li>Invalid username or password.</li>
+        </ul>
+      <% end %>
+
+      <% @login_postback_url ||= '/login' %>
+
+      <% form_tag @login_postback_url, :method => 'post' do %>
+        <div class="field"><%= label_tag :email, "Username/E-mail:" %> <%= text_field_tag :email %></div>
+
+        <div class="field"><%= label_tag :password, "Password:" %> <%= password_field_tag :password %></div>
+
+        <div class="buttons">
+          <span class="note"><%= link_to 'Reset Password', request_password_reset_path %></span> <%= submit_tag 'Login', :class => 'submit login' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
 </div>

@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   end
   
   def ensure_user_is_admin
-    unless @user and @user.is_admin?
+    unless @user and @user.admin?
       render_404
     end
   end

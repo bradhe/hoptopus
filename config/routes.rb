@@ -5,40 +5,26 @@ Hoptopus::Application.routes.draw do
   match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
 
   resources :cellars, :only => [:index, :show], :constraints => { :id => /.*/ } do
-    member do
-      post 'upload'
-    end
-    
     resources :beers do
       collection do
         post :edit
         put :update
+        delete :destroy
       end
 
       resources :comments, :only => [:update, :destroy, :create]
-      resources :tastings, :only => [:new, :create]
+      resources :tasting_notes, :only => [:create]
     end
-    
-    resources :comments, :only => [:update, :destroy, :create]
-  end
 
-  resources :brews do
-    resources :tastings, :only => [:show, :update, :destroy, :edit] do
-      resources :comments, :only => [:update, :destroy, :create]
+    member do
+      post :import
     end
   end
 
-  resources :wiki, :only => :index
-  
-  resources :users, :only => :update, :constraints => { :id => /.*/ } do
-    collection do
+  resources :users, :only => :update, :constraints => { :id => /.*/ }
 
-    end
-  end
-  
-  resources :breweries, :except => :show
   resources :contact, :only => [:index, :create]
-    
+
   namespace 'admin' do
     resources :users do
       collection do
@@ -49,13 +35,17 @@ Hoptopus::Application.routes.draw do
       end
     end
 
+    resource :lobby do
+      get :boom
+    end
+
     root :to => 'lobby#index'
   end
 
   namespace 'utils' do
     get 'states' => 'geography#states'
   end
-  
+
   # Shortcut URLs
   match 'login' => 'auth#login'
   match 'register' => 'auth#register'
@@ -86,11 +76,11 @@ Hoptopus::Application.routes.draw do
   match 'oauth/facebook/associate' => 'oauth#associate_facebook_with_account', :as => 'associate_facebook_with_hoptopus_account'
   match 'oauth/facebook/register' => 'oauth#facebook_register', :as => 'facebook_register'
 
-  # Wiki paths
-  match 'wiki/:type(/:id)', :controller => 'wiki', :action => 'list'
-  
+  # Home paths
+  match 'tour' => 'home#tour', :as => 'tour'
+
   root :to => "home#index"
-  
+
   # This needs to be a the bottom!!!
   match '*path', :controller => 'application', :action => 'render_404'
 end
