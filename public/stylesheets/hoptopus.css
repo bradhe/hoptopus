@@ -585,7 +585,7 @@ ul.all-cellars {
     line-height: 14pt; }
   .more-info p.tour {
     text-align: center;
-    padding-top: 5pt; }
+    padding-top: 15pt; }
     .more-info p.tour a {
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px;
@@ -595,7 +595,7 @@ ul.all-cellars {
       box-shadow: inset 0 1px 1px #a7d144;
       border: 1px solid #e2e2e2;
       background: #85af22;
-      padding: 8pt 20pt;
+      padding: 8pt 40pt;
       font-size: 16pt;
       text-decoration: none; }
       .more-info p.tour a:active {
@@ -615,6 +615,7 @@ ul.all-cellars {
   text-align: center;
   float: right;
   position: relative;
+  top: -15px;
   right: 92px; }
   .front-page.signup label {
     font-weight: bold; }
@@ -624,7 +625,7 @@ ul.all-cellars {
 .newsletter {
   float: left;
   position: relative;
-  top: 20px;
+  top: 25px;
   left: 65px; }
   .newsletter h2, .newsletter span.note {
     border-bottom: 0;
@@ -1133,6 +1134,73 @@ div.star-rating img {
     width: 50%; }
 .dashboard p.stats.note {
   margin-bottom: 10pt; }
+
+.bene {
+  overflow: hidden;
+  padding-right: 10pt; }
+  .bene p {
+    line-height: 16pt; }
+  .bene.left-shot {
+    padding-left: 10pt;
+    padding-right: 0; }
+    .bene.left-shot p {
+      margin-bottom: 10pt; }
+  .bene ul {
+    margin-left: 10pt; }
+
+div.screenshot {
+  padding: 5pt;
+  background-color: #e2e2e2;
+  border: 1px #cccccc solid;
+  float: left; }
+  div.screenshot.right {
+    float: right; }
+  div.screenshot span.caption {
+    font-size: 0.8em;
+    font-style: italic;
+    display: block;
+    margin-left: 5pt; }
+
+img.screenshot {
+  border: 1px black solid; }
+
+h3 {
+  margin-top: 20pt; }
+
+div.centered.call {
+  margin-top: 20pt;
+  margin-bottom: 20pt; }
+  div.centered.call a {
+    -moz-box-shadow: inset 0 1px 1px #a7d144;
+    -webkit-box-shadow: inset 0 1px 1px #a7d144;
+    box-shadow: inset 0 1px 1px #a7d144;
+    border: 1px solid #85af22;
+    background: #85af22;
+    font-size: 14pt;
+    padding: 20pt;
+    padding-left: 40pt;
+    padding-right: 40pt;
+    display: inline-block;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; }
+    div.centered.call a:active {
+      -moz-box-shadow: inset 0 1px 1px #85af22;
+      -webkit-box-shadow: inset 0 1px 1px #85af22;
+      box-shadow: inset 0 1px 1px #85af22;
+      background: #a7d144; }
+    div.centered.call a[disabled], div.centered.call a[disabled]:focus, div.centered.call a[disabled]:active {
+      -moz-box-shadow: inset 0 1px 1px #e2e2e2;
+      -webkit-box-shadow: inset 0 1px 1px #e2e2e2;
+      box-shadow: inset 0 1px 1px #e2e2e2;
+      background: #ebebeb; }
+    div.centered.call a:hover {
+      color: #a7d144; }
+
+.register-form {
+  overflow: hidden;
+  padding-left: 10pt; }
 
 /* Preferences */
 #save-preferences {

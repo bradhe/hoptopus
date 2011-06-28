@@ -15,4 +15,7 @@ class HomeController < ApplicationController
       render :template => 'cellars/index'
     end
   end
+
+  def tour
+  end
 end

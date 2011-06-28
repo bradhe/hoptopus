@@ -18,20 +18,22 @@
 <% if is_users_cellar? %>
   <% alert 'welcome' do %>
     <h3>Welcome to Hoptopus!</h3>
-    <p>There are a few things you can do to get up and running quickly with hoptopus.<p>
+    <p>This is your cellar page! Here you can maintain your collection, see stats about your beers, and change your account preferences.</p>
+
+    <p>Since you're new to Hoptopus here are a few things you should be aware of!</p>
 
     <ul>
-      <li><strong>Upload your cellar.</strong> You can import your cellar under the "Upload Cellar" tab below. This
-        will help you get your cellar inventory in place quickly so you can start sharing and trading with people.
-      </li>
-      <li><strong>Browse other peoples' cellars.</strong> See what other people in the hoptopus community are
-        cellaring and compare notes on how long you should plan to age your beers.
-      </li>
+      <li>The <strong>Dashboard</strong> tab gives you some insight in to what is in your cellar. As you add more beers it will fill with interesting statistics about your collection. It will also provide people with an overview of what beers you've recently added or filed tasting notes for.</li>
+      <li>The <strong>Cellar</strong> tab is how you can manage what is in your collection. Here you can add, remove, or import beers as well as file tasting notes for your beers. Click on a beer in the cellar page to get details about it!</li>
+      <li>The <strong>Preferences</strong> tab allows you to change account settings and control what kind of emails you get from Hoptopus!</li>
+      <li>The <strong>Browse Cellars</strong> button above lets your view other people's cellars and gives you information about what other people are doing on Hoptopus!</li>
     </ul>
+
+    <p>If you have any questions, comments, or suggestions please <%= link_to 'contact us!', contact_index_path %></p>
   <% end %>
 
   <%= alert 'my_cellar' do %>
-      This is your cellar! Share it with others: <a href="<%= cellar_url %>"><%= cellar_url %></a>
+      This is your cellar! Share it with others by sending them this URL: <a href="<%= cellar_url %>"><%= cellar_url %></a>
   <% end %>
 
   <% if notice %>

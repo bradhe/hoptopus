@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
   end
 
   def self.authenticate_with_password_hash(email, password_hash)
-    return User.where(:email => email, :password_hash => password_hash).first
+    return User.where('(email = ? OR username = ?) AND password_hash = ?', email, email, password_hash).first
   end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)

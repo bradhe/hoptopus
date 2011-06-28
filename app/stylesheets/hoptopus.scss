@@ -730,12 +730,12 @@ ul.all-cellars {
 
   p.tour {
     text-align: center;
-    padding-top: 5pt;
+    padding-top: 15pt;
 
     a {
       @include rounded-corners;
       @include buttonize($green, $green-highlight);
-      padding: 8pt 20pt;
+      padding: 8pt 40pt;
       font-size: 16pt;
       text-decoration: none;
 
@@ -750,6 +750,7 @@ ul.all-cellars {
   text-align: center;
   float: right;
   position: relative;
+  top: -15px;
   right: 92px;
 
   label {
@@ -764,7 +765,7 @@ ul.all-cellars {
 .newsletter {
   float: left;
   position: relative;
-  top: 20px;
+  top: 25px;
   left: 65px;
 
   h2, span.note {
@@ -1481,6 +1482,78 @@ div.star-rating img {
   p.stats.note {
     margin-bottom: 10pt;
   }
+}
+
+.bene {
+  overflow: hidden;
+  padding-right: 10pt;
+
+  p {
+    line-height: 16pt;
+  }
+
+  &.left-shot {
+    padding-left: 10pt;
+    padding-right: 0;
+
+    p {
+      margin-bottom: 10pt;
+    }
+  }
+
+  ul {
+    margin-left: 10pt;
+  }
+}
+
+div.screenshot {
+  padding: 5pt;
+  background-color: $grey;
+  border: 1px $dark-grey solid;
+  float: left;
+
+  &.right {
+    float: right;
+  }
+
+  span.caption {
+    font-size: 0.8em;
+    font-style: italic;
+    display: block;
+    margin-left: 5pt;
+  }
+}
+img.screenshot {
+  border: 1px $black solid;
+}
+
+h3 {
+  margin-top: 20pt;
+}
+
+div.centered.call {
+  margin-top: 20pt;
+  margin-bottom: 20pt;
+
+  a {
+    @include buttonize($green, $green-highlight, $green);
+    font-size: 14pt;
+    padding: 20pt;
+    padding-left: 40pt;
+    padding-right: 40pt;
+    display: inline-block;
+    text-decoration: none;
+    @include rounded-corners;
+
+    &:hover {
+      color: $green-highlight;
+    }
+  }
+}
+
+.register-form {
+  overflow: hidden;
+  padding-left: 10pt;
 }
 
 @import "preferences";
