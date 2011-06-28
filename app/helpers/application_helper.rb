@@ -8,6 +8,11 @@ module ApplicationHelper
     !!@user
   end
 
+  def is_admin?
+    return false unless is_logged_in?
+    current_user.admin?
+  end
+
   def location_str(params={})
     city = params[:city]
     state = params[:state]
