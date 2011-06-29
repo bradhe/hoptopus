@@ -12,7 +12,7 @@ class AuthController < ApplicationController
 
     unless @user.nil?
       login_user @user
-      redirect_to(session.delete(:redirected_from) || cellar_path(@user))
+      redirect_to(session.delete(:redirected_from) || cellar_path(@user) + "#cellar")
     end
   end
 

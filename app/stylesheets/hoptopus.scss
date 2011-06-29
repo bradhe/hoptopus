@@ -141,9 +141,13 @@ ul.notes, .alert ul {
   margin-top: 5pt;
 }
 
-.alert h3 {
-  margin-top: 0;
+.alert {
+  li { margin-top: 5pt; }
+  h3 {
+    margin-top: 0;
+  }
 }
+
 
 pre {
   background-color: #eee;

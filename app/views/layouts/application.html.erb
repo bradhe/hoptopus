@@ -64,7 +64,7 @@
           <li><%= link_to 'Admin', admin_root_path %></li>
         <% end %>
 
-        <li><%= link_to 'My Cellar', cellar_path(@user.username) %></li>
+        <li><%= link_to 'My Cellar', cellar_path(@user.username) + "#cellar" %></li>
         <li><%= link_to 'Browse Cellars', root_path %></li>
         <li><%= link_to 'Logout', logout_path %></li>
       <% else %>
