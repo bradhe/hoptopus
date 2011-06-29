@@ -68,4 +68,77 @@ describe AuthController do
       }.should change(User, :count).by(1)
     end
   end
+
+  describe '#confirm_password_reset' do
+    describe 'with old request' do
+      before do
+        reset_request = stub(:created_at => (Time.now - 2.days), :confirmed => false)
+        PasswordResetAttempt.stubs(:find_by_security_token).returns(reset_request)
+      end
+
+      it 'should redirect if the response is older than 2 days on get' do
+        get :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+
+      it 'should redirect if the response is older than 2 days on put' do
+        put :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+    end
+
+    describe 'with invalid response' do
+      before do
+        PasswordResetAttempt.stubs(:find_by_security_token).returns(nil)
+      end
+
+      it 'should redirect if the response is not found on get' do
+        get :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+
+      it 'should redirect if the response is not found on put' do
+        put :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+    end
+
+    describe 'with previously confirmed response' do
+      before do
+        reset_response = stub(:created_at => (Time.now - 1.days), :confirmed => true)
+        PasswordResetAttempt.stubs(:find_by_security_token).returns(reset_response)
+      end
+
+      it 'should redirect if the response is previously confirmed on get' do
+        get :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+
+      it 'should redirect if the response is previously confirmed on put' do
+        put :confirm_password_reset, :id => 'blah'
+        response.should redirect_to request_password_reset_path
+      end
+    end
+
+    describe 'with valid response' do
+      before do
+        reset_response = stub(:created_at => (Time.now - 1.days), :confirmed => false)
+        PasswordResetAttempt.stubs(:find_by_security_token).returns(reset_response)
+      end
+
+      it 'should render the password and confirmed password template' do
+        get :confirm_password_reset, :id => 'blah'
+        response.should render_template('confirm_password_reset')
+      end
+    end
+
+    describe 'with valid response on put' do
+      before do
+        reset_response = stub(:created_at => (Time.now - 1.days), :confirmed => false)
+        PasswordResetAttempt.stubs(:find_by_security_token).returns(reset_response)
+      end
+
+      it 'should update the users password'
+    end
+  end
 end

@@ -77,31 +77,33 @@ class AuthController < ApplicationController
       # This is a post back with a thinger. Lets set the password for this guys.
       @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
 
-      if (@reset_request and @reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
-        # TODO: Figure out what to do here
-        redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
-      end
-
-      if @reset_request.update_attributes(params[:password_reset_attempt])
+      if valid_reset_request? @reset_request
+        @reset_request.update_attributes(params[:password_reset_attempt])
         @reset_request.user.password_hash = Digest::SHA256.hexdigest(@reset_request.password)
         @reset_request.user.save
-      
+
+        # We don't need them to confirm their password.
+        @reset_request.user.update_attribute(:confirmed, true) unless @reset_request.user.confirmed?
+
         # Login this user
         login_user @reset_request.user
-        
+
         # Also set the request to confirmed.
         @reset_request.confirmed = true
         @reset_request.save
-      
+
         redirect_to root_path
-      end      
+      else 
+        # TODO: Figure out what to do here
+        redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
+      end
     else
       # Make sure we're within the bounds of the request. If it's older than two days
       # then we need to have them make another request.
       @reset_request = PasswordResetAttempt.find_by_security_token(params[:id])
-        
+
       # They have a two-day window to reclaim their thing.
-      if not @reset_request or (@reset_request.created_at < (Time.now - 2.days)) or @reset_request.confirmed
+      unless valid_reset_request? @reset_request
         # TODO: Figure out what to do here
         redirect_to request_password_reset_path, :notice => 'The security token you supplied is invalid or out of date. Please re-request a password reset if you still need one.'
       end
@@ -114,5 +116,11 @@ class AuthController < ApplicationController
   end
 
   def unconfirmed
+  end
+
+  private
+  def valid_reset_request?(reset_request)
+    return false unless reset_request
+    reset_request.created_at > (Time.now - 2.days) and !reset_request.confirmed
   end
 end 
