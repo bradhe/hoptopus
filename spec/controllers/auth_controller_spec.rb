@@ -134,15 +134,16 @@ describe AuthController do
 
     describe 'with valid response on put' do
       before do
-        user = mock()
-        user.expects(:update_attribute).twice
-        user.expects(:confirmed?)
+        @user = mock()
+        @user.expects(:update_attribute).twice
+        @user.expects(:confirmed?)
+        @user.stubs(:to_param).returns('trololo')
 
         reset_response = stub(:created_at => (Time.now - 1.days), :confirmed => false)
         reset_response.expects(:update_attributes)
         reset_response.expects(:update_attribute)
         reset_response.stubs(:password).returns('!!abc123')
-        reset_response.stubs(:user).returns(user)
+        reset_response.stubs(:user).returns(@user)
 
         PasswordResetAttempt.stubs(:find_by_security_token).returns(reset_response)
 
@@ -153,6 +154,7 @@ describe AuthController do
       it 'should update the users password' do
         # Mocking happens in the beofre...this is fucked.
         put :confirm_password_reset, { :id => 'blah', :password_reset_attempt => { :password => '!!abc123' } }
+        response.should redirect_to cellar_path(@user) + '#cellar'
       end
     end
   end
