@@ -26,7 +26,7 @@
           <% end %>
           <th width="40" id="year">Year</th>
           <th id="brewery">Brewery</th>
-          <th id="variety">Variety</th>
+          <th id="variety">Name</th>
           <th id="style">Style</th>
         </tr>
         <tr class="filters">
@@ -34,11 +34,9 @@
             <td class="check-all"><input type="checkbox" id="check-all-boxes" /></td>
           <% end %>
           <td></td>
-          <td data-filter-for="brewery">
-            <input type="text" name="search[brewery]"/>
-          </td>
-          <td data-filter-for="name"><input type="text" name="search[name]"/></td>
-          <td data-filter-for="style"><input type="text" name="search[style]"/></td>
+          <td data-filter-for="brewery"><input type="text" name="search[brewery]" title="Filter by Brewery" /></td>
+          <td data-filter-for="name"><input type="text" name="search[name]" title="Filter by Name" /></td>
+          <td data-filter-for="style"><input type="text" name="search[style]" title="Filter by Style" /></td>
         </tr>
       </thead>
 

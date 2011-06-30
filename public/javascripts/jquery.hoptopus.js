@@ -281,7 +281,33 @@ $(function() {
     });
 
     $(this).prepend(a);
-  }); 
+  });
+
+  //
+  // Set up UI hints.
+  $('input[title]').each(function() {
+    if($(this).val() != '') {
+      return;
+    }
+
+    var title = $(this).attr('title');
+    $(this).addClass('empty');
+    $(this).val(title);
+
+    $(this).focus(function() {
+      if($(this).hasClass('empty')) {
+        $(this).val('');
+        $(this).removeClass('empty');
+      }
+    });
+
+    $(this).blur(function() {
+      if($(this).val() == '') {
+        $(this).addClass('empty');
+        $(this).val(title);
+      }
+    });
+  });
 });
 
 

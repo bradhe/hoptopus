@@ -5,6 +5,12 @@ function VarietyFilter(textBox) {
     var oc = objs.length;
     // get the val and clean it up. We will fuzzy-match this stuff.
     var val = $(this.textBox).val();
+
+    // If this is empty then don't do any filtering.
+    if($(this.textBox).hasClass('empty')) {
+      val = '';
+    }
+
     var clean = val.replace(/\s+/g, '');
 
     if(!clean) {
@@ -43,6 +49,12 @@ function GenericFilter(textBox, propertyName) {
     var oc = objs.length;
     // get the val and clean it up. We will fuzzy-match this stuff.
     var val = $(this.textBox).val();
+
+    // If this is empty then don't do any filtering.
+    if($(this.textBox).hasClass('empty')) {
+      val = '';
+    }
+
     var clean = val.replace(/\s+/g, '');
 
     if(!clean) {
