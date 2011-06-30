@@ -631,9 +631,9 @@ div.login .buttons {
 }
 
 ul.errors {
-  margin-left: 15pt;
-  margin-bottom: 5pt;
-color: #f00;
+  margin-left: 3pt;
+  margin-bottom: 15pt;
+  color: $error-bg;
 }
 
 #email_consent {
@@ -1067,9 +1067,16 @@ span.progress {
   color: $progress-fg;
 }
 
-body span.error {
+span.error,  {
   background-color: $error-bg;
   color: $error-fg;
+}
+
+span.required {
+  background-color: $error-fg;
+  color: $error-bg;
+  margin-left: 3pt;
+  font-weight: bold;
 }
 
 span.progress img {
@@ -1299,6 +1306,12 @@ li.connect span.or {
 .ui-dialog {
   .buttons {
     text-align:right;
+
+    p.note {
+      float: left;
+      position: relative;
+      top: 4px;
+    }
   }
 
   div.errors {
@@ -1350,9 +1363,11 @@ select.beers.dropdown {
   div.pages {
     margin-bottom: 5pt;
   }
-  
-  div.buttons button {
-    margin-left: 5pt;
+
+  div.buttons {
+    button {
+      margin-left: 5pt;
+    }
   }
 }
 
@@ -1567,6 +1582,7 @@ div.centered.call {
   overflow: hidden;
   padding-left: 10pt;
 }
+
 
 @import "preferences";
 @import "register";

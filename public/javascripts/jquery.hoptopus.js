@@ -110,6 +110,12 @@ $(function() {
     });
   });
 
+  $('label.required').each(function() {
+    var span = $('<span/>').addClass('required');
+    span.text('*');
+    $(this).append(span);
+  });
+
   $('button[data-close-dialog]').bind('click', function() {
     $(this).parents('div.ui-dialog-content').dialog('close');
     var form = $(this).parents('form').first();

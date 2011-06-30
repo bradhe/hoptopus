@@ -79,8 +79,7 @@ class AuthController < ApplicationController
 
       if valid_reset_request? @reset_request
         @reset_request.update_attributes(params[:password_reset_attempt])
-        @reset_request.user.password_hash = Digest::SHA256.hexdigest(@reset_request.password)
-        @reset_request.user.save
+        @reset_request.user.update_attribute(:password_hash, Digest::SHA256.hexdigest(@reset_request.password))
 
         # We don't need them to confirm their password.
         @reset_request.user.update_attribute(:confirmed, true) unless @reset_request.user.confirmed?
@@ -89,8 +88,7 @@ class AuthController < ApplicationController
         login_user @reset_request.user
 
         # Also set the request to confirmed.
-        @reset_request.confirmed = true
-        @reset_request.save
+        @reset_request.update_attribute(:confirmed, true)
 
         redirect_to root_path
       else 

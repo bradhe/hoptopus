@@ -511,9 +511,9 @@ div.login .buttons {
   text-align: right; }
 
 ul.errors {
-  margin-left: 15pt;
-  margin-bottom: 5pt;
-  color: #f00; }
+  margin-left: 3pt;
+  margin-bottom: 15pt;
+  color: red; }
 
 #email_consent {
   margin-left: 2px; }
@@ -868,9 +868,15 @@ span.progress {
   background-color: black;
   color: white; }
 
-body span.error {
+span.error {
   background-color: red;
   color: white; }
+
+span.required {
+  background-color: white;
+  color: red;
+  margin-left: 3pt;
+  font-weight: bold; }
 
 span.progress img {
   position: relative;
@@ -1022,6 +1028,10 @@ li.connect span.or {
 
 .ui-dialog .buttons {
   text-align: right; }
+  .ui-dialog .buttons p.note {
+    float: left;
+    position: relative;
+    top: 4px; }
 .ui-dialog div.errors {
   color: #f00;
   text-align: center; }

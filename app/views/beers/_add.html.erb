@@ -6,14 +6,14 @@
 
 <div class="field">
   <div class="field">
-    <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:" %>
+    <%= label_tag "#{form_element_prefix}[brewery]", "Brewery:", :class => 'required' %>
     <%= text_field_tag "#{form_element_prefix}[brewery]", beer.brewery, :tabindex => 1, :class => 'brewery' %>
   </div>
 </div>
 
 <div class="field">
   <div class="field">
-    <%= label_tag "#{form_element_prefix}[name]", "Beer:" %>
+    <%= label_tag "#{form_element_prefix}[name]", "Beer:", :class => 'required' %>
     <%= text_field_tag "#{form_element_prefix}[name]", beer.name, :tabindex => 2, :class => 'beer' %>
   </div>
 </div>
@@ -21,8 +21,8 @@
 <div class="clearfix">
   <div class="add-beer left">
     <div class="field">
-      <%= label_tag "#{form_element_prefix}[year]", "Year:" %>
-      <%= text_field_tag "#{form_element_prefix}[year]", beer.year, :class => 'year', :tabindex => 3 %>
+      <%= label_tag "#{form_element_prefix}[year]", "Year:", :class => 'required' %>
+      <%= text_field_tag "#{form_element_prefix}[year]", beer.year, :value => (beer.year || Date.today.year), :class => 'year', :tabindex => 3 %>
     </div>
   </div>
 
@@ -62,7 +62,7 @@
     </div>
 
     <div class="field">
-      <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:" %>
+      <%= label_tag "#{form_element_prefix}[cellared_at]", "Cellared Date:", :class => 'required' %>
       <%= text_field_tag "#{form_element_prefix}[cellared_at]", date(beer.cellared_at), :class => "date cellared_at", :tabindex => 8 %>
     </div>
 
@@ -88,6 +88,7 @@
 
 <% if include_buttons %>
   <div class="buttons submit">
+    <p class="note"><span class="required">*</span> = Required</p>
     <button style="button" class="close" tabindex="14">Cancel</button>
     <button style="submit" class="submit" tabindex="13">Add Beer to Cellar</button>
   </div>
