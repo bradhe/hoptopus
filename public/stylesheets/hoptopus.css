@@ -922,6 +922,10 @@ table.beers.list th.sortable-right {
   cursor: pointer; }
 #cellared-beers tbody tr td:first-child {
   cursor: auto; }
+#cellared-beers tbody td span.nowrap {
+  overflow: hidden;
+  display: block;
+  white-space: nowrap; }
 
 th#brewery {
   width: 240px; }

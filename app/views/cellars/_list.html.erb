@@ -35,10 +35,7 @@
           <% end %>
           <td></td>
           <td data-filter-for="brewery">
-            <select name="search[brewery]">
-              <option value=""></option>
-              <%= options_from_collection_for_select(@cellar.breweries, :to_s, :to_s, {:include_blank => true}) %>
-            </select>
+            <input type="text" name="search[brewery]"/>
           </td>
           <td data-filter-for="name"><input type="text" name="search[name]"/></td>
           <td data-filter-for="style"><input type="text" name="search[style]"/></td>

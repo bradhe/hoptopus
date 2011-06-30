@@ -358,20 +358,23 @@ hoptopus.grid = function(options) {
       input.keypress(applyFilters);
     }
     else if(property == 'brewery') { // Brewery
-      var select = $('<select/>').attr('id', 'search-cellar-brewery');
-      filtersIndex[column.id] = filters.push(new BreweryFilter(select));
+      var input = $('<input/>').attr('name', 'search-cellar[brewery]').attr('id', 'search-cellar-brewery');
+      filtersIndex[column.id] = filters.push(new GenericFilter(select, 'brewery'));
+      filterTd.append(input);
 
-      var l = g.breweries.length;
-      select.append(new Option());
+      //var l = g.breweries.length;
+      //select.append(new Option());
 
-      for(var i = 0; i < l; i++) {
-        var name = g.breweries[i].name;
-        select.append(new Option(name, name));
-      }
+      //for(var i = 0; i < l; i++) {
+      //  var name = g.breweries[i].name;
+      //  select.append(new Option(name, name));
+      //}
 
+      //filterTd.attr('data-filter-for', property);
+      //filterTd.append(select);
+      //select.change(applyFilters);
       filterTd.attr('data-filter-for', property);
-      filterTd.append(select);
-      select.change(applyFilters);
+      input.keypress(applyFilters);
     }
 
     var td = grid.find('thead tr:last td')[idx];
@@ -472,11 +475,13 @@ hoptopus.grid = function(options) {
       }
       else {
         // TODO: Fix this hack for name.
+        var span = $('<span/>').addClass('nowrap');
+        td.append(span);
         if(column == 'name' && $.isFunction(settings.nameFormatter)) {
-          td.append(settings.nameFormatter(obj));
+          span.append(settings.nameFormatter(obj));
         }
         else {
-          td.text(obj[column]);
+          span.text(obj[column]);
         }
       }
 
@@ -680,11 +685,6 @@ hoptopus.grid = function(options) {
             t = window.setTimeout(applyFilters, 75);
           }
         }());
-      }
-      else if(property == 'brewery') {
-        var select = $(filterColumns[i].children[0]);
-        filter = new BreweryFilter(select);
-        select.change(applyFilters);
       }
       else {
         var input = $(filterColumns[i].children[0]);

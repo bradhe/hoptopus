@@ -1152,6 +1152,12 @@ table.beers.list {
     tr td:first-child {
       cursor: auto;
     }
+
+    td span.nowrap {
+      overflow: hidden;
+      display: block;
+      white-space: nowrap;
+    }
   }
 }
 
