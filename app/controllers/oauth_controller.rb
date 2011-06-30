@@ -20,7 +20,7 @@ class OauthController < ApplicationController
         # Finally, log in the guy.
         login_user(@new_user)
 
-        redirect_to root_path
+        redirect_to cellar_path(@new_user) + '#cellar'
       end
     elsif request.post?
       # Clear this to prevent some strange behavior.
@@ -48,7 +48,7 @@ class OauthController < ApplicationController
 
       login_user(user)
 
-      redirect_to root_url
+      redirect_to cellar_path(user) + '#cellar'
     else
       respond_to do |format|
         format.html { render :template => 'auth/login' }
