@@ -15,6 +15,7 @@ gem 'oauth2'
 gem 'log4r'
 gem 'haml'
 gem 'sass'
+gem 'newrelic_rpm'
 
 # No SystemTimer gem on windows.
 unless RUBY_PLATFORM =~ /ming/
