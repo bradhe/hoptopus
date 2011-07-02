@@ -788,6 +788,9 @@ table.cellars.list td {
     font-style: italic; }
   .cellar .buttons .left {
     margin-right: 15pt; }
+    .cellar .buttons .left .beers-count {
+      display: absolute;
+      bottom: 0; }
 
 .editable input {
   border: 0;
@@ -918,6 +921,10 @@ table.beers.list th.sortable-right {
     text-align: center; }
     #cellared-beers tr.filters td.check-all input {
       width: auto; }
+  #cellared-beers tr.filters span.nowrap {
+    display: inline-block;
+    width: 100%;
+    margin-right: 1px; }
 #cellared-beers tbody tr {
   cursor: pointer; }
 #cellared-beers tbody tr td:first-child {
@@ -926,6 +933,8 @@ table.beers.list th.sortable-right {
   overflow: hidden;
   display: block;
   white-space: nowrap; }
+#cellared-beers tbody td {
+  padding: 0; }
 
 th#brewery {
   width: 240px; }

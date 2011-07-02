@@ -158,7 +158,8 @@ $(function() {
     nameFormatter: function(obj) { return obj.name; },
     pageSize: 25,
     checkBoxClicked: checkBoxClicked,
-    rowClicked: beerClicked
+    rowClicked: beerClicked,
+    beersCount: $('div.beers-count span.count')
   });
 
   var beers = <%== active_beers_as_json(@cellar) %>;

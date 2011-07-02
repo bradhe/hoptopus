@@ -1,50 +1,7 @@
-// TODO: Abstract out these filters. D'oh.
-function VarietyFilter(textBox) {
-  this.textBox = textBox;
-  this.filter = function(objs) {
-    var oc = objs.length;
-    // get the val and clean it up. We will fuzzy-match this stuff.
-    var val = $(this.textBox).val();
-
-    // If this is empty then don't do any filtering.
-    if($(this.textBox).hasClass('empty')) {
-      val = '';
-    }
-
-    var clean = val.replace(/\s+/g, '');
-
-    if(!clean) {
-      return objs;
-    }
-
-    // thunk that bitch.
-    clean = clean.toLowerCase();
-
-    var found = [];
-    for(var i = 0; i < objs.length; i++) {
-      var n = objs[i].name.replace(/\s+/g, '');
-
-      if(!n) {
-        continue;
-      }
-
-      n = n.toLowerCase();
-      if(n.indexOf(clean) == 0) {
-        found.push(objs[i]);
-      }
-    }
-
-    return found;
-  };
-
-  this.clear = function() {
-    $(this.textBox).val('');
-  };
-}
-
 function GenericFilter(textBox, propertyName) {
   this.textBox = textBox;
   this.propertyName = propertyName;
+
   this.filter = function(objs) {
     var oc = objs.length;
     // get the val and clean it up. We will fuzzy-match this stuff.
@@ -69,7 +26,14 @@ function GenericFilter(textBox, propertyName) {
         continue;
       }
 
-      var n = objs[i][this.propertyName].replace(/\s+/g, '');
+      var n = objs[i][this.propertyName];
+
+      if(!n) {
+        continue;
+      }
+
+      // Little more cleanup...
+      var n = n.replace(/\s+/g, '');
 
       if(!n) {
         continue;
@@ -87,33 +51,11 @@ function GenericFilter(textBox, propertyName) {
   };
 
   this.clear = function() {
-    $(this.textBox).val('');
-  };
-}
+    $(this.textBox).val($(this.textBox).attr('title') || '');
 
-function BreweryFilter(select) {
-  this.select = select;
-
-  this.filter = function(objs) {
-    var oc = objs.length;
-    var val = $(this.select).val();
-
-    if(!val) {
-      return objs;
+    if(!$(this.textBox).hasClass('empty')) {
+      $(this.textBox).addClass('empty');
     }
-
-    var found = [];
-    for(var i = 0; i < objs.length; i++) {
-      if(objs[i].brewery == val) {
-        found.push(objs[i]);
-      }
-    }
-
-    return found;
-  };
-
-  this.clear = function() {
-    $(this.select).val('');
   };
 }
 
@@ -153,6 +95,7 @@ hoptopus.grid = function(options) {
     pageSize: 25,
     pagesList: 'div.pages',
     checkBoxClicked: null,
+    beersCount: null,
     rowClicked: null
   };
 
@@ -235,6 +178,11 @@ hoptopus.grid = function(options) {
       tr.append(td);
       tbody.append(tr);
 
+      // Also set empty count.
+      if(settings.beersCount) {
+        settings.beersCount.text('0');
+      }
+
       // Clear the buttons and everything
       $("#pages span.page-numbers").empty();
       $("#pages span.next").empty();
@@ -245,69 +193,6 @@ hoptopus.grid = function(options) {
       g.repopulateTable();
       g.resetSort();
     }
-  }
-
-  function checkboxClicked(e) {
-    var column = $(this).data('column');
-    var property = $(this).data('property');
-
-    if($(this).attr('checked')) {
-      hoptopus.showProgress('Adding column...');
-      addColumn(column, property, $(this).index());
-      hoptopus.hideProgress();
-    }
-    else {
-      hoptopus.showProgress('Removing column...');
-      removeColumn(column);
-      hoptopus.hideProgress();
-    }
-
-    // Prevents the dropdown from being closed.
-    e.stopPropagation();
-  }
-
-  function removeColumn(column) {
-    var index = -1;
-    var headers = grid.find('thead th');
-    for(var i = 0; i < headers.length; i++) {
-      var header = headers[i];
-
-      if(header.id == column.id) {
-        index = i;
-        break;
-      }
-    }
-
-    if(index < 0) {
-      throw "No column with ID " + column.id + " was found.";
-    }
-
-    // keep the th to report the removal
-    var th = null;
-
-    // Remove this TH and all of the things out of the trs
-    var rows = grid.find('tr');
-    for(var i = 0; i < rows.length; i++) {
-      var tr = rows[i];
-
-      if(tr.children && tr.children.length >= index) {
-        var child = tr.children[index];
-
-        if(th == null) {
-          th = child;
-        }
-
-        tr.removeChild(child);
-      }
-    }
-
-    if(jQuery.isFunction(settings.columnRemoved)) {
-      settings.columnRemoved(th);
-    }
-
-    var td = grid.find('tfoot td[colspan]');
-    var colspan = parseInt(td.attr('colspan'));
-    td.attr('colspan', colspan - 1);
   }
 
   // Quick binary search implementation. Man I'm awesome.
@@ -340,83 +225,6 @@ hoptopus.grid = function(options) {
 
     // Didn't find it at all.
     return false;
-  }
-
-  function addColumn(column, property, insertAt) {
-    if(!property) {
-      throw "Property not supplied.";
-    }
-
-    var th = $('<th/>').addClass('header').text(column.title);
-    $(th).attr('id', column.id);
-
-    // TODO: Figure out where this should actually go. Do we really want italic
-    // to be after the first unsortable?
-    var actualTh = grid.find('thead th:last');
-
-    var idx = $(actualTh).index();
-    actualTh.after(th);
-
-    // Also add a thing to the end of the filters line. If this is a special case,
-    // then we ened to add a filter object for it.
-    var filterTd = $('<td/>');
-
-    if(property == 'name') { // Variety
-      var input = $('<input/>').attr('name', 'search-cellar[variety]').attr('id', 'search-cellar-variety');
-      filtersIndex[column.id] = filters.push(new VarietyFilter(input));
-      filterTd.append(input);
-
-      filterTd.attr('data-filter-for', property);
-      input.keypress(applyFilters);
-    }
-    else if(property == 'brewery') { // Brewery
-      var input = $('<input/>').attr('name', 'search-cellar[brewery]').attr('id', 'search-cellar-brewery');
-      filtersIndex[column.id] = filters.push(new GenericFilter(select, 'brewery'));
-      filterTd.append(input);
-
-      //var l = g.breweries.length;
-      //select.append(new Option());
-
-      //for(var i = 0; i < l; i++) {
-      //  var name = g.breweries[i].name;
-      //  select.append(new Option(name, name));
-      //}
-
-      //filterTd.attr('data-filter-for', property);
-      //filterTd.append(select);
-      //select.change(applyFilters);
-      filterTd.attr('data-filter-for', property);
-      input.keypress(applyFilters);
-    }
-
-    var td = grid.find('thead tr:last td')[idx];
-    $(td).after(filterTd);
-
-    // Get all the rows, a column to each row.
-    var rows = grid.find('tbody tr');
-    for(var i = 0; i < rows.length; i++) {
-      var tr = rows[i];
-      var beerId = $(tr).attr('data-beer');
-
-      // lookup that beer from the objs.
-      var beer = findObjectById(beerId);
-      if(!beer) {
-        throw "Beer with ID " + beerId + " was not found in row object collection.";
-      }
-
-      var actualTd = $(tr).children('td')[idx];
-      var td = $('<td/>').text(beer[property] ? beer[property] : '');
-      td.insertAfter(actualTd);
-    }
-
-    if(jQuery.isFunction(settings.columnAdded)) {
-      settings.columnAdded(th);
-    }
-
-    // Increase the colspan on the footer row.
-    var td = grid.find('tfoot td[colspan]');
-    var colspan = parseInt(td.attr('colspan'));
-    td.attr('colspan', colspan + 1);
   }
 
   function addObjectRow(obj, tbody, front) {
@@ -629,6 +437,10 @@ hoptopus.grid = function(options) {
       addObjectRow(g.beers[i], tbody);
     }
 
+    if(settings.beersCount) {
+      settings.beersCount.text(g.beers.length);
+    }
+
     createPages();
   }
 
@@ -686,29 +498,18 @@ hoptopus.grid = function(options) {
     for(var i = 0; i < filterColumns.length; i++) {
       var property = $(filterColumns[i]).attr('data-filter-for');
 
-      var filter = null;
-      if(property == 'name') {
-        var input = $(filterColumns[i].children[0]);
-        filter = new VarietyFilter(input);
-        input.keyup(function() {
-          var t = null;
-          return function() {
-            if(t) { window.clearTimeout(t); }
-            t = window.setTimeout(applyFilters, 75);
-          }
-        }());
-      }
-      else {
-        var input = $(filterColumns[i].children[0]);
-        filter = new GenericFilter(input, property);
-        input.keyup(function() {
-          var t = null;
-          return function() {
-            if(t) { window.clearTimeout(t); }
-            t = window.setTimeout(applyFilters, 75);
-          }
-        }());
-      }
+      // Inside a span.
+      var input = $(filterColumns[i].children[0].children[0]);
+      var filter = new GenericFilter(input, property);
+
+      input.keyup(function() {
+        var t = null;
+
+        return function() {
+          if(t) { window.clearTimeout(t); }
+          t = window.setTimeout(applyFilters, 75);
+        }
+      }());
 
       if(filter) {
         filtersIndex[property] = filters.push(filter);

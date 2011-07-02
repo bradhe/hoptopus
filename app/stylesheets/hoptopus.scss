@@ -966,6 +966,11 @@ table.cellars.list td {
 
   .buttons .left {
     margin-right: 15pt;
+
+    .beers-count {
+      display: absolute;
+      bottom: 0;
+    }
   }
 }
 
@@ -1142,7 +1147,14 @@ table.beers.list {
         width: auto;
       }
     }
+
+    span.nowrap {
+      display: inline-block;
+      width: 100%;
+      margin-right: 1px;
+    }
   }
+
 
   tbody {
     tr {
@@ -1157,6 +1169,10 @@ table.beers.list {
       overflow: hidden;
       display: block;
       white-space: nowrap;
+    }
+
+    td {
+      padding: 0;
     }
   }
 }
