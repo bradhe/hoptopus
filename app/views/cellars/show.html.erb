@@ -203,6 +203,11 @@ $(function() {
        // Clear errors.
        newBeerDialog.find('form').each(function() { this.reset(); });
        newBeerDialog.find('ul.errors').empty();
+       newBeerDialog.find('.holder').each(function() {
+         if($(this).siblings('input').val() == 0) {
+          $(this).removeClass('hidden');
+         }
+       });
 
        hoptopus.showAlert('Beer added.');
      },

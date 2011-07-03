@@ -913,12 +913,26 @@ table.beers.list th.sortable-right {
   .select-columns input {
     margin-right: 3pt; }
 
+.holder {
+  position: absolute;
+  top: 0;
+  line-height: 28px;
+  left: 5px;
+  color: #cec48d;
+  font-style: italic; }
+  .holder.active {
+    color: silver; }
+
+.required .holder {
+  color: red; }
+
 #cellared-beers tr.filters {
   background-color: #ebebeb; }
   #cellared-beers tr.filters select, #cellared-beers tr.filters input {
     width: 100%; }
   #cellared-beers tr.filters td {
-    text-align: center; }
+    text-align: center;
+    position: relative; }
     #cellared-beers tr.filters td.check-all input {
       width: auto; }
   #cellared-beers tr.filters span.nowrap {
@@ -1030,6 +1044,10 @@ li.connect span.or {
   margin-bottom: 5pt;
   border-bottom: 1px solid #ccc;
   color: #85af22; }
+#add-beer-form div.field, div.edit.beer div.field {
+  position: relative; }
+  #add-beer-form div.field .holder, div.edit.beer div.field .holder {
+    left: 137px; }
 #add-beer-form input.abv, div.edit.beer input.abv {
   width: 50px; }
 #add-beer-form input.price, div.edit.beer input.price {

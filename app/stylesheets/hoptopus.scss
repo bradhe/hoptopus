@@ -1132,6 +1132,25 @@ table.beers.list {
   }
 }
 
+.holder {
+  position: absolute;
+  top: 0;
+
+  line-height: 28px;
+  left: 5px;
+
+  color: $dark-tan;
+  font-style: italic;
+
+  &.active {
+    color: $lightgray;
+  }
+}
+
+.required .holder {
+  color: $red;
+}
+
 #cellared-beers {
   tr.filters {
     background-color: #ebebeb;
@@ -1142,6 +1161,7 @@ table.beers.list {
 
     td {
       text-align: center;
+      position: relative;
 
       &.check-all input {
         width: auto;
@@ -1154,7 +1174,6 @@ table.beers.list {
       margin-right: 1px;
     }
   }
-
 
   tbody {
     tr {
@@ -1306,6 +1325,14 @@ li.connect span.or {
     margin-bottom: 5pt;
     border-bottom: 1px solid #ccc;
     color: $green;
+  }
+
+  div.field {
+    position: relative;
+
+    .holder {
+      left: 137px;
+    }
   }
 
   input.abv {
@@ -1604,6 +1631,7 @@ div.centered.call {
   overflow: hidden;
   padding-left: 10pt;
 }
+
 
 
 @import "preferences";

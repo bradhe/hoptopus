@@ -110,12 +110,6 @@ $(function() {
     });
   });
 
-  $('label.required').each(function() {
-    var span = $('<span/>').addClass('required');
-    span.text('*');
-    $(this).append(span);
-  });
-
   $('button[data-close-dialog]').bind('click', function() {
     $(this).parents('div.ui-dialog-content').dialog('close');
     var form = $(this).parents('form').first();
@@ -286,25 +280,34 @@ $(function() {
   //
   // Set up UI hints.
   $('input[title]').each(function() {
+    var title = $(this).attr('title');
+    var holder = $('<span class="holder"/>').text(title);
+
     if($(this).val() != '') {
-      return;
+      holder.addClass('hidden');
     }
 
-    var title = $(this).attr('title');
-    $(this).addClass('empty');
-    $(this).val(title);
+    $(this).after(holder);
 
     $(this).focus(function() {
-      if($(this).hasClass('empty')) {
-        $(this).val('');
-        $(this).removeClass('empty');
-      }
+      holder.addClass('active');
     });
 
     $(this).blur(function() {
-      if($(this).val() == '') {
-        $(this).addClass('empty');
-        $(this).val(title);
+      holder.removeClass('active');
+    });
+
+    var that = this;
+    holder.click(function() { that.focus(); });
+
+    $(this).bind('keyup change', function() {
+      console.log('val: ' + $(this).val() + ', ' + $(this).val().length);
+
+      if($(this).val().length > 0) {
+        holder.addClass('hidden');
+      }
+      else {
+        holder.removeClass('hidden');
       }
     });
   });
