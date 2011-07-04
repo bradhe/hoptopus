@@ -118,12 +118,8 @@ class CellarsController < ApplicationController
   end
 
   def show
-    if params[:id].nil?
-      @cellar = Cellar.find_by_user(@user)
-    else 
-      user = User.find_by_username(params[:id])
-      @cellar = Cellar.find_by_user(user)
-    end
+    user = User.find_by_username(params[:id])
+    @cellar = Cellar.find_by_user(user)
 
     # 404 if no user exists.
     render_404 and return if @cellar.nil?
@@ -131,17 +127,6 @@ class CellarsController < ApplicationController
     @tastings = @cellar.user.tasting_notes
 
     # This hash controls grid columns.
-    @grid_columns = { 
-      :formatted_cellared_at => { :id => 'created-at', :title => 'Cellared' },
-      :brewery => { :id => 'brewery', :title => 'Brewery' },
-      :name => { :id => 'variety', :title => 'Variety' },
-      :year => { :id => 'year', :title => 'Year' },
-      :quantity => { :id => 'quantity', :title => 'Quantity' },
-      :formatted_price => { :id => 'price', :title => 'Price'},
-      :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' },
-      :style => { :id => 'style', :title => 'Style' }
-    }
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @cellar }

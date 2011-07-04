@@ -301,8 +301,6 @@ $(function() {
     holder.click(function() { that.focus(); });
 
     $(this).bind('keyup change', function() {
-      console.log('val: ' + $(this).val() + ', ' + $(this).val().length);
-
       if($(this).val().length > 0) {
         holder.addClass('hidden');
       }

@@ -32,7 +32,7 @@ class BeersController < ApplicationController
       @beers = params[:selected_beers].map { |i| Beer.find(i) }
 
       respond_to do |format|
-        format.html { render :partial => 'beers/multiedit' }
+        format.html { render :partial => 'beers/multi_edit' }
       end
     else
       @beer = @cellar.beers.find(params[:id])

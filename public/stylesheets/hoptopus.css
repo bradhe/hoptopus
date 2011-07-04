@@ -245,7 +245,7 @@ div.reset-password {
 #cellars {
   padding-left: 15pt; }
 
-#cellar .buttons .left {
+#cellar .buttons .left, #your-cellar .buttons .left {
   margin-right: 5pt; }
 
 h2.tastings {
@@ -451,16 +451,55 @@ table.list td {
   color: #666;
   font-style: italic; }
 
-h2, h2 a {
-  margin-bottom: 5pt;
-  border-bottom: 1px solid #ccc;
+#content h1, #content h1 a, #content h2, #content h2 a {
+  margin-bottom: 10px;
   color: #85af22;
   padding-bottom: 5pt;
   text-decoration: none; }
-
-h2 a {
+#content h2 a {
   border-bottom: none;
   outline: none; }
+#content .tabs {
+  border-bottom: 1px #ccc solid;
+  z-index: 20;
+  margin-bottom: 10pt;
+  padding-left: 10pt; }
+  #content .tabs h2 {
+    display: inline-block;
+    margin: 0;
+    padding: 10pt;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+    border-bottom: 0;
+    font-size: 10pt;
+    border-top: 1px #ebebeb solid;
+    border-left: 1px #ebebeb solid;
+    border-right: 1px #ebebeb solid;
+    margin-right: 5pt;
+    position: relative;
+    top: 1px;
+    z-index: 10;
+    cursor: pointer; }
+  #content .tabs h2.open {
+    border-bottom: 1px #fff solid;
+    border-top: 1px #ccc solid;
+    border-left: 1px #ccc solid;
+    border-right: 1px #ccc solid; }
+
+div.getting-started .third {
+  width: 33%;
+  float: left; }
+  div.getting-started .third .highlight {
+    background-color: white;
+    height: 125px;
+    margin-left: 10px;
+    padding: 10px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px; }
+div.getting-started .highlights {
+  width: 100%;
+  margin-top: 15px; }
 
 div.auth {
   margin-top: 10pt;
@@ -709,33 +748,6 @@ th.sorted.up {
   background-repeat: no-repeat;
   background-position: right center; }
 
-.tabs {
-  border-bottom: 1px #ccc solid;
-  z-index: 20;
-  margin-bottom: 10pt;
-  padding-left: 10pt; }
-  .tabs h2 {
-    display: inline-block;
-    margin: 0;
-    padding: 10pt;
-    padding-top: 5pt;
-    padding-bottom: 5pt;
-    border-bottom: 0;
-    font-size: 10pt;
-    border-top: 1px #ebebeb solid;
-    border-left: 1px #ebebeb solid;
-    border-right: 1px #ebebeb solid;
-    margin-right: 5pt;
-    position: relative;
-    top: 1px;
-    z-index: 10;
-    cursor: pointer; }
-  .tabs h2.open {
-    border-bottom: 1px #fff solid;
-    border-top: 1px #ccc solid;
-    border-left: 1px #ccc solid;
-    border-right: 1px #ccc solid; }
-
 textarea.notes {
   height: 150px; }
 
@@ -778,17 +790,16 @@ textarea.notes {
 table.cellars.list td {
   width: 12.5%; }
 
-.cellar {
-  margin-bottom: 5pt;
-  height: 63px; }
-  .cellar span.date-joined, .cellar span.stats {
+.cellar, .your-cellar {
+  margin-bottom: 5pt; }
+  .cellar span.date-joined, .cellar span.stats, .your-cellar span.date-joined, .your-cellar span.stats {
     display: block;
     font-size: 9pt;
     color: #666;
     font-style: italic; }
-  .cellar .buttons .left {
-    margin-right: 15pt; }
-    .cellar .buttons .left .beers-count {
+  .cellar .buttons .left, .your-cellar .buttons .left {
+    margin-right: 30px; }
+    .cellar .buttons .left .beers-count, .your-cellar .buttons .left .beers-count {
       display: absolute;
       bottom: 0; }
 

@@ -5,7 +5,7 @@ module ApplicationHelper
   include Hoptopus::DateFormatters
 
   def is_logged_in?
-    !!@user
+    !!current_user
   end
 
   def is_admin?
@@ -101,12 +101,10 @@ module ApplicationHelper
   end
 
   def alert(name, options = {}, &block)
-    return if @user.nil?
+    return unless is_logged_in?
 
-    unless alert = @user.alerts.select{|a| a.name == name}.first
-      alert = Alert.new(:name => name)
-      @user.alerts << alert
-      @user.save!
+    unless alert = current_user.alerts.find_by_name(name)
+      alert = current_user.alerts.create!(:name => name)
     end
 
     unless alert.dismissed
@@ -126,5 +124,19 @@ module ApplicationHelper
   def user_owns_cellar?(cellar)
     return false unless current_user
     cellar == current_user.cellar
+  end
+
+  def default_columns
+    {
+      :formatted_cellared_at => { :id => 'created-at', :title => 'Cellared' },
+      :brewery => { :id => 'brewery', :title => 'Brewery' },
+      :name => { :id => 'variety', :title => 'Variety' },
+      :year => { :id => 'year', :title => 'Year' },
+      :quantity => { :id => 'quantity', :title => 'Quantity' },
+      :formatted_price => { :id => 'price', :title => 'Price'},
+      :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' },
+      :style => { :id => 'style', :title => 'Style' }
+    }
+
   end
 end

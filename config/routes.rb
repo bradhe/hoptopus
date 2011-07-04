@@ -4,7 +4,7 @@ Hoptopus::Application.routes.draw do
   # This needs to be up here so that it doesn't match the username rule thinger for below.
   match 'cellars/import-failed' => 'cellars#import_failed', :as => 'cellar_upload_failed'
 
-  resources :cellars, :only => [:index, :show], :constraints => { :id => /.*/ } do
+  resources :cellars, :only => [:show], :constraints => { :id => /.*/ } do
     resources :beers do
       collection do
         post :edit
@@ -12,7 +12,6 @@ Hoptopus::Application.routes.draw do
         delete :destroy
       end
 
-      resources :comments, :only => [:update, :destroy, :create]
       resources :tasting_notes, :only => [:create]
     end
 
@@ -21,7 +20,11 @@ Hoptopus::Application.routes.draw do
     end
   end
 
-  resources :users, :only => :update, :constraints => { :id => /.*/ }
+  resource :user, :only => :update, :constraints => { :id => /.*/ } do
+    get :preferences
+    get :send_confirmation, :as => 'send_confirmation'
+    get :confirmation_sent, :as => 'confirmation_sent'
+  end
 
   resources :contact, :only => [:index, :create]
 
@@ -53,9 +56,7 @@ Hoptopus::Application.routes.draw do
   match 'auth/unconfirmed' => 'auth#unconfirmed', :as => 'unconfirmed'
 
   # Users paths
-  match 'users/confirm-email/:confirmation_code' => 'users#confirm_email', :as => 'confirm_email'
-  match 'users/send-confirmation' => 'users#send_confirmation', :as => 'send_confirmation'
-  match 'users/confirmation-sent' => 'users#confirmation_sent', :as => 'confirmation_sent'
+  match 'user/confirm-email/:confirmation_code' => 'users#confirm_email', :as => 'confirm_email'
   
   # Special auth paths
   match 'reset-password' => 'auth#request_password_reset', :as => 'request_password_reset'
@@ -78,6 +79,7 @@ Hoptopus::Application.routes.draw do
 
   # Home paths
   match 'tour' => 'home#tour', :as => 'tour'
+  match 'dashboard' => 'home#dashboard', :as => 'dashboard'
 
   root :to => "home#index"
 

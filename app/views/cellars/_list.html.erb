@@ -1,68 +1,44 @@
-<h2 data-tab-handle="cellar">Cellar</h2>
+<%= form_tag(cellar_path(cellar), :id => 'edit-cellar') %>
+  <table class="beers list" id="cellared-beers">
+    <thead>
+      <tr>
+        <% if is_users_cellar?(cellar) %>
+          <th class="unsortable" width="25"></th>
+        <% end %>
+        <th width="40" id="year">Year</th>
+        <th id="brewery">Brewery</th>
+        <th id="variety">Name</th>
+        <th id="style">Style</th>
+      </tr>
+      <tr class="filters">
+        <% if is_users_cellar?(cellar) %>
+          <td class="check-all"><input type="checkbox" id="check-all-boxes" /></td>
+        <% end %>
+        <td data-filter-for="year"><span class="nowrap"><input type="text" name="search[year]" title="Filter Year" /></span></td>
+        <td data-filter-for="brewery"><span class="nowrap"><input type="text" name="search[brewery]" title="Filter Brewery" /></span></td>
+        <td data-filter-for="name"><span class="nowrap"><input type="text" name="search[name]" title="Filter Name" /></span></td>
+        <td data-filter-for="style"><span class="nowrap"><input type="text" name="search[style]" title="Filter Style" /></span></td>
+      </tr>
+    </thead>
 
-<div id="cellar">
-  <div class="buttons" align="right">
-    <% if is_users_cellar? %>
-      <div class="left">
-        <button type="button" id="new-beer">Add Beer</button>
-        <button type="button" id="import-beers">Import</button>
-      </div>
-
-      <div class="left beers">
-        <button type="button" id="edit-beers" disabled>Edit Selected</button>
-        <button type="button" id="new-tasting-note" disabled>New Tasting Note</button>
-        <button type="button" id="check-out-beers" disabled>Remove Selected</button>
-      </div>
-    <% else %>
-      <div class="left">
-        <div class="beers-count"><strong>Total Beers:</strong> <span class="count"></span> beers</div>
-      </div>
-    <% end %>
-    <button type="button" id="clear-filters">Clear Filters</button>
-  </div>
-
-  <%= form_tag(cellar_path(@cellar.user.username), :id => 'edit-cellar') %>
-    <table class="beers list" id="cellared-beers">
-      <thead>
+    <tbody>
+      <%- if cellar.active_beers.empty? %>
         <tr>
-          <% if is_users_cellar? %>
-            <th class="unsortable" width="25"></th>
-          <% end %>
-          <th width="40" id="year">Year</th>
-          <th id="brewery">Brewery</th>
-          <th id="variety">Name</th>
-          <th id="style">Style</th>
+          <td colspan="<%= is_users_cellar?(cellar) ? '5' : '4' %>" class="empty">
+            <%- if is_users_cellar? %>
+              You haven't added any beer to your cellar yet! Click "Add Beer" to get started.
+            <%- else %>
+              There are no beer in this cellar.
+            <%- end %>
+          </td>
         </tr>
-        <tr class="filters">
-          <% if is_users_cellar? %>
-            <td class="check-all"><input type="checkbox" id="check-all-boxes" /></td>
-          <% end %>
-          <td data-filter-for="year"><span class="nowrap"><input type="text" name="search[year]" title="Filter Year" /></span></td>
-          <td data-filter-for="brewery"><span class="nowrap"><input type="text" name="search[brewery]" title="Filter Brewery" /></span></td>
-          <td data-filter-for="name"><span class="nowrap"><input type="text" name="search[name]" title="Filter Name" /></span></td>
-          <td data-filter-for="style"><span class="nowrap"><input type="text" name="search[style]" title="Filter Style" /></span></td>
-        </tr>
-      </thead>
-
-      <tbody>
-        <%- if @cellar.active_beers.empty? %>
-          <tr>
-            <td colspan="<%= is_users_cellar? ? '8' : '5' %>" class="empty">
-              <%- if is_users_cellar? %>
-                You haven't added any beer to your cellar yet! Click "Add Beer" to get started.
-              <%- else %>
-                There are no beer in this cellar.
-              <%- end %>
-            </td>
-          </tr>
-        <%- end %>
-      </tbody>
-    </table>
-  </form>
-  <div class="pages">
-    <span class="prev"></span>
-    <span class="page-numbers"></span>
-    <span class="next"></span>
-  </div>
+      <%- end %>
+    </tbody>
+  </table>
+</form>
+<div class="pages">
+  <span class="prev"></span>
+  <span class="page-numbers"></span>
+  <span class="next"></span>
 </div>
 

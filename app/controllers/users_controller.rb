@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     confirmation_request = ConfirmationRequest.create!(:user => current_user)
     Notifications.send_confirmation_request(confirmation_request).deliver
 
-    redirect_to confirmation_sent_path
+    redirect_to confirmation_sent_user_path
   end
 
   def confirm_email

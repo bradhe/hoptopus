@@ -1,0 +1,7 @@
+<% form_tag cellar_beers_path(current_user), :method => :put do %>
+  <% @beers.each do |beer| %>
+    <div class="edit beer" data-id="<%= beer.id %>">
+      <%= render 'beers/form', :beer => beer, :form_element_prefix => "beer[#{beer.id}]" %>
+    </div>
+  <% end %>
+<% end %>

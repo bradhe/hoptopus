@@ -324,7 +324,7 @@ clear: both;
   padding-left: 15pt;
 }
 
-#cellar {
+#cellar, #your-cellar {
   .buttons .left {
     margin-right: 5pt;
   }
@@ -563,18 +563,76 @@ color: #666;
        font-style: italic;
 }
 
-h2, h2 a {
-  margin-bottom: 5pt;
-  border-bottom: 1px solid #ccc;
-  color: $green;
-  padding-bottom: 5pt;
-  text-decoration: none;
+#content {
+  h1, h1 a, h2, h2 a {
+    margin-bottom: 10px;
+    color: $green;
+    padding-bottom: 5pt;
+    text-decoration: none;
+  }
+
+  h2 a {
+    border-bottom: none;
+    outline: none;
+  }
+
+  .tabs {
+    border-bottom: 1px #ccc solid;
+    z-index: 20;
+
+    margin-bottom: 10pt;
+    padding-left: 10pt;
+
+    h2 { 
+      display: inline-block;
+      margin: 0;
+      padding: 10pt;
+      padding-top: 5pt;
+      padding-bottom: 5pt;
+      border-bottom: 0;
+      font-size: 10pt;
+
+      border-top: 1px #ebebeb solid;
+      border-left: 1px #ebebeb solid;
+      border-right: 1px #ebebeb solid;
+
+      margin-right: 5pt;
+      position: relative;
+      top: 1px;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    h2.open {
+      border-bottom: 1px #fff solid;
+      border-top: 1px #ccc solid;
+      border-left: 1px #ccc solid;
+      border-right: 1px #ccc solid;
+    }
+  }
+
 }
 
-h2 a {
-  border-bottom: none;
-outline: none;
+div.getting-started {
+  .third {
+    width: 33%;
+    float: left;
+
+    .highlight {
+      background-color: $white;
+      height: 125px;
+      margin-left: 10px;
+      padding: 10px;
+      @include rounded-corners(8px);
+    }
+  }
+
+  .highlights {
+    width: 100%;
+    margin-top: 15px;
+  }
 }
+
 
 div.auth {
   margin-top: 10pt;
@@ -863,41 +921,6 @@ th.sorted.up {
   background-position: right center;
 }
 
-.tabs {
-  border-bottom: 1px #ccc solid;
-  z-index: 20;
-
-  margin-bottom: 10pt;
-  padding-left: 10pt;
-
-  h2 { 
-    display: inline-block;
-    margin: 0;
-    padding: 10pt;
-    padding-top: 5pt;
-    padding-bottom: 5pt;
-    border-bottom: 0;
-    font-size: 10pt;
-
-    border-top: 1px #ebebeb solid;
-    border-left: 1px #ebebeb solid;
-    border-right: 1px #ebebeb solid;
-
-    margin-right: 5pt;
-    position: relative;
-    top: 1px;
-    z-index: 10;
-    cursor: pointer;
-  }
-
-  h2.open {
-    border-bottom: 1px #fff solid;
-    border-top: 1px #ccc solid;
-    border-left: 1px #ccc solid;
-    border-right: 1px #ccc solid;
-  }
-}
-
 textarea.notes {
 height: 150px;
 }
@@ -953,9 +976,8 @@ table.cellars.list td {
 .cellar span.date-joined, .cellar span.stats {
 }
 
-.cellar {
+.cellar, .your-cellar {
   margin-bottom: 5pt;
-  height: 63px;
 
   span.date-joined, span.stats {
     display: block;
@@ -965,7 +987,7 @@ table.cellars.list td {
   }
 
   .buttons .left {
-    margin-right: 15pt;
+    margin-right: 30px;
 
     .beers-count {
       display: absolute;
