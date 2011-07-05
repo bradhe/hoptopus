@@ -7,10 +7,11 @@ $tan-highlight: $tan+#222;
 $dark-tan: $tan - #222;
 $grey: #e2e2e2;
 $grey-highlight: #ebebeb;
+$light-grey: #ebebeb;
 $dark-grey: #ccc;
 $black: #000;
 $white: #fff;
-$lightgray: #C0C0C0;
+$light-red: #E691A7;
 $red: #f00;
 
 // Element-specific colors
@@ -44,6 +45,12 @@ $error-fg: $white;
     box-shadow: inset 0 1px 1px $grey;
     background: $grey-highlight;
   }
+}
+
+@mixin text-shadow($color: $white, $x: -1px, $y: -1px, $blur: 1px) {
+  -moz-text-shadow: $color $x $y $blur;
+  -webkit-text-shadow: $color $x $y $blur;
+  text-shadow: $color $x $y $blur;
 }
 
 @mixin gradient-top-bottom($top-color,$bottom-color) {
@@ -95,10 +102,10 @@ ul, ol {
 }
 
 input, select{
-  border-top: 2px solid $lightgray;
-  border-right: 1px solid $lightgray;
-  border-left: 2px solid $lightgray;
-  border-bottom: 1px solid $lightgray;
+  border-top: 2px solid $dark-grey;
+  border-right: 1px solid $dark-grey;
+  border-left: 2px solid $dark-grey;
+  border-bottom: 1px solid $dark-grey;
   border-radius: .4em;
   padding: .3em .3em;
   outline: none;
@@ -341,12 +348,12 @@ h2.register-facebook, h3.register-facebook {
 #error_explanation h2 {
   text-align: left;
   font-weight: bold;
-padding: 5px 5px 5px 15px;
-         font-size: 12px;
-margin: -7px;
-        margin-bottom: 0px;
-        background-color: #c00;
-color: #fff;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  margin-bottom: 0px;
+  background-color: #c00;
+  color: #fff;
 }
 
 #error_explanation ul li {
@@ -363,8 +370,8 @@ width: 920px;
 }
 
 #content {
-width: $content_width;
-       min-height: 500px;
+  width: $content_width;
+  min-height: 730px;
 }
 
 textarea {
@@ -549,7 +556,7 @@ color: #666;
 }
 
 table.list th {
-  background-color: $lightgray;
+  background-color: $dark-grey;
   cursor: url("/cursors/openhand.cur"), default !important;
 }
 
@@ -1161,16 +1168,18 @@ table.beers.list {
   line-height: 28px;
   left: 5px;
 
-  color: $dark-tan;
+  color: $dark-grey;
   font-style: italic;
 
+  @include text-shadow;
+
   &.active {
-    color: $lightgray;
+    color: $grey;
   }
 }
 
 .required .holder {
-  color: $red;
+  color: $light-red;
 }
 
 #cellared-beers {

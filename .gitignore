@@ -11,5 +11,5 @@ tags
 bin
 *.swp
 tags
-public/stylesheets/*
+*.css
 config/database.yml
