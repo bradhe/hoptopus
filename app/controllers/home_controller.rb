@@ -1,5 +1,3 @@
-require 'array'
-
 class HomeController < ApplicationController
   def index
     unless @user.nil?
@@ -11,5 +9,9 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    @recent_events = Event.where(:user => current_user).recent
+
+    # TODO: Add watches here
+    #@recent_events = Event.where(:user => current_user).recent
   end
 end

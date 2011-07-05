@@ -3,28 +3,25 @@ class UsersController < ApplicationController
   before_filter :require_authentication
 
   def update
-    @user = User.find_by_username(params[:id])
-
-    unless @user == current_user
-      render_404 and return
-    end
-
     if(params[:user][:email].blank? and params[:user][:confirm].blank?)
       params[:user].delete(:email)
       params[:user].delete(:email_confirmation)
     end
 
     if params[:user][:state].nil?
-      @user.state = nil
+      current_user.state = nil
     end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to(cellar_path(@user), :notice => 'Your preferences have been saved!') }
+        format.html { redirect_to(preferences_user_path, :notice => 'Your preferences have been saved!') }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => 'preferences' }
       end
     end
+  end
+
+  def preferences
   end
 
   def send_confirmation

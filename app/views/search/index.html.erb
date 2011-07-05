@@ -1,0 +1,14 @@
+<h1>Search Results</h1>
+
+<div class="search">
+  <%= form_tag(search_path, :method => :get) do %>
+      <%= text_field_tag :q, params[:q] %>
+      <button type="submit">Search</button>
+  <% end %>
+</div>
+
+<%- if @results.empty? %>
+  <div class="empty">No search results.</div>
+<%- else %>
+  <%= render :partial => 'users/listing', :collection => @results %>
+<%- end %>

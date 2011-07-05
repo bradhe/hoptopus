@@ -85,4 +85,21 @@ describe User do
       @user.find_alert('nonexistent_alert').should be_nil
     end
   end
+
+  describe '.search' do
+    before do
+      create_user(:email => 'bradhe@hippo.com', :username => 'bradhe')
+      create_user(:username => 'test2', :email => 'trololo@test.com')
+      create_user(:first_name => 'test1', :username => 'test1', :email =>'lol@lol.com')
+      create_user(:last_name => 'test2', :username => 'some_other_guy', :email => 'foo@bar.com')
+    end
+
+    it 'should return multiple results when there are multiple hits' do
+      User.search('test').should have(3).items
+    end
+
+    it 'should only return results that are pertinant' do
+      User.search('test1').should have(1).items
+    end
+  end
 end

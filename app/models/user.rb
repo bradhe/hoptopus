@@ -77,6 +77,37 @@ class User < ActiveRecord::Base
     'Pacific Time (US & Canada)'
   end
 
+  def location
+    str = ""
+
+    if(city)
+      str += city
+    end
+
+    if(city and state)
+      str += ', '
+    end
+
+    if(state)
+      str += state
+    end
+
+    if(state and country)
+      str += ', '
+    end
+
+    if(country)
+      str += country
+    end
+
+    str.blank? ? nil : str
+  end
+
+  def self.search(str)
+    token = "%#{str}%"
+    User.where('(username LIKE ?) OR (email LIKE ?) OR (first_name LIKE ?) OR (last_name LIKE ?)', token, token, token, token).uniq
+  end
+
   def self.hash_password(password)
     Digest::SHA256.hexdigest(password)
   end
@@ -101,9 +132,4 @@ class User < ActiveRecord::Base
       User.create!(:name => data["name"], :email => data["email"], :password => Devise.friendly_token)
     end
   end
-
-  private
-    def destroy_cellar
-      self.cellar.destroy
-    end
 end

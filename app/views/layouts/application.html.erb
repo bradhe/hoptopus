@@ -65,7 +65,7 @@
         <% end %>
 
         <li><%= link_to 'Dashboard', dashboard_path %></li>
-        <li><%= link_to 'Preferences', '#' %></li>
+        <li><%= link_to 'Preferences', preferences_user_path %></li>
         <li><%= link_to 'Logout', logout_path %></li>
       <% else %>
         <li><%= link_to 'Tour', tour_path %></li>
@@ -74,6 +74,13 @@
         <li class="connect"><span class="or">or</span> <a href="<%= facebook_connect_path %>"><img src="/images/fb-connect.gif" alt="Login with Facebook Connect" /></a></li>
       <% end %>
       </ul>
+    
+      <div class="search">
+        <%= form_tag(search_path, :method => :get) do %>
+          <%= text_field_tag :q, params[:q] %>
+          <button type="submit">Search</button>
+       <%- end %>
+      </div>
     </div>
 
   </div>

@@ -81,6 +81,9 @@ Hoptopus::Application.routes.draw do
   match 'tour' => 'home#tour', :as => 'tour'
   match 'dashboard' => 'home#dashboard', :as => 'dashboard'
 
+  # Search path
+  match 'search' => 'search#index', :as => 'search'
+
   root :to => "home#index"
 
   # This needs to be a the bottom!!!

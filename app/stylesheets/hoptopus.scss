@@ -394,9 +394,21 @@ height: 325px;
 }
 
 #navigation {
-float: right;
-       margin-top: 5pt;
-       margin-right: 5pt;
+  float: right;
+  margin-top: 5pt;
+  margin-right: 5pt;
+
+  div.search {
+    margin-left: 20px;
+    display: inline;
+
+    input, button {
+      font-size: .8em;
+    }
+    form {
+      display: inline;
+    }
+  }
 }
 
 #navigation ul, #navigation li {
@@ -1309,8 +1321,6 @@ float: left;
 
   li.connect a img {
     border: 0;
-    position: relative;
-    top: 7px;
   }
 }
 
@@ -1663,7 +1673,9 @@ div.centered.call {
   padding-left: 10pt;
 }
 
-
+.user-listing {
+  width: 100%;
+}
 
 @import "preferences";
 @import "register";

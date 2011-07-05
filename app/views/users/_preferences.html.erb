@@ -1,4 +1,4 @@
-<%= form_for(@user) do |f| %>
+<%= form_for(current_user, :url => user_path) do |f| %>
 
   <%= field_set_tag "Login", :class => "preferencegroup" do %>
     <div class="field">
@@ -88,12 +88,11 @@
 
 <% content_for :javascript do %>
 <script type="text/javascript">
-    var statesSelect = $('select#user_state');
-
     function states_callback(countryStates) {
+      var statesSelect = $('select#user_state');
+
       statesSelect.empty();
       if(countryStates.length > 0){
-
         for (var i in countryStates) {
             var state = countryStates[i];
 
@@ -111,18 +110,14 @@
     }
 
     function states_error(){
+      var statesSelect = $('select#user_state');
       statesSelect.empty();
       statesSelect.append($('<option/>').val('').text('No states available for this country.'));
       statesSelect.attr('disabled', true);
     }
 
-    function states_complete(){
-      hoptopus.hideProgress();
-    }
-
     $('select#user_country').live('change', function() {
-        hoptopus.showProgress("Working...");
-        $.get("<%= utils_states_path %>",{ country: $(this).val() }, states_callback).error(states_error()).complete(states_complete());
+        $.get("<%= utils_states_path %>",{ country: $(this).val() }, states_callback).error(states_error());
     });
 
 
