@@ -15,8 +15,8 @@
   </div>
 </div>
 
-<% if is_users_cellar? %>
-  <% alert 'welcome', :css_class => 'getting-started' do %>
+<% if is_logged_in? %>
+  <% alert 'others_getting_started', :css_class => 'getting-started' do %>
     <h3>Welcome to Hoptopus!</h3>
     <p>This is your cellar page! Here you can maintain your collection, see stats about your beers, and change your account preferences.</p>
 
@@ -29,19 +29,9 @@
 
     <p>If you have any questions, comments, or suggestions please <%= link_to 'contact us!', contact_index_path %></p>
   <% end %>
-
-  <%= alert 'my_cellar' do %>
-      This is your cellar! Share it with others by sending them this URL: <a href="<%= cellar_url %>"><%= cellar_url %></a>
-  <% end %>
-
-  <% if notice %>
-      <div class="notice"><%= notice %></div>
-  <% end %>
 <% end %>
 
 <%= render 'dashboard' %>
-
-<%= render 'list' %>
 
 <% if is_users_cellar? %>
   <h2 data-tab-handle="preferences">Preferences</h2>
