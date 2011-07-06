@@ -16,6 +16,7 @@ gem 'log4r'
 gem 'haml'
 gem 'sass'
 gem 'newrelic_rpm'
+gem 'will_paginate'
 
 # No SystemTimer gem on windows.
 unless RUBY_PLATFORM =~ /ming/

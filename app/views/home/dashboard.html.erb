@@ -14,12 +14,12 @@
 
 <h2 data-tab-handle="your-recent-changes">Your Recent Changes</h2>
 <div id="your-recent-changes">
-  Your recent changes.
+  <%= render 'shared/events', :events => current_user.events.recent %>
 </div>
 
-<h2 data-tab-handle="friends-recent-changes">Friends' Recent Changes</h2>
-<div id="friends-recent-changes">
-  Your friend's recent chagnes.
+<h2 data-tab-handle="others-recent-changes">Others' Recent Changes</h2>
+<div id="others-recent-changes">
+  <%= render 'shared/events', :events => current_user.events.recent %>
 </div>
 
 <div class="hidden">

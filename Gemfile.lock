@@ -167,6 +167,7 @@ GEM
     uuidtools (2.1.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
+    will_paginate (2.3.15)
     xml-simple (1.1.0)
 
 PLATFORMS
@@ -199,3 +200,4 @@ DEPENDENCIES
   sass
   sqlite3
   uuidtools
+  will_paginate

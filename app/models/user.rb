@@ -73,6 +73,14 @@ class User < ActiveRecord::Base
     use_short_validation?
   end
 
+  def full_name
+    unless first_name or last_name
+      return nil
+    end
+
+    (first_name + ' ' + last_name).strip
+  end
+
   def time_zone
     'Pacific Time (US & Canada)'
   end

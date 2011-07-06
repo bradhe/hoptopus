@@ -1,16 +1,11 @@
 <div class="user-listing clearfix">
   <%= gravatar_for(listing, :class => 'gravatar cellar-avatar') %>
-  <h4><%= link_to listing.username, cellar_path(listing) %></h4>
+  <h4><%= link_to listing_link_text(listing), cellar_path(listing) %></h4>
   <div class="details">
-    <%- if listing.first_name or listing.last_name %>
-      <span class="real-name"><%= (listing.first_name + ' ' + listing.last_name).strip %>.</span>
-    <%- end %>
-
     <%- if listing.location %>
-      <span class="location"><%= listing.location %>.</span>
+      <span class="location"><%= listing.location %></span>
     <%- end %>
 
-    <span class="beers-count"><%= listing.cellar.active_beers.size %> beers in cellar.</span>
-    <span class="member-since">Member since <%= format_date(listing.created_at) %>.</span>
+    <span class="beers-count"><%= listing.cellar.active_beers.size %> beers in cellar</span>
   </div>
 </div>

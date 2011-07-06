@@ -7,8 +7,14 @@
   <% end %>
 </div>
 
+<h2>Users</h2>
+
 <%- if @results.empty? %>
   <div class="empty">No search results.</div>
 <%- else %>
   <%= render :partial => 'users/listing', :collection => @results %>
 <%- end %>
+
+<div class="pages">
+  <%= will_paginate @results %>
+</div>

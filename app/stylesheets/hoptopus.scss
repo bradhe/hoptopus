@@ -393,20 +393,37 @@ height: 325px;
   }
 }
 
+div.search button {
+  text-indent: -5000px;
+  background-image: url('/images/magnify.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 24px;
+  position: relative;
+  top: 1px;
+}
+
 #navigation {
   float: right;
   margin-top: 5pt;
   margin-right: 5pt;
 
   div.search {
+    position: relative;
     margin-left: 20px;
     display: inline;
 
-    input, button {
+    input {
       font-size: .8em;
     }
+
     form {
       display: inline;
+    }
+
+    .holder {
+      line-height: 18px;
+      left: 6px;
     }
   }
 }
@@ -478,8 +495,8 @@ label, span.label {
 }
 
 h1 img {
-position: relative;
-top: 8px;
+  position: relative;
+  top: 8px;
 }
 
 .content-wrapper {
@@ -492,12 +509,12 @@ top: 8px;
 }
 
 #bottom {
-color: #ccc;
-       border-top: 1px dashed #EBEBEB;
-       padding-top: 5pt;
-       margin-top: 5pt;
-       text-align: center;
-       min-height: 100px;
+  color: #ccc;
+  border-top: 1px dashed #EBEBEB;
+  padding-top: 5pt;
+  margin-top: 5pt;
+  text-align: center;
+  min-height: 100px;
 }
 
 div.navigation, div.alert {
@@ -630,6 +647,14 @@ color: #666;
     }
   }
 
+
+  .search {
+    text-align: center;
+    margin-bottom: 20px;
+    input {
+      width: 300px;
+    }
+  }
 }
 
 div.getting-started {
@@ -1294,12 +1319,17 @@ display: block;
 height: 1%;
 }
 
-.profile-info h2 {
-float: left;
-       border-bottom: none;
-       margin-left: 3pt;
-       margin-bottom: 2pt;
-       padding-bottom: 0;
+.profile-info {
+  margin-bottom: 20px;
+
+  h1 {
+    float: left;
+    border-bottom: none;
+    margin-left: 3pt;
+    margin-bottom: 2pt;
+    padding-bottom: 0;
+    margin-top: 2px;
+  }
 }
 
 #navigation {
@@ -1317,6 +1347,11 @@ float: left;
   li.user-info a, li.connect a {
     background-color: transparent;
     padding: 0;
+  }
+
+  li.connect a {
+    position: relative;
+    top: 8px;
   }
 
   li.connect a img {
@@ -1675,6 +1710,11 @@ div.centered.call {
 
 .user-listing {
   width: 100%;
+  margin-bottom: 15px;
+
+  .location {
+    display: block;
+  }
 }
 
 @import "preferences";
