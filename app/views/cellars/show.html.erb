@@ -2,13 +2,17 @@
   <%= @cellar.user.username %>'s beer cellar
 <% end %>
 
-<div class="profile-info clearfix">
-  <%= gravatar_for(@cellar.user, :class => "gravatar", :align => 'left', :width => '50px') %>
+<div class="page-title">
+  <div class="profile-info clearfix">
+    <%= gravatar_for(@cellar.user, :class => "gravatar", :align => 'left', :width => '50px') %>
 
-  <div class="user-info">
-    <h1><%= @cellar.user.username %></h1>
-    <span class="note"><%= @cellar.user.location %></span>
+    <div class="user-info">
+      <h1><%= @cellar.user.username %></h1>
+      <span class="note"><%= @cellar.user.location %></span>
+    </div>
   </div>
+
+  <%= render 'users/watching', :user => @cellar.user %>
 </div>
 
 <h2 data-tab-handle="cellar">Cellar</h2>

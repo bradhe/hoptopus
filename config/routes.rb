@@ -15,6 +15,8 @@ Hoptopus::Application.routes.draw do
       resources :tasting_notes, :only => [:create]
     end
 
+    resource :watches, :only => :show
+
     member do
       post :import
     end

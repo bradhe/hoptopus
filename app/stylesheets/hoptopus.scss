@@ -601,9 +601,7 @@ color: #666;
 
 #content {
   h1, h1 a, h2, h2 a {
-    margin-bottom: 10px;
     color: $green;
-    padding-bottom: 5pt;
     text-decoration: none;
   }
 
@@ -1714,6 +1712,29 @@ div.centered.call {
 
   .location {
     display: block;
+  }
+}
+
+.page-title {
+  position: relative;
+  margin-bottom: 20px;
+
+  .watching {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    font-size: 1.2em;
+    font-weight: bold;
+
+    a {
+      text-decoration: none;
+      color: $dark-grey;
+
+      &:hover {
+        color: inherit;
+      }
+    }
   }
 }
 

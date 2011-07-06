@@ -2,7 +2,10 @@
   dashboard
 <%- end %>
 
-<h1>Dashboard</h1>
+<div class="page-title">
+  <h1>Dashboard</h1>
+  <%= render 'users/watching', :user => current_user %>
+</div>
 
 <%= render 'getting_started' %>
 
