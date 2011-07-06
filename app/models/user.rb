@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_one :cellar, :dependent => :destroy
   has_many :events, :order => 'created_at DESC'
   has_many :alerts
+  has_and_belongs_to_many :watches, :class_name => 'User', :join_table => 'watches', :association_foreign_key => 'watching_user_id', :uniq => true
 
   validates_presence_of :email, :message => 'Please provide an email address.'
   validates_presence_of :username, :message => 'Please provide a username.'

@@ -24,6 +24,8 @@ Hoptopus::Application.routes.draw do
     get :preferences
     get :send_confirmation, :as => 'send_confirmation'
     get :confirmation_sent, :as => 'confirmation_sent'
+
+    resources :watches, :only => [:create, :destroy]
   end
 
   resources :contact, :only => [:index, :create]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110527033045) do
+ActiveRecord::Schema.define(:version => 20110706021944) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -37,11 +37,60 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.datetime "updated_at"
   end
 
+  create_table "bottle_sizes", :force => true do |t|
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "sort_order"
+  end
+
+  create_table "brew_types", :force => true do |t|
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "breweries", :force => true do |t|
+    t.string    "name"
+    t.string    "country"
+    t.string    "state"
+    t.string    "city"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "sanitized_name"
+  end
+
+  create_table "brews", :force => true do |t|
+    t.string    "name"
+    t.integer   "brewery_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "brew_type_id"
+    t.integer   "ibus"
+    t.float     "abv"
+    t.integer   "suggested_aging_years"
+    t.integer   "suggested_aging_months"
+  end
+
   create_table "cellars", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "comments", :force => true do |t|
+    t.string    "title",            :limit => 50, :default => ""
+    t.text      "comment"
+    t.integer   "commentable_id"
+    t.string    "commentable_type"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
+  add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "confirmation_requests", :force => true do |t|
     t.integer  "user_id"
@@ -75,6 +124,19 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.datetime "updated_at"
   end
 
+  create_table "roles", :force => true do |t|
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer   "role_id"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+  end
+
   create_table "tasting_notes", :force => true do |t|
     t.integer  "beer_id"
     t.integer  "pour_rating",         :default => 0
@@ -87,6 +149,14 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tastings", :force => true do |t|
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "brew_id"
+    t.timestamp "cellared_at"
   end
 
   create_table "uploaded_beer_records", :force => true do |t|
@@ -120,6 +190,22 @@ ActiveRecord::Schema.define(:version => 20110527033045) do
     t.boolean  "confirmed",                          :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "watches", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "watching_user_id"
+  end
+
+  add_index "watches", ["user_id"], :name => "index_watches_on_user_id"
+
+  create_table "wikis", :force => true do |t|
+    t.integer   "for_id"
+    t.string    "for_type"
+    t.text      "markup"
+    t.integer   "revision"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
 end
