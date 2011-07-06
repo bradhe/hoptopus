@@ -25,7 +25,7 @@
       <%- if cellar.active_beers.empty? %>
         <tr>
           <td colspan="<%= is_users_cellar?(cellar) ? '5' : '4' %>" class="empty">
-            <%- if is_users_cellar? %>
+            <%- if is_users_cellar?(cellar) %>
               You haven't added any beer to your cellar yet! Click "Add Beer" to get started.
             <%- else %>
               There are no beer in this cellar.
