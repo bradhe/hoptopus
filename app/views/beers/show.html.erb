@@ -16,22 +16,23 @@
   &gt; <%= beer_title(@beer) %>
 </div>
 
+<div class="beer-info field">
+  <span class="label">Name:</span> <span class="value"><%= @beer.name %></span>
+</div>
+
+<div class="beer-info field">
+  <span class="label">Brewery:</span> <span class="value"><%= @beer.brewery %></span>
+</div>
+
+
 <div class="clearfix beer-info">
   <div class="left">
-    <div class="field">
-      <span class="label">Name:</span> <span class="value"><%= @beer.name %></span>
-    </div>
-
     <div class="field">
       <span class="label">Year:</span> <span class="value"><%= @beer.year %></span>
     </div>
   </div>
 
   <div class="right">
-    <div class="field">
-      <span class="label">Brewery:</span> <span class="value"><%= @beer.brewery %></span>
-    </div>
-
     <div class="field">
       <span class="label">Style:</span> <span class="value"><%= @beer.style %></span>
     </div>

@@ -20,6 +20,21 @@ def create_user(attributes={})
   User.create!(default_attributes.merge(attributes.symbolize_keys))
 end
 
+def create_beer(attributes={})
+  default_attributes = { 
+    :name => 'Test Beer',
+    :brewery => 'Test Brewery',
+    :year => '1997',
+    :cellared_at => Time.now
+  }
+
+  unless attributes[:cellar] or attributes[:cellar_id]
+    attributes[:cellar] = create_cellar
+  end
+
+  Beer.create!(default_attributes.merge(attributes.symbolize_keys))
+end
+
 def create_confirmed_user(attributes={})
   create_user(attributes.merge(:confirmed => true))
 end

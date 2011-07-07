@@ -27,6 +27,12 @@ class Beer < ActiveRecord::Base
     end
   end
 
+  after_save do
+    if !removed_at_was and removed_at
+      Event.create!(:user => self.user, :source => self, :formatter => BeerRemovedEventFormatter)
+    end
+  end
+
   def imported?
     @imported ||= false
     @imported

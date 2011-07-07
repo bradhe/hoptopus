@@ -40,4 +40,26 @@ describe Beer do
       b.errors[:name].should_not be_present
     end
   end
+
+  describe '#save' do
+    before do
+      @beer = create_beer
+    end
+
+    it 'should create an event if removed_at was nil and is updated to be not nil' do
+      @beer.removed_at = Time.now
+
+      lambda {
+        @beer.save!
+      }.should change(Event, :count).by(1)
+    end
+
+    it 'should not create an event if removed_at was not changed' do
+      @beer.name = "Some other test name."
+
+      lambda {
+        @beer.save!
+      }.should_not change(Event, :count)
+    end
+  end
 end

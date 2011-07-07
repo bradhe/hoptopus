@@ -13,6 +13,36 @@ describe WatchesController do
       post :create, { :user_id => 'user2' }
       @user.watches.should have(1).item
     end
+
+    it 'should create a watched event' do
+      lambda {
+        post :create, { :user_id => 'user2' }
+      }.should change(Event, :count).by(1)
+    end
+
+    it 'should not create a watched event twice' do
+      lambda {
+        post :create, { :user_id => 'user2' }
+        post :create, { :user_id => 'user2' }
+      }.should change(Event, :count).by(1)
+    end
+
+    it 'should update an watched event if there is an old one' do
+      post :create, { :user_id => 'user2' }
+
+      e = Event.last
+      e.update_attribute(:created_at,  6.days.ago)
+
+      # Remove the watch too
+      @user.watches.delete(User.find_by_username('user2'))
+
+      mock_event = mock(:update_attribute)
+
+      event = stub(:first => mock_event)
+      Event.stubs(:where).returns(event)
+
+      post :create, { :user_id => 'user2' }
+    end
   end
 
   describe '#destroy' do

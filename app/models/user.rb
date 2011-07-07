@@ -117,10 +117,10 @@ class User < ActiveRecord::Base
   end
 
   def self.search(str)
-    token = "%#{str}%"
+    token = "#{str}%"
 
     # Prioitize username then everything else.
-    (User.where('(username LIKE ?)', token) + User.where('(email LIKE ?) OR (first_name LIKE ?) OR (last_name LIKE ?)', token, token, token)).flatten.uniq
+    (User.where('(username LIKE ?)', token) + User.where('(first_name LIKE ?) OR (last_name LIKE ?)', token, token)).flatten.uniq
   end
 
   def self.hash_password(password)
