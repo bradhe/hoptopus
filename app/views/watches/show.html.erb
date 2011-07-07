@@ -1,0 +1,27 @@
+<%- content_for :title do %>
+  <%= @user == current_user ? "your" : @user.username + "'s" %> watches
+<%- end %>
+
+<div class="page-title">
+  <h1><%= @user == current_user ? "Your" : @user.username + "'s" %> Watches</h1>
+</div>
+
+<div class="breadcrumbs">
+  <%- if @user == current_user %>
+    <%= link_to 'Dashboard', dashboard_path %> &gt; Watches
+  <%- else %>
+    <%= link_to "#{@user.username}'s Cellar", cellar_path(@user) %> &gt; Watches
+  <%- end %>
+</div>
+
+<div class="watches">
+  <%- if @watches.empty? %>
+    <%- if @user == current_user %>
+      <em>You are not watching anyone!</em>
+    <%- else %>
+      <em><%= @user.username %> is not watching anyone!</em>
+    <%- end %>
+  <%- else %>
+    <%= render :partial => 'users/listing', :collection => @watches %>
+  <%- end %>
+</div>

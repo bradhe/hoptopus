@@ -3,7 +3,7 @@
   <%= field_set_tag "Login", :class => "preferencegroup" do %>
     <div class="field">
       <label for="emailbox">Email:</label>
-      <span id="emailbox"><%= @user.email_was %></span>
+      <span id="emailbox"><%= current_user.email_was %></span>
     </div>
     <div class="field">
       <%= f.label :email, 'New Email:' %>
@@ -46,8 +46,8 @@
       <div class="field">
         <%= f.label :state, 'State/Province:' %>
 
-        <% unless @user.state.nil? %>
-          <%= f.select :state, Carmen.states(@user.country) %>
+        <% unless current_user.state.nil? %>
+          <%= f.select :state, Carmen.states(current_user.country) %>
         <% else %>
           <%= f.select :state, [], {:include_blank => 'No states available for this country.'}, :disabled => true %>
         <% end %>

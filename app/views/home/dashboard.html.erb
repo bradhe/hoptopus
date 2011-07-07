@@ -4,7 +4,6 @@
 
 <div class="page-title">
   <h1>Dashboard</h1>
-  <%= render 'users/watching', :user => current_user %>
 </div>
 
 <%= render 'getting_started' %>
@@ -20,9 +19,10 @@
   <%= render 'shared/events', :events => current_user.events.recent %>
 </div>
 
-<h2 data-tab-handle="others-recent-changes">Others' Recent Changes</h2>
-<div id="others-recent-changes">
-  <%= render 'shared/events', :events => current_user.events.recent %>
+<h2 data-tab-handle="watched-recent-changes">Watched Recent Changes</h2>
+<div id="watched-recent-changes">
+  <%= render 'users/watching', :user => current_user %>
+  <%= render 'shared/events', :events => recent_watched_events(current_user) %>
 </div>
 
 <div class="hidden">

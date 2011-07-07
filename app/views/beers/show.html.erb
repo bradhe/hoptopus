@@ -2,15 +2,19 @@
   <%= beer_title(@beer) %>
 <% end %>
 
-<div class="navigation">
-  <%= link_to 'Back to Cellar', cellar_path(@beer.cellar.user.username) + '#cellar' %>
-
-  <%- if user_owns_cellar?(@beer.cellar) %>
-    <button type="button" id="new-tasting-note">New Tasting Note</button>
-  <%- end %>
+<div class="page-title">
+  <h1><%= beer_title(@beer) %></h1>
 </div>
 
-<h2><%= beer_title(@beer) %></h2>
+<div class="breadcrumbs">
+  <%- if user_owns_cellar?(@beer.cellar) %>
+    <%= link_to 'Dashboard', dashboard_path %>
+  <%- else %>
+    <%= link_to "#{@beer.user.username}'s Cellar", cellar_path(@beer.user) %>
+  <%- end %>
+
+  &gt; <%= beer_title(@beer) %>
+</div>
 
 <div class="clearfix beer-info">
   <div class="left">
@@ -66,17 +70,21 @@
   </div>
 </div>
 
-<h3>Tasting Notes</h3>
+<h3 class="tasting-notes">Tasting Notes</h3>
 
-<%- if @beer.tasting_notes.empty? %>
-  <div class="empty">No tasting notes have been filed for this beer yet.</div>
-<%- else %>
-  <div id="tasting-notes">
-    <%- @beer.tasting_notes.each do |tasting_note| %>
-      <%= render 'tasting_notes/list', :tasting_note => tasting_note %>
-    <%- end %>
-  </div>
+<%- if user_owns_cellar?(@beer.cellar) %>
+  <button type="button" id="new-tasting-note">New Tasting Note</button>
 <%- end %>
+
+<div id="tasting-notes">
+  <%- if @beer.tasting_notes.empty? %>
+    <div class="empty">No tasting notes have been filed for this beer yet.</div>
+  <%- else %>
+      <%- @beer.tasting_notes.each do |tasting_note| %>
+        <%= render 'tasting_notes/list', :tasting_note => tasting_note %>
+      <%- end %>
+  <%- end %>
+</div>
 
 <div class="hidden">
   <div id="new-tasting-note-form">
@@ -115,6 +123,7 @@ $(function() {
         dialog.find('textarea').val('');
 
         hoptopus.showAlert('Tasting Note Added.');
+        $('#tasting-notes').children('.empty').remove();
         $('#tasting-notes').append(data);
       },
       responseType: 'html'

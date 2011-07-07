@@ -15,11 +15,6 @@ function setupDatePickers() {
   });
 }
 
-$.fn.showLoading = function() {
-  var div = $('<div/>').addClass('loading-modal');
-  $('<span/>').addClass('note').appendTo(div);
-}
-
 $.fn.isEmpty = function() {
   if(this.text() && !this.val()) {
     return (this.text() == '' || this.text().match(/^\s+$/));
@@ -29,76 +24,28 @@ $.fn.isEmpty = function() {
   }
 }
 
-$.fn.closeDropdown = function() {
-  if($(this).data('popup') || $(this).hasClass('open')) {
-    var div = $(this).data('popup');
-    $(this).removeClass('open');
-    div.hide();
-  }
-}
+$('button.watch').live('click', function() {
+  $(this).removeClass('watch').addClass('unwatch');
+  $(this).text('Unwatch');
 
-$.fn.tooltip = function(text) {
-  if($(this).data('tooltip')) {
-    return;
-  }
-
-  $(this).one('mouseover', function(e) {
-    var span = $('<span/>').addClass('tooltip');
-    span.css('position', 'absolute');
-    span.css('left', e.pageX);
-    span.css('top', e.pageY);
-    span.text(text);
-
-    $('body').append(span);
-    $(this).data('tooltip', span);
-
-    $('body').bind('mousemove.tooltip', function(e) {
-      span.css('left', e.pageX);
-      span.css('top', e.pageX);
-    });
-
-    $(this).one('mouseleave.tooltip', function() {
-      $('body').unbind('mousemove.tooltip');
-      span.remove();
-
-      $(this).data('tooltip', null);
-    });
+  var username = $(this).attr("data-user");
+  $.ajax({
+    url: "/user/watches",
+    type: 'POST',
+    data: { user_id: username }
   });
-}
-
-$.fn.dropdown = function(element) {	
-  if($(this).hasClass('open')) {
-    $(this).closeDropdown();
-
-    e.stopPropagation();
-    return false;
-  }
-
-  // All the other open ones, remove the popup
-  $('input.open').closeDropdown();
-  $(this).addClass('open');
-
-  // Make a brewery list here
-  var div = $('<div/>').addClass('dropdown');
-  div.append(element);
-
-  var offset = $(this).parent().offset();
-  div.css('top', offset.top + $(this).parent().outerHeight());
-  div.css('left', offset.left);
-  div.width($(this).width());
-
-  $(this).after(div);
-
-  $(this).data('popup', div);
-}
-
-$('input.open').live('click', function(e) {
-  e.stopPropagation();
-  return false;
 });
 
-$("button[data-confirm], input[data-confirm]").live('click', function(e) {
-  return confirm($(this).attr('data-confirm'));
+$('button.unwatch').live('click', function() {
+  var username = $(this).attr("data-user");
+  $.ajax({
+    url: "/user/watches/"+username,
+    type: 'POST',
+    data: { '_method': 'delete' }
+  });
+
+  $(this).removeClass('unwatch').addClass('watch');
+  $(this).text('Watch');
 });
 
 $(function() {
@@ -120,11 +67,6 @@ $(function() {
 
     // TODO: Fix this hack -- this is stupid.
     $(form).find('ul.errors').empty();
-  });
-
-  $('body').click(function(e) {
-    $('input.open').closeDropdown();
-    e.stopPropagation();
   });
 
   $('h3[data-hideable], h2[data-hideable]').each(function() {

@@ -1,0 +1,9 @@
+<%- if is_logged_in? and user != current_user %>
+  <div class="watch buttons">
+    <%- if current_user.watching? user %>
+      <button data-user="<%= user.username %>" class="unwatch">Un-watch</button>
+    <%- else %>
+      <button data-user="<%= user.username %>" class="watch">Watch</button>
+    <%- end %>
+  </div>
+<%- end %>

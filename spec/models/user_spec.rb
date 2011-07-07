@@ -102,4 +102,14 @@ describe User do
       User.search('test1').should have(1).items
     end
   end
+
+  describe '#watching?' do
+    it 'should return true if the user is watching the person' do
+      user1 = new_user
+      user2 = new_user
+
+      user1.watches << user2
+      user1.should be_watching(user2)
+    end
+  end
 end

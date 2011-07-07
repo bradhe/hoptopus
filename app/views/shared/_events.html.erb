@@ -1,5 +1,9 @@
-<ul class="events">
-  <%- events.each do |e| %>
-    <%== render_event(e) %>
-  <%- end %>
-</ul>
+<%- if events.empty? %>
+  <em>Looks like no one is up to anything yet! No changes found.</em>
+<%- else %>
+  <ul class="events">
+    <%- events.each do |e| %>
+      <%== render_event(e) %>
+    <%- end %>
+  </ul>
+<%- end %>

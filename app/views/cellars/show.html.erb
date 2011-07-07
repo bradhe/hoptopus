@@ -2,7 +2,7 @@
   <%= @cellar.user.username %>'s beer cellar
 <% end %>
 
-<div class="page-title">
+<div class="clearfix page-title">
   <div class="profile-info clearfix">
     <%= gravatar_for(@cellar.user, :class => "gravatar", :align => 'left', :width => '50px') %>
 
@@ -12,6 +12,7 @@
     </div>
   </div>
 
+  <%= render 'users/watch_button', :user => @cellar.user %>
   <%= render 'users/watching', :user => @cellar.user %>
 </div>
 

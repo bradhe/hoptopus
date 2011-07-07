@@ -86,6 +86,10 @@ class User < ActiveRecord::Base
     'Pacific Time (US & Canada)'
   end
 
+  def watching?(user)
+    watches.include?(user)
+  end
+
   def location
     str = ""
 
