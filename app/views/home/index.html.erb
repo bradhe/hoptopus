@@ -8,13 +8,13 @@
 
 <div class="more-info">
     <div class="the-hoptopus"><img src="/images/thehoptopus.png" /></div>
-    <h2 class="tag">Hoptopus makes it easy for you to get the most out of your beer cellar!</h2>
+    <h2 class="tag">Hoptopus helps you catalog, sort, filter, and share what is in your beer collection.</h2>
 
     <ul>
-      <li>Track your beer collection.</li>
-      <li>Share tasting and aging notes.</li>
-      <li>Track where your beers are in the aging process.</li>
-      <li>Discover new beers with recomendations and reviews from other users.</li>
+      <li>Keep track of whats in your beer collection.</li>
+      <li>Show off specific beers in your collection.</li>
+      <li>Share tasting notes before and after aging.</li>
+      <li>Discover new beers with tastig notes from other users.</li>
     </ul>
 
     <p class="tour">
@@ -24,28 +24,28 @@
 
 <div class="front-page signup">
   <h3>Create Your Free Hoptopus Account!</h3>
-    <% form_for(User.new, :url => register_path) do |f| %>
-      <%= f.hidden_field :email_consent, :value => true %>
+  <% form_for(User.new, :url => register_path) do |f| %>
+    <%= f.hidden_field :email_consent, :value => true %>
 
-      <div class="field">
-        <%= f.label :username, "Username:" %>
-        <%= f.text_field :username %>
-      </div>
+    <div class="field">
+      <%= f.label :username, "Username:" %>
+      <%= f.text_field :username %>
+    </div>
 
-      <div class="field">
-        <%= f.label :email, "Email Address:" %>
-        <%= f.email_field :email %>
-      </div>
+    <div class="field">
+      <%= f.label :email, "Email Address:" %>
+      <%= f.email_field :email %>
+    </div>
 
-      <div class="field">
-        <%= f.label :password, "Password:" %>
-        <%= f.password_field :password %>
-      </div>
+    <div class="field">
+      <%= f.label :password, "Password:" %>
+      <%= f.password_field :password %>
+    </div>
 
-      <div class="buttons">
-        <%= submit_tag 'Register' %>
-      </div>
-    <% end %>
+    <div class="buttons">
+      <%= submit_tag 'Register' %>
+    </div>
+  <% end %>
 </div>
 
 <div class="newsletter">

@@ -816,56 +816,71 @@ ul.all-cellars {
   background-color: #f2e4b3;
 }
 
-.more-info {
-  overflow: hidden;
-  padding-left: 5pt;
-
-  p.note, h2.tag{
-    font-size: 16pt;
-    line-height: 24pt;
-    font-style: normal;
+#content {
+  .more-info {
     overflow: hidden;
-    margin-bottom: 0;
-    border-bottom: none;
-  }
+    padding-left: 5pt;
 
-  h2.tag {
-    color: $dark-tan;
-  }
-
-  span.note {
-    font-size: 10pt;
-    color: #999;
-    line-height: 17pt;
-  }
-
-  ul {
-    overflow: hidden;
-    padding-left: 35px;
-    margin-top: 0;
-  }
-
-  li {
-    margin-top: 5pt;
-    line-height: 14pt;
-  }
-
-  p.tour {
-    text-align: center;
-    padding-top: 15pt;
-
-    a {
-      @include rounded-corners;
-      @include buttonize($green, $green-highlight);
-      padding: 8pt 40pt;
+    p.note, h2.tag {
       font-size: 16pt;
-      text-decoration: none;
+      line-height: 24pt;
+      font-style: normal;
+      overflow: hidden;
+      margin-bottom: 0;
+      border-bottom: none;
+    }
 
-      &:hover {
-        color: $green-highlight;
+    h2.tag {
+      color: $dark-tan;
+    }
+
+    span.note {
+      font-size: 10pt;
+      color: #999;
+      line-height: 17pt;
+    }
+
+    ul {
+      overflow: hidden;
+      padding-left: 35px;
+      margin-top: 0;
+    }
+
+    li {
+      margin-top: 5pt;
+      line-height: 14pt;
+    }
+
+    p.tour {
+      text-align: center;
+      padding-top: 15pt;
+
+      a {
+        @include rounded-corners;
+        @include buttonize($green, $green-highlight);
+        padding: 8pt 40pt;
+        font-size: 16pt;
+        text-decoration: none;
+
+        &:hover {
+          color: $green-highlight;
+        }
       }
     }
   }
+}
+
+h2.highlight {
+  margin-bottom: 10px;
+  line-height: 1.2em;
+}
+
+div.highlight {
+  margin-bottom: 1em;
+}
+
+.centered.signup {
+  margin-bottom: 20px;
 }
 
 .front-page.signup {
@@ -1751,6 +1766,15 @@ div.centered.call {
   // Hack much?
   &.clearfix {
     position: relative;
+  }
+
+  &.centered {
+    text-align: center;
+    margin-bottom: 20px;
+
+    h1 {
+      line-height: 1.2em;
+    }
   }
 }
 
