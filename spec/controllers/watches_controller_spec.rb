@@ -25,8 +25,8 @@ describe WatchesController do
       sign_in_as(@user)
     end
 
-    it 'should create a user...duh' do
-      delete :destroy, { :user_id => 'user2' }
+    it 'should destroy a watch' do
+      delete :destroy, { :id => 'user2' }
       @user.watches.should be_empty
     end
   end
