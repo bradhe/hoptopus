@@ -32,10 +32,6 @@
   position: relative;
 }
 
-.guider_content h1 {
-  font-size: 21px;
-}
-
 .guider_content p {
   color: #333;
   font-size: 13px;
@@ -45,11 +41,8 @@
   cursor: pointer;
   display: inline-block;
   float: right;
-  font-size: 75%;
-  font-weight: bold;
   margin-left: 6px;
-  min-width: 40px;
-  padding: 3px 5px;
+  padding: 3px 10px;
   text-align: center;
   text-decoration: none;
 }

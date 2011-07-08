@@ -61,43 +61,41 @@
 var progressImg = new Image();
 progressImg.src = '/images/progress-small.gif';
 
-$(function() {
-  $('#signup').bind('click', function() {
-    var emailInput = $('#email');
+$('#signup').live('click', function() {
+  var emailInput = $('#email');
 
-    if(emailInput.isEmpty()) {
-      return;
-    }
+  if(emailInput.isEmpty()) {
+    return;
+  }
 
-    var wrapper = $(this).parents('.wrapper');
-    var parent = wrapper.parent();
+  var wrapper = $(this).parents('.wrapper');
+  var parent = wrapper.parent();
 
-    // Post this back to the server.
-    wrapper.fadeOut('fast', function() {
-      $(progressImg).hide();
-      $(progressImg).appendTo(parent);
-      $(progressImg).fadeIn('fast', function() {
-        $.ajax({
-          url: '<%= newsletter_signup_path %>',
-          data: { email: emailInput.val() },
-          type: 'POST',
-          error: function(data) {
-            $(progressImg).fadeOut('fast', function() { wrapper.fadeIn('fast'); });
-            var errors = JSON.parse(data.responseText);
-            var span = $('<span/>').addClass('error').text(errors.message.email);
-            wrapper.append(span);
+  // Post this back to the server.
+  wrapper.fadeOut('fast', function() {
+    $(progressImg).hide();
+    $(progressImg).appendTo(parent);
+    $(progressImg).fadeIn('fast', function() {
+      $.ajax({
+        url: '<%= newsletter_signup_path %>',
+        data: { email: emailInput.val() },
+        type: 'POST',
+        error: function(data) {
+          $(progressImg).fadeOut('fast', function() { wrapper.fadeIn('fast'); });
+          var errors = JSON.parse(data.responseText);
+          var span = $('<span/>').addClass('error').text(errors.message.email);
+          wrapper.append(span);
 
-            $('#signup').click(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
-            $('#email').keypress(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
-          },
-          success: function(data) {
-            $(progressImg).fadeOut('fast', function() {
-              var span = $('<span/>').addClass('note').text('Hurray! Thanks for signing up.');
-              span.appendTo(parent);
-              span.fadeIn('fast');
-            });
-          }
-        });
+          $('#signup').click(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
+          $('#email').keypress(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
+        },
+        success: function(data) {
+          $(progressImg).fadeOut('fast', function() {
+            var span = $('<span/>').addClass('note').text('Hurray! Thanks for signing up.');
+            span.appendTo(parent);
+            span.fadeIn('fast');
+          });
+        }
       });
     });
   });

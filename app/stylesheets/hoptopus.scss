@@ -595,13 +595,33 @@ table.list td {
 }
 
 .empty, .note{
-color: #666;
-       font-style: italic;
+  color: #666;
+  font-style: italic;
+}
+
+.guider {
+  h1.guider_title {
+    color: $green;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+
+  .guider_description {
+    margin-bottom: 20px;
+
+    p {
+      margin-bottom: 1.2em;
+    }
+  }
+
+  .guider_button {
+    @include buttonize($tan, $tan-highlight, $tan);
+  }
 }
 
 #content {
   h1, h1 a, h2, h2 a {
-    color: $green;
+    color: $green !important;
     text-decoration: none;
   }
 
