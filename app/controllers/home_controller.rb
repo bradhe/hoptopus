@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    unless @user.nil?
+    if current_user
       redirect_to dashboard_path
     end
   end

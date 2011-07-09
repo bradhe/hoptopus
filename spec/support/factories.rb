@@ -3,6 +3,7 @@ def new_user(attributes={})
     :username => 'test_user',
     :password => '!!abc123',
     :password_confirmation => '!!abc123',
+    :confirmed => true,
     :email => 'test@test.com'
   }
 
