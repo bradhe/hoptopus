@@ -91,12 +91,16 @@ class CellarsController < ApplicationController
       end
     end
 
+    if success > 0
+      Event.create!(:user => current_user, :text => "imported #{success} beers to their cellar", :formatter => TextEventFormatter)
+    end
+
     notice = ['Import successful!']
     notice << "#{pluralize(success, "beer")} imported." if(success > 0)
     notice << "#{pluralize(skipped, "beer")} skipped because they already exist or are duplicates." if(skipped > 0)
     notice << "Failed to import #{pluralize(failure, "beer")}" if(failure > 0)
 
-    redirect_to cellar_path(@cellar), :notice => notice.join(' ')
+    redirect_to dashboard_path(@cellar), :notice => notice.join(' ')
   end
 
   # GET /cellars

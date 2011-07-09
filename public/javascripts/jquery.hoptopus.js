@@ -251,6 +251,17 @@ $(function() {
       }
     });
   });
+
+  //
+  // Show all the flashes
+  $('#flashes').children().each(function() {
+    if($(this).hasClass('notice')) {
+      hoptopus.showAlert($(this).text());
+    }
+    else if($(this).hasClass('error')) {
+      hoptopus.showError($(this).text());
+    }
+  });
 });
 
 

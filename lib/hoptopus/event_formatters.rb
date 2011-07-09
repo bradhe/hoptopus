@@ -77,5 +77,16 @@ module Hoptopus
         "[#{username}](/cellars/#{username}) removed [#{beer_name}](/cellars/#{e.user.username}/beers/#{e.source.id}) from their cellar"
       end
     end
+
+    class TextEventFormatter < EventFormatterBase
+      def css_class
+        'imported'
+      end
+
+      def format_message(e)
+        username = e.user.username
+        "[#{username}](/cellars/#{username}) #{e.text}"
+      end
+    end
   end
 end

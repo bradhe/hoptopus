@@ -13,6 +13,9 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
+      # Copy the current user to avoid fucking something up
+      @user = User.find(current_user.id)
+
       if @user.update_attributes(params[:user])
         format.html { redirect_to(preferences_user_path, :notice => 'Your preferences have been saved!') }
       else
@@ -22,6 +25,7 @@ class UsersController < ApplicationController
   end
 
   def preferences
+    @user = current_user
   end
 
   def send_confirmation

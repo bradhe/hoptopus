@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110706021944) do
+ActiveRecord::Schema.define(:version => 20110709021453) do
 
   create_table "alerts", :force => true do |t|
     t.integer  "user_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20110706021944) do
     t.string   "formatter_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "text"
   end
 
   create_table "newsletter_signups", :force => true do |t|

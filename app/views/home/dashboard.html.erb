@@ -251,6 +251,10 @@ $(function() {
     $('#import-cellar button.cancel').click(function() {
       $('#import-cellar').dialog('close');
     });
+
+    $('#import-cellar form').submit(function() {
+      hoptopus.showProgress('Importing. Please wait...');
+    });
   });
 
   $('#cellared-beers tbody input:checkbox').click(checkBoxClicked);

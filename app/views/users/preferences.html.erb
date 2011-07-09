@@ -1,2 +1,15 @@
+<%- content_for :title do %>
+  edit account preferences
+<%- end %>
+
 <h1>Preferences</h1>
+
+<%- unless @user.valid? %>
+  <ul class="errors">
+    <%- @user.errors.each do |k, v| %>
+      <li><%= v %></li>
+    <%- end %>
+  </ul>
+<%- end %>
+
 <%= render 'preferences' %>

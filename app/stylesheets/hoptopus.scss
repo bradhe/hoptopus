@@ -602,8 +602,9 @@ table.list td {
 .guider {
   h1.guider_title {
     color: $green;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     margin-top: 5px;
+    line-height: 1.2em;
   }
 
   .guider_description {
@@ -1825,6 +1826,10 @@ div.centered.call {
 h3.tasting-notes {
   display: inline-block;
   margin-right: 10px;
+}
+
+#flashes {
+  display: none;
 }
 
 @import "preferences";

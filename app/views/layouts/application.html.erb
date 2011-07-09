@@ -62,6 +62,12 @@
   <div id="content">
     <%= yield %>
   </div>
+
+  <div id="flashes">
+    <%- flash.each do |k,v| %>
+      <div class="<%= k %> flash"><%= v %></div>
+    <%- end %>
+  </div>
 </div>
   
 <div id="bottom">

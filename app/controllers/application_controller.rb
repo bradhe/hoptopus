@@ -61,12 +61,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @user
+    @current_user
   end
   helper_method :current_user
 
   def current_user=(user)
-    @user = user
+    @current_user = user
   end
 
   def render_404
