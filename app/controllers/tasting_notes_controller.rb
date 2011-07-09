@@ -2,7 +2,7 @@ class TastingNotesController < ApplicationController
   include ActionView::Helpers::DateHelper
 
   def create
-    @beer = Beer.find(params[:beer_id])
+    @beer = current_user.cellar.beers.find(params[:beer_id])
     @tasting_note = @beer.tasting_notes.create(params[:tasting_note])
 
     respond_to do |format|

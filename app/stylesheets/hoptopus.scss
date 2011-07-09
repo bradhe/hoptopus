@@ -791,12 +791,12 @@ label, span.label {
 }
 
 .events li {
-padding: 5pt;
-         list-style-position: inside;
+  padding: 5pt;
+  list-style-position: inside;
 }
 
 .events p {
-display: inline;
+  display: inline;
 }
 
 .events {
@@ -814,6 +814,10 @@ display: inline;
 
   li.watched {
     list-style-image: url('/images/eye.png');
+  }
+
+  li.imported {
+    list-style-image: url('/images/import.png');
   }
 }
 
