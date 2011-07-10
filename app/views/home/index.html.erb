@@ -83,7 +83,7 @@ $('#signup').live('click', function() {
         error: function(data) {
           $(progressImg).fadeOut('fast', function() { wrapper.fadeIn('fast'); });
           var errors = JSON.parse(data.responseText);
-          var span = $('<span/>').addClass('error').text(errors.message.email);
+          var span = $('<span/>').addClass('error').text(errors.message.email[0]);
           wrapper.append(span);
 
           $('#signup').click(function() { span.fadeOut('fast', function() { $(this).remove(); }) });
@@ -91,7 +91,7 @@ $('#signup').live('click', function() {
         },
         success: function(data) {
           $(progressImg).fadeOut('fast', function() {
-            var span = $('<span/>').addClass('note').text('Hurray! Thanks for signing up.');
+            var span = $('<span/>').addClass('thankyou note').text('Hurray! Thanks for signing up.');
             span.appendTo(parent);
             span.fadeIn('fast');
           });

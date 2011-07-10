@@ -948,13 +948,25 @@ div.highlight {
     display: block;
   }
 
-  .newsletter span.note {
+  span.note {
     margin-bottom: 5pt;
   }
 
-  .newsletter span.error {
+  span.thankyou {
+    font-style: normal;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: center;
     display: block;
-    color: #f00;
+    background-color: $green;
+    color: $white;
+  }
+
+  span.error {
+    display: block;
+    position: static;
+    width: auto;
+    margin-top: 5px;
   }
 
   input {
