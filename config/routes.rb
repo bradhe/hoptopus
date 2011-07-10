@@ -24,7 +24,7 @@ Hoptopus::Application.routes.draw do
 
   resource :user, :only => :update, :constraints => { :id => /.*/ } do
     get :preferences
-    get :send_confirmation, :as => 'send_confirmation'
+    post :send_confirmation, :as => 'send_confirmation'
     get :confirmation_sent, :as => 'confirmation_sent'
 
     resources :watches, :only => [:create, :destroy]
@@ -89,7 +89,4 @@ Hoptopus::Application.routes.draw do
   match 'search' => 'search#index', :as => 'search'
 
   root :to => "home#index"
-
-  # This needs to be a the bottom!!!
-  match '*path', :controller => 'application', :action => 'render_404'
 end

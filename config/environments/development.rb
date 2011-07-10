@@ -26,3 +26,14 @@ Hoptopus::Application.configure do
   config.action_mailer.default_url_options = { :host => "dev.hoptopus.com", :port => 3000 }
 end
 
+#ActionMailer::Base.smtp_settings = {
+#  :address => 'localhost',
+#  :port => '1025'
+#}
+ActionMailer::Base.smtp_settings = {
+  :address => 'smtp.gmail.com',
+  :user_name => 'thehoptopus@hoptopus.com',
+  :password => '!!123abc',
+  :authentication => :login,
+  :enable_starttls_auto => true
+}

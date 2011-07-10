@@ -1,0 +1,27 @@
+<html>
+  <body style="text-align: center; font-family: arial;">
+    <div id="top" style="border-left: 1px #ccc solid; border-right: 1px #ccc solid;padding-top: 20px; background-color: #ffa033; position: relative; text-align: left; width: 600px; margin-left: auto; margin-right: auto;">
+      <img src="http://hoptopus.com/images/little-hoptopus.png" alt="The Hoptopus" style="border: 1px #86673F solid; background-color: #F0E6AF; margin-left: 10px; float: left;" />
+      <h1 style="display: inline-block; color: #85af22; margin: 0; margin-left: 10px; margin-bottom: 5px; text-shadow: -1px -1px 1px #FFF5D7;">hoptopus</h1>
+      <h2 style="bottom: 3px; right: 5px; text-shadow: -1px -1px 1px #CCC; color: #fff; bottom: 3px; right: 5px; position: absolute; font-size: 1em; margin: 0; margin-left: 10px; padding: 0;">The easy way to track and share your beer collection.</h2>
+    </div>
+
+    <div id="content" style="border-left: 1px #ccc solid; border-right: 1px #ccc solid;text-align: left; width: 600px; margin-left: auto; margin-right: auto;">
+      <h1 style="margin: 10px; margin-top: 0px; margin-bottom: 0px; padding-top: 5px; padding-bottom: 20px; color: #85af22;"><%= yield :title %></h1>
+
+      <div class="wrap" style="margin-left: 30px; margin-right: 30px; padding-bottom: 20px;">
+        <%= yield %>
+      </div>
+    </div>
+
+    <div id="bottom" style="text-align: left; width: 600px; margin-left: auto; margin-right: auto;">
+      <div class="wrap" style="margin-left: 10px; margin-right: 10px; padding-top: 15px; margin-bottom: 20px; font-size: 0.8em; color: #ccc;">
+        2011 &copy; Hoptopus
+
+        <span style="float: right;">
+          <%= link_to 'Visit Hoptopus', root_url, :style => 'color: #666;' %>
+        </span>
+      </div>
+    </div>
+  </body>
+</html>

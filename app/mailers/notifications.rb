@@ -1,7 +1,8 @@
 class Notifications < ActionMailer::Base
   add_template_helper(ApplicationHelper)
   default :from => "thehoptopus@hoptopus.com"
-  
+  layout 'mailer'
+
   def cellar_comment(cellar, comment)
     @cellar = cellar
     @commenter = comment.user
@@ -12,7 +13,7 @@ class Notifications < ActionMailer::Base
       format.html
     end
   end
-  
+
   def user_registered(user)
     @registered_user = user
 
@@ -23,10 +24,10 @@ class Notifications < ActionMailer::Base
       format.html
     end
   end
-  
+
   def contact_request(request_model)
     @request_model = request_model
-    
+
     mail(:subject => "[Contact Request] " + request_model.subject, :to => 'contact@hoptopus.com', :reply_to => request_model.email) do |format|
       format.html
     end
