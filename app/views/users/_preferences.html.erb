@@ -60,20 +60,14 @@
   <% end %>
 
   <%= field_set_tag "Notifications", :class => "preferencegroup", :id => "notificationgroup" do %>
-
-    <div class="field">
-      <%= f.check_box :should_show_own_events %>
-      <%= f.label :should_show_own_events, "Show me my events in the recent events section.", :class => 'checkbox-label' %>
-    </div>
-
     <div class="field">
       <%= f.check_box :email_consent %>
-      <%= f.label :email_consent, "Is it cool if hoptopus emails you for updates and feedback?", :class => 'checkbox-label' %>
+      <%= f.label :email_consent, "Can we email you with updates and and for feedback?", :class => 'checkbox-label' %>
     </div>
 
     <div class="field">
       <%= f.check_box :should_receive_email_notifications %>
-      <%= f.label :should_receive_email_notifications, "Receive notifications about comments and stuff via email?", :class => 'checkbox-label' %>
+      <%= f.label :should_receive_email_notifications, "Receive email notifications when people watch your cellar?", :class => 'checkbox-label' %>
     </div>
 
   <% end %>

@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
     admin
   end
 
+  def receive_emails?
+    should_receive_email_notifications
+  end
+
   def has_alert?(name)
     alerts.exists?(:name => name)
   end
@@ -91,28 +95,7 @@ class User < ActiveRecord::Base
   end
 
   def location
-    str = ""
-
-    if(city)
-      str += city
-    end
-
-    if(city and state)
-      str += ', '
-    end
-
-    if(state)
-      str += state
-    end
-
-    if(state and country)
-      str += ', '
-    end
-
-    if(country)
-      str += country
-    end
-
+    str = [city, state, country].join(', ')
     str.blank? ? nil : str
   end
 

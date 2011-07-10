@@ -43,6 +43,17 @@ describe WatchesController do
 
       post :create, { :user_id => 'user2' }
     end
+
+    it 'should send an email when a watch is created' do
+      Notifications.expects(:watched).returns(mock(:deliver => nil))
+      post :create, { :user_id => 'user2' }
+    end
+
+    it 'should not send emails if should_receive_email_notifications is false' do
+      sign_in_as(create_user(:username => 'user3', :email => 'u1@gmail.com', :should_receive_email_notifications => false))
+      Notifications.expects(:watched).never
+      post :create, { :user_id => 'user2' }
+    end
   end
 
   describe '#destroy' do

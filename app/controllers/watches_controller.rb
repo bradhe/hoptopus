@@ -34,6 +34,11 @@ class WatchesController < ApplicationController
       e.update_attribute(:created_at, Time.now)
     else
       Event.create(:user => current_user, :source => u, :formatter => WatchedEventFormatter)
+
+      if current_user.receive_emails?
+        # Send a notification too.
+        Notifications.watched(current_user, u).deliver
+      end
     end
   end
 end

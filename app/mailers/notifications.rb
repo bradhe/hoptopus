@@ -14,6 +14,15 @@ class Notifications < ActionMailer::Base
     end
   end
 
+  def watched(watching, watched)
+    @watching = watching
+    @watched = watched
+
+    mail(:subject => "#{watching.username} has started watching your cellar!", :to => watched.email) do |format|
+      format.html
+    end
+  end
+
   def user_registered(user)
     @registered_user = user
 

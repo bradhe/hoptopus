@@ -1,0 +1,16 @@
+<%- content_for :title do %>
+  <%= @watching.username %> is watching your cellar!
+<%- end %>
+
+<p>Hey <%= @watched.username %>,</p>
+
+<p><%= @watching.username %> is interested in your cellar and wants to know when you add, remove, or change a beer in your cellar!</p>
+<p>Since they're watching they will get updates about your cellar on their dashboard.</p>
+<p><%= link_to 'Watch them back!', cellar_url(@watching) %></p>
+
+<p>Cheers,</p>
+<p>The Hoptopus</p>
+
+<div style="text-align: center;">
+  <%= link_to "Disabled these notifications.", preferences_user_url %>
+</div>
