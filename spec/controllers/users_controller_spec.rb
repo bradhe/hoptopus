@@ -31,7 +31,7 @@ describe UsersController do
      confirmation = create_confirmation_request(:user => @user)
 
      # Look it up
-     get :send_confirmation
+     post :send_confirmation
 
      confirmation.reload
      confirmation.expired.should be_true
