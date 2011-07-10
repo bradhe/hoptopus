@@ -2,7 +2,7 @@ class OauthController < ApplicationController
   before_filter :ensure_hoptopus_domain
 
   def facebook_connect
-    redirect_to client.web_server.authorize_url(:redirect_uri => facebook_return_url, :scope => 'email,offline_access')
+    redirect_to client.web_server.authorize_url(:redirect_uri => facebook_return_url, :scope => 'email')
   end
 
   def facebook_register
