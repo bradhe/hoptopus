@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
   end
 
   def location
-    str = [city, state, country].join(', ')
+    str = [city, state, country].reject(&:blank?).join(', ')
     str.blank? ? nil : str
   end
 

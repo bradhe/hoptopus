@@ -35,7 +35,7 @@ class AuthController < ApplicationController
         # Alert that there was a registration
         Notifications.user_registered(@new_user).deliver
 
-        redirect_to cellar_path(@new_user) + '#cellar'
+        redirect_to dashboard_path
       end
     end
   end
