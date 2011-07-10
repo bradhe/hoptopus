@@ -4,8 +4,7 @@
 
 <h2>Manage Users (Count: <%= @users.count %>)</h2>
 
-<%= form_tag(makeadmin_admin_users_path) %>
-
+<%= form_tag(makeadmin_admin_users_path) do %>
   <ul class="navigation">
     <li><button data-url-path="<%= makeadmin_admin_users_path %>"   type="button" name="makeadmin" id="makeadminbtn" value="makeadmin">Make Admin</button></li>
     <li><button data-url-path="<%= revokeadmin_admin_users_path %>" type="button" style="display: none;" name="revokeadmin" id="revokeadminbtn" value="revokeadmin">Revoke Admin</button></li>
@@ -22,6 +21,7 @@
         <th>ADM?</th>
         <th>Username</th>
         <th>Email Address</th>
+        <th>IP Address</th>
         <th>Joined Date</th>
         <th>Last Login Date</th>
         <th>Confirmed?</th>
@@ -38,6 +38,7 @@
         <td align="center" class="admincell"><%= image_tag('/images/check.png', {}) if u.admin?  %></td>
         <td><%= u.username %></td>
         <td><%= u.email %></td>
+        <td align="center"><%= u.ip_address %></td>
         <td><%= format_date(u.created_at) %></td>
         <td><%= format_date(u.last_login_at) %></td>
         <td align="center"><%= image_tag('/images/check.png', {}) if u.confirmed? %></td>
@@ -45,16 +46,7 @@
       <% end %>
     </tbody>
   </table>
-  </form>
-
-<% 
-  emails = []
-  @users.each { |u| emails << u.email }
-%>
-
-<h3>All emails</h3>
-<p>You can select all of the emails joined with a ; by clicking on the text box below. This way you can copy it and email everyone at once!</p>
-<input type="text" value="<%= emails.join ';' %>" id="all-emails" />
+<%- end %>
 
 <% content_for :javascript do %>
 <script type="text/javascript" src="/javascripts/hoptopus.grid.js"></script>
