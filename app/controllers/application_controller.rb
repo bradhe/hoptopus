@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
     session[:user_id] = user.id
 
     # Update the last login date for this guy
-    user.update_attribute(:last_login_at, Time.now)
+    user.update_attributes(:last_login_at => Time.now, :ip_address => request.remote_ip.to_s)
   end
 
   def redis

@@ -37,7 +37,14 @@ describe ApplicationController do
 
     it 'should update the last login time for the user' do
       ConfirmationRequest.stubs(:exists?).returns(true)
-      @user.expects(:update_attribute).with(:last_login_at, anything())
+      @user.expects(:update_attributes).with(has_entries(:last_login_at => anything()))
+
+      @controller.login_user(@user)
+    end
+
+    it 'should update the last IP address for the user' do
+      ConfirmationRequest.stubs(:exists?).returns(true)
+      @user.expects(:update_attributes).with(has_entries(:ip_address => anything()))
 
       @controller.login_user(@user)
     end
