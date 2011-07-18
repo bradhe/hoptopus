@@ -9,15 +9,19 @@
         <th id="brewery">Brewery</th>
         <th id="variety">Name</th>
         <th id="style">Style</th>
+        <th id="quantity">Quantity</th>
+        <th id="abv">ABV</th>
       </tr>
       <tr class="filters">
         <% if is_users_cellar?(cellar) %>
           <td class="check-all"><input type="checkbox" id="check-all-boxes" /></td>
         <% end %>
-        <td data-filter-for="year"><span class="nowrap"><input type="text" name="search[year]" title="Filter Year" /></span></td>
+        <td data-filter-for="year"><span class="nowrap"><input type="text" name="search[year]" title="Filter" /></span></td>
         <td data-filter-for="brewery"><span class="nowrap"><input type="text" name="search[brewery]" title="Filter Brewery" /></span></td>
         <td data-filter-for="name"><span class="nowrap"><input type="text" name="search[name]" title="Filter Name" /></span></td>
         <td data-filter-for="style"><span class="nowrap"><input type="text" name="search[style]" title="Filter Style" /></span></td>
+        <td></td>
+        <td></td>
       </tr>
     </thead>
 

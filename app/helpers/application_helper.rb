@@ -135,7 +135,8 @@ module ApplicationHelper
       :quantity => { :id => 'quantity', :title => 'Quantity' },
       :formatted_price => { :id => 'price', :title => 'Price'},
       :bottle_size_name => { :id => 'bottle-size', :title => 'Bottle Size' },
-      :style => { :id => 'style', :title => 'Style' }
+      :style => { :id => 'style', :title => 'Style' },
+      :abv => { :id => 'abv', :title => 'ABV' }
     }
 
   end
